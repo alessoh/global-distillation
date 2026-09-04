@@ -8,16 +8,64 @@
     {
       "source": "/data/(.*)\\.json",
       "headers": [
-        { "key": "cache-control", "value": "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400" }
+        {
+          "key": "cache-control",
+          "value": "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"
+        },
+        {
+          "key": "access-control-allow-origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(sitemap.xml|robots.txt|llms.txt)",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=600, s-maxage=3600"
+        },
+        {
+          "key": "access-control-allow-origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/vendor/(.*)",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/og.png",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=86400, s-maxage=604800"
+        }
       ]
     },
     {
       "source": "/index.html",
-      "headers": [{ "key": "cache-control", "value": "no-cache" }]
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "no-cache"
+        }
+      ]
     },
     {
       "source": "/",
-      "headers": [{ "key": "cache-control", "value": "no-cache" }]
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "no-cache"
+        }
+      ]
     }
   ]
 }
