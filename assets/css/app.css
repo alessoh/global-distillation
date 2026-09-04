@@ -3835,3 +3835,315 @@ html { scroll-padding-top: 76px; }
    badges never lined up. The card is already a column flexbox with a growing
    description, so stretching the row is all the footer needs. */
 .method-grid { align-items: stretch; }
+
+/* ==========================================================================
+   Chart controls and chart-specific rules
+   Appended for the chart pass: the panel tablist had no overflow affordance at
+   phone widths, and a legend swatch now has to be able to encode line weight.
+   ========================================================================== */
+
+/* The chart-view tablist is a scroller, but at 390px it was hard-clipped at
+   the card edge — "Frontier vs small | Fixed capability | DeepSee" — so the
+   third view read as unavailable. The strip now shrinks inside its own border
+   and fades at the right while there is more than two tabs to reach, which is
+   the same affordance the filter segs already use. */
+@media (max-width: 767.98px) {
+  .panel__tabs .seg { flex: 0 1 auto; }
+  .panel__tabs .seg:has(> :nth-child(4)) {
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+  }
+  .panel__tabs .seg__btn { scroll-snap-align: start; }
+}
+
+/* On a 390px screen three chart views fit outright once the tabs stop being
+   sized for a mouse; a strip that does not overflow needs no affordance. */
+@media (max-width: 479.98px) {
+  .panel__tabs { padding-inline: var(--s-4); }
+  .panel__tabs .seg__btn { padding: 6px 8px; font-size: 11.5px; }
+}
+
+/* Chart controls sat in three different places across one section: on the
+   title row in the dumbbell and price-register panels, and on a row of their
+   own below a wrapped legend in the fixed-capability panel, with the scale
+   toggle at the far left there and the far right elsewhere. The tools block
+   now always takes its own row under the title, right-aligned, so the same
+   control is in the same place in every panel on the page. */
+@media (min-width: 768px) {
+  .panel__head > .panel__tools {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+}
+
+/* A key for a chart that separates two series by line weight has to show the
+   weight: a dot cannot say which of two same-hue lines is which. */
+.legend__dot--rule {
+  width: 15px;
+  height: 3px;
+  border-radius: 1px;
+}
+
+/* ---------------------------------------------------------------------------
+   27. Reading pass
+   Table overflow, the in-page index, section rules and figure alignment, from
+   a blind read of every route at 1440 and at 390. Nothing above is modified.
+   --------------------------------------------------------------------------- */
+
+/* --- Wide tables ---------------------------------------------------------
+   A table wider than its card was hard-clipped: "SMALL IN" was sliced to
+   "SMAL" and the whole "SMALL OUT" column was unreachable, with no scrollbar,
+   no fade and nothing to say a column was missing. Two fixes, in order:
+   first make the table fit (header labels wrap instead of forcing a nowrap
+   width), then make what still overflows visibly scrollable. */
+
+.table thead th,
+.table thead .table__sort {
+  white-space: normal;
+  overflow-wrap: normal;      /* wrap between words, never inside one */
+  word-break: normal;
+  hyphens: none;
+}
+/* Two lines is a header; four is a paragraph standing on its column. */
+.table thead th { max-width: 22ch; }
+.table thead th:first-child { max-width: none; }
+/* A numeric column's header and its unit line share the data's optical axis. */
+.table th.num .table__sort,
+.table th[data-type="number"] .table__sort { text-align: right; }
+.table th.num small,
+.table th[data-type="number"] small { text-align: right; }
+
+.table-scroll { position: relative; }
+
+/* The fade is painted over the card, not inside the scroller, so it does not
+   scroll away with the content. It appears only on the side that has more. */
+.table-scroll::before,
+.table-scroll::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 34px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-mid) var(--ease);
+  z-index: 4;
+}
+.table-scroll::before {
+  left: 0;
+  background: linear-gradient(to right, var(--surface) 18%, rgba(255, 255, 255, 0));
+}
+.table-scroll::after {
+  right: 0;
+  background: linear-gradient(to left, var(--surface) 18%, rgba(255, 255, 255, 0));
+  box-shadow: inset -1px 0 0 var(--rule-strong);
+}
+.table-scroll[data-x="start"]::after,
+.table-scroll[data-x="both"]::after,
+.table-scroll[data-x="both"]::before,
+.table-scroll[data-x="end"]::before { opacity: 1; }
+
+/* Said in words as well as in a gradient: a fade alone does not name what is
+   past the edge, and it is invisible to a screen reader. */
+.table-scroll__hint {
+  display: none;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  padding: 0 var(--s-5) var(--s-2);
+}
+.table-scroll[data-x="start"] .table-scroll__hint,
+.table-scroll[data-x="both"] .table-scroll__hint,
+.table-scroll[data-x="end"] .table-scroll__hint { display: block; }
+
+/* A scrollbar that only appears while the pointer moves is not an affordance
+   on a page a reader scrolls past in two seconds. This one is always drawn,
+   in the page's own ink. */
+/* Chromium ignores the ::-webkit-scrollbar pseudo-elements on any element that
+   also sets scrollbar-width or scrollbar-color, and an earlier rule set
+   scrollbar-width: thin — which is why these containers were drawing an
+   overlay scrollbar that vanishes the moment the pointer stops. */
+.table-wrap { scrollbar-width: auto; scrollbar-color: auto; }
+.table-wrap::-webkit-scrollbar { height: 10px; width: 10px; }
+.table-wrap::-webkit-scrollbar-track { background: var(--surface-2); border-radius: var(--r-pill); }
+.table-wrap::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border-radius: var(--r-pill);
+  border: 2px solid var(--surface-2);
+}
+.table-wrap::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+/* The "show all rows" button now sits inside the scroller; it stays a block
+   on the card, not a cell in the table. */
+.table-scroll > .table__more { margin: var(--s-3) var(--s-5) var(--s-4); }
+
+/* A value and its footnote marker are one token: left to break, the marker
+   dropped to a line of its own and made that row 20px taller than its
+   neighbours, which broke the zebra rhythm. */
+.cell-val { white-space: nowrap; }
+.table td.txt .cell-val { white-space: normal; }
+.table td.txt .cell-val > .footnote { white-space: nowrap; }
+.cell-null { color: var(--ink-4); }
+
+/* A filter row belongs to the data under it, so it starts on the same edge as
+   the title, the caption and the first column. Chart controls stay right. */
+@media (min-width: 768px) {
+  .panel__head > .panel__tools:has(> .chips) {
+    justify-content: flex-start;
+  }
+}
+
+/* --- Section rules -------------------------------------------------------
+   ".h2, .view h2:not(...)" was winning over ".subhead" on specificity, so every
+   block label rendered at 28px in wide-tracked uppercase mono - eight per page,
+   each carrying more visual mass than the 40px serif H1 above it, and set in
+   the least readable arrangement available. Restored to the eyebrow it is. */
+.view h2.subhead:not(.panel__title) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--s-2);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.subhead__n { color: var(--ink-4); font-variant-numeric: tabular-nums; }
+.subhead__sep { color: var(--ink-4); }
+
+/* --- In-page index -------------------------------------------------------
+   Eleven destinations, no current state: the bar said where you could go and
+   never where you were. */
+.pagenav__links { display: contents; }
+.pagenav__link.is-current {
+  color: var(--ink);
+  font-weight: 500;
+  border-bottom-color: var(--accent);
+}
+.pagenav__link.is-current .pagenav__n { color: var(--accent-ink); }
+
+/* Back to the top of a 25,000px route. Fixed to the viewport, not added to
+   the sticky stack, and it appears only once there is something to come back
+   from. */
+.totop {
+  position: fixed;
+  right: var(--s-5);
+  bottom: var(--s-5);
+  z-index: var(--z-rail);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+}
+.totop:hover { color: var(--accent-ink); box-shadow: var(--shadow-pop); }
+
+/* The header rule ran the full 1440 while this one stopped at the content
+   column, leaving a ragged stacked edge at the top of every screen. */
+.pagenav { border-top: 0; }
+
+/* --- Global nav ----------------------------------------------------------
+   The active item was set in a heavier face, which changed the row's metrics
+   and shifted every link (and the wordmark) sideways on every route change.
+   One weight for all of them; the current page is marked in ink and rule. */
+.nav__link,
+.nav__link[aria-current="page"] { font-weight: 500; }
+
+/* --- Findings ------------------------------------------------------------
+   A two-column grid row-aligns its cells, so a short finding left ~180px of
+   hole before the next row while the column beside it ran on. Columns pack the
+   entries instead, and the two leads span both. */
+@media (min-width: 900px) {
+  .findings {
+    display: block;
+    columns: 2;
+    column-gap: var(--s-7);
+  }
+  .finding {
+    break-inside: avoid;
+    margin-bottom: var(--s-5);
+  }
+  .finding--lead {
+    column-span: all;
+    break-after: avoid;
+  }
+}
+
+/* --- Figure cards --------------------------------------------------------
+   "margin-top: auto" on both the note and the source split the card's free
+   space between them, so the divider rules across one row landed at three
+   different heights. One auto margin: the note-and-source block hangs from the
+   bottom of the card and every rule in the row lines up. */
+.kpi > .kpi__note {
+  margin-top: auto;
+  min-height: 4.2em;
+  border-top: 0;
+  padding-top: 0;
+}
+.kpi__foot {
+  margin-top: auto;
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule);
+}
+.kpi:has(> .kpi__note) > .kpi__foot { margin-top: var(--s-3); }
+.kpi__foot > .kpi__source { margin-top: 0; padding-top: 0; border-top: 0; }
+.kpi__foot > .kpi__source + .kpi__source { margin-top: var(--s-1); }
+
+/* --- Method cards --------------------------------------------------------
+   "-webkit-line-clamp" is dropped on a flex item (the description is one), so
+   the ellipsis was drawn at line three and a fourth line still painted, sliced
+   through its letterforms by the rule below. A hard three-line box instead:
+   every card clamps at the same place whether or not the clamp applies. */
+.method-card__desc {
+  flex: 0 0 auto;
+  min-height: calc(1.5em * 3);
+  max-height: calc(1.5em * 3);
+  overflow: hidden;
+}
+
+/* --- Footnote runs -------------------------------------------------------
+   Each marker carried 3px of padding on each side, so a run of three read as
+   "39 , 17 , 1" - separators adrift on the baseline between raised numerals. */
+.footnote a { padding: 3px 1px; }
+.footnote__sep { margin: 0 -1px; }
+
+/* --- Sources -------------------------------------------------------------
+   Three entries stand above the disclosure, so a heading that advertises 65
+   sources is not sitting on a closed box. */
+.sources--peek {
+  margin-bottom: var(--s-4);
+  padding-left: var(--s-5);
+}
+.sources--peek .source::before { counter-increment: none; }
+
+/* --- Footer --------------------------------------------------------------
+   The serif wordmark sat ~5px below the mono column labels it opens the row
+   with, so the three columns started on three different lines. */
+.foot__grid { align-items: baseline; }
+
+@media (max-width: 767.98px) {
+  /* Adjacent header labels touched with no gutter at 390px, reading as one
+     run-on string, and the fade is the only thing saying a column is hidden. */
+  .table thead th { max-width: 16ch; padding-inline: var(--s-2); }
+  .table th:first-child, .table td:first-child { min-width: 140px; }
+  .table-scroll::before,
+  .table-scroll::after { width: 24px; }
+  .table-scroll__hint { padding-inline: var(--s-4); }
+
+  .kpi > .kpi__note { min-height: 0; }
+}

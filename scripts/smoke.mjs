@@ -372,10 +372,18 @@ const srcCounts = await page.evaluate(() => {
     const m = /([\d,]+)\s*sources/i.exec(t);
     return m ? Number(m[1].replace(/,/g, '')) : null;
   };
+  // The block heading prints "Sources . 65": the noun is the heading, so only
+  // the number follows the separator.
+  const headNum = (t) => {
+    const m = /sources\s*[·.-]\s*([\d,]+)/i.exec(t);
+    return m ? Number(m[1].replace(/,/g, '')) : num(t);
+  };
   return {
     meta: num(meta),
-    head: num(head),
-    rows: document.querySelectorAll('#view ol.sources .source').length,
+    head: headNum(head),
+    // .sources--peek is the three-entry preview above the disclosure, which
+    // repeats entries from the canonical grouped list below it.
+    rows: document.querySelectorAll('#view .sources__cols ol.sources .source').length,
   };
 });
 expect(srcCounts.meta && srcCounts.meta === srcCounts.head && srcCounts.head === srcCounts.rows,

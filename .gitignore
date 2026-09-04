@@ -26,3 +26,7 @@ node_modules/
 .vercel/
 shots/
 *.log
+
+# agent scratch scripts
+scripts/_*
+shots/

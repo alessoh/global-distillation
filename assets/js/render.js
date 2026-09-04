@@ -404,17 +404,35 @@ function noteSourceCount(key, n) {
   if (key) SOURCE_COUNTS.set(key, n);
 }
 
-function syncRailSourceCount() {
+/**
+ * The same slot, in the same type, showed 638 on the overview and 65 on the
+ * financial page with no label to say the scope had changed — and on the
+ * overview it disagreed with that page's own "461 sources in the six
+ * perspectives". It now counts one thing, says which thing it is counting, and
+ * takes the figure from the same registry the page itself renders.
+ */
+let PAGE_SOURCES = null;
+
+function syncRailSourceCount(n, label) {
+  if (isNum(n)) PAGE_SOURCES = { n, label: label || 'sources on this page' };
   if (typeof requestAnimationFrame !== 'function') return;
   requestAnimationFrame(() => {
     const foot = document.getElementById('rail-foot');
     if (!foot) return;
-    const total = [...SOURCE_COUNTS.values()].reduce((a, b) => a + b, 0);
+    const scope = PAGE_SOURCES || { n: 0, label: 'sources catalogued' };
+    const total = scope.n || [...SOURCE_COUNTS.values()].reduce((a, b) => a + b, 0);
     if (!total) return;
     const span = foot.querySelector('span:not(.rail__pulse)');
     if (!span) return;
-    span.innerHTML = span.innerHTML
-      .replace(/\d[\d,]*\s+primary sources|Loading sources/, total + ' primary sources');
+    let slot = span.querySelector('[data-src-count]');
+    if (!slot) {
+      const html = span.innerHTML
+        .replace(/\d[\d,]*\s+primary sources|Loading sources/, '<span data-src-count></span>');
+      if (html === span.innerHTML) return;
+      span.innerHTML = html;
+      slot = span.querySelector('[data-src-count]');
+    }
+    if (slot) slot.textContent = total + ' ' + scope.label;
   });
 }
 
@@ -539,6 +557,8 @@ function xIsDate(series) {
  * dropped label leaves a bar nobody can identify.
  */
 function wrapLabel(v, per) {
+  // A label that already carries its own line break has decided where to break.
+  if (String(v).indexOf(String.fromCharCode(10)) >= 0) return String(v);
   const words = String(v).split(/\s+/);
   const lines = [];
   let cur = '';
@@ -578,6 +598,16 @@ function alignToCategories(s, cats, colour) {
     const item = { value: p.y, name: c, _raw: p };
     const fill = p.color || (colour ? colour(p, c) : null);
     if (fill) item.itemStyle = { color: fill };
+    // An outlined bar is a different kind of observation from a filled one —
+    // a multi-week drawdown beside a single session, a year still running.
+    if (p.hollow) {
+      item.itemStyle = {
+        ...(item.itemStyle || {}),
+        color: 'rgba(0,0,0,0)',
+        borderColor: (item.itemStyle && item.itemStyle.color) || SERIES_INK,
+        borderWidth: 2,
+      };
+    }
     if (p.partial) {
       item.itemStyle = {
         ...(item.itemStyle || {}),
@@ -747,14 +777,17 @@ function buildOption(spec, opts) {
     ...(horizontal ? { inverse: true } : {}),
     ...axisNameStyle(cats ? '' : spec.xLabel),
     axisLabel: {
-      color: INK3, fontSize: 11,
+      color: INK3, fontSize: 11, ...(horizontal ? { lineHeight: 14 } : {}),
       formatter: cats
         ? (cats.length <= 8 && !horizontal
           ? ((v) => wrapLabel(v, cats.length <= 4 ? 16 : 12))
           // A horizontal bar's category label sits in a gutter that grows with
-          // it (containLabel), so cutting "Restrictive (open weights + ToS ban)"
-          // to 30 characters bought nothing and cost the reader the sentence.
-          : ((v) => shortenCat(v, horizontal ? (isNarrow() ? 22 : 52) : 30)))
+          // it (containLabel), so it wraps rather than truncating: a label cut
+          // through the middle ("27 Jan 20…one session") reads as a rendering
+          // fault, and one cut at the end loses the fact.
+          : (horizontal
+            ? ((v) => wrapLabel(v, isNarrow() ? 24 : 40))
+            : ((v) => shortenCat(v, 30))))
         : (dateX ? undefined : (v) => fmtShort(v)),
       // Every category keeps its label. Dropping one leaves an unidentifiable
       // bar; a few categories wrap onto two lines instead of rotating, which is
@@ -813,17 +846,25 @@ function buildOption(spec, opts) {
         ...(o.step ? { step: o.step } : {}),
         // A provisional run (a year still in progress) is drawn dashed and
         // faint, so the reader sees it is not the same kind of observation.
-        lineStyle: { width: 2, color, ...(s.dashed ? { type: 'dashed' } : {}) },
+        // Line weight is a second channel: three tiers of one vendor keep that
+        // vendor's hue (DESIGN.md section 6 forbids re-mapping it) and separate
+        // by weight and by the label at each line's end.
+        lineStyle: { width: s.lineWidth || 2, color, ...(s.dashed ? { type: 'dashed' } : {}) },
         itemStyle: { color },
         ...(isArea ? { areaStyle: { color, opacity: s.dashed ? 0.05 : 0.12 } } : {}),
-        ...(series.length <= 4 && !o.compact && s.endLabel !== false && o.endLabels !== false &&
-          !isNarrow() ? {
+        ...((series.length <= 4 || o.endLabels === 'all') && !o.compact && s.endLabel !== false &&
+          o.endLabels !== false && !isNarrow() ? {
           endLabel: {
             show: true, color: INK, fontSize: 11, fontWeight: 500,
             distance: 6, formatter: () => s.endLabelText || s.name,
+            // Two lines that finish a few pixels apart print two labels on top
+            // of one another; the gap is opened by hand where it is needed.
+            ...(s.endLabelOffset ? { offset: s.endLabelOffset } : {}),
           },
         } : {}),
-        markPoint: markMax(s, cats, unit, series.length === 1 && !o.compact, dateX),
+        markPoint: s.marks
+          ? crossMarks(s.marks, dateX)
+          : markMax(s, cats, unit, series.length === 1 && !o.compact, dateX),
       };
     }
     // bar family
@@ -844,6 +885,9 @@ function buildOption(spec, opts) {
           if (!isNum(v)) return '';
           const raw = p.data && p.data._raw;
           if (raw && raw._filled) return '';
+          // Where two bars are not the same kind of measurement, the mark says
+          // so beside its own figure rather than in the footnote.
+          if (raw && raw.valueLabel) return String(raw.valueLabel);
           return fmt(v) + (raw && raw.partial ? ' YTD' : '');
         },
       } : { show: false },
@@ -853,12 +897,20 @@ function buildOption(spec, opts) {
   // The gutter has to clear whatever the end label actually prints, which is
   // not always the series name.
   const longest = Math.max(...series.map((s) => String(s.endLabelText || s.name || '').length));
-  const endLabelled = (type === 'line' || isArea) && series.length <= 4 && !o.compact &&
-    o.endLabels !== false && !isNarrow();
+  const endLabelled = (type === 'line' || isArea) && (series.length <= 4 || o.endLabels === 'all') &&
+    !o.compact && o.endLabels !== false && !isNarrow();
   const rotatedCats = !!cats && !horizontal && !marksAreLines && cats.length > 8 &&
     cats.some((c) => String(c).length > 9);
+  // A horizontal bar prints its figure past the end of the bar, so the gutter
+  // has to clear whatever that figure actually says — "-589 in one trading
+  // session" is not 62px wide.
+  const valueLabelChars = Math.max(0, ...series.map((s) => Math.max(0, ...s.data
+    .map((p) => String(p.valueLabel || '').length))));
   const grid = horizontal
-    ? { left: 8, right: 62, top: 12, bottom: 6, containLabel: true }
+    ? {
+      left: 8, right: Math.min(240, Math.max(62, Math.round(valueLabelChars * 6.3) + 14)),
+      top: 12, bottom: 6, containLabel: true,
+    }
     : {
       // A rotated category label is anchored at its tick and runs left of it,
       // so the leftmost one needs somewhere to go.
@@ -884,6 +936,29 @@ function buildOption(spec, opts) {
     xAxis: horizontal ? valueAxis : catAxis,
     yAxis: horizontal ? catAxis : valueAxis,
     series: ecSeries,
+  };
+}
+
+/**
+ * Named crossings, drawn on the plot. A chart whose headline asks "when does
+ * self-hosting win?" has to show where the answer is; stating the three
+ * crossing volumes in the footnote leaves the chart itself mute. The labels
+ * alternate above and below the line so three marks on one horizontal never
+ * collide, whatever the plot is wide.
+ */
+function crossMarks(marks, dateX) {
+  return {
+    symbol: 'circle', symbolSize: 9, silent: true,
+    itemStyle: { color: '#FFFFFF', borderColor: MARK_INK, borderWidth: 2 },
+    data: marks.map((m, i) => ({
+      coord: [dateX ? dateValue(m.x) : m.x, m.y],
+      label: {
+        show: true, position: m.position || (i % 2 ? 'bottom' : 'top'), distance: 8,
+        color: INK, fontSize: 10.5, lineHeight: 13, align: m.align || 'center',
+        backgroundColor: 'rgba(255,255,255,.92)', padding: [2, 4], borderRadius: 3,
+        formatter: String(m.text || ''),
+      },
+    })),
   };
 }
 
@@ -917,12 +992,29 @@ function scatterOption(spec, series, hue, unit, o) {
   const connect = !!o.connect;
   const endLabelled = connect && series.length <= 4 && !isNarrow();
   const narrow = typeof window !== 'undefined' && window.innerWidth < 640;
+  // A point label anchored to the right of a mark in the right-hand cluster
+  // ran outside the plot frame, where a 152px gutter stacked five of them into
+  // a leaderless column no longer aligned with the dots they named. Labels on
+  // the right of the domain flip to the left of their own mark and stay inside
+  // the frame, which also gives the plot the card's full width.
+  const xvals = [];
+  for (const s of series) {
+    for (const p of s.data) {
+      const v = dateX ? dateValue(p.x) : p.x;
+      if (isNum(v)) xvals.push(v);
+    }
+  }
+  const xlo = xvals.length ? Math.min(...xvals) : 0;
+  const xhi = xvals.length ? Math.max(...xvals) : 1;
+  const flip = (v) => isNum(v) && xhi > xlo && ((logX
+    ? (Math.log10(v) - Math.log10(xlo)) / (Math.log10(xhi) - Math.log10(xlo))
+    : (v - xlo) / (xhi - xlo)) > 0.62);
   return {
     animationDuration: 320,
     grid: {
       left: 8,
       right: endLabelled ? Math.min(160, Math.max(80, Math.max(...series.map((s) => String(s.name || '').length)) * 6.4))
-        : (labelled && !narrow ? 152 : 24),
+        : 24,
       top: 18, bottom: spec.xLabel ? 34 : 8, containLabel: true,
     },
     tooltip: {
@@ -960,16 +1052,22 @@ function scatterOption(spec, series, hue, unit, o) {
         name: s.name, type: connect ? 'line' : 'scatter', symbolSize: connect ? 9 : 11,
         ...(connect ? { showSymbol: true, smooth: false, lineStyle: { width: 1.5, color, opacity: 0.55 } } : {}),
         itemStyle: { color, opacity: 0.9, borderColor: '#FFFFFF', borderWidth: 1 },
-        data: pts.map((p) => ({ value: [dateX ? dateValue(p.x) : p.x, p.y], name: p.label || s.name, _raw: p })),
+        data: pts.map((p) => {
+          const xv = dateX ? dateValue(p.x) : p.x;
+          return {
+            value: [xv, p.y], name: p.label || s.name, _raw: p,
+            ...(p.label && flip(xv) ? { label: { position: 'left' } } : {}),
+          };
+        }),
         label: {
           // Point labels are wider than a phone, so below 640px the label text
           // moves to the tooltip and the data table rather than off the card.
           show: !narrow && !!s.data.some((p) => p.label), position: 'right', distance: 7,
           color: INK2, fontSize: 11,
-          formatter: (p) => {
-            const t = String(p.data._raw.label || '');
-            return t.length > 24 ? t.slice(0, 23) + '…' : t;
-          },
+          // Never truncated: "deepseek-v4-pro (pre-16…" cannot be resolved to a
+          // model, which is the one thing a point label is for. Charts that
+          // cannot fit every name label fewer points instead.
+          formatter: (p) => String(p.data._raw.label || ''),
         },
         labelLayout: { hideOverlap: true },
         ...(endLabelled ? {
@@ -1036,8 +1134,9 @@ function dotOption(spec, series, unit, o) {
     yAxis: {
       type: 'category', data: cats, inverse: true,
       axisLabel: {
-        color: INK3, fontSize: 11,
-        formatter: (v) => shortenCat(v, 30),
+        // Wrapped, never cut: "AWS / GCP / A…100 (8-GPU node)" reads as a bug.
+        color: INK3, fontSize: 11, lineHeight: 13,
+        formatter: (v) => wrapLabel(v, isNarrow() ? 22 : 34),
       },
       axisLine: { lineStyle: { color: RULE_S } }, axisTick: { show: false },
       splitLine: { show: false },
@@ -1057,9 +1156,15 @@ function dotOption(spec, series, unit, o) {
 }
 
 /**
- * Dumbbell. Two comparable prices for the same vendor, joined by a rule, with
- * the ratio printed at the right — the ratio being the thing the page is
- * actually about, and the thing a 500:1 pair of bars cannot show.
+ * Dumbbell. Two comparable prices for the same subject, joined by a rule, with
+ * the ratio printed in a fixed column at the right.
+ *
+ * The two model names live in the axis gutter, tinted to match their own dot,
+ * so the only text inside the plot is a price. A name and a price concatenated
+ * into one run ("Haiku 4.5 5") cannot be parsed back into a name and a number,
+ * and at 390px a name-length label crosses the axis rule, the row rule and its
+ * neighbour's label. One short figure per dot, staggered above and below the
+ * joining rule, stays inside its own row at every width.
  */
 function dumbbellOption(spec, series, hue, unit, o) {
   const cats = categories(series);
@@ -1072,23 +1177,106 @@ function dumbbellOption(spec, series, hue, unit, o) {
   const rows = cats.map((c, i) => ({ i, c, a: at.get(c), b: bt.get(c) }));
   const colA = hue(a.name, 0);
   const colB = b ? hue(b.name, 1) : colA;
+  const narrow = isNarrow();
+  const money = /usd|\$|dollar/i.test(String(unit) + ' ' + String(spec.xLabel || ''));
+  // A price column reads as a column only at one precision: $0.10 beside $1.04
+  // beside $50, never $0.1 beside $1.04.
+  const price = (v) => (money
+    ? '$' + (Number.isInteger(v) ? String(v) : v.toFixed(2))
+    : trimNum(v, 2));
 
-  const point = (name, get, color) => ({
-    name, type: 'scatter', symbolSize: 11,
+  // A small tier shared by two frontier rows is one observation drawn twice.
+  // It is named as shared in the gutter and drawn as a hollow ring rather than
+  // passed off as two independent measurements.
+  const smallSeen = new Map();
+  for (const r of rows) {
+    const k = r.b && r.b.label ? String(r.b.label) : null;
+    if (k) smallSeen.set(k, (smallSeen.get(k) || 0) + 1);
+  }
+  const isShared = (r) => !!(r.b && r.b.label && smallSeen.get(String(r.b.label)) > 1);
+
+  // A fixed axis domain gives the ratio column something to hang on: anchored
+  // at the axis maximum, every ratio prints at the same x, which is what makes
+  // it a column rather than nine floating figures.
+  const maxv = vals.length ? Math.max(...vals) : 1;
+  const minv = vals.length ? Math.min(...vals) : 1;
+  let axisMax = log
+    ? Math.pow(10, Math.ceil(Math.log10(maxv)))
+    : Math.ceil(maxv / Math.pow(10, Math.floor(Math.log10(maxv)))) *
+      Math.pow(10, Math.floor(Math.log10(maxv)));
+  // The ratio column hangs off the axis maximum, so no dot may sit on it.
+  if (axisMax <= maxv * 1.02) {
+    axisMax = log
+      ? axisMax * 10
+      : axisMax + Math.pow(10, Math.floor(Math.log10(maxv)));
+  }
+  const axisMin = log ? Math.pow(10, Math.floor(Math.log10(minv))) : 0;
+
+  const rowByCat = new Map(rows.map((r) => [r.c, r]));
+  // Names are never cut: at narrow widths they wrap onto a second gutter line
+  // instead, because a truncated model name cannot be resolved to a model.
+  const richLines = (tag, text) => String(narrow ? wrapLabel(String(text), 15) : text)
+    .split(String.fromCharCode(10)).map((l) => '{' + tag + '|' + l + '}').join(String.fromCharCode(10));
+
+  // A centred label on the leftmost dot runs out of the plot and over the
+  // gutter text; one on the rightmost runs over the ratio column. The two
+  // extremes anchor their label at the dot instead of centring it on it.
+  const span = log ? Math.log10(axisMax) - Math.log10(axisMin) : axisMax - axisMin;
+  const frac = (v) => (log
+    ? (Math.log10(v) - Math.log10(axisMin)) / span
+    : (v - axisMin) / span);
+  const edgeLabel = (v) => {
+    if (!isNum(v) || !(v > 0)) return {};
+    const f = frac(v);
+    if (f < 0.09) return { label: { align: 'left' } };
+    if (f > 0.93) return { label: { align: 'right' } };
+    return {};
+  };
+
+  const point = (name, get, color, pos) => ({
+    name,
+    type: 'scatter',
+    symbolSize: 11,
+    z: 3,
     itemStyle: { color, borderColor: '#FFFFFF', borderWidth: 1 },
     data: rows.filter((r) => get(r) && isNum(get(r).y))
-      .map((r) => ({ value: [get(r).y, r.c], name: r.c, _raw: get(r) })),
+      .map((r) => ({
+        value: [get(r).y, r.c],
+        name: r.c,
+        _raw: get(r),
+        ...edgeLabel(get(r).y),
+        ...(pos === 'bottom' && isShared(r)
+          ? { itemStyle: { color: '#FFFFFF', borderColor: color, borderWidth: 2 } }
+          : {}),
+      })),
     label: {
-      show: true, position: name === a.name ? 'top' : 'bottom', distance: 5,
-      color: INK2, fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace',
-      formatter: (p) => (p.data._raw.label ? p.data._raw.label + ' ' : '') + fmt(p.data._raw.y),
+      show: true, position: pos, distance: 7,
+      color: INK, fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace',
+      formatter: (p) => price(p.data._raw.y),
     },
     labelLayout: { hideOverlap: true },
   });
 
+  // `containLabel` mis-measures a three-line rich-text axis label and clipped
+  // "Gemini 2.5 Flash-Lite" against the card edge, so the gutter is measured
+  // from the strings that will actually be printed.
+  const gutterLines = [];
+  for (const r of rows) {
+    gutterLines.push(String(r.c).split(' · ')[0].length * (narrow ? 6.0 : 6.4));
+    const mono = (t) => String(narrow ? wrapLabel(String(t), 15) : t)
+      .split(String.fromCharCode(10)).forEach((l) => gutterLines.push(l.length * (narrow ? 5.5 : 5.9)));
+    if (r.a && r.a.label) mono(r.a.label);
+    if (r.b && r.b.label) mono(r.b.label + (isShared(r) ? ' (shared)' : ''));
+  }
+  const gutter = Math.round(Math.min(narrow ? 128 : 180,
+    Math.max(56, Math.max(...gutterLines, 0) + 16)));
+
   return {
     animationDuration: 320,
-    grid: { left: 8, right: 62, top: 16, bottom: spec.xLabel ? 34 : 10, containLabel: true },
+    grid: {
+      left: gutter, right: narrow ? 44 : 52, top: 14,
+      bottom: spec.xLabel ? 50 : 26, containLabel: false,
+    },
     tooltip: {
       trigger: 'axis', axisPointer: { type: 'shadow' }, confine: true,
       formatter: (ps) => {
@@ -1104,6 +1292,7 @@ function dumbbellOption(spec, series, hue, unit, o) {
     },
     xAxis: {
       type: log ? 'log' : 'value',
+      min: axisMin, max: axisMax,
       ...axisNameStyle(spec.xLabel),
       axisLabel: { color: INK3, fontSize: 11, formatter: (v) => fmtShort(v), hideOverlap: true },
       splitLine: { lineStyle: { color: RULE, type: 'solid' } },
@@ -1111,7 +1300,30 @@ function dumbbellOption(spec, series, hue, unit, o) {
     },
     yAxis: {
       type: 'category', data: cats, inverse: true,
-      axisLabel: { color: INK2, fontSize: 11 },
+      axisLabel: {
+        color: INK2, fontSize: 11, margin: 10, lineHeight: 14,
+        formatter: (v) => {
+          const r = rowByCat.get(v);
+          if (!r) return String(v);
+          const out = ['{v|' + String(v).split(' · ')[0] + '}'];
+          if (r.a && r.a.label) out.push(richLines('f', r.a.label));
+          if (r.b && r.b.label) {
+            out.push(richLines('s', r.b.label + (isShared(r) ? ' (shared)' : '')));
+          }
+          return out.join(String.fromCharCode(10));
+        },
+        rich: {
+          v: { color: INK2, fontSize: 11, fontWeight: 500, lineHeight: 15, align: 'right' },
+          f: {
+            color: colA, fontSize: narrow ? 9.5 : 10, lineHeight: 13,
+            fontFamily: 'IBM Plex Mono, monospace', align: 'right',
+          },
+          s: {
+            color: colB, fontSize: narrow ? 9.5 : 10, lineHeight: 13,
+            fontFamily: 'IBM Plex Mono, monospace', align: 'right',
+          },
+        },
+      },
       axisLine: { lineStyle: { color: RULE_S } }, axisTick: { show: false },
       splitLine: { show: true, lineStyle: { color: RULE, type: 'solid' } },
     },
@@ -1133,16 +1345,16 @@ function dumbbellOption(spec, series, hue, unit, o) {
         data: rows.filter((r) => r.a && r.b && isNum(r.a.y) && isNum(r.b.y))
           .map((r) => [r.c, r.a.y, r.b.y]),
       },
-      point(a.name, (r) => r.a, colA),
-      ...(b ? [point(b.name, (r) => r.b, colB)] : []),
+      point(a.name, (r) => r.a, colA, 'top'),
+      ...(b ? [point(b.name, (r) => r.b, colB, 'bottom')] : []),
       {
-        name: 'ratio', type: 'scatter', symbolSize: 0, silent: true,
+        name: 'ratio', type: 'scatter', symbolSize: 0, silent: true, clip: false, z: 2,
         data: rows.filter((r) => r.a && r.b && isNum(r.a.y) && isNum(r.b.y) && r.b.y > 0)
-          .map((r) => ({ value: [r.a.y, r.c], _ratio: r.a.y / r.b.y })),
+          .map((r) => ({ value: [axisMax, r.c], _ratio: r.a.y / r.b.y })),
         label: {
-          show: true, position: 'right', distance: 14, color: INK, fontSize: 11.5,
-          fontFamily: 'IBM Plex Mono, monospace', fontWeight: 500,
-          formatter: (p) => trimNum(p.data._ratio, 0) + 'x',
+          show: true, position: 'right', distance: 7, align: 'left',
+          color: INK, fontSize: 11, fontFamily: 'IBM Plex Mono, monospace', fontWeight: 500,
+          formatter: (p) => trimNum(p.data._ratio, 1) + 'x',
         },
       },
     ],
@@ -1352,8 +1564,14 @@ function chartSizing(spec, hint) {
   const horizontal = rowMarks || (spec.type === 'bar' && series.length === 1 && !catsAreTime(cats) &&
     (cats.length > 7 || cats.some((c) => c.length > 16)));
   if (horizontal) {
-    const per = spec.type === 'dumbbell' ? 38 : 27;
-    return { cls: 'chart', px: Math.max(260, Math.min(760, 74 + cats.length * per)) };
+    // A dumbbell row carries a three-line gutter label (subject, frontier
+    // model, small model), and a fourth line once those names wrap at narrow
+    // widths; a dot row carries up to two. Two or three bars do not need the
+    // 260px floor a nine-row chart does.
+    const per = spec.type === 'dumbbell' ? (isNarrow() ? 62 : 50)
+      : (spec.type === 'bar' && cats.length <= 3 ? 46 : 32);
+    const floor = cats.length <= 3 ? 150 : 260;
+    return { cls: 'chart', px: Math.max(floor, Math.min(780, 74 + cats.length * per)) };
   }
   if (hint === 'short') return { cls: 'chart chart--short', px: null };
   if (hint === 'tall') return { cls: 'chart chart--tall', px: null };
@@ -1422,10 +1640,14 @@ function chartDataTable(spec, id) {
     '<p class="chart-data__cap" id="' + capId + '">' + esc(cap) +
     '<button type="button" class="btn--link chart-data__csv" data-csv-chart="' +
     attr(id.replace(/-data$/, '')) + '">Download this data (CSV)</button></p>' +
+    // Same scroll affordance as every other table on the site: a chart's own
+    // data must not be the one place a column can be lost off the edge.
+    '<div class="table-scroll" data-x="none">' +
+    '<p class="table-scroll__hint" aria-hidden="true">Scrolls sideways for more columns →</p>' +
     '<div class="table-wrap table-wrap--auto" tabindex="0" role="region" aria-label="' +
     attr('Data behind ' + (spec.title || 'this chart') + ', scrollable table') + '">' +
     '<table class="table table--data" aria-labelledby="' + capId + '">' +
-    '<thead>' + head + '</thead><tbody>' + body + '</tbody></table></div></details>';
+    '<thead>' + head + '</thead><tbody>' + body + '</tbody></table></div></div></details>';
 }
 
 /** Register a spec and return the HTML for its chart surface plus its table. */
@@ -1490,10 +1712,15 @@ function kpiHtml(stat, fn) {
     // A publisher name ("US Senate Banking Committee") is an attribution; a CDN
     // hostname ("d1e00ek4ebabms.cloudfront.net") is not. Use the catalogued
     // publisher whenever the caller could resolve one.
-    (stat.source ? '<p class="kpi__source"><a href="' + attr(stat.source) + '" target="_blank" rel="noopener">' +
-      esc(stat.publisher || host(stat.source)) + '</a>' + (fn ? fn.refs([stat.source]) : '') + '</p>' : '') +
-    (stat.from ? '<p class="kpi__source"><a href="#/' + esc(stat.from) + '">' +
-      esc(stat.from.charAt(0).toUpperCase() + stat.from.slice(1)) + ' section</a></p>' : '') +
+    // The attribution block is one element, hung from the bottom of the card,
+    // so its rule lands at the same height on every card in a row however long
+    // the note above it runs.
+    ((stat.source || stat.from) ? '<div class="kpi__foot">' +
+      (stat.source ? '<p class="kpi__source"><a href="' + attr(stat.source) + '" target="_blank" rel="noopener">' +
+        esc(stat.publisher || host(stat.source)) + '</a>' + (fn ? fn.refs([stat.source]) : '') + '</p>' : '') +
+      (stat.from ? '<p class="kpi__source"><a href="#/' + esc(stat.from) + '">' +
+        esc(stat.from.charAt(0).toUpperCase() + stat.from.slice(1)) + ' section</a></p>' : '') +
+      '</div>' : '') +
     '</div>';
 }
 
@@ -1511,10 +1738,25 @@ function kpiRow(stats, fn) {
  * reader browsing by heading has to be able to reach them.
  */
 function blockHead(title, count, note, id, countId) {
-  return '<h2 class="subhead"' + (id ? ' id="' + attr(id) + '"' : '') + '>' + esc(title) +
-    (count != null ? '<span class="dim"' + (countId ? ' data-head-count="' + attr(countId) + '"' : '') +
-      '> · ' + esc(count) + '</span>' : '') + '</h2>' +
+  return '<h2 class="subhead"' + (id ? ' id="' + attr(id) + '"' : '') + '>' +
+    '<span class="subhead__t">' + esc(title) + '</span>' +
+    (count != null ? '<span class="subhead__sep" aria-hidden="true"> · </span>' +
+      '<span class="subhead__n"' + (countId ? ' data-head-count="' + attr(countId) + '"' : '') +
+      '>' + esc(trimCount(title, count)) + '</span>' : '') + '</h2>' +
     (note ? '<p class="note note--lede">' + esc(note) + '</p>' : '');
+}
+
+/**
+ * "Sources · 65 sources" says the noun twice. When the count's noun is already
+ * the heading's, only the number is new information.
+ */
+function trimCount(title, count) {
+  const c = String(count);
+  const m = /^(\d[\d,]*)\s+(.+)$/.exec(c);
+  if (!m) return c;
+  const stem = (s) => String(s).toLowerCase().replace(/[^a-z]+$/, '').replace(/(ies|es|s)$/, '');
+  const last = String(title).trim().split(/\s+/).pop();
+  return stem(m[2]) && stem(m[2]) === stem(last) ? m[1] : c;
 }
 
 /** "1 table", "3 tables" — a count and its noun, agreeing. */
@@ -1528,9 +1770,108 @@ function sectionNav(items) {
   if (list.length < 3) return '';
   return '<nav class="pagenav" aria-label="On this page">' +
     '<span class="pagenav__label">On this page</span>' +
+    '<span class="pagenav__links">' +
     list.map((it) => '<a class="pagenav__link" href="#" data-jump="' + attr(it.id) + '">' +
       esc(it.label) + (it.count != null ? '<span class="pagenav__n">' + esc(it.count) + '</span>' : '') +
-      '</a>').join('') + '</nav>';
+      '</a>').join('') + '</span>' +
+    '</nav>' +
+    // A 25,000px page needs a way back as much as a way down. It is a sibling
+    // of the bar rather than an item in it: the two sticky bars already take
+    // 105px off an 844px phone and this must not make it a third row.
+    '<button type="button" class="totop" data-scroll-top="1" hidden>' +
+    '<span aria-hidden="true">↑</span> Top</button>';
+}
+
+/**
+ * Scroll spy for the in-page index. A bar that lists eleven destinations and
+ * never says which one you are standing in tells you where you can go and
+ * nothing about where you are. The current link carries aria-current="true",
+ * so the state is announced and not only drawn.
+ */
+let spyOff = null;
+
+function wireSectionSpy(root) {
+  if (spyOff) { spyOff(); spyOff = null; }
+  const nav = root.querySelector('.pagenav');
+  if (!nav || typeof IntersectionObserver !== 'function') return;
+  const links = [...nav.querySelectorAll('.pagenav__link')];
+  const targets = links.map((a) => document.getElementById(a.getAttribute('data-jump')));
+  if (!targets.some(Boolean)) return;
+
+  const mark = (i) => {
+    links.forEach((a, k) => {
+      const on = k === i;
+      a.classList.toggle('is-current', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  };
+
+  const pick = () => {
+    // The heading a reader is "in" is the last one above a line set a third of
+    // the way down the viewport. Reading from the bar's own edge marked the
+    // previous section as current the instant you jumped to a new one, because
+    // the heading you landed on sits just below the bar.
+    const line = nav.getBoundingClientRect().bottom +
+      Math.min(300, (window.innerHeight || 800) * 0.34);
+    let best = -1;
+    targets.forEach((el, i) => { if (el && el.getBoundingClientRect().top <= line) best = i; });
+    mark(best);
+  };
+
+  const top = root.querySelector('.totop');
+  let queued = false;
+  const onScroll = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      pick();
+      if (top) top.hidden = window.scrollY < 900;
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  pick();
+  spyOff = () => {
+    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('resize', onScroll);
+  };
+}
+
+/**
+ * Edge fades and the "scrolls sideways" hint appear only while there is
+ * something past the edge to reach. A table that is hard-clipped with no
+ * affordance loses a whole column silently.
+ */
+const scrollWired = new WeakSet();
+
+function markScrollers(root) {
+  root.querySelectorAll('.table-scroll').forEach((box) => {
+    const wrap = box.querySelector('.table-wrap');
+    if (!wrap) return;
+    const sync = () => {
+      const over = wrap.scrollWidth - wrap.clientWidth;
+      if (over <= 2) { box.dataset.x = 'none'; return; }
+      const l = wrap.scrollLeft > 2;
+      const r = wrap.scrollLeft < over - 2;
+      box.dataset.x = l && r ? 'both' : (l ? 'end' : 'start');
+    };
+    if (!scrollWired.has(wrap)) {
+      scrollWired.add(wrap);
+      wrap.addEventListener('scroll', sync, { passive: true });
+      if (typeof ResizeObserver === 'function') {
+        const ro = new ResizeObserver(sync);
+        ro.observe(wrap);
+        const t = wrap.querySelector('table');
+        if (t) ro.observe(t);
+      }
+    }
+    sync();
+    if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => requestAnimationFrame(sync)).catch(() => {});
+    }
+  });
 }
 
 const SOURCE_TYPE_ORDER = ['paper', 'law', 'filing', 'docs', 'pricing', 'blog', 'news', 'data', 'other'];
@@ -1565,7 +1906,13 @@ function audienceBadge(a) {
 
 function findingsHtml(findings, fn, id) {
   if (!findings || !findings.length) return '';
-  return blockHead('Key findings', plural(findings.length, 'finding'), null, id) +
+  return blockHead('Key findings', plural(findings.length, 'finding'),
+    // Two entries run the full width and eight run in columns. Say why, or the
+    // change of measure halfway down the list reads as a layout that ran out.
+    findings.length > 2
+      ? 'In the order the section makes its case. The first two carry the argument and are set wide; ' +
+        'the rest follow in the order they were filed.'
+      : null, id) +
     // Ten cards of identical weight give a reader no way in. The list is
     // numbered, and the first two — which the files order deliberately — run
     // the full width so the opening argument reads before the rest.
@@ -1609,8 +1956,9 @@ function sourcesHtml(fn, updated) {
   });
   // The number on the row IS the footnote number. A list counter would restart
   // inside each group and send the reader to the wrong source.
-  const item = (s) => '<li class="source" id="' + fn.prefix + '-' + s.n +
-    '" style="counter-set: src ' + s.n + '" data-n="' + s.n + '">' +
+  const item = (s, anchor) => '<li class="source"' +
+    (anchor === false ? '' : ' id="' + fn.prefix + '-' + s.n + '"') +
+    ' style="counter-set: src ' + s.n + '" data-n="' + s.n + '">' +
     '<span class="source__body">' +
     '<span class="source__title"><a href="' + attr(s.url) + '" target="_blank" rel="noopener">' +
     esc(s.title || host(s.url)) + '</a></span>' +
@@ -1624,9 +1972,17 @@ function sourcesHtml(fn, updated) {
     '<span class="dim"> · ' + groups.get(k).length + '</span></h3>' +
     '<ol class="sources">' + groups.get(k).map(item).join('') + '</ol></div>').join('');
 
+  // A heading that advertises sixty-five sources over a closed disclosure makes
+  // the claim and hides the evidence. Three entries stand above the fold so the
+  // bibliography is visible before it is opened.
+  const peek = list.slice(0, 3);
+  const preview = '<ol class="sources sources--peek">' +
+    peek.map((s2) => item(s2, false)).join('') + '</ol>';
+
   return blockHead('Sources', plural(list.length, 'source'),
     'Every figure on this page carries a numbered footnote to an entry below.' +
     (updated ? ' Compiled ' + longDate(updated) + '.' : ''), 'sec-sources') +
+    preview +
     '<details class="sources-wrap" id="' + fn.prefix + '-list">' +
     '<summary class="sources__toggle"><span>Show all ' + list.length + ' sources</span></summary>' +
     '<div class="sources__cols">' + body + '</div></details>';
@@ -1658,6 +2014,44 @@ function isYearColumn(col, sample) {
 function fmtCell(v, col) {
   if (isYearColumn(col, v) && isNum(v)) return String(v);
   return fmt(v);
+}
+
+/** Decimal places a value is actually written with: 1.32 -> 2, 16 -> 0. */
+function decimalsOf(v) {
+  const s = String(v);
+  if (/e/i.test(s)) return 0;
+  const i = s.indexOf('.');
+  return i < 0 ? 0 : Math.min(4, s.length - i - 1);
+}
+
+/**
+ * One formatter for a whole numeric column. A right-aligned run of figures
+ * only reads as a column when every value carries the same scale and the same
+ * number of decimals: 41.7 above 16 above 5 puts three decimal points at three
+ * different x, and "999,000" above "5.4M" asks the reader to re-scale between
+ * two adjacent rows. The precision is taken from the data — the most precise
+ * value in the column sets it — so nothing is invented and nothing is lost.
+ */
+function columnFormatter(col, rows) {
+  const vals = rows.map((r) => r[col.key]).filter(isNum);
+  if (!vals.length || isYearColumn(col, vals[0])) return (v) => fmtCell(v, col);
+  const abs = vals.map((v) => Math.abs(v)).filter((v) => v > 0);
+  const maxAbs = abs.length ? Math.max(...abs) : 0;
+  const minAbs = abs.length ? Math.min(...abs) : 0;
+  const present = Math.max(...vals.map(decimalsOf));
+  let scale = 1, suffix = '', dp = 0;
+  if (maxAbs >= 1e9) { scale = 1e9; suffix = 'bn'; dp = maxAbs / 1e9 >= 10 ? 1 : 2; }
+  else if (maxAbs >= 1e6) { scale = 1e6; suffix = 'M'; dp = maxAbs / 1e6 >= 10 ? 1 : 2; }
+  // A scale that rounds the smallest figure in the column to zero is not a
+  // scale, it is a deletion: $30,000 beside $500M must not print as "0.0M".
+  if (scale > 1 && minAbs && minAbs / scale < 0.5 * Math.pow(10, -dp)) { scale = 1; suffix = ''; }
+  if (scale === 1) dp = maxAbs >= 1000 ? Math.min(present, 1) : Math.min(present, 3);
+  return (v) => {
+    if (v == null || v === '') return '—';
+    if (!isNum(v)) return String(v);
+    return (v / scale).toLocaleString('en-US',
+      { minimumFractionDigits: dp, maximumFractionDigits: dp }) + suffix;
+  };
 }
 
 /**
@@ -1708,6 +2102,10 @@ export function renderTable(spec, opts) {
       const hits = vals.map((v) => rows.filter((r) => key(i, r) === v).length);
       const biggest = Math.max(...hits);
       if (biggest < 2) continue;
+      // A facet has to group the table, not label it. Six valuations, five of
+      // which pick out one row of eight, is a row selector wearing a filter's
+      // clothes: at least two of the values have to gather rows together.
+      if (hits.filter((n) => n > 1).length < 2) continue;
       // Prefer a column that splits the table into a few substantial groups.
       const score = biggest * 10 - Math.abs(vals.length - 4) - i;
       if (score > bestScore) { bestScore = score; filterCol = i; filterVals = vals; }
@@ -1734,12 +2132,24 @@ export function renderTable(spec, opts) {
     spec.updated && !hasOwnDate ? 'As of ' + longDate(spec.updated) + '.' : '',
   ].filter(Boolean).join(' ');
 
+  // A column that is empty in the rows on screen reads as a failed data load.
+  // Saying how many of the rows carry a figure turns it into what it is: a
+  // field the vendors mostly do not publish.
+  const filled = (c) => rows.filter((r) => r[c.key] != null && r[c.key] !== '').length;
+
   const head = '<tr>' + cols.map((c, i) => {
     const numeric = c.type === 'number';
+    const have = filled(c);
+    const sparse = have && have * 2 < rows.length
+      ? have + ' of ' + rows.length + ' published' : '';
+    const sub = [showColUnit(c) ? c.unit : '', sparse].filter(Boolean).join(' · ');
     return '<th scope="col"' + (numeric ? ' class="num" data-type="number"' : '') + ' aria-sort="none">' +
       '<button type="button" class="table__sort" data-sort="' + i + '" data-type="' + (numeric ? 'number' : 'text') + '">' +
-      esc(c.label) + (showColUnit(c) ? ' <small>' + esc(c.unit) + '</small>' : '') + '</button></th>';
+      esc(c.label) + (sub ? ' <small>' + esc(sub) + '</small>' : '') + '</button></th>';
   }).join('') + '</tr>';
+
+  // One formatter per numeric column, chosen once from that column's own values.
+  const colFmt = cols.map((c) => (c.type === 'number' ? columnFormatter(c, rows) : null));
 
   const body = rows.map((r, ri) => {
     const key = filterCol >= 0 ? String(r[cols[filterCol].key] == null ? '' : r[cols[filterCol].key]).trim() : '';
@@ -1748,21 +2158,35 @@ export function renderTable(spec, opts) {
       '>' + cols.map((c, i) => {
       const v = r[c.key];
       const numeric = c.type === 'number';
+      const blank = v == null || v === '';
       const sortV = c.sortValue ? c.sortValue(v, r)
         : (numeric ? (isNum(v) ? v : Number.NEGATIVE_INFINITY) : String(v == null ? '' : v).toLowerCase());
-      const shown = numeric ? fmtCell(v, c) : (v == null || v === '' ? '—' : String(v));
-      const ref = i === cols.length - 1 && fn && r._source ? fn.refs([r._source]) : '';
-      const dim = !numeric && (v == null || v === '') ? ' dim' : '';
+      const shown = numeric ? colFmt[i](v) : (blank ? '—' : String(v));
+      // The row's source belongs to the row, not to whatever happens to sit in
+      // its last column. Hung off the em dash of an undisclosed date it read as
+      // broken markup — "— ¹" — rather than as a citation; on the row's own
+      // identifier it says what it means.
+      const ref = i === 0 && fn && r._source ? fn.refs([r._source]) : '';
+      const dim = !numeric && blank ? ' dim' : '';
       // A field of structural zeros competes with the figures beside it; the
       // zero is still printed, just no longer shouted.
       const zero = numeric && v === 0 ? ' is-zero' : '';
       const mark = c.mark ? c.mark(v, r) : '';
       const after = c.after ? c.after(v, r) : '';
+      // An empty cell is a published gap, not a rendering failure: it is
+      // labelled as one for a screen reader and for a hovering mouse.
+      const cell = blank
+        ? '<span class="cell-null" title="Not published"><span aria-hidden="true">—</span>' +
+          '<span class="sr-only">Not published</span></span>'
+        : esc(shown);
+      // A value and its reference marker are one token. Left to break, the
+      // marker dropped to a line of its own and made that row 20px taller
+      // than its neighbours.
+      const value = ref
+        ? '<span class="cell-val">' + cell + (numeric ? '<span class="cell-ref">' + ref + '</span>' : ref) + '</span>'
+        : cell;
       return '<td class="' + (numeric ? 'num' : 'txt') + dim + zero + '"' + (numeric ? ' data-type="number"' : '') +
-        ' data-v="' + attr(sortV) + '">' + mark + esc(shown) + after +
-        // A reference marker inside a right-aligned numeric cell pushes the
-        // digits off the column's alignment; it gets its own fixed-width slot.
-        (ref ? (numeric ? '<span class="cell-ref">' + ref + '</span>' : ref) : '') + '</td>';
+        ' data-v="' + attr(sortV) + '">' + mark + value + after + '</td>';
     }).join('') + '</tr>';
   }).join('');
 
@@ -1806,7 +2230,12 @@ export function renderTable(spec, opts) {
       '<span class="table__count" data-count-for="' + tid + '" hidden></span></p>' : '') +
     // The scroll container is a labelled, focusable region: without a tabindex
     // a keyboard-only reader cannot scroll it, and the columns past the clip
-    // edge are unreachable.
+    // edge are unreachable. The scroller wrapping it carries the edge fades and
+    // the "scrolls sideways" hint, both of which appear only while there is
+    // something past the edge to reach (wired in markScrollers).
+    '<div class="table-scroll" data-x="none">' +
+    '<p class="table-scroll__hint" aria-hidden="true">Scrolls sideways for ' +
+    (cols.length - 4 > 0 ? cols.length - 4 + ' more columns' : 'more columns') + ' →</p>' +
     '<div class="table-wrap table-wrap--sticky" tabindex="0" role="region" aria-label="' +
     attr(title + ', scrollable table') + '">' +
     '<table class="table' + (rows.length > 12 ? ' table--zebra' : '') +
@@ -1814,7 +2243,7 @@ export function renderTable(spec, opts) {
     (caption ? ' aria-labelledby="' + tid + '-cap"' : '') + '>' +
     '<caption class="sr-only">' + esc(title) + ' — ' + rows.length + ' rows' +
     (caption ? '. ' + esc(caption) : '') + '</caption>' +
-    '<thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>' +
+    '<thead>' + head + '</thead><tbody>' + body + '</tbody></table></div></div>' +
     (spec.notes ? '<figcaption class="panel__note">' + esc(spec.notes) + '</figcaption>' : '') +
     srcLine + '</figure>';
 }
@@ -1936,19 +2365,27 @@ function legendHtml(spec) {
   // A stage chart's second series is the ghosted trail behind each marker, not
   // a category, and a connected scatter direct-labels its own series ends.
   if (type === 'stage') return '';
+  // A series that names its own colour (a vendor ladder in one hue, a neutral
+  // baseline) must see that colour in the key, or the key points at the wrong
+  // line. Where weight is the second channel, the swatch carries the weight.
+  const swatch = (s, c) => (s.lineWidth
+    ? '<span class="legend__dot legend__dot--rule" style="background:' + c +
+      ';height:' + Math.max(2, Math.round(s.lineWidth)) + 'px"></span>'
+    : '<span class="legend__dot" style="background:' + c + '"></span>');
   if (spec.forceLegend && series.length >= 2) {
     const fhue = hueFactory();
     return '<ul class="legend">' + series.map((s, i) =>
-      '<li class="legend__item"><span class="legend__dot" style="background:' + fhue(s.name, i) + '"></span>' +
+      '<li class="legend__item">' + swatch(s, s.color || fhue(s.name, i)) +
       esc(s.name) + '</li>').join('') + '</ul>';
   }
+  const endAll = !!(spec.opts && spec.opts.endLabels === 'all');
   const directLabelled = !isNarrow() && (type === 'line' || type === 'area' ||
-    (type === 'scatter' && spec.opts && spec.opts.connect)) && series.length <= 4 &&
+    (type === 'scatter' && spec.opts && spec.opts.connect)) && (series.length <= 4 || endAll) &&
     !(spec.opts && spec.opts.endLabels === false);
   if (directLabelled || series.length < 2) return '';
   const hue = hueFactory();
   return '<ul class="legend">' + series.map((s, i) =>
-    '<li class="legend__item"><span class="legend__dot" style="background:' + hue(s.name, i) + '"></span>' +
+    '<li class="legend__item">' + swatch(s, s.color || hue(s.name, i)) +
     esc(s.name) + '</li>').join('') + '</ul>';
 }
 
@@ -2123,8 +2560,8 @@ function applyTimelineFilter(wrap, values) {
   // The block heading counts what is on screen, not what is on file.
   const head = document.querySelector('[data-head-count="' + wrap.id + '"]');
   if (head) {
-    head.textContent = unfiltered ? ' · ' + plural(items.length, 'event')
-      : ' · ' + shown + ' of ' + plural(items.length, 'event');
+    head.textContent = unfiltered ? plural(items.length, 'event')
+      : shown + ' of ' + plural(items.length, 'event');
   }
 }
 
@@ -2213,6 +2650,17 @@ function priceDumbbell(c) {
       ratio: q && q.y ? p.y / q.y : 0,
     };
   }).sort((a, b) => b.ratio - a.ratio);
+  // A small tier that serves two frontier models is one price plotted on two
+  // rows. Say so, and name the model, rather than leaving a reader to notice
+  // two dots at the same x.
+  const smallCount = new Map();
+  for (const r of rows) smallCount.set(r.sLabel, (smallCount.get(r.sLabel) || 0) + 1);
+  const sharedNames = [...smallCount.entries()].filter(([k, n]) => k && n > 1).map(([k]) => k);
+  const sharedNote = sharedNames.length
+    ? ' ' + sharedNames.join(' and ') + ' is the small tier for more than one frontier model on this ' +
+      'chart, so the same price is plotted on each of those rows; those dots are drawn as hollow rings ' +
+      'and the gutter marks them shared.'
+    : '';
   return {
     ...c,
     type: 'dumbbell',
@@ -2223,8 +2671,9 @@ function priceDumbbell(c) {
       { name: f.name, data: rows.map((r) => ({ x: r.cat, y: r.f, label: r.fLabel })) },
       { name: s.name, data: rows.map((r) => ({ x: r.cat, y: r.s, label: r.sLabel })) },
     ],
-    notes: 'Each rule joins one vendor’s frontier model to its own small tier, and the figure at the ' +
-      'right of the row is the ratio between them. ' + c.notes,
+    notes: 'Each rule joins one vendor’s frontier model to its own small tier; the two models are named ' +
+      'in the gutter in their own dot’s colour, the figure beside each dot is that model’s list price, ' +
+      'and the column at the right is the ratio between them.' + sharedNote + ' ' + c.notes,
   };
 }
 
@@ -2242,17 +2691,39 @@ function nvidiaSplit(c) {
       type: 'bar',
       series: [{
         name: change.name,
-        data: change.data.map((p) => ({
-          ...p,
-          // The published category strings are full sentences, which a category
-          // axis truncates through the middle of the fact.
-          x: String(p.x).replace(/^(.*?):\s*(.*)$/, '$1 — $2')
-            .replace('DeepSeek-R1 shock (one session)', 'R1 shock, one session')
-            .replace('drawdown from peak', 'drawdown from the peak'),
-          color: red,
-        })),
+        // A one-session fall and a 55-day drawdown are not the same kind of
+        // measurement, and identical bars say they are. The window is named on
+        // the axis and again beside the figure, and the multi-week bar is drawn
+        // as an outline so the two encodings are visibly different marks.
+        data: change.data.map((p) => {
+          const session = /one session/i.test(String(p.x));
+          const span = /^(\d{1,2}\s+[A-Za-z]{3,})\s*[-–]\s*(\d{1,2}\s+[A-Za-z]{3,}\s+(\d{4}))/
+            .exec(String(p.x));
+          const days = span
+            ? Math.round((Date.parse(span[2]) - Date.parse(span[1] + ' ' + span[3])) / 86400000)
+            : null;
+          const basis = session ? 'in one trading session'
+            : (days ? 'over ' + days + ' days' : '');
+          return {
+            ...p,
+            // The published category strings are full sentences, which a
+            // category axis has no room for on one line.
+            x: String(p.x).replace(/^(.*?):\s*(.*)$/, '$1' + String.fromCharCode(10) + '$2')
+              .replace('DeepSeek-R1 shock (one session)', 'DeepSeek-R1 shock')
+              .replace('drawdown from peak', 'Drawdown from the peak')
+              .replace(' - ', ' – ') +
+              (basis ? String.fromCharCode(10) + basis.replace(/^(in|over) /, '') : ''),
+            color: red,
+            hollow: !session,
+            valueLabel: fmt(p.y),
+          };
+        }),
       }],
-      notes: c.notes,
+      notes: 'The bars are the same unit but not the same kind of measurement, so each row names its own ' +
+        'window: the filled bar is a single trading session, the outlined bar a drawdown running weeks. ' +
+        'A bar length here is a fall in market capitalisation, not a rate, and the two are not comparable ' +
+        'per day. The precisions differ because the sources do: the 2025 move is published to the billion ' +
+        'and the 2026 drawdown as a round trillion. ' + c.notes,
     },
     {
       ...c,
@@ -2265,6 +2736,90 @@ function nvidiaSplit(c) {
         'share a linear axis: the 589 billion dollar fall is 11 per cent of the 5.06 trillion level beside it.',
     },
   ];
+}
+
+/**
+ * Financial chart 3: the breakeven chart has to answer its own headline.
+ *
+ * The volumes run 1M to 1,000M against a cost axis running 2 to 45,000, so a
+ * linear volume axis puts every crossing the chart exists to show inside the
+ * leftmost sixth of the plot — and inside the leftmost 15px of a phone. The
+ * volume axis goes logarithmic, the crossings are computed from the plotted
+ * series and drawn on the line, and the three Claude tiers keep Anthropic's
+ * single hue and separate by line weight, so no two series are near-identical
+ * blues.
+ */
+const TCO_STYLE = [
+  [/opus/i, { color: PALETTE[3], lineWidth: 2.6, endLabelText: 'Opus 5' }],
+  [/sonnet/i, { color: PALETTE[3], lineWidth: 1.8, endLabelText: 'Sonnet 5', endLabelOffset: [0, -5] }],
+  [/haiku/i, { color: PALETTE[3], lineWidth: 1.1, endLabelText: 'Haiku 4.5', endLabelOffset: [0, 6] }],
+  [/gpt|luna/i, { color: PALETTE[0], lineWidth: 1.8, endLabelText: 'gpt-5.6-luna', endLabelOffset: [0, -7] }],
+  [/deepseek/i, { color: PALETTE[1], lineWidth: 1.8, endLabelText: 'V4-Flash off-peak', endLabelOffset: [0, 7] }],
+  [/self-host/i, { color: SERIES_INK, lineWidth: 2.6, endLabelText: 'Self-hosted 8B', endLabelOffset: [0, 13] }],
+];
+
+/** Where a rising series crosses a flat one, read off the plotted points. */
+function crossingX(pts, level) {
+  const p = pts.filter((q) => isNum(q.x) && isNum(q.y)).sort((q, r) => q.x - r.x);
+  for (let i = 1; i < p.length; i += 1) {
+    const lo = p[i - 1], hi = p[i];
+    if ((lo.y - level) * (hi.y - level) <= 0 && hi.y !== lo.y) {
+      return lo.x + ((level - lo.y) / (hi.y - lo.y)) * (hi.x - lo.x);
+    }
+  }
+  return null;
+}
+
+function tcoBreakeven(c) {
+  const styled = c.series.map((s) => {
+    const hit = TCO_STYLE.find(([re]) => re.test(s.name));
+    return { ...s, ...(hit ? hit[1] : {}) };
+  });
+  // The flat series is the fixed-cost baseline every other line is measured
+  // against; it is found by its own shape, not by its position in the file.
+  const flat = styled.find((s) => {
+    const ys = s.data.map((p) => p.y).filter(isNum);
+    return ys.length > 1 && ys.every((y) => y === ys[0]);
+  });
+  const level = flat ? flat.data.find((p) => isNum(p.y)).y : null;
+  const marks = [];
+  if (flat && isNum(level)) {
+    for (const s of styled) {
+      if (s === flat) continue;
+      const x = crossingX(s.data, level);
+      if (isNum(x)) marks.push({ x, y: level, name: s.endLabelText || s.name, text: '' });
+    }
+    marks.sort((m, n) => m.x - n.x);
+    // A crossing near either end of the axis anchors its label at the mark
+    // rather than centring it on it, or the label prints past the plot frame.
+    const xs = [];
+    for (const s of styled) for (const p of s.data) if (isNum(p.x) && p.x > 0) xs.push(p.x);
+    const lo = Math.log10(Math.min(...xs));
+    const hi = Math.log10(Math.max(...xs));
+    marks.forEach((m, i) => {
+      const f = hi > lo ? (Math.log10(m.x) - lo) / (hi - lo) : 0.5;
+      m.text = fmtShort(Math.round(m.x)) + 'M' + String.fromCharCode(10) + 'vs ' + m.name;
+      m.position = i % 2 ? 'bottom' : 'top';
+      if (f > 0.84) m.align = 'right';
+      else if (f < 0.16) m.align = 'left';
+    });
+  }
+  const crossText = marks.length
+    ? ' The ringed points are where the self-hosted line crosses a vendor line: ' +
+      marks.map((m) => Math.round(m.x) + 'M output tokens a month against ' + m.name).join(', ') +
+      '. Below a crossing the vendor is cheaper; above it the self-hosted deployment is.'
+    : '';
+  return {
+    ...c,
+    tabLabel: 'Self-host breakeven',
+    xLabel: 'Output tokens per month (millions), log scale',
+    xHeader: 'Output tokens per month (millions)',
+    opts: { ...(c.opts || {}), logX: true, endLabels: 'all' },
+    series: styled.map((s) => (s === flat && marks.length ? { ...s, marks } : s)),
+    notes: c.notes + ' Volume is on a logarithmic axis: on a linear one every crossing falls in the ' +
+      'leftmost sixth of the plot.' + crossText + ' The three Claude tiers share Anthropic’s colour and ' +
+      'are told apart by line weight and by the label at each line’s end.',
+  };
 }
 
 function shortenBill(x) {
@@ -2358,7 +2913,7 @@ const CHART_ADAPTERS = {
       series: c.series.map((s) => ({ ...s, name: s.name.replace(/\s*-\s*(a16z|Epoch)$/, '') })),
       notes: c.notes + ' Series are named in the key above the plot.',
     }),
-    'tco-breakeven': (c) => ({ ...c, tabLabel: 'Self-host breakeven' }),
+    'tco-breakeven': tcoBreakeven,
     'training-cost-ladder-chart': (c) => ({ ...c, tabLabel: 'Training runs', type: 'dot', xLabel: 'USD' }),
     'corpus-cost-by-teacher': (c) => ({ ...c, tabLabel: 'Teacher-query bill' }),
     'deepseek-price-reversal': (c) => ({ ...c, tabLabel: 'DeepSeek reversal' }),
@@ -2568,6 +3123,26 @@ function pricingPanel(d, fn) {
     if (!byTier.has(p.tier)) byTier.set(p.tier, []);
     byTier.get(p.tier).push(p);
   }
+  // Thirty-one names cannot be printed inside one plot: the previous version
+  // truncated them to "deepseek-v4-pro (pre-16…" and stacked the survivors in
+  // a leaderless column outside the frame. Only the marks that carry the
+  // argument are labelled — the extremes of the price range, the cheapest
+  // frontier model, the dearest small-tier one, and the newest release — and
+  // each keeps its full name. Every other name is one hover away, and all 63
+  // are in the register below.
+  const anchors = new Set();
+  const best = (list, cmp) => list.reduce((a, c) => (!a || cmp(c, a) ? c : a), null);
+  const add = (p) => { if (p) anchors.add(p); };
+  add(best(dated, (c, a) => c.output_per_mtok_usd > a.output_per_mtok_usd));
+  add(best(dated, (c, a) => c.output_per_mtok_usd < a.output_per_mtok_usd));
+  add(best(dated, (c, a) => String(c.release) > String(a.release)));
+  add(best(dated.filter((p) => p.tier === 'frontier'),
+    (c, a) => c.output_per_mtok_usd < a.output_per_mtok_usd));
+  add(best(dated.filter((p) => p.tier === 'distilled'),
+    (c, a) => c.output_per_mtok_usd > a.output_per_mtok_usd));
+  const plotted = dated.map((p) => p.output_per_mtok_usd);
+  const priceSpan = '$' + trimNum(Math.min(...plotted), 2) + ' to $' + trimNum(Math.max(...plotted), 2);
+
   const scatter = {
     id: 'pricing-scatter-by-tier',
     title: 'Every tracked model: output price against release date',
@@ -2578,12 +3153,19 @@ function pricingPanel(d, fn) {
     unit: 'USD/MTok',
     series: ['frontier', 'distilled', 'open'].filter((t) => byTier.has(t)).map((t) => ({
       name: tierName[t],
-      data: byTier.get(t).map((p) => ({ x: p.release, y: p.output_per_mtok_usd, label: p.model })),
+      data: byTier.get(t).map((p) => ({
+        x: p.release,
+        y: p.output_per_mtok_usd,
+        title: p.model,
+        ...(anchors.has(p) ? { label: p.model } : {}),
+      })),
     })),
-    notes: 'List prices for the standard tier, on a logarithmic axis because the range is 0.02 to 75 dollars ' +
-      'per million output tokens. ' + dated.length + ' of ' + pricing.length + ' tracked models publish a ' +
-      'release date; the rest are in the table below. Tier is the vendor\'s own description where it gives ' +
-      'one, and "distilled" is never inferred from price alone.',
+    notes: 'List prices for the standard tier, on a logarithmic axis because the plotted prices run ' +
+      priceSpan + ' per million output tokens. ' + dated.length + ' of ' + pricing.length +
+      ' tracked models publish a release date; the rest are in the table below. ' + anchors.size +
+      ' points are named — the dearest and cheapest plotted, the cheapest frontier model, the dearest ' +
+      'small tier and the newest release; hover any other dot for its model. Tier is the vendor\'s own ' +
+      'description where it gives one, and "distilled" is never inferred from price alone.',
     sources: [...new Set(pricing.map((p) => p.source).filter(Boolean))].slice(0, 4),
   };
 
@@ -2633,17 +3215,24 @@ function marketContextPanel(d, fn) {
   const parts = [];
 
   if (ot) {
-    const sig = (label, value, unit, note) =>
-      '<div class="signal"><p class="signal__label">' + esc(label) + '</p>' +
-      '<p class="signal__figure">' + esc(value) + (unit ? '<span class="kpi__unit">' + esc(unit) + '</span>' : '') + '</p>' +
-      (note ? '<p class="signal__note">' + esc(note) + '</p>' : '') + '</div>';
-    parts.push('<div class="signals">' +
-      sig('Share of routed tokens going to US models, June 2025', ot.usModelShareJune2025_pct, '%') +
-      sig('The same share, mid-2026', ot.usModelShareMid2026_pct, '%', 'A fall of 40 points in twelve months') +
-      sig('Chinese open-weight share, May 2026', ot.chineseOpenWeightShareMay2026_pct, '%') +
-      sig('Open-weight share, late 2025', ot.openWeightShareLate2025_pct, '%',
-        'Reported as a majority by mid-2026, without a figure') +
-      '</div>');
+    // These four were a third stat treatment of their own — a top rule, a
+    // detached unit glyph and a caption on some cards but not others — beside
+    // the bordered figure cards used everywhere else on the site. They are the
+    // same kind of thing, so they are now the same component, and each carries
+    // the study it comes from rather than leaving the row unsourced.
+    const src = (ot.sources || [])[0];
+    const sig = (label, value, note) =>
+      ({ label, value, unit: '%', note, source: src, publisher: 'OpenRouter, 100-trillion-token study' });
+    parts.push(kpiRow([
+      sig('Share of routed tokens going to US models, June 2025', ot.usModelShareJune2025_pct,
+        'The study’s own baseline for the shift below'),
+      sig('The same share, mid-2026', ot.usModelShareMid2026_pct,
+        'A fall of 40 points in twelve months'),
+      sig('Chinese open-weight share, May 2026', ot.chineseOpenWeightShareMay2026_pct,
+        'Press-reported rather than peer-reviewed'),
+      sig('Open-weight share, late 2025', ot.openWeightShareLate2025_pct,
+        'Reported as a majority by mid-2026, without a figure'),
+    ], fn));
     parts.push('<figure class="panel"><div class="panel__head">' +
       '<h3 class="panel__title">What the routing data says about price</h4>' +
       '<span class="panel__unit">2 findings</span></div>' +
@@ -3142,7 +3731,9 @@ export function renderSection(el, d, route) {
   mountCharts(el);
   wireDelegates();
   afterRender(el, ns);
-  syncRailSourceCount();
+  markScrollers(el);
+  wireSectionSpy(el);
+  syncRailSourceCount(nSources);
 }
 
 /**
@@ -3155,6 +3746,7 @@ export function sectionBlocks(d, ns) {
   const key = ns || (d && d.perspective) || 'section';
   const fn = makeFootnotes(d, key);
   noteSourceCount(key, fn.size());
+  PAGE_SOURCES = { n: fn.size(), label: 'sources on this page' };
   const charts = adaptCharts(key, ((d && d.charts) || []).filter((c) => seriesOf(c).length), d);
   const tables = ((d && d.tables) || []).filter((t) => t && (t.rows || []).length);
   return {
@@ -3200,6 +3792,8 @@ export function mountRendered(el) {
   // wired here so a table does not behave differently depending on the page
   // it happens to sit on.
   enhanceTables(el);
+  markScrollers(el);
+  wireSectionSpy(el);
   syncRailSourceCount();
 }
 
@@ -3416,6 +4010,11 @@ function priceGapChart(data) {
     },
     // The gap between the top two medians is the whole argument of the page,
     // so it is drawn on the chart rather than left to the note beneath it.
+    // It is drawn horizontally, inside the frontier band: the y axis is a list
+    // of tiers, so a diagonal from one median to the other had a slope that
+    // encoded nothing and crossed the band between them on the way. Drawn flat,
+    // the rule's length is the ratio, measured on the one axis that carries a
+    // quantity.
     ...(ratio ? {
       markLine: {
         silent: true, symbol: ['none', 'none'],
@@ -3426,7 +4025,7 @@ function priceGapChart(data) {
           backgroundColor: 'rgba(255,255,255,.92)', padding: [3, 5], borderRadius: 3,
           formatter: ratio + 'x gap',
         },
-        data: [[{ coord: [meds[0], 0] }, { coord: [meds[1], 1] }]],
+        data: [[{ coord: [meds[1], 0.38] }, { coord: [meds[0], 0.38] }]],
       },
     } : {}),
   };
@@ -3484,7 +4083,8 @@ function priceGapChart(data) {
       })),
       notes: 'Every one of the ' + all.length + ' list prices in the financial section, one dot each, on a ' +
         'logarithmic axis; the diamond is the tier median. ' +
-        (ratio ? 'The frontier median is ' + ratio + ' times the distilled median. ' : '') +
+        (ratio ? 'The frontier median is ' + ratio + ' times the distilled median, and the dashed rule ' +
+          'inside the frontier band spans the two medians on the price axis. ' : '') +
         'Standard-tier list prices only, excluding batch and cache discounts.',
       sources: [...new Set(pricing.map((p) => p.source).filter(Boolean))].slice(0, 3),
     }, from: 'financial',
@@ -3550,8 +4150,12 @@ function retentionChart(data) {
       title: 'Benchmark retention against student size',
       type: 'scatter', xLabel: 'Student parameters (B), log scale',
       xHeader: 'Student parameters (B)',
-      yLabel: 'Teacher score retained', unit: '%',
-      opts: { logX: true },
+      // A bare "%" in the panel's unit slot reads as a glyph dropped beside the
+      // legend rather than as the y axis's unit; the unit line says what the
+      // percentage is of. yZoom fits the axis to the observations instead of
+      // running to 120 on a measure whose data stops at parity.
+      yLabel: 'Teacher score retained', unit: '% of the teacher’s score',
+      opts: { logX: true, yZoom: true },
       refLine: { y: 100, text: 'parity with the teacher' },
       tableLayout: 'long', seriesHeader: 'Benchmark',
       ariaLabel: 'Teacher score retained against student parameter count, logarithmic size axis. ' +
@@ -3885,7 +4489,9 @@ export function renderOverview(el, ctx) {
   el.innerHTML = parts.join('');
   mountCharts(el);
   wireDelegates();
-  syncRailSourceCount();
+  markScrollers(el);
+  wireSectionSpy(el);
+  syncRailSourceCount(totalSources, 'sources in the six perspectives');
 }
 
 /* ============================================================================
@@ -4167,6 +4773,9 @@ export function renderCompare(el, ctx) {
   drawPicker();
   drawCompare();
   wireDelegates();
+  markScrollers(el);
+  wireSectionSpy(el);
+  syncRailSourceCount(0, 'sources catalogued');
 }
 
 /* ------------------------------------------------------------------ picker */
@@ -4438,6 +5047,7 @@ function drawCompare() {
   out.innerHTML = '<div class="panel-stack">' + table +
     (charts.length ? panelHtml(charts, null, {}) : '') + '</div>';
   mountCharts(out);
+  markScrollers(out);
 }
 
 /* -------------------------------------------------------------- CSV export */
@@ -4672,7 +5282,9 @@ export function renderMethodology(el, ctx) {
 
   wireDelegates();
   enhanceTables(el);
-  syncRailSourceCount();
+  markScrollers(el);
+  wireSectionSpy(el);
+  syncRailSourceCount(0, 'sources catalogued');
 }
 
 /* ============================================================================
@@ -4762,6 +5374,19 @@ function wireDelegates() {
       const act = cmpAct.getAttribute('data-cmp-action');
       if (act === 'csv') downloadCompareCsv();
       if (act === 'copy') copyCompareLink();
+      return;
+    }
+
+    if (t.closest('[data-scroll-top]')) {
+      e.preventDefault();
+      try {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+      } catch (err) { window.scrollTo(0, 0); }
+      const h1 = document.querySelector('.section__title, .view h1');
+      if (h1) {
+        h1.setAttribute('tabindex', '-1');
+        try { h1.focus({ preventScroll: true }); } catch (err) { /* noop */ }
+      }
       return;
     }
 
@@ -5075,5 +5700,5 @@ function syncCompareChips() {
     else b.removeAttribute('aria-disabled');
   });
   const count = document.querySelector('[data-head-count="cmp-count"]');
-  if (count) count.textContent = ' · ' + sel.length + ' of 4 selected';
+  if (count) count.textContent = sel.length + ' of 4 selected';
 }

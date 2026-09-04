@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T20:45:23.458Z",
+  "updated": "2026-09-04T22:27:24.062Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5372,
@@ -178,7 +178,7 @@
     ]
   },
   "huggingface": {
-    "distillModels": 16328,
+    "distillModels": 16329,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
@@ -299,7 +299,7 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 7067963,
-        "likes": 1119,
+        "likes": 1127,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
@@ -329,7 +329,7 @@
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
         "downloads": 581340,
-        "likes": 1021,
+        "likes": 1022,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
     ]
@@ -340,7 +340,7 @@
         "repo": "huggingface/trl",
         "stars": 19223,
         "forks": 2958,
-        "pushedAt": "2026-09-04T20:35:51Z",
+        "pushedAt": "2026-09-04T21:53:29Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -361,7 +361,7 @@
         "repo": "NVIDIA/NeMo",
         "stars": 18388,
         "forks": 3603,
-        "pushedAt": "2026-09-04T18:53:29Z",
+        "pushedAt": "2026-09-04T21:07:43Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
@@ -373,30 +373,30 @@
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 75621,
+        "stars": 75624,
         "forks": 6872,
-        "pushedAt": "2026-09-04T20:33:54Z",
+        "pushedAt": "2026-09-04T22:22:29Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
         "stars": 74577,
-        "forks": 9140,
+        "forks": 9141,
         "pushedAt": "2026-09-04T08:15:24Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 90975,
-        "forks": 21710,
-        "pushedAt": "2026-09-04T20:42:01Z",
+        "stars": 90979,
+        "forks": 21712,
+        "pushedAt": "2026-09-04T22:13:58Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 35469,
-        "forks": 8555,
-        "pushedAt": "2026-09-04T20:32:42Z",
+        "stars": 35476,
+        "forks": 8557,
+        "pushedAt": "2026-09-04T22:22:31Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
