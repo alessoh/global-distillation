@@ -1,0 +1,706 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://global-distillation.vercel.app/#website",
+      "url": "https://global-distillation.vercel.app/",
+      "name": "Global Distillation",
+      "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": [
+        "Organization",
+        "Project"
+      ],
+      "@id": "https://global-distillation.vercel.app/#org",
+      "name": "Global Distillation",
+      "url": "https://global-distillation.vercel.app/",
+      "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+      },
+      "sameAs": [
+        "https://github.com/alessoh/global-distillation"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://global-distillation.vercel.app/customer#webpage",
+      "url": "https://global-distillation.vercel.app/customer",
+      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "isPartOf": {
+        "@id": "https://global-distillation.vercel.app/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Knowledge distillation",
+        "sameAs": "https://en.wikipedia.org/wiki/Knowledge_distillation"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "width": 1200,
+        "height": 630
+      },
+      "breadcrumb": {
+        "@id": "https://global-distillation.vercel.app/customer#breadcrumb"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://global-distillation.vercel.app/customer#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Global Distillation",
+          "item": "https://global-distillation.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Customer",
+          "item": "https://global-distillation.vercel.app/customer"
+        }
+      ]
+    },
+    {
+      "@type": "Report",
+      "@id": "https://global-distillation.vercel.app/customer#article",
+      "headline": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
+      "articleBody": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself. Open weights have become the buyer's real leverage — DeepSeek V4 (MIT), Gemma 4 (Apache 2.0), Qwen3.8-27B (Apache 2.0) and Mistral Small 4 (Apache 2.0) all clear 71.2–90.1 GPQA Diamond with no per-token fee and no anti-distillation clause — which is why the Silicon Data enterprise inference index fell from $2.04/MTok on 31 May 2026 to $1.16–1.18 in early August. The three things that should drive the decision, in order, are: whether your traffic needs frontier-grade agentic reliability on more than 15% of calls;",
+      "articleSection": "Customer",
+      "url": "https://global-distillation.vercel.app/customer",
+      "mainEntityOfPage": {
+        "@id": "https://global-distillation.vercel.app/customer#webpage"
+      },
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "datePublished": "2026-09-04",
+      "dateModified": "2026-09-04",
+      "isPartOf": {
+        "@id": "https://global-distillation.vercel.app/#website"
+      },
+      "author": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "about": {
+        "@type": "Thing",
+        "name": "Knowledge distillation"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI API pricing",
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI API models reference",
+          "url": "https://developers.openai.com/api/docs/models",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-4o mini: advancing cost-efficient intelligence",
+          "url": "https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2024-07-18"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI GPT-5 System Card",
+          "url": "https://arxiv.org/pdf/2601.03267",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI / arXiv"
+          },
+          "datePublished": "2026-01"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI Services Agreement",
+          "url": "https://openai.com/policies/services-agreement/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2026-01-01"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-5.6 Sol model page",
+          "url": "https://openrouter.ai/openai/gpt-5.6-sol",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2026-07-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-5.6 Terra model page",
+          "url": "https://openrouter.ai/openai/gpt-5.6-terra",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2026-07-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-5.6 Luna model page",
+          "url": "https://openrouter.ai/openai/gpt-5.6-luna",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2026-07-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-5 mini model page",
+          "url": "https://openrouter.ai/openai/gpt-5-mini",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2025-08-07"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-5 nano model page",
+          "url": "https://openrouter.ai/openai/gpt-5-nano",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2025-08-07"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GPT-4o model page",
+          "url": "https://openrouter.ai/openai/gpt-4o",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2024-05-13"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "o4-mini model page",
+          "url": "https://openrouter.ai/openai/o4-mini",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenRouter"
+          },
+          "datePublished": "2025-04-16"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI ships GPT-5.4 mini and nano",
+          "url": "https://the-decoder.com/openai-ships-gpt-5-4-mini-and-nano-faster-and-more-capable-but-up-to-4x-pricier/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "The Decoder"
+          },
+          "datePublished": "2026-02"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "o4-mini: tests, features, o3 comparison, benchmarks",
+          "url": "https://www.datacamp.com/blog/o4-mini",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DataCamp"
+          },
+          "datePublished": "2025-04"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "gpt-oss-20b model card",
+          "url": "https://huggingface.co/openai/gpt-oss-20b",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI / Hugging Face"
+          },
+          "datePublished": "2025-08"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Claude platform pricing",
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Claude models overview",
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Claude Opus 5 model page",
+          "url": "https://platform.claude.com/docs/en/models/opus-5/overview",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2026-07-24"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Introducing Claude Sonnet 5",
+          "url": "https://www.anthropic.com/news/claude-sonnet-5",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2026-06-30"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Introducing Claude Haiku 4.5",
+          "url": "https://www.anthropic.com/news/claude-haiku-4-5",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-10-15"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic Commercial Terms of Service",
+          "url": "https://www.anthropic.com/legal/commercial-terms",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-06-17"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Claude Opus 5 by Anthropic: benchmarks and pricing",
+          "url": "https://datanorth.ai/news/claude-opus-5-by-anthropic",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DataNorth"
+          },
+          "datePublished": "2026-07"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Claude benchmarks 2026",
+          "url": "https://www.morphllm.com/claude-benchmarks",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Morph"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic launches Opus 5",
+          "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "TechCrunch"
+          },
+          "datePublished": "2026-07-24"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Gemini API pricing",
+          "url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Google"
+          },
+          "datePublished": "2026-09"
+        }
+      ]
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://global-distillation.vercel.app/data/customer.json#dataset",
+      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself.",
+      "url": "https://global-distillation.vercel.app/customer",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "creator": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "dateModified": "2026-09-04",
+      "temporalCoverage": "2024-07-18/2026-09-04",
+      "includedInDataCatalog": {
+        "@id": "https://global-distillation.vercel.app/data/#catalog"
+      },
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "name": "customer.json",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://global-distillation.vercel.app/data/customer.json"
+        }
+      ],
+      "variableMeasured": [
+        {
+          "@type": "PropertyValue",
+          "name": "Model"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Vendor"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Role"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Distilled?"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Teacher"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Input",
+          "unitText": "USD/MTok",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Output",
+          "unitText": "USD/MTok",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "GPQA-D",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "MMLU-Pro",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Coding"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Context",
+          "unitText": "K tokens",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Licence"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Tier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "GPQA Diamond",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Blended price",
+          "unitText": "USD/MTok",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "GPQA points per $",
+          "unitText": "pts/USD",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Cost / 1M requests",
+          "unitText": "USD",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Model (setting)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Time to first token",
+          "unitText": "s",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Output speed",
+          "unitText": "tokens/s",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "AA Intelligence Index",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Family"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Weights"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Self-host / air-gap"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Distil outputs?"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Data residency options"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Buyer note"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Teacher → student"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Relationship"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Benchmark"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Teacher",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Student",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Retention",
+          "unitText": "%",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Student price / teacher price (input)",
+          "unitText": "x",
+          "measurementTechnique": "Reported figure with a primary source"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://global-distillation.vercel.app/customer#glossary",
+      "name": "The buyer’s view of AI distillation: which small model to actually deploy — glossary",
+      "url": "https://global-distillation.vercel.app/customer#glossary",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "Knowledge distillation",
+          "description": "Training a small \"student\" model to reproduce the behaviour of a large \"teacher\" — either from its output text (black-box) or from its output probability distribution over tokens (white-box logit distillation).",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Teacher / student",
+          "description": "The large source model and the small target model in a distillation. AWS documents Nova Premier as a teacher to Nova Pro, Lite and Micro, and Nova Pro as a teacher to Lite and Micro.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Quality retention",
+          "description": "The student’s benchmark score as a percentage of the teacher’s on the same benchmark. Useful for buyers because it is scale-free, but it varies enormously by benchmark: broad knowledge retains worse than narrow maths.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Small sibling",
+          "description": "A cheaper tier released alongside a frontier model (mini, nano, Flash, Haiku, Luna) where the vendor has not publicly documented how it was built. Behaves like a distillation commercially whether or not it is one technically.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "k-sparse distillation",
+          "description": "Storing only the top-k entries of the teacher’s next-token probability distribution instead of the full vocabulary, to make logit distillation affordable at scale. Documented in the Gemini 2.5 technical report.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Codistillation",
+          "description": "Training several student models jointly against a shared teacher during the teacher’s own training run. Meta used this for Llama 4 Scout and Maverick against Llama 4 Behemoth.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Strong-to-weak distillation",
+          "description": "Alibaba’s two-phase Qwen3 pipeline: off-policy distillation on teacher outputs in both thinking and non-thinking modes, then on-policy distillation aligning student logits with a Qwen3-32B or 235B-A22B teacher by KL divergence.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "GPQA Diamond",
+          "description": "A 198-question set of graduate-level science problems written to be resistant to web search. The most commonly quoted knowledge benchmark for 2025–26 frontier models.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "MMLU-Pro",
+          "description": "A harder, ten-choice successor to MMLU with more reasoning-heavy questions. Scores are typically 10–20 points below MMLU for the same model, so the two are not interchangeable in a comparison table.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SWE-bench Verified",
+          "description": "A 500-issue human-validated subset of SWE-bench measuring whether a model can resolve a real GitHub issue end to end. The benchmark where distilled tiers lose the most ground.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Time to first token (TTFT)",
+          "description": "Latency from request to first streamed token. On reasoning models it now includes thinking time, so a \"fast\" model at high effort can measure slower than a \"slow\" model at low effort.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Blended price",
+          "description": "A single price per million tokens computed as 0.75 x input + 0.25 x output, the 3:1 weighting Artificial Analysis uses. Handy for ranking, misleading for workloads with unusual input:output ratios.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Prompt caching",
+          "description": "Charging a reduced rate for repeated prefix tokens. Cache reads cost 10% of base input on most Claude models and 2.5% on Fable 5.1; OpenAI caches at roughly 10% of input. Often a larger saving than switching model tiers.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Anti-distillation clause",
+          "description": "Contract language barring customers from using a vendor’s outputs to train a competing model. Anthropic’s Commercial Terms D.4 and OpenAI’s Services Agreement both contain one; MIT and Apache 2.0 open-weight models do not.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Model tiering / routing",
+          "description": "Sending most traffic to a cheap model and escalating only hard requests to a frontier tier. The dominant 2026 cost-control pattern and the main practical way distillation shows up on a buyer’s invoice.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Effective parameters",
+          "description": "For MoE and Matformer-style models, the parameters actually activated per token (e.g. Gemma 4 26B A4B activates 3.8B of 25.2B; DeepSeek-V4-Flash activates 13B of 284B). Determines serving cost far more than total parameter count.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/customer#glossary"
+          }
+        }
+      ]
+    }
+  ]
+}

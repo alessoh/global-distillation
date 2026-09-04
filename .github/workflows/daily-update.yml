@@ -48,11 +48,36 @@ jobs:
           # Raises the GitHub API rate limit for the repo-stats source; optional.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and push if data/live.json changed
+      # Rebuilds the crawlable layer: one real HTML page per route under <route>/index.html,
+      # plus sitemap.xml. Must run after the data refresh above so the static copy of every
+      # figure, and the lastmod dates, match the JSON that ships with it.
+      - name: Prerender the routes and the sitemap
+        run: node scripts/prerender.mjs
+
+      # Regenerates the machine-facing artefacts from data/*.json: llms.txt, the full-text
+      # digest, and the question/answer pairs. Must run after the data refresh above, and
+      # after any prerender step that also writes llms.txt, so that this version wins.
+      - name: Generate llms.txt, llms-full.txt and answers.json
+        run: node scripts/gen-llms.mjs
+
+      # Refreshes the structured data: the JSON-LD graph inlined in index.html (which carries
+      # dateModified and per-dataset summaries, so it goes stale the moment the data moves)
+      # and assets/schema/<route>.json. Order relative to the prerender step does not matter -
+      # prerender computes its own head block from gen-schema.mjs at run time - but this must
+      # run after the data refresh.
+      - name: Refresh the JSON-LD graph and the schema files
+        run: node scripts/gen-schema.mjs --inline
+
+      - name: Validate the structured data
+        run: node scripts/validate-jsonld.mjs
+
+      - name: Commit and push if the data or generated files changed
         run: |
-          git add data/live.json
+          git add data/live.json llms.txt llms-full.txt data/answers.json sitemap.xml robots.txt
+          git add index.html assets/schema
+          git add overview academic financial political company developer customer library timeline compare methodology
           if git diff --cached --quiet; then
-            echo "data/live.json unchanged; nothing to commit"
+            echo "no data or generated-file changes; nothing to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"

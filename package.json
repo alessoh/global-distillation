@@ -6,8 +6,12 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "update-data": "node scripts/update-data.mjs",
+    "prerender": "node scripts/prerender.mjs",
+    "build:static": "node scripts/update-data.mjs && node scripts/prerender.mjs && node scripts/gen-llms.mjs && node scripts/gen-schema.mjs --inline && node scripts/validate-jsonld.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "seo": "node scripts/seo.mjs",
+    "gen-llms": "node scripts/gen-llms.mjs",
+    "gen-schema": "node scripts/gen-schema.mjs --inline",
+    "validate": "node scripts/validate-jsonld.mjs",
     "shot": "node scripts/screenshot.mjs"
   },
   "devDependencies": {

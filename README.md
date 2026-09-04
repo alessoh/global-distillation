@@ -95,7 +95,11 @@ prerendering. To browse the site without it, skip the install and run `node scri
 | `npm start` | Serve the site at http://localhost:4173 |
 | `npm run update-data` | Refresh `data/live.json` from arXiv, Hugging Face, GitHub and Hacker News |
 | `npm run smoke` | Walk every route and interaction, failing on any console error |
-| `npm run seo` | Prerender each route to static HTML and regenerate `sitemap.xml` and `llms.txt` |
+| `npm run prerender` | Write one crawlable static HTML page per route, the home page body and `sitemap.xml` |
+| `npm run gen-llms` | Regenerate `llms.txt`, `llms-full.txt` and `data/answers.json` |
+| `npm run gen-schema` | Refresh the JSON-LD graph in `index.html` and `assets/schema/*.json` |
+| `npm run validate` | Check every JSON-LD block, canonical and Open Graph tag |
+| `npm run build:static` | All of the above, in the order the daily workflow runs them |
 | `npm run shot -- <url> <out.png> --full` | Screenshot a page for review |
 
 Playwright needs its browser once: `npx playwright install chromium`.

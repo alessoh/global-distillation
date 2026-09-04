@@ -9,7 +9,7 @@ const port = Number(process.argv[2] || process.env.PORT || 4173);
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.ico': 'image/x-icon', '.md': 'text/markdown; charset=utf-8',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.ico': 'image/x-icon', '.md': 'text/markdown; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
 };
 
 http.createServer((req, res) => {
@@ -19,6 +19,13 @@ http.createServer((req, res) => {
   if (!file.startsWith(root)) { res.writeHead(403); return res.end(); }
   fs.stat(file, (err, st) => {
     if (err || !st.isFile()) {
+      // A directory URL resolves to its index.html, the way Vercel's cleanUrls
+      // serves the prerendered pages: /academic is academic/index.html.
+      const dirIndex = path.join(file, 'index.html');
+      if (!path.extname(urlPath) && fs.existsSync(dirIndex)) {
+        res.writeHead(200, { 'content-type': types['.html'], 'cache-control': 'no-store' });
+        return fs.createReadStream(dirIndex).pipe(res);
+      }
       // SPA fallback
       const index = path.join(root, 'index.html');
       if (fs.existsSync(index) && !path.extname(urlPath)) {

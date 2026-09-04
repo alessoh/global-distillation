@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology — Global Distillation</title>
+<meta name="description" content="How this compendium is built: where every number comes from, what counts as a distilled model, how often each stream refreshes, and what it cannot tell you.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FAF8F4">
+<meta property="og:title" content="Methodology — Global Distillation">
+<meta property="og:description" content="How this compendium is built: where every number comes from, what counts as a distilled model, how often each stream refreshes, and what it cannot tell you.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/json" href="/data/live.json" title="Global Distillation live signals">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="Global Distillation for language models">
+<link rel="alternate" type="text/plain" href="/llms-full.txt" title="Global Distillation full-text digest">
+<link rel="alternate" type="application/json" href="/data/answers.json" title="Global Distillation question and answer pairs">
+
+<!-- per-page-meta:start (written by scripts/prerender.mjs) -->
+<link rel="canonical" href="https://global-distillation.vercel.app/methodology">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:url" content="https://global-distillation.vercel.app/methodology">
+<meta property="og:site_name" content="Global Distillation">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://global-distillation.vercel.app/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Global Distillation: how frontier intelligence is compressed, priced and contested — with the headline figure from the customer data and the date it was last updated.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Methodology — Global Distillation">
+<meta name="twitter:description" content="How this compendium is built: where every number comes from, what counts as a distilled model, how often each stream refreshes, and what it cannot tell you.">
+<meta name="twitter:image" content="https://global-distillation.vercel.app/assets/og.png">
+<meta name="twitter:image:alt" content="Global Distillation: how frontier intelligence is compressed, priced and contested — with the headline figure from the customer data and the date it was last updated.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://global-distillation.vercel.app/#website","url":"https://global-distillation.vercel.app/","name":"Global Distillation","description":"How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","publisher":{"@id":"https://global-distillation.vercel.app/#org"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://global-distillation.vercel.app/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":["Organization","Project"],"@id":"https://global-distillation.vercel.app/#org","name":"Global Distillation","url":"https://global-distillation.vercel.app/","description":"How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.","logo":{"@type":"ImageObject","url":"https://global-distillation.vercel.app/assets/favicon.svg"},"sameAs":["https://github.com/alessoh/global-distillation"]},{"@type":"CollectionPage","@id":"https://global-distillation.vercel.app/methodology#webpage","url":"https://global-distillation.vercel.app/methodology","name":"Methodology","description":"How this compendium is built: where every number comes from, what counts as a distilled model, how often each stream refreshes, and what it cannot tell you.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","isPartOf":{"@id":"https://global-distillation.vercel.app/#website"},"about":{"@type":"Thing","name":"Knowledge distillation","sameAs":"https://en.wikipedia.org/wiki/Knowledge_distillation"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://global-distillation.vercel.app/assets/og.png","width":1200,"height":630},"breadcrumb":{"@id":"https://global-distillation.vercel.app/methodology#breadcrumb"},"dateModified":"2026-09-04"},{"@type":"BreadcrumbList","@id":"https://global-distillation.vercel.app/methodology#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Global Distillation","item":"https://global-distillation.vercel.app/"},{"@type":"ListItem","position":2,"name":"Methodology","item":"https://global-distillation.vercel.app/methodology"}]}]}</script>
+<!-- per-page-meta:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/vendor/katex.min.css">
+<link rel="stylesheet" href="/assets/css/app.css">
+<script type="module" src="/assets/js/meta.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a class="nav__brand" href="#/overview">
+      <svg class="nav__mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <circle cx="11" cy="11" r="9.25" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="11" cy="11" r="3.4" fill="currentColor"/>
+        <path d="M11 1.75 A9.25 9.25 0 0 1 11 20.25" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".35"/>
+      </svg>
+      <span class="nav__word">Global <em>Distillation</em></span>
+    </a>
+    <nav class="nav__links" id="nav-links" aria-label="Perspectives"><a class="nav__link" href="/overview">Overview</a><a class="nav__link" href="/academic">Academic</a><a class="nav__link" href="/financial">Financial</a><a class="nav__link" href="/political">Political</a><a class="nav__link" href="/company">Company</a><a class="nav__link" href="/developer">Developer</a><a class="nav__link" href="/customer">Customer</a><a class="nav__link" href="/library">Library</a><a class="nav__link" href="/timeline">Timeline</a></nav>
+    <div class="nav__actions">
+      <button class="nav__search" id="open-palette" type="button" aria-label="Search models, methods and events">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.2 9.2 12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Search</span><kbd class="nav__kbd" id="kbd-hint">⌘K</kbd>
+      </button>
+      <a class="btn btn--primary" href="#/compare">Compare</a>
+      <button class="nav__menu" id="open-rail" type="button" aria-label="Open section menu" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- ============================ RAIL ============================ -->
+  <aside class="rail" id="rail" aria-label="Sections">
+    <p class="rail__heading">Perspectives</p>
+    <ul class="rail__list" id="rail-list"><li><a class="rail__item" href="/overview"><span class="rail__num">00</span><span class="rail__text"><span class="rail__name">Overview</span><span class="rail__sub">Key figures, one page</span></span></a></li><li><a class="rail__item" href="/academic"><span class="rail__num">01</span><span class="rail__text"><span class="rail__name">Academic</span><span class="rail__sub">Papers, benchmarks, retention</span></span></a></li><li><a class="rail__item" href="/financial"><span class="rail__num">02</span><span class="rail__text"><span class="rail__name">Financial</span><span class="rail__sub">Token prices, training cost</span></span></a></li><li><a class="rail__item" href="/political"><span class="rail__num">03</span><span class="rail__text"><span class="rail__name">Political</span><span class="rail__sub">Regulation, export controls</span></span></a></li><li><a class="rail__item" href="/company"><span class="rail__num">04</span><span class="rail__text"><span class="rail__name">Company</span><span class="rail__sub">Terms of service, disputes</span></span></a></li><li><a class="rail__item" href="/developer"><span class="rail__num">05</span><span class="rail__text"><span class="rail__name">Developer</span><span class="rail__sub">Tooling, recipes, platforms</span></span></a></li><li><a class="rail__item" href="/customer"><span class="rail__num">06</span><span class="rail__text"><span class="rail__name">Customer</span><span class="rail__sub">What to buy, at what price</span></span></a></li></ul>
+    <p class="rail__heading rail__heading--ref">Reference</p>
+    <ul class="rail__list" id="rail-list-ref"><li><a class="rail__item" href="/library"><span class="rail__num">07</span><span class="rail__text"><span class="rail__name">Library</span><span class="rail__sub">Distillation methods explained</span></span></a></li><li><a class="rail__item" href="/timeline"><span class="rail__num">08</span><span class="rail__text"><span class="rail__name">Timeline</span><span class="rail__sub">2006 to today</span></span></a></li><li><a class="rail__item" href="/compare"><span class="rail__num">09</span><span class="rail__text"><span class="rail__name">Compare</span><span class="rail__sub">Build your own comparison</span></span></a></li></ul>
+    <div class="rail__foot" id="rail-foot"></div>
+  </aside>
+  <div class="rail__scrim" id="rail-scrim" hidden></div>
+
+  <!-- ============================ MAIN ============================ -->
+  <main class="main" id="main" tabindex="-1">
+
+    <!-- HERO (overview only) -->
+    <section class="hero" id="hero" data-route="overview" hidden>
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="eyebrow__dot"></span><span id="hero-eyebrow">A public compendium · updated daily</span></p>
+        <p class="hero__title">How frontier intelligence is <em>compressed, priced,</em> and <em>contested.</em></p>
+        <p class="hero__standfirst">Distillation moves capability from a large teacher model into a small, cheap student. It is the quiet engine behind most models people actually pay for, the subject of an open dispute between the largest labs, and a live regulatory question in three jurisdictions. This compendium tracks all of it.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#/library">Browse the method library</a>
+          <a class="btn btn--link" href="#/methodology">Read the methodology</a>
+        </div>
+        <dl class="hero__facts" id="hero-facts"></dl>
+      </div>
+      <figure class="hero__figure">
+        <div class="hero__canvas" id="hero-canvas" role="img" aria-label="A dense teacher network on the left transferring soft targets along curved paths into a smaller student network on the right."></div>
+        <figcaption class="hero__legend" id="hero-legend"></figcaption>
+      </figure>
+    </section>
+
+    <!-- Rendered sections mount here -->
+    <div id="view" class="view" aria-live="polite"><section class="section" data-perspective="methodology"><header class="section__head"><div><p class="eyebrow"><span class="eyebrow__dot"></span>Methodology · 8 of 8 files published · 599 catalogued sources</p><h1 class="section__title">How this compendium is built</h1><p class="section__standfirst">Every figure on this site comes from a primary source that you can open in one click. Figures that could not be verified are written as undisclosed rather than estimated.</p></div></header><div class="prose"><div class="prose__block"><h2 class="prose__head">What this is</h2><p>Global Distillation is a compendium of one technique: training a small student model on the behaviour of a large teacher. The same technique is a research method, a product line, a pricing strategy, a contract term and, since 2025, an accusation. Each of those readings gets its own section, built from the same catalogue of sources.</p><p>The site is static. Perspective research is written into JSON files that follow a published schema; the browser fetches them and renders every table and chart from the same data a reader can download. There is no server-side model, no summarisation step between the source and the figure, and no number that exists only in a chart.</p></div><div class="prose__block"><h2 class="prose__head">Where the numbers come from</h2><p>Sources are ranked in this order: the paper or technical report; the vendor’s own model card, pricing page or terms of service; a filing, statute or official memorandum; then reporting by a named outlet. A claim that exists only in reporting is attributed to whoever made it, in the text, not presented as fact.</p><p>Prices are list prices for the standard tier on the date shown, in US dollars per million tokens, excluding batch, cache and volume discounts, because those vary by contract. Benchmark scores are the figures the model’s own authors published, which is a real limitation: labs choose their comparisons. Where an independent reproduction exists, both are shown.</p><p>Download counts, star counts and paper counts are activity measures collected from public APIs. They measure attention, not quality, and they are labelled that way wherever they appear.</p></div><div class="prose__block"><h2 class="prose__head">What this method cannot tell you</h2><p>Three of the most interesting questions are unanswerable from public evidence, and this site does not pretend otherwise: whether a given closed small model was distilled, what a training run really cost, and whether a particular model was trained on a competitor’s outputs. Evidence offered in public disputes is circumstantial and is reported here as a claim by a named party, with its rebuttal.</p><p>Benchmark retention percentages compare a student against its own teacher on one benchmark. They do not transfer across benchmarks, and they say nothing about robustness, long-context behaviour, or how a model degrades outside the distribution it was distilled on.</p></div></div><div class="panel-stack"><div class="panel" id="table-methodology-classification"><div class="panel__head"><h3 class="panel__title">How a model is classified as distilled</h3><span class="panel__unit">3 rows</span></div><div class="panel__body panel__body--flush"><div class="table-wrap table-wrap--auto" tabindex="0" role="region" aria-label="How a model is classified as distilled, scrollable table"><table class="table"><caption>How a model is classified as distilled — Three levels of evidence. A model is never moved up a level by inference.</caption><thead><tr><th scope="col">Level</th><th scope="col">What it takes</th><th scope="col">Shown as</th></tr></thead><tbody><tr><th scope="row">Stated</th><td>The vendor says so in a technical report, model card or launch post.</td><td>distilled</td></tr><tr><th scope="row">Documented method</th><td>A paper or repository describes the exact procedure and the teacher, even if the vendor avoids the word.</td><td>distilled (method)</td></tr><tr><th scope="row">Undisclosed</th><td>A small tier is widely assumed to be distilled but the vendor has never said and no paper describes it.</td><td>undisclosed</td></tr></tbody></table></div></div><p class="panel__note">The third level is deliberately not counted in any figure on this site.</p></div><div class="panel" id="table-methodology-cadence"><div class="panel__head"><h3 class="panel__title">Update cadence</h3><span class="panel__unit">6 rows</span></div><div class="panel__body panel__body--flush"><div class="table-wrap table-wrap--auto" tabindex="0" role="region" aria-label="Update cadence, scrollable table"><table class="table"><caption>Update cadence — What changes daily, and what changes when the research is redone.</caption><thead><tr><th scope="col">Data stream</th><th scope="col">Cadence</th><th scope="col">How it is collected</th></tr></thead><tbody><tr><th scope="row">arXiv paper counts and new preprints</th><td>Daily, 06:17 UTC</td><td>arXiv API query for knowledge distillation, counted per year and for the last 30 days.</td></tr><tr><th scope="row">Hugging Face downloads</th><td>Daily, 06:17 UTC</td><td>Hub API, 30-day download totals for a fixed watchlist.</td></tr><tr><th scope="row">Repository stars</th><td>Daily, 06:17 UTC</td><td>GitHub API for the training, serving and evaluation repositories used in distillation work.</td></tr><tr><th scope="row">News and Hacker News items</th><td>Daily, 06:17 UTC</td><td>Search of Hacker News and named outlets; items are listed, never summarised into a claim.</td></tr><tr><th scope="row">Perspective research files</th><td>On revision</td><td>Rewritten end to end when a perspective is revisited; each file carries its own compiled date.</td></tr><tr><th scope="row">Prices and terms of service</th><td>On revision, checked against the vendor page</td><td>List prices for the standard tier on the date given in the row; batch and cache discounts excluded.</td></tr></tbody></table></div></div><p class="panel__note">A figure is never carried forward silently. If a stream fails, the panel says so rather than showing yesterday’s number.</p><p class="panel__sources">Sources: <a href="https://info.arxiv.org/help/api/user-manual.html" target="_blank" rel="noopener">info.arxiv.org</a> · <a href="https://huggingface.co/docs/hub/api" target="_blank" rel="noopener">huggingface.co</a> · <a href="https://docs.github.com/en/rest/repos/repos" target="_blank" rel="noopener">docs.github.com</a> · <a href="https://hn.algolia.com/api" target="_blank" rel="noopener">hn.algolia.com</a></p></div><div class="panel" id="table-methodology-files"><div class="panel__head"><h3 class="panel__title">What each data file contains</h3><span class="panel__unit">8 rows</span></div><div class="panel__body panel__body--flush"><div class="table-wrap table-wrap--auto" tabindex="0" role="region" aria-label="What each data file contains, scrollable table"><table class="table"><caption>What each data file contains — One JSON file per perspective, validated against data/SCHEMA.md before it is served. — Units: Sources in sources.</caption><thead><tr><th scope="col">File</th><th scope="col">Contains</th><th scope="col">Status</th><th scope="col" class="num">Sources <small class="th__unit">sources</small></th><th scope="col">Compiled</th></tr></thead><tbody><tr><th scope="row">data/academic.json</th><td>Papers, benchmark retention, reproductions</td><td>published</td><td class="num">48</td><td>4 September 2026</td></tr><tr><th scope="row">data/financial.json</th><td>Token prices, training-run costs, market events</td><td>published</td><td class="num">63</td><td>3 September 2026</td></tr><tr><th scope="row">data/political.json</th><td>Statutes, memoranda, export controls, disputes</td><td>published</td><td class="num">100</td><td>4 September 2026</td></tr><tr><th scope="row">data/company.json</th><td>Corporate stance, products, terms of service</td><td>published</td><td class="num">75</td><td>3 September 2026</td></tr><tr><th scope="row">data/developer.json</th><td>Libraries, platforms, GPU budgets, recipes</td><td>published</td><td class="num">58</td><td>3 September 2026</td></tr><tr><th scope="row">data/customer.json</th><td>Buying guidance, model specifications</td><td>published</td><td class="num">78</td><td>4 September 2026</td></tr><tr><th scope="row">data/library.json</th><td>Distillation methods, formulas, trade-offs</td><td>published</td><td class="num">66</td><td>4 September 2026</td></tr><tr><th scope="row">data/timeline.json</th><td>Every dated event, 2006 to today</td><td>published</td><td class="num">111</td><td>3 September 2026</td></tr></tbody></table></div></div><p class="panel__note">Counts are of catalogued primary sources, not of citations: one source is often cited by several figures.</p><p class="panel__sources">Sources: <a href="https://global-distillation.vercel.app/data/SCHEMA.md" target="_blank" rel="noopener">global-distillation.vercel.app</a></p></div></div><h2 class="subhead" id="sec-sources">Sources for this page<span class="dim"> · 12 endpoints</span></h2><ul class="sources"><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/academic.json">data/academic.json</a></span><span class="source__meta">Papers, benchmark retention, reproductions · 48 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/financial.json">data/financial.json</a></span><span class="source__meta">Token prices, training-run costs, market events · 63 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/political.json">data/political.json</a></span><span class="source__meta">Statutes, memoranda, export controls, disputes · 100 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/company.json">data/company.json</a></span><span class="source__meta">Corporate stance, products, terms of service · 75 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/developer.json">data/developer.json</a></span><span class="source__meta">Libraries, platforms, GPU budgets, recipes · 58 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/customer.json">data/customer.json</a></span><span class="source__meta">Buying guidance, model specifications · 78 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/library.json">data/library.json</a></span><span class="source__meta">Distillation methods, formulas, trade-offs · 66 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/timeline.json">data/timeline.json</a></span><span class="source__meta">Every dated event, 2006 to today · 111 catalogued sources</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/SCHEMA.md">data/SCHEMA.md</a></span><span class="source__meta">The schema every data file is validated against</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/data/live.json">data/live.json</a></span><span class="source__meta">The daily signals feed, refreshed 06:17 UTC</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://github.com/alessoh/global-distillation">Source repository</a></span><span class="source__meta">Every generator that builds this site, including scripts/prerender.mjs</span></span></li><li class="source"><span class="source__body"><span class="source__title"><a href="https://global-distillation.vercel.app/LICENSE">Licence</a></span><span class="source__meta">MIT — free to quote, excerpt and redistribute with attribution</span></span></li></ul></section></div>
+
+    <footer class="foot">
+      <div class="foot__grid">
+        <div>
+          <p class="foot__word">Global <em>Distillation</em></p>
+          <p class="foot__note" id="foot-updated"></p>
+        </div>
+        <div class="foot__col">
+          <p class="foot__head">Method</p>
+          <p class="foot__note">Every figure links to a primary source: papers, model cards, official pricing pages, filings and public statements. Figures that could not be verified are marked undisclosed rather than estimated.</p>
+        </div>
+        <div class="foot__col">
+          <p class="foot__head">Live data</p>
+          <p class="foot__note" id="foot-live">Paper counts, model downloads, repository stars and news are refreshed daily at 06:17 UTC.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- ============================ DRAWER ============================ -->
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <button class="drawer__close" type="button" data-close-drawer aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="drawer__body" id="drawer-body"><h2 id="drawer-title"></h2></div>
+  </div>
+</div>
+
+<!-- ============================ PALETTE ============================ -->
+<div class="palette" id="palette" hidden>
+  <div class="palette__scrim" data-close-palette></div>
+  <div class="palette__panel" role="dialog" aria-modal="true" aria-label="Search">
+    <input class="palette__input" id="palette-input" type="text" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list" placeholder="Search models, methods, events, companies…" autocomplete="off" spellcheck="false">
+    <ul class="palette__list" id="palette-list" role="listbox"></ul>
+    <p class="palette__hint"><kbd>↑</kbd><kbd>↓</kbd> to navigate · <kbd>↵</kbd> to open · <kbd>esc</kbd> to close</p>
+  </div>
+</div>
+
+<script>(function(){if(!location.hash){try{history.replaceState(null,"",location.pathname+location.search+"#/methodology");}catch(e){location.hash="#/methodology";}}})();</script>
+<script src="/vendor/echarts.min.js"></script>
+<script src="/vendor/katex.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "/vendor/three.module.min.js" } }
+</script>
+<script type="module" src="/assets/js/app.js"></script>
+</body>
+</html>

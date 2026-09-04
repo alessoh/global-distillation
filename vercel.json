@@ -4,6 +4,7 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/data/(.*)\\.json",
@@ -19,11 +20,28 @@
       ]
     },
     {
-      "source": "/(sitemap.xml|robots.txt|llms.txt)",
+      "source": "/sitemap.xml",
       "headers": [
         {
           "key": "cache-control",
           "value": "public, max-age=600, s-maxage=3600"
+        },
+        {
+          "key": "access-control-allow-origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.txt",
+      "headers": [
+        {
+          "key": "content-type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "cache-control",
+          "value": "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"
         },
         {
           "key": "access-control-allow-origin",
@@ -51,6 +69,15 @@
     },
     {
       "source": "/index.html",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/:route(overview|academic|financial|political|company|developer|customer|library|timeline|compare|methodology)",
       "headers": [
         {
           "key": "cache-control",

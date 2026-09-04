@@ -25,4 +25,12 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
+# Plain-text digests for language models and answer engines, per the llms.txt
+# convention: an index at /llms.txt and the whole compendium at /llms-full.txt.
+# Question and answer pairs, each carrying its own source URLs, at
+# /data/answers.json. All three are generated from the same JSON as the pages.
+#   https://global-distillation.vercel.app/llms.txt
+#   https://global-distillation.vercel.app/llms-full.txt
+#   https://global-distillation.vercel.app/data/answers.json
+
 Sitemap: https://global-distillation.vercel.app/sitemap.xml

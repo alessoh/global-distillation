@@ -1,0 +1,689 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://global-distillation.vercel.app/#website",
+      "url": "https://global-distillation.vercel.app/",
+      "name": "Global Distillation",
+      "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": [
+        "Organization",
+        "Project"
+      ],
+      "@id": "https://global-distillation.vercel.app/#org",
+      "name": "Global Distillation",
+      "url": "https://global-distillation.vercel.app/",
+      "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+      },
+      "sameAs": [
+        "https://github.com/alessoh/global-distillation"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://global-distillation.vercel.app/company#webpage",
+      "url": "https://global-distillation.vercel.app/company",
+      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "isPartOf": {
+        "@id": "https://global-distillation.vercel.app/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Knowledge distillation",
+        "sameAs": "https://en.wikipedia.org/wiki/Knowledge_distillation"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "width": 1200,
+        "height": 630
+      },
+      "breadcrumb": {
+        "@id": "https://global-distillation.vercel.app/company#breadcrumb"
+      },
+      "dateModified": "2026-09-03"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://global-distillation.vercel.app/company#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Global Distillation",
+          "item": "https://global-distillation.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Company",
+          "item": "https://global-distillation.vercel.app/company"
+        }
+      ]
+    },
+    {
+      "@type": "Report",
+      "@id": "https://global-distillation.vercel.app/company#article",
+      "headline": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
+      "articleBody": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation. The same companies police distillation of their own outputs through terms-of-service clauses - OpenAI, Anthropic, Google, xAI and Cohere all bar training competing models - and the dispute escalated from OpenAI's January 2025 claims against DeepSeek to Anthropic's February 2026 report of 24,000 fraudulent accounts, its June 2026 letter to the Senate Banking Committee alleging a 28.8-million-interaction campaign by Alibaba, and White House memorandum NSTM-4 in April 2026.",
+      "articleSection": "Company",
+      "url": "https://global-distillation.vercel.app/company",
+      "mainEntityOfPage": {
+        "@id": "https://global-distillation.vercel.app/company#webpage"
+      },
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "datePublished": "2026-09-03",
+      "dateModified": "2026-09-03",
+      "isPartOf": {
+        "@id": "https://global-distillation.vercel.app/#website"
+      },
+      "author": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "about": {
+        "@type": "Thing",
+        "name": "Knowledge distillation"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Model Distillation in the API",
+          "url": "https://openai.com/index/api-model-distillation/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2024-10-01"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI updates API with model distillation, prompt caching abilities",
+          "url": "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "InfoWorld"
+          },
+          "datePublished": "2024-10-03"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI Terms of Use (Rest of World)",
+          "url": "https://openai.com/policies/row-terms-of-use/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2025"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Be Careful With OpenAI's Terms of Use",
+          "url": "https://ospo.co/blog/be-careful-with-openais-terms-of-use/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OSPOCO"
+          },
+          "datePublished": "2024"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI API pricing",
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2026-09"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Supervised fine-tuning: distilling from a larger model",
+          "url": "https://developers.openai.com/api/docs/guides/supervised-fine-tuning",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI"
+          },
+          "datePublished": "2026"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Memo to US House Select Committee: Updated Stakes for American-Led, Democratic AI",
+          "url": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
+          "publisher": {
+            "@type": "Organization",
+            "name": "OpenAI (via Bloomberg)"
+          },
+          "datePublished": "2026-02-12"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI Accuses China's DeepSeek of Distilling US AI Models to Gain an Edge",
+          "url": "https://www.bloomberg.com/news/articles/2026-02-12/openai-accuses-deepseek-of-distilling-us-models-to-gain-an-edge",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Bloomberg"
+          },
+          "datePublished": "2026-02-12"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI accuses DeepSeek of malpractice ahead of AI launch",
+          "url": "https://restofworld.org/2026/openai-deepseek-distillation-dispute-us-china/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Rest of World"
+          },
+          "datePublished": "2026-02-12"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "The Innovation Dilemma: AI Distillation in OpenAI v. DeepSeek",
+          "url": "https://sites.law.berkeley.edu/thenetwork/2025/03/30/the-innovation-dilemma-ai-distillation-in-openai-v-deepseek/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Berkeley Law"
+          },
+          "datePublished": "2025-03-30"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI Alleges China's DeepSeek Stole its IP to Train its Own Models",
+          "url": "https://www.fdd.org/analysis/2026/02/13/openai-alleges-chinas-deepseek-stole-its-intellectual-property-to-train-its-own-models/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "FDD"
+          },
+          "datePublished": "2026-02-13"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Detecting and preventing distillation attacks",
+          "url": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2026-02-23"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic accuses Chinese labs of trying to illicitly take Claude's capabilities",
+          "url": "https://cyberscoop.com/anthropic-accuses-chinese-labs-ai-distillation-cyber-risk/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CyberScoop"
+          },
+          "datePublished": "2026-02-23"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Updating restrictions of sales to unsupported regions",
+          "url": "https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-09-04"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic tightens AI access rules, targeting Chinese-controlled entities",
+          "url": "https://www.crnasia.com/news/2025/artificial-intelligence/anthropic-tightens-ai-access-rules",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CRN Asia"
+          },
+          "datePublished": "2025-09-05"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic Commercial Terms of Service",
+          "url": "https://www.anthropic.com/legal/commercial-terms",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-06-17"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic Consumer Terms of Service",
+          "url": "https://www.anthropic.com/legal/consumer-terms",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-10-08"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Introducing Claude Haiku 4.5",
+          "url": "https://www.anthropic.com/news/claude-haiku-4-5",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Anthropic"
+          },
+          "datePublished": "2025-10-15"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic accuses Alibaba of campaign to 'brazenly' and 'illicitly' distill Claude",
+          "url": "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CNBC"
+          },
+          "datePublished": "2026-06-24"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Alibaba reportedly bans employees from using Claude Code",
+          "url": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "TechCrunch"
+          },
+          "datePublished": "2026-07-04"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "White House official accuses Chinese startup of distilling Anthropic's model",
+          "url": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CyberScoop"
+          },
+          "datePublished": "2026-07-22"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Anthropic's distillation battle turns to the dark web as China concerns swell",
+          "url": "https://www.cnbc.com/2026/09/03/anthropic-distillation-battle-turns-to-dark-web-china-concerns-swell.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CNBC"
+          },
+          "datePublished": "2026-09-03"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "White House accuses China of 'deliberate, industrial-scale' campaigns to steal US AI models",
+          "url": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Nextgov"
+          },
+          "datePublished": "2026-04-23"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "White House accuses China of industrial-scale theft of US AI frontier models",
+          "url": "https://interestingengineering.com/ai-robotics/ai-war-white-house-accuses-china-of-industrial-scale-theft-of-us-ai-frontier-models",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Interesting Engineering"
+          },
+          "datePublished": "2026-04-23"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "OpenAI, Anthropic, Google join forces against China",
+          "url": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Tech Brew (citing Bloomberg)"
+          },
+          "datePublished": "2026-04-07"
+        }
+      ]
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://global-distillation.vercel.app/data/company.json#dataset",
+      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation.",
+      "url": "https://global-distillation.vercel.app/company",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "creator": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "publisher": {
+        "@id": "https://global-distillation.vercel.app/#org"
+      },
+      "dateModified": "2026-09-03",
+      "temporalCoverage": "2024-05-14/2026-10-15",
+      "includedInDataCatalog": {
+        "@id": "https://global-distillation.vercel.app/data/#catalog"
+      },
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "name": "company.json",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://global-distillation.vercel.app/data/company.json"
+        }
+      ],
+      "variableMeasured": [
+        {
+          "@type": "PropertyValue",
+          "name": "Company"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "HQ"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Uses distillation (documented)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Sells distillation tooling"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Bans distillation of its outputs"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Publicly accused"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Public accuser"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Open weights"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Stance"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Teacher"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Student"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Student params (B)",
+          "unitText": "B",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Method"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Release"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Document"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Clause (quoted)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Effect on distillation"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Date"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Product"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Vendor"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Launched"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Teachers"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Students"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Status (2026-09)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Accuser"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Accused"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Exchanges / queries claimed",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Accounts claimed",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Claim"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Outcome"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Model"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Metric"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Distilled",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Baseline",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Unit"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Tier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Input $/1M",
+          "unitText": "USD",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Output $/1M",
+          "unitText": "USD",
+          "measurementTechnique": "Reported figure with a primary source"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Distilled?"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://global-distillation.vercel.app/company#glossary",
+      "name": "Company view of AI distillation: who uses it, who sells it, who polices it — glossary",
+      "url": "https://global-distillation.vercel.app/company#glossary",
+      "inLanguage": "en",
+      "license": "https://opensource.org/licenses/MIT",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "Knowledge distillation (KD)",
+          "description": "Training a smaller student model to match a larger teacher's output distribution (soft targets / logits) rather than only ground-truth labels; introduced by Hinton et al. 2015 and cited by Gemma 2, Gemma 3 and Llama 3.2 reports.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Strong-to-weak distillation",
+          "description": "Qwen3's term for training its 0.6B-30B models from Qwen3-235B-A22B / Qwen3-32B teachers, first off-policy (on teacher outputs) then on-policy (student samples scored by teacher logits).",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "On-policy distillation",
+          "description": "The student generates its own sequences and is corrected by the teacher's token-level distribution, fixing train/inference mismatch (Agarwal et al. GKD; implemented in Hugging Face TRL's GKDTrainer).",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Codistillation",
+          "description": "Meta's term for training Llama 4 Maverick and Scout concurrently with the Behemoth teacher, using a loss that dynamically weights soft and hard targets.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cascade distillation",
+          "description": "Mistral's iterative loop of pruning a parent model (Mistral Small 3.1) and continuing training with a distillation loss to produce Ministral 3 3B/8B/14B.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Prune-and-distill (Minitron)",
+          "description": "NVIDIA's recipe: structured width/depth pruning of a trained model followed by KD to recover accuracy with far fewer tokens (e.g. 94B vs 15T).",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "k-sparse teacher distribution",
+          "description": "Google's approximation in Gemini 2.5 that stores only the top-k teacher probabilities per token to make distillation storage tractable.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Stored completions",
+          "description": "OpenAI / Azure feature that logs production prompt-response pairs (store=true) so they can be filtered into a fine-tuning dataset for a smaller model.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Distillation attack",
+          "description": "Industry term (Anthropic, OpenAI, Google, White House) for unauthorised large-scale querying of a proprietary model, often via fraudulent accounts or proxies, to harvest outputs for training a competitor.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Chain-of-thought (CoT) extraction",
+          "description": "Eliciting a model's reasoning traces to use as training targets; OpenAI now trains models 'not to reveal reasoning traces' and Google summarises them to blunt this.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Anti-competing-model clause",
+          "description": "ToS language (OpenAI, Anthropic, Google, xAI, Cohere) forbidding use of outputs or services to build competing models; the primary legal basis for distillation disputes.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Modified MIT license",
+          "description": "Open-weight license used by Moonshot (Kimi K2) and MiniMax that keeps MIT permissions but adds an attribution requirement above 100M MAU or $20M monthly revenue.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Frontier Model Forum (FMF)",
+          "description": "Non-profit founded by OpenAI, Anthropic, Google and Microsoft in 2023, used from April 2026 to share distillation-attack intelligence.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "NSTM-4",
+          "description": "April 2026 White House national security memorandum committing the US government to share intelligence on foreign distillation campaigns and explore accountability measures.",
+          "inDefinedTermSet": {
+            "@id": "https://global-distillation.vercel.app/company#glossary"
+          }
+        }
+      ]
+    }
+  ]
+}

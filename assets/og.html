@@ -1,47 +1,111 @@
-<!doctype html><html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Global Distillation — Open Graph card</title>
+<!--
+  Source for assets/og.png (1200x630). Excluded from the deploy by .vercelignore.
+  Regenerate against the local server so the figure and date stay current:
+
+    node scripts/screenshot.mjs http://localhost:4173/assets/og.html assets/og.png --width 1200 --height 630 --wait 2500
+
+  The headline figure and the date are read from /data at render time; the values
+  written into the markup below are the same values, kept as a fallback so the card
+  is never blank and never invented.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 *{box-sizing:border-box;margin:0}
-body{width:1200px;height:630px;background:#FAF8F4;color:#1A1814;
-  font-family:"Schibsted Grotesk",system-ui,sans-serif;padding:64px 72px;
-  display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:17px;letter-spacing:.1em;
-  text-transform:uppercase;color:#837C71;display:flex;align-items:center;gap:12px}
-.dot{width:9px;height:9px;border-radius:50%;background:#B5451B}
-h1{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:78px;line-height:1.04;
-  letter-spacing:-.02em;max-width:16ch;margin-top:26px}
-h1 em{font-style:italic;color:#B5451B}
-.facts{display:flex;gap:52px;border-top:1px solid #CEC6B6;padding-top:24px}
-.fact dt{font-size:15px;color:#837C71;margin-bottom:6px}
-.fact dd{font-family:"Newsreader",Georgia,serif;font-size:40px;line-height:1;
-  font-variant-numeric:tabular-nums}
-.mark{position:absolute;right:-8px;top:132px;width:520px;height:520px;opacity:.5}
-.wordmark{font-family:"Newsreader",Georgia,serif;font-size:23px}
+body{width:1200px;height:630px;background:#FAF8F4;color:#1A1814;overflow:hidden;
+  font-family:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  padding:60px 72px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+
+/* teacher -> student mark, echoing the hero scene */
+.mark{position:absolute;right:-24px;top:96px;width:560px;height:560px}
+
+.top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.wordmark{font-family:"Newsreader",Georgia,serif;font-size:26px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:12px}
 .wordmark em{font-style:italic}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:14px;
+  letter-spacing:.11em;text-transform:uppercase;color:#6B655C}
+
+h1{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:76px;line-height:1.04;
+  letter-spacing:-.02em;max-width:15.5ch;position:relative;z-index:1}
+h1 em{font-style:italic;color:#B5451B}
+
+.foot{border-top:1px solid #CEC6B6;padding-top:22px;display:flex;align-items:flex-end;
+  justify-content:space-between;gap:40px;position:relative;z-index:1}
+.figure{display:flex;align-items:baseline;gap:14px}
+.figure b{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:60px;line-height:1;
+  font-variant-numeric:tabular-nums;color:#B5451B}
+.figure span{font-size:16px;line-height:1.4;color:#4C4740;max-width:46ch}
+.stamp{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:14px;
+  color:#6B655C;text-align:right;white-space:nowrap}
 </style></head><body>
+
 <svg class="mark" viewBox="0 0 560 560" fill="none" aria-hidden="true">
-  <g stroke="#B2AA9D" stroke-width="1">
-    <circle cx="150" cy="280" r="128" opacity=".5"/><circle cx="150" cy="280" r="96" opacity=".38"/>
-    <circle cx="150" cy="280" r="64" opacity=".26"/>
+  <g stroke="#B2AA9D">
+    <circle cx="132" cy="286" r="132" stroke-width="1" opacity=".45"/>
+    <circle cx="132" cy="286" r="99" stroke-width="1" opacity=".34"/>
+    <circle cx="132" cy="286" r="66" stroke-width="1" opacity=".24"/>
+    <circle cx="132" cy="286" r="33" stroke-width="1" opacity=".16"/>
   </g>
-  <g stroke="#B5451B" stroke-width="1.4" opacity=".55">
-    <path d="M262 236 C 330 236, 350 262, 402 274"/><path d="M262 280 C 330 280, 350 280, 402 280"/>
-    <path d="M262 324 C 330 324, 350 298, 402 286"/>
+  <g stroke="#B5451B" stroke-width="1.4" opacity=".5">
+    <path d="M266 214 C 340 214, 356 258, 404 276"/>
+    <path d="M266 250 C 340 250, 356 270, 404 281"/>
+    <path d="M266 286 C 340 286, 356 286, 404 286"/>
+    <path d="M266 322 C 340 322, 356 302, 404 291"/>
+    <path d="M266 358 C 340 358, 356 314, 404 296"/>
   </g>
-  <circle cx="418" cy="280" r="30" fill="#1F6A99" opacity=".22"/>
-  <circle cx="418" cy="280" r="15" fill="#1F6A99" opacity=".5"/>
+  <circle cx="422" cy="286" r="38" fill="#1F6A99" opacity=".16"/>
+  <circle cx="422" cy="286" r="19" fill="#1F6A99" opacity=".42"/>
+  <circle cx="422" cy="286" r="6" fill="#1F6A99" opacity=".8"/>
 </svg>
-<div>
-  <p class="eyebrow"><span class="dot"></span>A public compendium · updated daily</p>
-  <h1>How frontier intelligence is <em>compressed, priced,</em> and <em>contested.</em></h1>
+
+<div class="top">
+  <p class="wordmark">
+    <svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true">
+      <circle cx="11" cy="11" r="9.25" fill="none" stroke="#1A1814" stroke-width="1.4"/>
+      <circle cx="11" cy="11" r="3.4" fill="#1A1814"/>
+      <path d="M11 1.75 A9.25 9.25 0 0 1 11 20.25" fill="none" stroke="#1A1814" stroke-width="1.4" opacity=".35"/>
+    </svg>
+    Global <em>Distillation</em>
+  </p>
+  <p class="eyebrow">A public compendium</p>
 </div>
-<div>
-  <dl class="facts">
-    <div class="fact"><dt>Methods catalogued</dt><dd>27</dd></div>
-    <div class="fact"><dt>Models compared</dt><dd>74</dd></div>
-    <div class="fact"><dt>Dated events</dt><dd>130</dd></div>
-    <div class="fact"><dt>Primary sources</dt><dd>599</dd></div>
-  </dl>
-  <p class="wordmark" style="margin-top:22px">Global <em>Distillation</em></p>
+
+<h1>How frontier intelligence is <em>compressed, priced,</em> and <em>contested.</em></h1>
+
+<div class="foot">
+  <p class="figure"><b id="fig">94.2%</b><span id="cap">of its teacher&rsquo;s GPQA Diamond score, retained by GPT-5.6 Luna at 5% of the input price</span></p>
+  <p class="stamp" id="stamp">Updated 4 September 2026</p>
 </div>
+
+<script>
+// Values come from the published data files, never from this file.
+(async () => {
+  const get = (u) => fetch(u, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const [customer, live] = await Promise.all([get('/data/customer.json'), get('/data/live.json')]);
+
+  const stat = customer && (customer.stats || []).find((s) => /GPQA retained/i.test(s.label));
+  if (stat) {
+    document.getElementById('fig').textContent = stat.value + (stat.unit === '%' ? '%' : '');
+    const teacher = /vs\s+(\S+)/.exec(stat.label), student = /by\s+([\w.\-]+(?:\s[\w.\-]+)?)\s+vs/.exec(stat.label);
+    const price = /at\s+(\d+%\s+of\s+the\s+input\s+price)/.exec(stat.delta || '');
+    document.getElementById('cap').textContent =
+      'of its teacher’s GPQA Diamond score, retained by ' +
+      (student ? student[1] : 'a distilled student') +
+      (price ? ' at ' + price[1] : '') +
+      (teacher ? ' · teacher: ' + teacher[1] : '');
+  }
+
+  const iso = (live && live.updated) || (customer && customer.updated);
+  if (iso) {
+    const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z');
+    document.getElementById('stamp').textContent = 'Updated ' + d.toLocaleDateString('en-GB',
+      { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  }
+  document.documentElement.dataset.ready = '1';
+})();
+</script>
 </body></html>
