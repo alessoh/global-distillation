@@ -46,7 +46,7 @@ Dates are ISO `YYYY-MM-DD` (or `YYYY-MM` / `YYYY` when only that is known).
 - political.extras.policies[]: { jurisdiction, name, status, date, whatItSays, distillationRelevance, source }
 - political.extras.disputes[]: { date, accuser, accused, claim, evidence, outcome, source }
 - company.extras.companies[]: { name, hq, stance: "restrictive|permissive|mixed", distillationProducts[], distilledModels[], tosClause, notableEvents[], source }
-- library.extras.methods[]: { id, name, family, year, paper, url, description, howItWorks (markdown), lossFormula (LaTeX string), pros[], cons[], whenToUse, tools[], examples[], relatedMethods[], difficulty: 1-5, dataNeeded: "logits|outputs|features|none", teacherAccess: "white-box|black-box" }
+- library.extras.methods[]: { id, name, family, year, paper, url, description, howItWorks (markdown), lossFormula (LaTeX string), pros[], cons[], whenToUse, tools[], examples[], relatedMethods[], difficulty: 1-5, dataNeeded: "logits|outputs|features|none", teacherAccess: "white-box|black-box|none" ("none" for teacherless methods such as deep mutual learning and dataset distillation) }
 - developer.extras.tools[]: { name, vendor, type: "library|api|platform", url, teachersSupported[], studentsSupported[], techniques[], pricing, openSource: bool, oneLiner, pros[], cons[] }
 - developer.extras.recipes[]: { title, steps[], tool, estCost, estTime, source }
 - customer.extras.models[]: { model, vendor, isDistilled: bool, teacher, params_b, input_per_mtok_usd, output_per_mtok_usd, mmlu, gpqa, humaneval_or_swe, latency_ttft_ms, contextK, license, releaseDate, source }

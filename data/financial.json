@@ -3274,17 +3274,17 @@
         "hardware": "undisclosed",
         "date": "2025-01",
         "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
-        "note": "Same 800k-sample corpus applied to Llama-3.3-70B. Scores 86.7 AIME 2024, 94.5 MATH-500. Released under MIT licence."
+        "note": "Same 800k-sample corpus applied to Llama-3.3-70B. Scores 70.0 AIME 2024 pass@1 (86.7 cons@64) and 94.5 MATH-500 pass@1. Released under MIT licence."
       },
       {
         "name": "Bespoke-Stratos-32B",
         "org": "Bespoke Labs",
         "cost_usd": null,
-        "gpu_hours": 216,
-        "hardware": "8x NVIDIA H100 for 27 hours",
+        "gpu_hours": null,
+        "hardware": "undisclosed",
         "date": "2025-01-22",
         "source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation",
-        "note": "Distilled from DeepSeek-R1 on 17k traces (47x fewer than R1-Distill-Qwen-32B); traces generated in 1.5 hours of teacher inference. GPT-4o-mini filtering raised the retained-correct rate from 25% to 73%. Dollar cost not disclosed."
+        "note": "Distilled from DeepSeek-R1 on 17k traces (47x fewer than R1-Distill-Qwen-32B); traces generated in 1.5 hours of teacher inference. GPT-4o-mini filtering raised the retained-correct rate from 25% to 73%. Neither dollar cost nor training GPU-hours are disclosed in the post; only the 1.5 h of teacher trace generation is given."
       },
       {
         "name": "Sky-T1-32B-Preview",

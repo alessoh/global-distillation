@@ -1,0 +1,2771 @@
+{
+  "perspective": "political",
+  "title": "Political and geopolitical view of AI distillation",
+  "updated": "2026-09-04",
+  "summary": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models. It escalated through OpenAI's March 2025 OSTP filing calling DeepSeek 'state-subsidized' and 'state-controlled,' Anthropic's September 2025 ban on entities majority-controlled from China, and a February 2026 wave of disclosures in which OpenAI, Google and Anthropic each published evidence of large-scale extraction campaigns. It became formal policy in April 2026 with OSTP memorandum NSTM-4 on 'adversarial distillation,' a State Department demarche cable, and H.R. 8283, which would create a public 'AI Model Extraction Attackers List' — followed by NSPM-11 in June, Anthropic's letter alleging a 28.8-million-exchange Alibaba campaign, and Treasury Secretary Bessent's July 2026 sanctions threat. Underneath the geopolitics sits an unresolved legal question: the strongest theory against distillation is breach of contract, not copyright or trade secret, and critics from ITIF to the Institute for Law & AI warn that building export controls and sanctions on top of private terms of service is a shaky foundation.",
+  "stats": [
+    {
+      "label": "Claude exchanges in largest disclosed campaign",
+      "value": 28800000,
+      "unit": "exchanges",
+      "delta": "vs 16M disclosed in Feb 2026",
+      "note": "Anthropic's June 10, 2026 letter to Senate Banking alleges Alibaba/Qwen-affiliated operators ran 28.8M+ exchanges between Apr 22 and Jun 5, 2026",
+      "source": "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf"
+    },
+    {
+      "label": "Fraudulent accounts alleged (Alibaba campaign)",
+      "value": 25000,
+      "unit": "accounts",
+      "delta": "24,000 in the Feb 2026 DeepSeek/Moonshot/MiniMax disclosure",
+      "note": "Anthropic's June 10, 2026 letter to the Senate Banking Committee alleges almost 25,000 fraudulent accounts violating its terms of service and regional access restrictions",
+      "source": "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf"
+    },
+    {
+      "label": "House Foreign Affairs vote on H.R. 8283",
+      "value": 43,
+      "unit": "yeas (43-0)",
+      "delta": "unanimous",
+      "note": "Deterring American AI Model Theft Act of 2026 ordered reported April 22, 2026; not yet passed the full House as of Sept 2026",
+      "source": "https://www.congress.gov/119/meeting/house/119191/documents/HMKP-119-FA00-20260422-SD002.pdf"
+    },
+    {
+      "label": "US states restricting DeepSeek on state devices",
+      "value": 14,
+      "unit": "states",
+      "delta": "0 before Jan 31, 2025",
+      "note": "Texas, New York, Virginia, Iowa, South Dakota, North Carolina, Nebraska, Tennessee, Arkansas, North Dakota, Oklahoma, Alabama, Kansas and Georgia, as of April 2025; likely higher by Sept 2026",
+      "source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+    },
+    {
+      "label": "Nvidia/AMD China revenue share to US government",
+      "value": 15,
+      "unit": "% of China chip revenue",
+      "delta": "new condition, Aug 2025",
+      "note": "Reported arrangement tied to resumed H20 / MI308 export licences",
+      "source": "https://fortune.com/2025/08/10/nvidia-amd-chips-h20-mi308-china-sales-revenue-trump-export-license/"
+    },
+    {
+      "label": "Section 232 tariff on advanced AI chips imported into the US (incl. those routed to China)",
+      "value": 25,
+      "unit": "%",
+      "delta": "new; paired with BIS case-by-case review replacing presumption of denial",
+      "note": "Proclamation signed Jan 14, 2026, effective Jan 15, 2026; separately BIS moved H200 / MI325X to case-by-case review for China and Macau",
+      "source": "https://www.whitecase.com/insight-alert/president-trump-orders-narrowly-targeted-25-section-232-tariff-certain-advanced"
+    },
+    {
+      "label": "Entities on Pentagon 1260H list after June 2026 update",
+      "value": 188,
+      "unit": "entities",
+      "delta": "+65 added June 2026",
+      "note": "Alibaba, Baidu, BYD and Unitree added; DeepSeek notably not listed",
+      "source": "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html"
+    },
+    {
+      "label": "Maximum EU AI Act fine for GPAI providers",
+      "value": 15000000,
+      "unit": "EUR or 3% of global turnover",
+      "delta": "enforceable from Aug 2, 2026",
+      "note": "Whichever is higher; AI Office gained investigation and model-access powers on that date",
+      "source": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714"
+    }
+  ],
+  "keyFindings": [
+    {
+      "title": "Distillation is now a named category in US national security policy — but naming has not produced sanctions",
+      "detail": "OSTP memorandum NSTM-4, 'Adversarial Distillation of American AI Models,' issued by OSTP under Director Michael Kratsios on April 23, 2026, is the first US policy instrument to formally classify systematic capability extraction from frontier models as a national security threat. It found that foreign entities, principally in China, are running 'deliberate, industrial-scale campaigns' using tens of thousands of proxy accounts, and committed the executive branch to threat-intelligence sharing with industry, joint defensive best practices, and exploration of accountability measures. NSPM-11, signed June 5, 2026, then directed the national security enterprise to help secure US models against distillation attacks. Naming has not yet become enforcement: no Chinese AI lab has been sanctioned or Entity Listed specifically for distillation as of early September 2026. In June 2026 the administration held off publishing an expanded blacklist covering DeepSeek and 100+ other flagged firms, reportedly to avoid escalating with Beijing, and DeepSeek was absent from the Pentagon's June 2026 1260H expansion that added Alibaba and Baidu. Treasury Secretary Bessent's July 21, 2026 warning that Washington could sanction overseas models found to have stolen from US firms remained a threat.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/",
+        "https://www.whitehouse.gov/presidential-actions/2026/06/national-security-presidential-memorandum-nspm-11/",
+        "https://www.justsecurity.org/137498/diagnosis-deterrence-us-response-distillation/",
+        "https://www.cnbc.com/2026/06/17/us-deepseek-blacklist-cxmt-national-security-risks-.html",
+        "https://www.cnbc.com/2026/07/21/bessent-china-ai-sanctions.html",
+        "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html"
+      ]
+    },
+    {
+      "title": "The legal core of the accusation is breach of contract, not IP theft — and that is a weaker peg than the rhetoric implies",
+      "detail": "US copyright law does not protect purely machine-generated outputs, and OpenAI's own terms assign output rights to the user, so a copyright claim against a distiller is difficult. Trade secret theory is available but unsettled: it depends on whether querying an API counts as acquisition by 'improper means.' The theory that actually fits is contract — OpenAI's terms bar using Output 'to develop models that compete with OpenAI' — plus, where fraudulent accounts and evaded geo-restrictions are involved, the Computer Fraud and Abuse Act. H.R. 8283 mirrors this: its definition of a 'model extraction attack' turns on circumventing access controls, using fraudulent credentials, or violating terms of service. The symmetry argument has never gone away either: because copyright does not protect bare machine outputs and terms of service are private contracts, critics — including a Cornell tip sheet published within days of OpenAI's January 2025 statement — note that training on publishers' content also violated those publishers' terms. The asymmetry the labs rely on is jurisdictional and contractual rather than moral, which is why the fight migrated to export controls, sanctions and procurement bans rather than the courts.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf",
+        "https://law.asia/openai-deepseek-ai-distillation/",
+        "https://www.justsecurity.org/134124/costs-china-ai-distillation/",
+        "https://www.copyright.gov/newsnet/2025/1060.html",
+        "https://news.cornell.edu/media-relations/tip-sheets/ironic-hypocritical-big-tech-call-out-deepseek",
+        "https://futurism.com/openai-mockery-stole-work-deepseek"
+      ]
+    },
+    {
+      "title": "Building federal sanctions on top of private terms of service is the central critique of the 2026 bills",
+      "detail": "ITIF's July 28, 2026 analysis of H.R. 8283 argues the bill leans too heavily on terms-of-service violations — private contracts that vary provider to provider — as the trigger for federal designation, and that an 'AI Model Extraction Attackers List' built on unverified corporate disclosures raises due-process concerns. It recommends narrowing the definition to intentional account fraud, requiring public evidentiary summaries, and adding safe harbours for open-source development, academic research and security testing. The Institute for Law & AI makes a parallel argument: policymakers should first ask how much distillation actually contributes to the capability gap before locking in restrictions.",
+      "audience": [
+        "developer"
+      ],
+      "sources": [
+        "https://itif.org/publications/2026/07/28/how-to-fix-the-ai-model-theft-bill-before-it-becomes-law/",
+        "https://law-ai.org/responding-to-ai-distillation-without-panic/",
+        "https://www.lawfaremedia.org/article/responding-to-ai-distillation-without-panic"
+      ]
+    },
+    {
+      "title": "Disclosure moved from anecdote to numbers — and the numbers keep growing",
+      "detail": "January 2025 accusations were qualitative: Microsoft security researchers observed suspected DeepSeek-linked individuals exfiltrating data via the OpenAI API, and David Sacks cited 'substantial evidence' without detailing it. By February 2026 the labs published counts: Anthropic attributed 150,000+ exchanges to DeepSeek, 3.4 million to Moonshot AI and 13 million to MiniMax across ~24,000 fraudulent accounts; Google's Threat Intelligence Group disrupted a cluster of 100,000+ prompts aimed at coercing Gemini reasoning traces. By June 2026 Anthropic put a single Alibaba-linked campaign at 28.8 million exchanges. The trend line of disclosed volume is the single most concrete input to the policy debate.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://techinformed.com/google-disrupts-gemini-model-extraction-attempts/",
+        "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf",
+        "https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use"
+      ]
+    },
+    {
+      "title": "Export controls and distillation policy are the same argument in two registers",
+      "detail": "Anthropic's public position is that distillation 'reinforces the rationale for export controls,' because harvested exchanges are only useful if the distiller has compute to train on them. Dario Amodei made the compute-asymmetry argument in January 2025. The counter-current is commercial: the Biden AI Diffusion Rule (Jan 15, 2025) was rescinded before its May 15, 2025 enforcement date; the GAIN AI Act, which would have required US customers be served first, passed the Senate as an NDAA amendment in October 2025 but was dropped from the final FY2026 NDAA; and in January 2026 H200 and MI325X exports moved from presumption of denial to case-by-case review with a 25% tariff.",
+      "audience": [
+        "customer"
+      ],
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://darioamodei.com/post/on-deepseek-and-export-controls",
+        "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule",
+        "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/"
+      ]
+    },
+    {
+      "title": "Private corporate policy has become de facto foreign policy",
+      "detail": "OpenAI blocked API traffic from unsupported regions including mainland China on July 9, 2024, then introduced Verified Organization ID checks for frontier API access in April 2025. Anthropic went furthest: on September 5, 2025 it barred service to companies more than 50% owned by entities in China, Russia, Iran and North Korea regardless of where those subsidiaries operate, accepting a revenue hit it described as in the low hundreds of millions of dollars. These access rules, not statutes, are what H.R. 8283 would convert into a designation trigger — which is precisely why critics call the mechanism circular.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://www.semafor.com/article/09/05/2025/anthropic-blocks-ai-sales-in-china",
+        "https://www.rte.ie/news/business/2025/0905/1531954-us-ai-giant-anthropic-bars-chinese-owned-entities/",
+        "https://help.openai.com/en/articles/10910291-api-organization-verification",
+        "https://restofworld.org/2024/exporter-openai-china-api-access/"
+      ]
+    },
+    {
+      "title": "Evidence quality is contested, and at least one White House accusation drew expert pushback",
+      "detail": "On July 22, 2026 OSTP Director Kratsios accused Moonshot AI of distilling Anthropic's Fable to build Kimi K3 and of obtaining export-controlled Nvidia servers. Researchers including Nathan Lambert (Allen Institute for AI) and Braden Hancock (Laude Institute) publicly doubted that distillation alone could explain K3's capabilities on that timeline — Fable had been publicly available only since July 1 — and no supporting evidence was published. Earlier, US officials alleged DeepSeek trained V4 on smuggled Blackwell GPUs; Nvidia called the claim farfetched and DeepSeek's V4 preview shipped optimised for Huawei Ascend silicon. Accusation-without-published-evidence is a recurring pattern.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/",
+        "https://techcrunch.com/2026/07/23/experts-say-exploiting-anthropics-fable-isnt-how-kimi-k3-got-so-good/",
+        "https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/"
+      ]
+    },
+    {
+      "title": "China's response has moved from denial to mirror-imaging",
+      "detail": "The Chinese Embassy in Washington called US allegations groundless and framed them as attacks on China's AI development. On July 27, 2026 the Ministry of Commerce went further, accusing 'many American AI enterprises' of distilling Chinese models — naming none and supplying no evidence — calling US actions 'double standards' and 'AI hegemony,' and promising 'all necessary measures' if Chinese firms were sanctioned. Separately, FT reported that MOFCOM was consulting Alibaba, ByteDance and Zhipu on adding model weights, key training data and chip designs to China's technology export catalogue, which would make Chinese open weights themselves a licensed export.",
+      "audience": [
+        "customer"
+      ],
+      "sources": [
+        "https://www.implicator.ai/china-says-us-firms-distilled-chinese-models/",
+        "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/",
+        "https://www.cnbc.com/2026/04/25/us-global-warning-alleged-china-ai-theft.html"
+      ]
+    },
+    {
+      "title": "The EU regulates capability, not provenance — which leaves distillation largely untouched",
+      "detail": "EU AI Act GPAI obligations began applying August 2, 2025, backed by a Code of Practice published July 10, 2025 with Transparency, Copyright, and Safety & Security chapters; Commission enforcement powers, including fines up to EUR 15 million or 3% of global turnover, went live August 2, 2026. None of this creates a distillation-specific offence. Europe's actual friction with Chinese models has run through GDPR instead — Italy's Garante ordered DeepSeek's chatbot blocked in early 2025, and Berlin's commissioner found its transfer practices unlawful — while self-hosted open weights on EU servers sidestep the transfer question entirely.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://artificialintelligenceact.eu/code-of-practice-overview/",
+        "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+        "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/",
+        "https://www.pinsentmasons.com/out-law/analysis/eu-ai-act-gpai-deepseek-review"
+      ]
+    },
+    {
+      "title": "A grey market for API access is the practical enforcement problem",
+      "detail": "Extraction at the scale the labs describe requires access the labs have formally denied. Reporting on China's 'transfer station' economy describes tens of thousands of internet-facing servers running reseller billing panels that proxy OpenAI, Anthropic, Google and other Western models into China, sometimes at roughly a tenth of list price. Anthropic says a single proxy network managed more than 20,000 fraudulent accounts. H.R. 8283 responds by defining a 'fraudulent account network provider' as a designation target in its own right — with a carve-out for services that enable internet access for freedom of expression.",
+      "audience": [
+        "developer"
+      ],
+      "sources": [
+        "https://www.chinatalk.media/p/how-to-buy-cheap-claude-tokens-in",
+        "https://www.deeplearning.ai/the-batch/inside-the-gray-market-for-llm-access",
+        "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "policy-matrix-jurisdiction",
+      "title": "Policy matrix: how each jurisdiction treats distillation and Chinese models",
+      "description": "Binding instruments, government-device restrictions and the specific stance on model extraction, as of September 2026.",
+      "columns": [
+        {
+          "key": "jurisdiction",
+          "label": "Jurisdiction",
+          "type": "text"
+        },
+        {
+          "key": "instrument",
+          "label": "Primary instrument",
+          "type": "text"
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "text"
+        },
+        {
+          "key": "date",
+          "label": "Key date",
+          "type": "text"
+        },
+        {
+          "key": "distillation",
+          "label": "Distillation stance",
+          "type": "text"
+        },
+        {
+          "key": "chineseModels",
+          "label": "Chinese-model stance",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "jurisdiction": "United States (executive)",
+          "instrument": "OSTP NSTM-4; NSPM-11; AI Action Plan",
+          "status": "In force",
+          "date": "2026-04-23",
+          "distillation": "Named national security threat; intel sharing with labs; accountability measures 'explored'",
+          "chineseModels": "Federal device bans proposed; export controls; no model sanctions yet",
+          "_source": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/"
+        },
+        {
+          "jurisdiction": "United States (Congress)",
+          "instrument": "H.R. 8283 Deterring American AI Model Theft Act",
+          "status": "Reported by committee 43-0; not enacted",
+          "date": "2026-04-22",
+          "distillation": "Would create public 'AI Model Extraction Attackers List' + IEEPA/Entity List authorities",
+          "chineseModels": "PRC, Hong Kong, Macau and Russia are 'countries of concern' by statute",
+          "_source": "https://www.congress.gov/119/meeting/house/119191/documents/HMKP-119-FA00-20260422-SD002.pdf"
+        },
+        {
+          "jurisdiction": "United States (states)",
+          "instrument": "Executive directives; CA SB 53; NY RAISE Act",
+          "status": "In force",
+          "date": "2026-01-01",
+          "distillation": "No state distillation offence; frontier-model transparency only",
+          "chineseModels": "7+ states bar DeepSeek on state devices and networks",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "jurisdiction": "European Union",
+          "instrument": "AI Act GPAI obligations + Code of Practice",
+          "status": "Applying; enforcement powers live",
+          "date": "2026-08-02",
+          "distillation": "No distillation-specific rule; downstream fine-tuners can become providers",
+          "chineseModels": "Capability-based, provenance-neutral; friction runs through GDPR",
+          "_source": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714"
+        },
+        {
+          "jurisdiction": "Italy",
+          "instrument": "Garante order under GDPR",
+          "status": "In force",
+          "date": "2025-01-30",
+          "distillation": "Not addressed",
+          "chineseModels": "DeepSeek chatbot blocked for the general public, not just government",
+          "_source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+        },
+        {
+          "jurisdiction": "United Kingdom",
+          "instrument": "Sovereign AI Unit (DSIT); AI Security Institute",
+          "status": "Non-statutory",
+          "date": "2025",
+          "distillation": "No dedicated instrument; treated as a security-research question",
+          "chineseModels": "No ban; AISI evaluations flag DeepSeek jailbreak and censorship behaviour",
+          "_source": "https://oecd.ai/en/dashboards/policy-initiatives/uk-sovereign-ai-unit"
+        },
+        {
+          "jurisdiction": "China",
+          "instrument": "Global AI Governance Action Plan; WAICO; export catalogue review",
+          "status": "Announced / under consultation",
+          "date": "2025-07-26",
+          "distillation": "Defends distillation as an industry-wide technique; counter-accuses US firms",
+          "chineseModels": "Promotes open-weight release; weighing export controls on weights and training data",
+          "_source": "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/"
+        },
+        {
+          "jurisdiction": "South Korea",
+          "instrument": "AI Basic Act (Framework Act)",
+          "status": "In force",
+          "date": "2026-01-22",
+          "distillation": "Not addressed",
+          "chineseModels": "PIPC suspended DeepSeek app downloads Feb 2025 pending compliance",
+          "_source": "https://www.cooley.com/news/insight/2026/2026-01-27-south-koreas-ai-basic-act-overview-and-key-takeaways"
+        },
+        {
+          "jurisdiction": "Japan",
+          "instrument": "AI Promotion Act (May 2025)",
+          "status": "In force; promotional, light-touch",
+          "date": "2025-05",
+          "distillation": "Not addressed",
+          "chineseModels": "No ban; policy focus on domestic R&D capacity and competitiveness",
+          "_source": "https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-japan"
+        },
+        {
+          "jurisdiction": "Australia",
+          "instrument": "Government device directive",
+          "status": "In force",
+          "date": "2025-02-04",
+          "distillation": "Not addressed",
+          "chineseModels": "DeepSeek prohibited on government devices",
+          "_source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+        },
+        {
+          "jurisdiction": "Taiwan",
+          "instrument": "Government agency guidance",
+          "status": "In force",
+          "date": "2025-02",
+          "distillation": "Not addressed",
+          "chineseModels": "DeepSeek restricted in public sector over cross-border data transfer risk",
+          "_source": "https://tech.co/news/which-countries-have-banned-deepseek-already"
+        },
+        {
+          "jurisdiction": "Gulf states (UAE, Saudi Arabia)",
+          "instrument": "Bilateral compute and security agreements",
+          "status": "Negotiated, deal-by-deal",
+          "date": "2026",
+          "distillation": "Not addressed directly; governed via US access conditions",
+          "chineseModels": "UAE aligned G42 away from Chinese tech; Saudi retains Huawei links",
+          "_source": "https://www.iiss.org/publications/strategic-comments/2026/06/gulf-ai-infrastructure-and-the-limits-of-technological-sovereignty/"
+        }
+      ],
+      "notes": "Coding reflects publicly reported instruments only. 'Not addressed' means no distillation-specific rule, not that generic IP or computer-misuse law is unavailable.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/8283/text",
+        "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+        "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek",
+        "https://www.congress.gov/119/meeting/house/119191/documents/HMKP-119-FA00-20260422-SD002.pdf"
+      ]
+    },
+    {
+      "id": "us-bills-tracker",
+      "title": "US federal bills touching distillation, Chinese AI and chip flows (119th Congress)",
+      "description": "Every bill tracked here is from the 119th Congress (2025-2026). Status as of September 2026.",
+      "columns": [
+        {
+          "key": "bill",
+          "label": "Bill",
+          "type": "text"
+        },
+        {
+          "key": "number",
+          "label": "Number",
+          "type": "text"
+        },
+        {
+          "key": "sponsor",
+          "label": "Lead sponsor",
+          "type": "text"
+        },
+        {
+          "key": "introduced",
+          "label": "Introduced",
+          "type": "text"
+        },
+        {
+          "key": "status",
+          "label": "Furthest stage",
+          "type": "text"
+        },
+        {
+          "key": "relevance",
+          "label": "Distillation relevance",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "bill": "Deterring American AI Model Theft Act of 2026",
+          "number": "H.R. 8283",
+          "sponsor": "Rep. Huizenga (R-MI)",
+          "introduced": "2026-04-15",
+          "status": "Reported by House Foreign Affairs 43-0",
+          "relevance": "Direct: defines 'model extraction attack', creates public attackers list, authorises IEEPA sanctions and Entity Listing",
+          "_source": "https://www.congress.gov/bill/119th-congress/house-bill/8283/text"
+        },
+        {
+          "bill": "Decoupling America's AI Capabilities from China Act",
+          "number": "S. 321",
+          "sponsor": "Sen. Hawley (R-MO)",
+          "introduced": "2025-01-29",
+          "status": "Referred to Judiciary",
+          "relevance": "Indirect: would bar import/export of AI tech and IP to/from China; penalties up to 20 years",
+          "_source": "https://www.congress.gov/bill/119th-congress/senate-bill/321"
+        },
+        {
+          "bill": "No DeepSeek on Government Devices Act",
+          "number": "H.R. 1121",
+          "sponsor": "Rep. Gottheimer (D-NJ)",
+          "introduced": "2025-02-07",
+          "status": "Referred to committee",
+          "relevance": "Indirect: federal device ban aimed at the model most associated with distillation claims",
+          "_source": "https://www.congress.gov/bill/119th-congress/house-bill/1121/all-info"
+        },
+        {
+          "bill": "No Adversarial AI Act",
+          "number": "S. 2177 / H.R. 4142",
+          "sponsor": "Sen. Scott (R-FL) [S. 2177]; Rep. Moolenaar (R-MI) [H.R. 4142]",
+          "introduced": "2025-06-25",
+          "status": "Referred to committee",
+          "relevance": "Indirect: FASC list of foreign-adversary AI; bans agency use with narrow research carve-outs",
+          "_source": "https://www.congress.gov/bill/119th-congress/senate-bill/2177/text"
+        },
+        {
+          "bill": "Chip Security Act (Senate)",
+          "number": "S. 1705",
+          "sponsor": "Sen. Cotton (R-AR)",
+          "introduced": "2025-05-08",
+          "status": "Referred to Banking",
+          "relevance": "Upstream: location verification on exported AI chips limits compute available for distillation training",
+          "_source": "https://www.congress.gov/bill/119th-congress/senate-bill/1705"
+        },
+        {
+          "bill": "Chip Security Act (House)",
+          "number": "H.R. 3447",
+          "sponsor": "Rep. Huizenga (R-MI)",
+          "introduced": "2025-05-15",
+          "status": "Reported by House Foreign Affairs 42-0 (2026-03-26)",
+          "relevance": "Upstream: same location-verification mandate; not enacted",
+          "_source": "https://www.congress.gov/bill/119th-congress/house-bill/3447"
+        },
+        {
+          "bill": "GAIN AI Act of 2025",
+          "number": "S. 3150 (also H.R. 5885)",
+          "sponsor": "Sen. Banks (R-IN)",
+          "introduced": "2025-11-06",
+          "status": "Passed Senate as NDAA amendment; dropped from final FY26 NDAA",
+          "relevance": "Upstream: would require US customers be prioritised before advanced chip sales abroad",
+          "_source": "https://www.congress.gov/bill/119th-congress/senate-bill/3150"
+        },
+        {
+          "bill": "AI Security and Innovation Act",
+          "number": "H.R. 9363",
+          "sponsor": "Rep. Obernolte (R-CA)",
+          "introduced": "2026-06-18",
+          "status": "Reported by House Science, Space and Technology 29-0 (2026-06-25)",
+          "relevance": "Peripheral: establishes an AI evaluation/security center under the National AI Initiative Act; no distillation provisions",
+          "_source": "https://science.house.gov/2026/6/h-r-9363-ai-security-and-innovation-act"
+        }
+      ],
+      "notes": "GAIN AI Act status confirmed by reporting that the final FY2026 NDAA, signed 2025-12-18, excluded it.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/8283/text",
+        "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/",
+        "https://www.congress.gov/bill/119th-congress/house-bill/3447",
+        "https://science.house.gov/2026/6/h-r-9363-ai-security-and-innovation-act",
+        "https://www.govinfo.gov/app/details/BILLS-119hr4142ih"
+      ]
+    },
+    {
+      "id": "tos-clause-comparison",
+      "title": "Terms-of-service and licence clauses across labs: can you train on the outputs?",
+      "description": "The contractual layer that US policy now treats as a designation trigger. Wording summarised, not quoted in full.",
+      "columns": [
+        {
+          "key": "provider",
+          "label": "Provider / model family",
+          "type": "text"
+        },
+        {
+          "key": "access",
+          "label": "Access model",
+          "type": "text"
+        },
+        {
+          "key": "competeClause",
+          "label": "Clause on training competing models",
+          "type": "text"
+        },
+        {
+          "key": "outputRights",
+          "label": "Who owns outputs",
+          "type": "text"
+        },
+        {
+          "key": "geoRestriction",
+          "label": "Jurisdictional restriction",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "provider": "OpenAI",
+          "access": "Closed API + apps",
+          "competeClause": "Prohibits using Output to develop models that compete with OpenAI",
+          "outputRights": "Assigned to the user",
+          "geoRestriction": "API traffic blocked from unsupported regions incl. mainland China since 2024-07-09; Verified Organization ID checks for frontier models since 2025-04",
+          "_source": "https://openai.com/policies/row-terms-of-use/"
+        },
+        {
+          "provider": "Anthropic (Claude)",
+          "access": "Closed API + apps",
+          "competeClause": "Prohibits using the Services to develop competing products, including to train any AI/ML models",
+          "outputRights": "Anthropic assigns its rights, if any, in Outputs to the user",
+          "geoRestriction": "Since 2025-09-05 no service to entities >50% owned from China, Russia, Iran, North Korea, worldwide",
+          "_source": "https://www.anthropic.com/legal/commercial-terms"
+        },
+        {
+          "provider": "Google (Gemini)",
+          "access": "Closed API + apps",
+          "competeClause": "Prohibits using outputs to develop competing models",
+          "outputRights": "User-facing rights per service terms",
+          "geoRestriction": "Regional availability limits; GTIG disrupted extraction clusters in Feb 2026",
+          "_source": "https://techinformed.com/google-disrupts-gemini-model-extraction-attempts/"
+        },
+        {
+          "provider": "Meta Llama 2 / Llama 3",
+          "access": "Open weights, community licence",
+          "competeClause": "Prohibited using Llama materials or outputs to improve any other LLM",
+          "outputRights": "Licensee",
+          "geoRestriction": "Acceptable use policy only",
+          "_source": "https://www.llama.com/llama3/license/"
+        },
+        {
+          "provider": "Meta Llama 3.1 and later",
+          "access": "Open weights, community licence",
+          "competeClause": "Permitted: outputs may be used for synthetic data generation and distillation with attribution",
+          "outputRights": "Licensee",
+          "geoRestriction": "Acceptable use policy only",
+          "_source": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct"
+        },
+        {
+          "provider": "xAI",
+          "access": "Closed API + apps",
+          "competeClause": "Restricts competitive training; distillation risk addressed in its Risk Management Framework (2025-08-20)",
+          "outputRights": "Per service terms",
+          "geoRestriction": "Regional availability limits",
+          "_source": "https://docs.house.gov/meetings/ZS/ZS00/20260416/119165/HHRG-119-ZS00-Wstate-MahmoodY-20260416.pdf"
+        },
+        {
+          "provider": "DeepSeek",
+          "access": "Open weights + hosted API",
+          "competeClause": "Permissive open-weight licensing; V3/R1 weights on Hugging Face",
+          "outputRights": "Licensee",
+          "geoRestriction": "Hosted service blocked or restricted in Italy, South Korea, Australia, Taiwan and 7+ US states",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "provider": "Alibaba (Qwen)",
+          "access": "Open weights + hosted API",
+          "competeClause": "Permissive open-weight licensing",
+          "outputRights": "Licensee",
+          "geoRestriction": "Alibaba added to Pentagon 1260H list 2026-06; barred from Anthropic services under the 2025 China policy",
+          "_source": "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html"
+        },
+        {
+          "provider": "Moonshot AI (Kimi)",
+          "access": "Open weights + hosted API",
+          "competeClause": "Permissive open-weight licensing",
+          "outputRights": "Licensee",
+          "geoRestriction": "Named in Anthropic Feb 2026 disclosure and State Department April 2026 cable",
+          "_source": "https://www.cnbc.com/2026/04/25/us-global-warning-alleged-china-ai-theft.html"
+        }
+      ],
+      "notes": "The asymmetry is structural: closed US labs restrict output-based training by contract, while the leading Chinese labs release weights under permissive licences. That is why an extraction-attack statute keyed to terms of service applies in one direction only.",
+      "sources": [
+        "https://openai.com/policies/row-terms-of-use/",
+        "https://www.anthropic.com/legal/consumer-terms",
+        "https://www.llama.com/llama3/license/",
+        "https://www.anthropic.com/legal/commercial-terms",
+        "https://www.anthropic.com/legal/usage-policy"
+      ]
+    },
+    {
+      "id": "legal-theories",
+      "title": "Legal theories for attacking distillation, and how strong each is",
+      "description": "Strength ratings reflect the weight of published legal commentary cited, not a court ruling — no distillation case has been litigated to judgment.",
+      "columns": [
+        {
+          "key": "theory",
+          "label": "Theory",
+          "type": "text"
+        },
+        {
+          "key": "law",
+          "label": "Source of law",
+          "type": "text"
+        },
+        {
+          "key": "claimant",
+          "label": "Who can bring it",
+          "type": "text"
+        },
+        {
+          "key": "strength",
+          "label": "Strength",
+          "type": "text"
+        },
+        {
+          "key": "weakness",
+          "label": "Principal weakness",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "theory": "Breach of contract (terms of service)",
+          "law": "State contract law",
+          "claimant": "Model owner against the account holder",
+          "strength": "Strongest",
+          "weakness": "Standard-form contract enforceability; jurisdiction and enforcement against foreign entities; privity if a proxy reseller holds the account",
+          "_source": "https://law.asia/openai-deepseek-ai-distillation/"
+        },
+        {
+          "theory": "Computer Fraud and Abuse Act",
+          "law": "18 U.S.C. 1030",
+          "claimant": "DOJ; private civil action",
+          "strength": "Strong where fraudulent credentials used",
+          "weakness": "Post-Van Buren narrowing of 'exceeds authorized access'; requires proving the credentials were fraudulent, not merely ToS-violating",
+          "_source": "https://www.justsecurity.org/134124/costs-china-ai-distillation/"
+        },
+        {
+          "theory": "Trade secret misappropriation",
+          "law": "Defend Trade Secrets Act; state UTSA",
+          "claimant": "Model owner",
+          "strength": "Contested",
+          "weakness": "Outputs served to any paying user are hard to characterise as secret; turns on whether API querying is 'improper means'",
+          "_source": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5121745"
+        },
+        {
+          "theory": "Economic Espionage Act",
+          "law": "18 U.S.C. 1831-1839",
+          "claimant": "DOJ",
+          "strength": "Weak in practice",
+          "weakness": "Same secrecy problem as DTSA, plus foreign-defendant enforcement; commentators call it unsettled footing",
+          "_source": "https://www.justsecurity.org/134124/costs-china-ai-distillation/"
+        },
+        {
+          "theory": "Copyright infringement in outputs",
+          "law": "17 U.S.C.",
+          "claimant": "Model owner",
+          "strength": "Weak",
+          "weakness": "US Copyright Office and DC Circuit hold purely AI-generated outputs are not copyrightable; OpenAI assigns output rights to the user anyway",
+          "_source": "https://www.copyright.gov/newsnet/2025/1060.html"
+        },
+        {
+          "theory": "Unfair competition / unjust enrichment",
+          "law": "State law; Lanham Act adjacent",
+          "claimant": "Model owner",
+          "strength": "Weak to moderate",
+          "weakness": "Hard to establish deception where data was obtained through a public paid API rather than intrusion",
+          "_source": "https://law.asia/openai-deepseek-ai-distillation/"
+        },
+        {
+          "theory": "Export control / sanctions designation",
+          "law": "ECRA, EAR Entity List, IEEPA",
+          "claimant": "US government",
+          "strength": "Most likely operative route",
+          "weakness": "Political, not judicial; requires attribution evidence agencies may not want to publish; escalation risk with Beijing",
+          "_source": "https://www.justsecurity.org/134124/costs-china-ai-distillation/"
+        },
+        {
+          "theory": "Statutory model-extraction designation (proposed)",
+          "law": "H.R. 8283 if enacted",
+          "claimant": "State Dept / Commerce",
+          "strength": "Untested",
+          "weakness": "Anchored to private terms of service; ITIF flags due-process concerns and lack of research safe harbours",
+          "_source": "https://itif.org/publications/2026/07/28/how-to-fix-the-ai-model-theft-bill-before-it-becomes-law/"
+        }
+      ],
+      "notes": "Commentators consulted include Joe Khawam (Law Reform Institute) on national security authorities, Camilla Hrdy on trade secrecy and generative AI, and Bahrad A. Sokhansanj (Institute for Law & AI) on proportionality.",
+      "sources": [
+        "https://www.justsecurity.org/134124/costs-china-ai-distillation/",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5121745",
+        "https://law-ai.org/responding-to-ai-distillation-without-panic/",
+        "https://www.copyright.gov/newsnet/2025/1060.html"
+      ]
+    },
+    {
+      "id": "export-control-ledger",
+      "title": "US export-control milestones that frame the distillation debate",
+      "description": "Compute access is the other half of the argument: distilled data is only useful with chips to train on.",
+      "columns": [
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "text"
+        },
+        {
+          "key": "action",
+          "label": "Action",
+          "type": "text"
+        },
+        {
+          "key": "scope",
+          "label": "Scope",
+          "type": "text"
+        },
+        {
+          "key": "effect",
+          "label": "Effect / response",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "date": "2022-10-07",
+          "action": "BIS advanced computing and semiconductor rule",
+          "scope": "A100/H100-class GPUs to China",
+          "effect": "Nvidia introduced China-specific A800/H800 with reduced interconnect",
+          "_source": "https://www.congress.gov/crs-product/R48642"
+        },
+        {
+          "date": "2023-10-17",
+          "action": "BIS October 2023 update",
+          "scope": "Captures A800/H800 and similar workarounds",
+          "effect": "Nvidia announced H20, L20, L2 for China",
+          "_source": "https://cset.georgetown.edu/article/bis-2023-update-explainer/"
+        },
+        {
+          "date": "2025-01-15",
+          "action": "AI Diffusion Rule published",
+          "scope": "Worldwide tiered licensing for advanced computing",
+          "effect": "Enforcement set for 2025-05-15; triggered allied and industry objections",
+          "_source": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule"
+        },
+        {
+          "date": "2025-04",
+          "action": "H20 licence requirement imposed",
+          "scope": "Nvidia H20 to China",
+          "effect": "Nvidia forecast a $5.5bn charge in April 2025 and recorded $4.5bn in Q1 FY2026",
+          "_source": "https://techcrunch.com/2025/05/28/nvidia-expects-to-lose-billions-in-revenue-due-to-h20-chip-licensing-requirements/"
+        },
+        {
+          "date": "2025-05-13",
+          "action": "BIS announces rescission of the AI Diffusion Rule",
+          "scope": "Global framework withdrawn before enforcement",
+          "effect": "Non-enforcement instruction pending formal rescission; replacement rule promised",
+          "_source": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule"
+        },
+        {
+          "date": "2025-08",
+          "action": "H20 / MI308 licences resume with revenue-share arrangement",
+          "scope": "Nvidia and AMD China sales",
+          "effect": "Reported 15% of China chip revenue to the US government",
+          "_source": "https://fortune.com/2025/08/10/nvidia-amd-chips-h20-mi308-china-sales-revenue-trump-export-license/"
+        },
+        {
+          "date": "2025-10-09",
+          "action": "Senate passes NDAA including GAIN AI Act",
+          "scope": "US-customer-first allocation of advanced chips",
+          "effect": "Opposed by Nvidia, SIA and the White House AI adviser",
+          "_source": "https://www.nextgov.com/artificial-intelligence/2025/10/ai-export-control-bill-passes-senate-ndaa-amendment/408762/"
+        },
+        {
+          "date": "2025-12-18",
+          "action": "FY2026 NDAA signed without the GAIN AI Act",
+          "scope": "Chip allocation mandate dropped",
+          "effect": "Removed the main statutory brake on advanced chip exports",
+          "_source": "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/"
+        },
+        {
+          "date": "2026-01-15",
+          "action": "BIS moves H200 / MI325X to case-by-case review",
+          "scope": "China and Macau destinations",
+          "effect": "Presumption of denial replaced; 25% tariff proclamation signed 2026-01-14",
+          "_source": "https://www.cnbc.com/2026/01/14/trump-nvidia-h200-china-ai-chips.html"
+        },
+        {
+          "date": "2026-03-26",
+          "action": "Chip Security Act reported out of House Foreign Affairs 42-0",
+          "scope": "Location verification for exported AI chips",
+          "effect": "Bipartisan support; not enacted as of Sept 2026",
+          "_source": "https://www.congress.gov/bill/119th-congress/house-bill/3447"
+        },
+        {
+          "date": "2026-06-17",
+          "action": "Expanded Entity List publication held back",
+          "scope": "DeepSeek, CXMT and 100+ flagged firms",
+          "effect": "Reported delay to avoid escalation ahead of talks; DeepSeek remained unlisted",
+          "_source": "https://www.cnbc.com/2026/06/17/us-deepseek-blacklist-cxmt-national-security-risks-.html"
+        },
+        {
+          "date": "2026-07-21",
+          "action": "China consults industry on AI export controls",
+          "scope": "Model weights, key training data, chip designs",
+          "effect": "Would make Chinese open weights a licensed export; still under review",
+          "_source": "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/"
+        }
+      ],
+      "notes": "Nvidia flagged an anticipated $5.5bn H20 charge in its April 15, 2025 8-K; the charge actually recorded in its Q1 FY2026 results (May 28, 2026 reporting) was $4.5bn. The 15% revenue-share figure is press-reported and has not been published as a formal rule.",
+      "sources": [
+        "https://www.congress.gov/crs-product/R48642",
+        "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule",
+        "https://www.cnbc.com/2026/01/14/trump-nvidia-h200-china-ai-chips.html",
+        "https://techcrunch.com/2025/05/28/nvidia-expects-to-lose-billions-in-revenue-due-to-h20-chip-licensing-requirements/",
+        "https://www.hpcwire.com/off-the-wire/nvidia-announces-financial-results-for-1st-quarter-fiscal-2026/"
+      ]
+    },
+    {
+      "id": "restrictions-on-deepseek",
+      "title": "Government restrictions on DeepSeek, by jurisdiction",
+      "description": "The first Chinese model to be treated as a national security object rather than a product.",
+      "columns": [
+        {
+          "key": "jurisdiction",
+          "label": "Jurisdiction",
+          "type": "text"
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "text"
+        },
+        {
+          "key": "scope",
+          "label": "Scope",
+          "type": "text"
+        },
+        {
+          "key": "rationale",
+          "label": "Stated rationale",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "jurisdiction": "Italy",
+          "date": "2025-01-30",
+          "scope": "Public block of the chatbot nationwide",
+          "rationale": "Garante found privacy-policy and data-transfer disclosures inadequate",
+          "_source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+        },
+        {
+          "jurisdiction": "Texas",
+          "date": "2025-01-31",
+          "scope": "All state-owned devices",
+          "rationale": "First US state ban; data harvesting and CCP-linkage concerns",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "jurisdiction": "Taiwan",
+          "date": "2025-02-02",
+          "scope": "Public sector agencies",
+          "rationale": "Cross-border data transmission and leakage risk",
+          "_source": "https://www.taipeitimes.com/News/front/archives/2025/02/02/2003831193"
+        },
+        {
+          "jurisdiction": "Australia",
+          "date": "2025-02-04",
+          "scope": "Government devices",
+          "rationale": "Security concerns",
+          "_source": "https://www.thecable.ng/south-korea-joins-italy-australia-in-banning-deepseek-over-security-concerns/"
+        },
+        {
+          "jurisdiction": "New York State",
+          "date": "2025-02-10",
+          "scope": "Government networks and devices",
+          "rationale": "Foreign surveillance and censorship risk",
+          "_source": "https://www.nbcnews.com/tech/new-york-state-bans-deepseek-government-devices-rcna191510"
+        },
+        {
+          "jurisdiction": "Virginia",
+          "date": "2025-02-11",
+          "scope": "State devices and networks",
+          "rationale": "Third US state to act",
+          "_source": "https://natlawreview.com/article/three-states-ban-deepseek-use-state-devices-and-networks"
+        },
+        {
+          "jurisdiction": "South Korea",
+          "date": "2025-02-17",
+          "scope": "App-store downloads suspended",
+          "rationale": "PIPC found non-compliance with Korean data protection law",
+          "_source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+        },
+        {
+          "jurisdiction": "Iowa",
+          "date": "2025-02-19",
+          "scope": "State devices, alongside other Chinese apps",
+          "rationale": "Governor's directive",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "jurisdiction": "South Dakota",
+          "date": "2025-03",
+          "scope": "Government-issued devices and contractors",
+          "rationale": "Bundled with RedNote restriction",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "jurisdiction": "Oklahoma",
+          "date": "2025-03-21",
+          "scope": "All state-owned devices",
+          "rationale": "Governor Stitt executive action citing data security",
+          "_source": "https://oklahoma.gov/governor/newsroom/newsroom/2025/-governor-stitt-bans-deepseek-on-all-state-owned-devices-due-to-.html"
+        },
+        {
+          "jurisdiction": "North Carolina",
+          "date": "2025-03",
+          "scope": "State devices",
+          "rationale": "Followed peer states",
+          "_source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+        },
+        {
+          "jurisdiction": "US Commerce Department",
+          "date": "2025-02",
+          "scope": "Department devices",
+          "rationale": "Reported internal prohibition ahead of any statute",
+          "_source": "https://www.pymnts.com/artificial-intelligence-2/2025/report-commerce-department-bans-use-of-deepseek-on-government-devices"
+        },
+        {
+          "jurisdiction": "Germany (Berlin DPA)",
+          "date": "2025-06-27",
+          "scope": "Finding of unlawful processing under GDPR",
+          "rationale": "Could not demonstrate EU-equivalent protection for data transferred to China",
+          "_source": "https://www.datenschutz-berlin.de/fileadmin/user_upload/pdf/pressemitteilungen/2025/20250627-BlnBDI-Press-Release_DeepSeek.pdf"
+        }
+      ],
+      "notes": "Dates for South Dakota and North Carolina are month-level in the underlying reporting. This is a floor count of publicly reported restrictions, not an exhaustive census; StateTech lists 14 US states restricting DeepSeek as of April 2025.",
+      "sources": [
+        "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek",
+        "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/",
+        "https://tech.co/news/which-countries-have-banned-deepseek-already",
+        "https://www.datenschutz-berlin.de/fileadmin/user_upload/pdf/pressemitteilungen/2025/20250627-BlnBDI-Press-Release_DeepSeek.pdf",
+        "https://www.taipeitimes.com/News/front/archives/2025/02/02/2003831193"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "policy-actions-per-quarter",
+      "title": "Distillation-adjacent policy and enforcement actions per quarter, 2022-2026",
+      "type": "bar",
+      "xLabel": "Quarter",
+      "yLabel": "Actions catalogued",
+      "unit": "actions",
+      "series": [
+        {
+          "name": "Events catalogued in this dashboard's timeline",
+          "data": [
+            {
+              "x": "2022 Q4",
+              "y": 1
+            },
+            {
+              "x": "2023 Q4",
+              "y": 1
+            },
+            {
+              "x": "2024 Q3",
+              "y": 1
+            },
+            {
+              "x": "2024 Q4",
+              "y": 1
+            },
+            {
+              "x": "2025 Q1",
+              "y": 9
+            },
+            {
+              "x": "2025 Q2",
+              "y": 4
+            },
+            {
+              "x": "2025 Q3",
+              "y": 6
+            },
+            {
+              "x": "2025 Q4",
+              "y": 2
+            },
+            {
+              "x": "2026 Q1",
+              "y": 5
+            },
+            {
+              "x": "2026 Q2",
+              "y": 11
+            },
+            {
+              "x": "2026 Q3",
+              "y": 6
+            }
+          ]
+        }
+      ],
+      "notes": "Counts are computed strictly from the entries in this dashboard's own timeline[] — one point per event, no other inclusion rule — so every bar can be reproduced by filtering the timeline by quarter. Not an exhaustive census of AI policy activity. Quarters with zero catalogued events are omitted. 2026 Q3 runs only to September 4, 2026.",
+      "sources": [
+        "https://www.justsecurity.org/137498/diagnosis-deterrence-us-response-distillation/",
+        "https://www.congress.gov/bill/119th-congress/house-bill/8283/text"
+      ]
+    },
+    {
+      "id": "jurisdiction-policy-mix",
+      "title": "Jurisdiction stance comparison: which policy tools are actually in place",
+      "type": "stackedBar",
+      "xLabel": "Jurisdiction",
+      "yLabel": "Tools in place (1 = yes)",
+      "unit": "binary indicator",
+      "series": [
+        {
+          "name": "Distillation-specific policy instrument",
+          "data": [
+            {
+              "x": "United States",
+              "y": 1
+            },
+            {
+              "x": "European Union",
+              "y": 0
+            },
+            {
+              "x": "United Kingdom",
+              "y": 0
+            },
+            {
+              "x": "China",
+              "y": 0
+            },
+            {
+              "x": "South Korea",
+              "y": 0
+            },
+            {
+              "x": "Japan",
+              "y": 0
+            },
+            {
+              "x": "Australia",
+              "y": 0
+            },
+            {
+              "x": "Taiwan",
+              "y": 0
+            }
+          ]
+        },
+        {
+          "name": "Binding law on general-purpose / frontier AI",
+          "data": [
+            {
+              "x": "United States",
+              "y": 0
+            },
+            {
+              "x": "European Union",
+              "y": 1
+            },
+            {
+              "x": "United Kingdom",
+              "y": 0
+            },
+            {
+              "x": "China",
+              "y": 1
+            },
+            {
+              "x": "South Korea",
+              "y": 1
+            },
+            {
+              "x": "Japan",
+              "y": 0
+            },
+            {
+              "x": "Australia",
+              "y": 0
+            },
+            {
+              "x": "Taiwan",
+              "y": 0
+            }
+          ]
+        },
+        {
+          "name": "Restricts Chinese AI apps on government devices",
+          "data": [
+            {
+              "x": "United States",
+              "y": 1
+            },
+            {
+              "x": "European Union",
+              "y": 0
+            },
+            {
+              "x": "United Kingdom",
+              "y": 0
+            },
+            {
+              "x": "China",
+              "y": 0
+            },
+            {
+              "x": "South Korea",
+              "y": 1
+            },
+            {
+              "x": "Japan",
+              "y": 0
+            },
+            {
+              "x": "Australia",
+              "y": 1
+            },
+            {
+              "x": "Taiwan",
+              "y": 1
+            }
+          ]
+        },
+        {
+          "name": "Unilateral controls on advanced AI chip / tech exports",
+          "data": [
+            {
+              "x": "United States",
+              "y": 1
+            },
+            {
+              "x": "European Union",
+              "y": 0
+            },
+            {
+              "x": "United Kingdom",
+              "y": 0
+            },
+            {
+              "x": "China",
+              "y": 1
+            },
+            {
+              "x": "South Korea",
+              "y": 0
+            },
+            {
+              "x": "Japan",
+              "y": 1
+            },
+            {
+              "x": "Australia",
+              "y": 0
+            },
+            {
+              "x": "Taiwan",
+              "y": 1
+            }
+          ]
+        }
+      ],
+      "notes": "US row scores 0 on binding GPAI law at the federal level; California SB 53 and the New York RAISE Act are state instruments. EU scores 0 on export controls because those are member-state and Wassenaar instruments (e.g. the Netherlands), not bloc-level AI chip controls. China's binding-law score reflects its generative AI and labelling measures; its export-control score reflects existing materials controls plus the 2026 consultation on model weights.",
+      "sources": [
+        "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+        "https://www.cooley.com/news/insight/2026/2026-01-27-south-koreas-ai-basic-act-overview-and-key-takeaways",
+        "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/",
+        "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+      ]
+    },
+    {
+      "id": "disclosed-extraction-volume",
+      "title": "Exchanges with Claude attributed to each accused lab, as disclosed by Anthropic",
+      "type": "bar",
+      "xLabel": "Accused lab",
+      "yLabel": "Exchanges disclosed",
+      "unit": "exchanges",
+      "series": [
+        {
+          "name": "February 23, 2026 disclosure",
+          "data": [
+            {
+              "x": "DeepSeek",
+              "y": 150000
+            },
+            {
+              "x": "Moonshot AI",
+              "y": 3400000
+            },
+            {
+              "x": "MiniMax",
+              "y": 13000000
+            }
+          ]
+        },
+        {
+          "name": "June 10, 2026 letter to Senate Banking",
+          "data": [
+            {
+              "x": "Alibaba / Qwen-affiliated operators",
+              "y": 28800000
+            }
+          ]
+        }
+      ],
+      "notes": "Figures are Anthropic's own attributions and have not been independently verified or adjudicated. The February set totals over 16 million exchanges across approximately 24,000 fraudulent accounts; the Alibaba campaign is dated April 22 to June 5, 2026 and used nearly 25,000 accounts. Alibaba denies using proprietary model outputs to train its models.",
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf",
+        "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html"
+      ]
+    },
+    {
+      "id": "bill-progress",
+      "title": "How far each US bill has actually travelled",
+      "type": "bar",
+      "xLabel": "Bill",
+      "yLabel": "Furthest stage (1 introduced, 2 reported by committee, 3 passed a chamber, 4 enacted)",
+      "unit": "stage",
+      "series": [
+        {
+          "name": "Furthest stage reached as of 2026-09-04",
+          "data": [
+            {
+              "x": "H.R. 8283 Model Theft",
+              "y": 2
+            },
+            {
+              "x": "H.R. 3447 Chip Security",
+              "y": 2
+            },
+            {
+              "x": "S. 1705 Chip Security",
+              "y": 1
+            },
+            {
+              "x": "S. 3150 GAIN AI",
+              "y": 3
+            },
+            {
+              "x": "S. 321 Decoupling",
+              "y": 1
+            },
+            {
+              "x": "S. 2177 No Adversarial AI",
+              "y": 1
+            },
+            {
+              "x": "H.R. 4142 No Adversarial AI",
+              "y": 1
+            },
+            {
+              "x": "H.R. 1121 No DeepSeek on Gov Devices",
+              "y": 1
+            }
+          ]
+        }
+      ],
+      "notes": "S. 3150 scores 3 because the GAIN AI Act passed the Senate as an amendment to the FY2026 NDAA on October 9, 2025 — but it was stripped in conference and the enacted NDAA excludes it, so no bill in this set has reached stage 4.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/8283/text",
+        "https://www.congress.gov/bill/119th-congress/house-bill/3447",
+        "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/"
+      ]
+    },
+    {
+      "id": "deepseek-restrictions-cumulative",
+      "title": "Cumulative restrictions on DeepSeek among the jurisdictions this dashboard tracks, first quarter after R1",
+      "type": "line",
+      "xLabel": "Month",
+      "yLabel": "Jurisdictions with a public restriction",
+      "unit": "jurisdictions",
+      "series": [
+        {
+          "name": "Cumulative jurisdictions listed in this dashboard (states, national governments, agencies)",
+          "data": [
+            {
+              "x": "2025-01",
+              "y": 2
+            },
+            {
+              "x": "2025-02",
+              "y": 9
+            },
+            {
+              "x": "2025-03",
+              "y": 12
+            },
+            {
+              "x": "2025-04",
+              "y": 12
+            }
+          ]
+        }
+      ],
+      "notes": "Counts only the restrictions listed in the 'Government restrictions on DeepSeek' table: Italy and Texas in January; Taiwan, Australia, New York, Virginia, South Korea, Iowa and the US Commerce Department in February; South Dakota, Oklahoma and North Carolina in March; no further additions in April within this table. This is deliberately narrower than the full picture — StateTech lists 14 US states restricting DeepSeek by April 2025, including Nebraska, Tennessee, Arkansas, North Dakota, Alabama, Georgia and Kansas, which this table does not enumerate individually.",
+      "sources": [
+        "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek",
+        "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2022-10-07",
+      "title": "BIS imposes advanced computing export controls on China",
+      "detail": "Cuts off A100/H100-class GPUs. Nvidia responds with China-specific A800 and H800 parts with reduced interconnect bandwidth. This is the compute-asymmetry baseline that later distillation arguments rest on.",
+      "category": "policy",
+      "source": "https://www.congress.gov/crs-product/R48642"
+    },
+    {
+      "date": "2023-10-17",
+      "title": "BIS closes the A800/H800 workaround",
+      "detail": "The October 2023 update captures the China-tailored parts. Nvidia then announces H20, L20 and L2 for the Chinese market.",
+      "category": "policy",
+      "source": "https://cset.georgetown.edu/article/bis-2023-update-explainer/"
+    },
+    {
+      "date": "2024-07-09",
+      "title": "OpenAI blocks API traffic from unsupported regions including mainland China",
+      "detail": "Developers in China had been reaching the API through VPNs; OpenAI began blocking that traffic. Microsoft's Azure China joint venture continued serving eligible customers, an early illustration of how corporate access policy fragments.",
+      "category": "product",
+      "source": "https://restofworld.org/2024/exporter-openai-china-api-access/"
+    },
+    {
+      "date": "2024-12-27",
+      "title": "DeepSeek V3 is reported to self-identify as ChatGPT",
+      "detail": "Widely reported behaviour in which V3 described itself as a version of ChatGPT. Later cited by the House Select Committee and by AFPI testimony as circumstantial evidence of OpenAI-derived training data.",
+      "category": "research",
+      "source": "https://techcrunch.com/2024/12/27/why-deepseeks-new-ai-model-thinks-its-chatgpt/"
+    },
+    {
+      "date": "2025-01-15",
+      "title": "AI Diffusion Rule published",
+      "detail": "Biden-era framework imposing worldwide tiered licensing on advanced computing, with enforcement scheduled for May 15, 2025. OpenAI's March filing would later propose banning PRC-produced models within its Tier 1 country group.",
+      "category": "policy",
+      "source": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule"
+    },
+    {
+      "date": "2025-01-28",
+      "title": "David Sacks says there is 'substantial evidence' DeepSeek distilled OpenAI models",
+      "detail": "The White House AI and crypto czar told Fox News that DeepSeek 'distilled knowledge out of OpenAI models,' without detailing the evidence, and predicted US labs would move to block copycat models.",
+      "category": "policy",
+      "source": "https://www.bloomberg.com/news/articles/2025-01-28/ai-czar-sacks-says-evidence-deepseek-leaned-on-openai-s-models"
+    },
+    {
+      "date": "2025-01-29",
+      "title": "Microsoft and OpenAI confirm they are investigating a DeepSeek-linked group",
+      "detail": "Microsoft security researchers had observed individuals believed linked to DeepSeek exfiltrating large volumes of data through the OpenAI API in autumn 2024. OpenAI said it takes 'aggressive, proactive countermeasures' and knows PRC-based companies are constantly trying to distill leading US models.",
+      "category": "legal",
+      "source": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data"
+    },
+    {
+      "date": "2025-01-29",
+      "title": "Dario Amodei publishes 'On DeepSeek and Export Controls'",
+      "detail": "Argues DeepSeek's efficiency does not undermine export controls but makes them more important, and that a substantial share of DeepSeek's fleet was pre-ban, unbanned or likely smuggled. Sets the compute-asymmetry frame the labs still use.",
+      "category": "policy",
+      "source": "https://darioamodei.com/post/on-deepseek-and-export-controls"
+    },
+    {
+      "date": "2025-01-29",
+      "title": "Senator Hawley introduces S. 321, the Decoupling America's AI Capabilities from China Act",
+      "detail": "Would prohibit US persons from exporting AI technology or IP to China or importing Chinese-developed AI, bar joint research, and impose penalties of up to 20 years. Referred to Judiciary and not advanced.",
+      "category": "policy",
+      "source": "https://www.congress.gov/bill/119th-congress/senate-bill/321"
+    },
+    {
+      "date": "2025-01-30",
+      "title": "Italy's Garante orders DeepSeek's chatbot blocked",
+      "detail": "The first national-level public block, on data-protection rather than security grounds, after DeepSeek failed to address the regulator's questions about its privacy policy and transfers.",
+      "category": "legal",
+      "source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+    },
+    {
+      "date": "2025-01-31",
+      "title": "Texas becomes the first US state to ban DeepSeek on state devices",
+      "detail": "Opens a wave of state-level restrictions that reached at least seven states by April 2025, plus agency-level bans elsewhere.",
+      "category": "policy",
+      "source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+    },
+    {
+      "date": "2025-02-04",
+      "title": "Australia bans DeepSeek on government devices",
+      "detail": "Followed within weeks by South Korea suspending app-store downloads and Taiwan restricting public-sector use.",
+      "category": "policy",
+      "source": "https://www.thecable.ng/south-korea-joins-italy-australia-in-banning-deepseek-over-security-concerns/"
+    },
+    {
+      "date": "2025-03-13",
+      "title": "OpenAI's OSTP filing calls DeepSeek 'state-subsidized' and 'state-controlled'",
+      "detail": "In its response to the AI Action Plan RFI, OpenAI recommended considering bans on PRC-produced models in Tier 1 countries, citing security risk and risk of IP theft, and pointed to distillation against its terms of service. OpenAI later softened the framing, saying it was proposing export-rule changes rather than usage restrictions.",
+      "category": "policy",
+      "source": "https://techcrunch.com/2025/03/13/openai-calls-deepseek-state-controlled-calls-for-bans-on-prc-produced-models/"
+    },
+    {
+      "date": "2025-04-14",
+      "title": "OpenAI introduces Verified Organization ID checks for frontier API access",
+      "detail": "Government-ID verification gates access to the most capable models, with one ID per organisation per 90 days. An access-control response to extraction rather than a legal one.",
+      "category": "product",
+      "source": "https://help.openai.com/en/articles/10910291-api-organization-verification"
+    },
+    {
+      "date": "2025-04-16",
+      "title": "House Select Committee on the CCP publishes 'DeepSeek Unmasked'",
+      "detail": "Bipartisan report calling DeepSeek a 'profound threat,' alleging data routing through China Mobile-linked infrastructure, likely unlawful distillation of US models, and export-control circumvention. Recommends expanding and better enforcing export controls.",
+      "category": "policy",
+      "source": "https://chinaselectcommittee.house.gov/media/press-releases/moolenaar-krishnamoorthi-unveil-explosive-report-on-chinese-ai-firm-deepseek-demand-answers-from-nvidia-over-chip-use"
+    },
+    {
+      "date": "2025-05-13",
+      "title": "BIS announces rescission of the AI Diffusion Rule",
+      "detail": "Two days before it would have taken effect, with an instruction not to enforce pending formal rescission. The administration argued it would stifle US innovation and undermine diplomacy; a replacement rule was promised.",
+      "category": "policy",
+      "source": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule"
+    },
+    {
+      "date": "2025-06-25",
+      "title": "No Adversarial AI Act introduced",
+      "detail": "Sens. Rick Scott and Gary Peters, with House Select Committee members, propose a Federal Acquisition Security Council list of foreign-adversary AI and a ban on executive-agency use with narrow research carve-outs.",
+      "category": "policy",
+      "source": "https://www.congress.gov/bill/119th-congress/senate-bill/2177/text"
+    },
+    {
+      "date": "2025-07-10",
+      "title": "European Commission publishes the final GPAI Code of Practice",
+      "detail": "Three chapters — Transparency, Copyright, Safety and Security — as a voluntary route to compliance with obligations applying from August 2, 2025. Formally approved on August 1.",
+      "category": "policy",
+      "source": "https://artificialintelligenceact.eu/code-of-practice-overview/"
+    },
+    {
+      "date": "2025-07-23",
+      "title": "White House releases 'Winning the Race: America's AI Action Plan'",
+      "detail": "Over 90 federal actions across innovation, infrastructure and international pillars. Notably promotes open-source and open-weight models and calls for exporting the full American AI stack — a posture in tension with the case for restricting model access.",
+      "category": "policy",
+      "source": "https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf"
+    },
+    {
+      "date": "2025-07-26",
+      "title": "China unveils a Global AI Governance Action Plan and proposes a world AI cooperation body",
+      "detail": "Announced at the World AI Conference in Shanghai: a thirteen-point roadmap, an International Open Source AI Cooperation Initiative, and a proposed organisation headquartered in Shanghai. The counter-offer to US-led restriction.",
+      "category": "policy",
+      "source": "https://technode.com/2025/07/29/china-proposes-new-global-ai-cooperation-organization-headquarter-planned-in-shanghai/"
+    },
+    {
+      "date": "2025-08-02",
+      "title": "EU AI Act obligations for general-purpose AI providers begin to apply",
+      "detail": "Applies to models placed on the market on or after this date. Commission enforcement, including model access and recalls, deferred one year to August 2, 2026.",
+      "category": "policy",
+      "source": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714"
+    },
+    {
+      "date": "2025-08-11",
+      "title": "Nvidia and AMD reported to agree a 15% China revenue share for export licences",
+      "detail": "Commerce began issuing H20 licences days after Jensen Huang met President Trump. A novel instrument: export policy priced rather than prohibited.",
+      "category": "policy",
+      "source": "https://fortune.com/2025/08/10/nvidia-amd-chips-h20-mi308-china-sales-revenue-trump-export-license/"
+    },
+    {
+      "date": "2025-09-05",
+      "title": "Anthropic bars entities majority-controlled from China, Russia, Iran and North Korea",
+      "detail": "Applies worldwide to subsidiaries and joint ventures regardless of where they operate. Anthropic cited legal compulsion to share data with authoritarian states and estimated a revenue impact in the low hundreds of millions of dollars.",
+      "category": "product",
+      "source": "https://www.semafor.com/article/09/05/2025/anthropic-blocks-ai-sales-in-china"
+    },
+    {
+      "date": "2025-10-09",
+      "title": "Senate passes its NDAA including the GAIN AI Act",
+      "detail": "Would require US chipmakers to prioritise American customers before selling advanced AI chips abroad. Opposed by Nvidia, the Semiconductor Industry Association and the White House AI adviser; supported by Microsoft and Americans for Responsible Innovation.",
+      "category": "policy",
+      "source": "https://www.nextgov.com/artificial-intelligence/2025/10/ai-export-control-bill-passes-senate-ndaa-amendment/408762/"
+    },
+    {
+      "date": "2025-12-18",
+      "title": "FY2026 NDAA signed without the GAIN AI Act",
+      "detail": "The chip-allocation mandate was stripped in conference. Ten days earlier the President had directed that H200-class exports to approved customers be permitted in exchange for a federal surcharge.",
+      "category": "policy",
+      "source": "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/"
+    },
+    {
+      "date": "2026-01-15",
+      "title": "BIS moves H200 and MI325X exports to case-by-case review; 25% tariff applies",
+      "detail": "Replaces the presumption of denial for China and Macau destinations, with third-party lab testing and a cap on the China share relative to US customers. The proclamation imposing a 25% duty was signed the previous day.",
+      "category": "policy",
+      "source": "https://www.cnbc.com/2026/01/14/trump-nvidia-h200-china-ai-chips.html"
+    },
+    {
+      "date": "2026-01-22",
+      "title": "South Korea's AI Basic Act takes effect",
+      "detail": "The first comprehensive national AI framework outside the EU, with generative-AI and high-impact obligations, a National AI Committee, an AI Policy Center and an AI Safety Research Institute. It does not address distillation.",
+      "category": "policy",
+      "source": "https://www.cooley.com/news/insight/2026/2026-01-27-south-koreas-ai-basic-act-overview-and-key-takeaways"
+    },
+    {
+      "date": "2026-02-12",
+      "title": "OpenAI memo to the House Select Committee and Google GTIG report land the same day",
+      "detail": "OpenAI's 'Updated Stakes for American-Led, Democratic AI' accused Chinese companies including DeepSeek of using sophisticated, multi-stage pipelines. Google's Threat Intelligence Group reported disrupting Gemini extraction activity, including a cluster of more than 100,000 prompts aimed at coercing reasoning behaviour, and framed the threat as global rather than China-specific.",
+      "category": "legal",
+      "source": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf"
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Anthropic publicly discloses industrial-scale distillation attacks",
+      "detail": "Names DeepSeek, Moonshot AI and MiniMax: over 16 million exchanges through roughly 24,000 fraudulent accounts, with MiniMax accounting for over 13 million. Calls for coordinated industry, cloud-provider and policymaker response and argues the episode reinforces the case for chip export controls.",
+      "category": "legal",
+      "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks"
+    },
+    {
+      "date": "2026-03-26",
+      "title": "Chip Security Act reported out of House Foreign Affairs 42-0",
+      "detail": "Would require location-verification mechanisms on covered chips before export, with reporting to Commerce if a chip's location changes. Bipartisan but not enacted.",
+      "category": "policy",
+      "source": "https://www.congress.gov/bill/119th-congress/house-bill/3447"
+    },
+    {
+      "date": "2026-04-07",
+      "title": "OpenAI, Anthropic and Google agree to share distillation threat intelligence",
+      "detail": "Coordination routed through the Frontier Model Forum, responding to the AI Action Plan's call for an industry information-sharing centre. The companies sought antitrust comfort before trading notes.",
+      "category": "market",
+      "source": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab"
+    },
+    {
+      "date": "2026-04-15",
+      "title": "H.R. 8283, the Deterring American AI Model Theft Act of 2026, is introduced",
+      "detail": "Reps. Huizenga and Moolenaar. Defines a 'model extraction attack' as unauthorized extraction of a closed-source model's capabilities where the querying circumvents access controls, uses fraudulent credentials, or violates terms prohibiting output-based training. Explicitly exempts training that complies with terms of service.",
+      "category": "policy",
+      "source": "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf"
+    },
+    {
+      "date": "2026-04-16",
+      "title": "House Select Committee hearing: 'China's Illicit Campaign to Steal and Subvert American AI Technology'",
+      "detail": "Testimony from AFPI's Yusuf Mahmood collating the OpenAI, Google, Anthropic and xAI disclosures and arguing that consistent lag behind the American frontier is itself evidence of a distillation-driven development model.",
+      "category": "policy",
+      "source": "https://docs.house.gov/meetings/ZS/ZS00/20260416/119165/HHRG-119-ZS00-Wstate-MahmoodY-20260416.pdf"
+    },
+    {
+      "date": "2026-04-22",
+      "title": "H.R. 8283 ordered reported 43-0",
+      "detail": "Unanimous House Foreign Affairs vote, alongside a package of export-control measures. The bill has not received a floor vote as of September 2026.",
+      "category": "policy",
+      "source": "https://www.congress.gov/bill/119th-congress/house-bill/8283/text"
+    },
+    {
+      "date": "2026-04-23",
+      "title": "OSTP issues NSTM-4, 'Adversarial Distillation of American AI Models'",
+      "detail": "Signed by Director Michael Kratsios. Finds foreign entities principally in China running deliberate, industrial-scale campaigns using tens of thousands of proxy accounts and jailbreaking to expose proprietary information, and that the resulting models strip safety protocols. Commits to intelligence sharing with industry, joint best practices and exploration of accountability measures.",
+      "category": "policy",
+      "source": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/"
+    },
+    {
+      "date": "2026-04-24",
+      "title": "State Department cables posts worldwide to raise distillation with foreign counterparts",
+      "detail": "Instructs diplomats to discuss concerns over adversaries' extraction and distillation of US AI models, naming DeepSeek, Moonshot AI and MiniMax. The Chinese Embassy called the allegations groundless.",
+      "category": "policy",
+      "source": "https://www.cnbc.com/2026/04/25/us-global-warning-alleged-china-ai-theft.html"
+    },
+    {
+      "date": "2026-04-24",
+      "title": "DeepSeek releases a preview of V4",
+      "detail": "A trillion-parameter-class open model, notable as DeepSeek's first optimised for domestic Chinese accelerators such as Huawei Ascend. US officials alleged it was trained on smuggled Blackwell GPUs; Nvidia called that farfetched.",
+      "category": "product",
+      "source": "https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/"
+    },
+    {
+      "date": "2026-06-05",
+      "title": "President signs NSPM-11 on AI in the national security enterprise",
+      "detail": "Four pillars — adoption, adaptation, assurance, accountability — with Section 4(c) directing protection of advanced AI systems against malicious distillation attacks. Rescinds and replaces the prior administration's NSM-25.",
+      "category": "policy",
+      "source": "https://www.whitehouse.gov/presidential-actions/2026/06/national-security-presidential-memorandum-nspm-11/"
+    },
+    {
+      "date": "2026-06-08",
+      "title": "Pentagon adds Alibaba, Baidu, BYD and Unitree to the 1260H list",
+      "detail": "Sixty-five entities added, bringing the list to 188. Procurement prohibitions take effect June 30, 2026. DeepSeek was not added.",
+      "category": "policy",
+      "source": "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html"
+    },
+    {
+      "date": "2026-06-10",
+      "title": "Anthropic tells Senate Banking that Alibaba ran the largest known distillation attack against it",
+      "detail": "Letter to Chairman Tim Scott and Ranking Member Elizabeth Warren alleging 28.8 million-plus exchanges through nearly 25,000 fraudulent accounts between April 22 and June 5, 2026, targeting agentic reasoning, software engineering and long-horizon tasks. Asks Congress to enable threat-information sharing, close chip loopholes and penalise responsible PRC labs.",
+      "category": "legal",
+      "source": "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf"
+    },
+    {
+      "date": "2026-06-17",
+      "title": "US holds off blacklisting DeepSeek and 100-plus other flagged firms",
+      "detail": "An inter-agency committee had approved DeepSeek for Entity List addition, but publication was delayed, reportedly to avoid escalating tensions with Beijing. A State Department official said DeepSeek has supported Chinese military and intelligence operations.",
+      "category": "policy",
+      "source": "https://www.cnbc.com/2026/06/17/us-deepseek-blacklist-cxmt-national-security-risks-.html"
+    },
+    {
+      "date": "2026-07-06",
+      "title": "Alibaba bars employees from using Anthropic products",
+      "detail": "Announced 6 July 2026, effective 10 July 2026: staff were told to uninstall Anthropic models and agent products and use Alibaba's own assistant. Alibaba denied using proprietary model outputs to train its models and denied Chinese government involvement.",
+      "category": "market",
+      "source": "https://www.cnbc.com/2026/07/06/alibaba-anthropic-ai-ban-claude-china.html"
+    },
+    {
+      "date": "2026-07-21",
+      "title": "Treasury Secretary Bessent threatens sanctions over AI model theft",
+      "detail": "Said the US is finding watermarks of American large language models inside Chinese systems and has the ability to sanction overseas models that steal from US companies. The same day, FT reported MOFCOM consulting Alibaba, ByteDance and Zhipu on export controls covering model weights, key training data and chip designs.",
+      "category": "policy",
+      "source": "https://www.cnbc.com/2026/07/21/bessent-china-ai-sanctions.html"
+    },
+    {
+      "date": "2026-07-22",
+      "title": "Kratsios accuses Moonshot AI of distilling Anthropic's Fable to build Kimi K3",
+      "detail": "The OSTP director also alleged Moonshot obtained export-controlled Nvidia servers. No supporting evidence was published; researchers including Nathan Lambert and Braden Hancock publicly doubted distillation alone could explain K3's capabilities on that timeline, noting Fable had been publicly available only since July 1 — about two weeks.",
+      "category": "legal",
+      "source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+    },
+    {
+      "date": "2026-07-24",
+      "title": "Open-weights letter launches with ~25 signatories, later exceeding 270",
+      "detail": "Nvidia, Meta, Microsoft and Amazon were among roughly 25 companies signing at launch on July 24, 2026; OpenAI and Google were absent on the day and appeared on the signatory list around July 26. The count passed 150 by July 28 and later exceeded 270. Signatories argue open weights are essential to American AI leadership and that closed-model concentration is a systemic risk. Dario Amodei published a rebuttal on July 27 accepting open weights in general but arguing the most powerful frontier weights carry irreversible national security risk.",
+      "category": "policy",
+      "source": "https://images.nvidia.com/pdf/Open-Weights-and-American-AI-Leadership.pdf"
+    },
+    {
+      "date": "2026-07-27",
+      "title": "China's Ministry of Commerce counter-accuses American AI firms of distilling Chinese models",
+      "detail": "Called US allegations factually and legally unsupported and an act of 'AI hegemony,' promised 'all necessary measures' if Chinese firms are sanctioned, and defended distillation as a widely used industry technique. No companies were named and no evidence was supplied.",
+      "category": "policy",
+      "source": "https://www.implicator.ai/china-says-us-firms-distilled-chinese-models/"
+    },
+    {
+      "date": "2026-08-02",
+      "title": "EU AI Act enforcement powers go live",
+      "detail": "The AI Office can now request information and documentation, obtain model access for evaluation, require corrective measures, and fine GPAI providers up to EUR 15 million or 3% of global turnover. Its stated preferred first tool remains technical compliance dialogues.",
+      "category": "policy",
+      "source": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Distillation",
+      "definition": "Training a smaller or cheaper student model on the outputs of a larger teacher model. Legitimate and standard when the teacher's licence permits it; the policy fight is about doing it to a closed model in breach of its terms."
+    },
+    {
+      "term": "Adversarial distillation",
+      "definition": "The term adopted by OSTP memorandum NSTM-4 (April 23, 2026) for systematic extraction of a frontier model's capabilities via large volumes of constructed queries, typically through proxy accounts that evade access controls."
+    },
+    {
+      "term": "Model extraction attack",
+      "definition": "The statutory term in H.R. 8283: unauthorized extracting of a closed-source model's capabilities to replicate, develop, train or improve another model, where the querying circumvents access controls, uses fraudulent credentials, or violates output-training terms."
+    },
+    {
+      "term": "AI Model Extraction Attackers List",
+      "definition": "The public list H.R. 8283 would have the Secretary of State maintain, naming individuals and entities assessed to have conducted model extraction attacks, as a predicate for sanctions or Entity Listing."
+    },
+    {
+      "term": "Fraudulent account network provider",
+      "definition": "A category defined in H.R. 8283 covering foreign entities that create, sell or broker accounts allowing entities of concern to reach models they are barred from, with a carve-out for services enabling internet access for freedom of expression."
+    },
+    {
+      "term": "Entity List",
+      "definition": "The Commerce/BIS list imposing licence requirements, usually with a presumption of denial, on exports to named foreign parties. Repeatedly floated for Chinese AI labs; not applied to DeepSeek as of September 2026."
+    },
+    {
+      "term": "Section 1260H list",
+      "definition": "The Pentagon's annual list of Chinese military companies. Listing bars Department procurement contracts. Alibaba, Baidu, BYD and Unitree were added in June 2026."
+    },
+    {
+      "term": "IEEPA",
+      "definition": "The International Emergency Economic Powers Act, the authority under which a president can declare a national emergency and impose blocking sanctions. The main vehicle proposed for sanctioning distillation actors."
+    },
+    {
+      "term": "AI Diffusion Rule",
+      "definition": "The January 15, 2025 BIS framework creating worldwide tiered licensing for advanced computing. BIS announced its rescission on May 13, 2025, before its May 15 enforcement date."
+    },
+    {
+      "term": "GPAI obligations",
+      "definition": "The EU AI Act duties on providers of general-purpose AI models — technical documentation, copyright policy, training-data summary, and systemic-risk duties above a compute threshold — applying from August 2, 2025 and enforceable from August 2, 2026."
+    },
+    {
+      "term": "Code of Practice (GPAI)",
+      "definition": "The voluntary EU compliance instrument published July 10, 2025, with Transparency, Copyright, and Safety and Security chapters. Signing it is a presumption-of-conformity route, not a legal obligation."
+    },
+    {
+      "term": "Open weights",
+      "definition": "Model parameters published for download and self-hosting. Central to the policy paradox: the US AI Action Plan promotes open weights while distillation policy tries to restrict capability diffusion."
+    },
+    {
+      "term": "Sovereign AI",
+      "definition": "A state's pursuit of domestically controlled compute, models and data. In 2026 the practical question is whether a country's sovereign stack sits on US closed models, US open weights, or Chinese open weights."
+    },
+    {
+      "term": "Transfer station economy",
+      "definition": "The grey market of proxy servers and reseller billing panels that resell access to Western frontier models inside China, sometimes at a fraction of list price. The practical delivery mechanism behind alleged extraction campaigns."
+    },
+    {
+      "term": "Military-civil fusion",
+      "definition": "China's policy of integrating civilian technology development with military modernisation, invoked by US officials to argue that capabilities distilled by commercial Chinese labs reach the PLA."
+    },
+    {
+      "term": "Frontier Model Forum",
+      "definition": "The industry body founded in 2023 by Anthropic, Google, Microsoft and OpenAI, used from April 2026 as the channel for sharing distillation threat intelligence between labs."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Detecting and preventing distillation attacks",
+      "url": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+      "publisher": "Anthropic",
+      "date": "2026-02-23",
+      "type": "blog"
+    },
+    {
+      "title": "Letter to Senate Banking Committee on illicit access to American AI models by Alibaba-affiliated operators",
+      "url": "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf",
+      "publisher": "Anthropic",
+      "date": "2026-06-10",
+      "type": "filing"
+    },
+    {
+      "title": "H.R. 8283, Deterring American AI Model Theft Act of 2026 (introduced text)",
+      "url": "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf",
+      "publisher": "US Government Publishing Office",
+      "date": "2026-04-15",
+      "type": "law"
+    },
+    {
+      "title": "H.R. 8283 bill page and status",
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/8283/text",
+      "publisher": "Congress.gov",
+      "date": "2026-04-22",
+      "type": "law"
+    },
+    {
+      "title": "National Security Presidential Memorandum NSPM-11",
+      "url": "https://www.whitehouse.gov/presidential-actions/2026/06/national-security-presidential-memorandum-nspm-11/",
+      "publisher": "The White House",
+      "date": "2026-06-05",
+      "type": "law"
+    },
+    {
+      "title": "Winning the Race: America's AI Action Plan",
+      "url": "https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf",
+      "publisher": "The White House",
+      "date": "2025-07-23",
+      "type": "law"
+    },
+    {
+      "title": "China's Illicit Campaign to Steal and Subvert American AI Technology (testimony of Yusuf Mahmood)",
+      "url": "https://docs.house.gov/meetings/ZS/ZS00/20260416/119165/HHRG-119-ZS00-Wstate-MahmoodY-20260416.pdf",
+      "publisher": "US House Select Committee on the CCP",
+      "date": "2026-04-16",
+      "type": "filing"
+    },
+    {
+      "title": "OpenAI response to the OSTP/NSF RFI on the AI Action Plan",
+      "url": "https://cdn.openai.com/global-affairs/ostp-rfi/ec680b75-d539-4653-b297-8bcf6e5f7686/openai-response-ostp-nsf-rfi-notice-request-for-information-on-the-development-of-an-artificial-intelligence-ai-action-plan.pdf",
+      "publisher": "OpenAI",
+      "date": "2025-03-13",
+      "type": "filing"
+    },
+    {
+      "title": "OpenAI calls DeepSeek 'state-controlled,' calls for bans on 'PRC-produced' models",
+      "url": "https://techcrunch.com/2025/03/13/openai-calls-deepseek-state-controlled-calls-for-bans-on-prc-produced-models/",
+      "publisher": "TechCrunch",
+      "date": "2025-03-13",
+      "type": "news"
+    },
+    {
+      "title": "AI Czar Sacks Says 'Evidence' DeepSeek Leaned On OpenAI's Models",
+      "url": "https://www.bloomberg.com/news/articles/2025-01-28/ai-czar-sacks-says-evidence-deepseek-leaned-on-openai-s-models",
+      "publisher": "Bloomberg",
+      "date": "2025-01-28",
+      "type": "news"
+    },
+    {
+      "title": "Microsoft Probing If DeepSeek-Linked Group Improperly Obtained OpenAI Data",
+      "url": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data",
+      "publisher": "Bloomberg",
+      "date": "2025-01-29",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI says DeepSeek may have 'inappropriately' used its models' output",
+      "url": "https://www.axios.com/2025/01/29/openai-deepseek-ai-models-data-training",
+      "publisher": "Axios",
+      "date": "2025-01-29",
+      "type": "news"
+    },
+    {
+      "title": "On DeepSeek and Export Controls",
+      "url": "https://darioamodei.com/post/on-deepseek-and-export-controls",
+      "publisher": "Dario Amodei",
+      "date": "2025-01-29",
+      "type": "blog"
+    },
+    {
+      "title": "Moolenaar, Krishnamoorthi unveil report on DeepSeek",
+      "url": "https://chinaselectcommittee.house.gov/media/press-releases/moolenaar-krishnamoorthi-unveil-explosive-report-on-chinese-ai-firm-deepseek-demand-answers-from-nvidia-over-chip-use",
+      "publisher": "US House Select Committee on the CCP",
+      "date": "2025-04-16",
+      "type": "filing"
+    },
+    {
+      "title": "S. 321 Decoupling America's Artificial Intelligence Capabilities from China Act",
+      "url": "https://www.congress.gov/bill/119th-congress/senate-bill/321",
+      "publisher": "Congress.gov",
+      "date": "2025-01-29",
+      "type": "law"
+    },
+    {
+      "title": "H.R. 3447 Chip Security Act",
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/3447",
+      "publisher": "Congress.gov",
+      "date": "2025-05-15",
+      "type": "law"
+    },
+    {
+      "title": "S. 1705 Chip Security Act",
+      "url": "https://www.congress.gov/bill/119th-congress/senate-bill/1705",
+      "publisher": "Congress.gov",
+      "date": "2025-05-08",
+      "type": "law"
+    },
+    {
+      "title": "S. 3150 GAIN AI Act of 2025",
+      "url": "https://www.congress.gov/bill/119th-congress/senate-bill/3150",
+      "publisher": "Congress.gov",
+      "date": "2025-11-06",
+      "type": "law"
+    },
+    {
+      "title": "S. 2177 No Adversarial AI Act (text)",
+      "url": "https://www.congress.gov/bill/119th-congress/senate-bill/2177/text",
+      "publisher": "Congress.gov",
+      "date": "2025-06-25",
+      "type": "law"
+    },
+    {
+      "title": "H.R. 1121 No DeepSeek on Government Devices Act",
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/1121/all-info",
+      "publisher": "Congress.gov",
+      "date": "2025-02-07",
+      "type": "law"
+    },
+    {
+      "title": "US Export Controls and China: Advanced Semiconductors (CRS R48642)",
+      "url": "https://www.congress.gov/crs-product/R48642",
+      "publisher": "Congressional Research Service",
+      "date": "2025-08",
+      "type": "filing"
+    },
+    {
+      "title": "Explainer: The Commerce Department's October 2023 Export Controls Update",
+      "url": "https://cset.georgetown.edu/article/bis-2023-update-explainer/",
+      "publisher": "CSET, Georgetown",
+      "date": "2023-10",
+      "type": "blog"
+    },
+    {
+      "title": "BIS Rescinds AI Diffusion Rule and Issues Guidance",
+      "url": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule",
+      "publisher": "Wiley Rein",
+      "date": "2025-05-14",
+      "type": "blog"
+    },
+    {
+      "title": "Nvidia says it will record $5.5 billion charge tied to H20 processors",
+      "url": "https://www.cnbc.com/2025/04/15/nvidia-says-it-will-record-5point5-billion-quarterly-charge-tied-to-h20-processors-exported-to-china.html",
+      "publisher": "CNBC",
+      "date": "2025-04-15",
+      "type": "news"
+    },
+    {
+      "title": "Nvidia, AMD to pay 15% of China chip revenue to US government",
+      "url": "https://fortune.com/2025/08/10/nvidia-amd-chips-h20-mi308-china-sales-revenue-trump-export-license/",
+      "publisher": "Fortune",
+      "date": "2025-08-10",
+      "type": "news"
+    },
+    {
+      "title": "Trump administration clears way for Nvidia H200 chip sales to China",
+      "url": "https://www.cnbc.com/2026/01/14/trump-nvidia-h200-china-ai-chips.html",
+      "publisher": "CNBC",
+      "date": "2026-01-14",
+      "type": "news"
+    },
+    {
+      "title": "AI export control bill passes Senate as NDAA amendment",
+      "url": "https://www.nextgov.com/artificial-intelligence/2025/10/ai-export-control-bill-passes-senate-ndaa-amendment/408762/",
+      "publisher": "Nextgov/FCW",
+      "date": "2025-10-09",
+      "type": "news"
+    },
+    {
+      "title": "Bill prioritizing American customers for AI chips not expected to make it into final NDAA",
+      "url": "https://www.nextgov.com/policy/2025/12/bill-prioritizing-american-customers-ai-chips-not-expected-make-it-final-ndaa-sources-say/409920/",
+      "publisher": "Nextgov/FCW",
+      "date": "2025-12",
+      "type": "news"
+    },
+    {
+      "title": "White House accuses China of deliberate, industrial-scale campaigns to steal US AI models",
+      "url": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/",
+      "publisher": "Nextgov/FCW",
+      "date": "2026-04-23",
+      "type": "news"
+    },
+    {
+      "title": "US State Department orders global warning about alleged China AI theft",
+      "url": "https://www.cnbc.com/2026/04/25/us-global-warning-alleged-china-ai-theft.html",
+      "publisher": "CNBC",
+      "date": "2026-04-25",
+      "type": "news"
+    },
+    {
+      "title": "Anthropic accuses Alibaba of campaign to 'brazenly' and 'illicitly' extract Claude capabilities",
+      "url": "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html",
+      "publisher": "CNBC",
+      "date": "2026-06-24",
+      "type": "news"
+    },
+    {
+      "title": "China's Alibaba bans Anthropic AI for employees after distillation accusation",
+      "url": "https://www.cnbc.com/2026/07/06/alibaba-anthropic-ai-ban-claude-china.html",
+      "publisher": "CNBC",
+      "date": "2026-07-06",
+      "type": "news"
+    },
+    {
+      "title": "Bessent says U.S. could sanction China over AI model 'theft'",
+      "url": "https://www.cnbc.com/2026/07/21/bessent-china-ai-sanctions.html",
+      "publisher": "CNBC",
+      "date": "2026-07-21",
+      "type": "news"
+    },
+    {
+      "title": "US holds off blacklisting China's DeepSeek and 100+ firms",
+      "url": "https://www.cnbc.com/2026/06/17/us-deepseek-blacklist-cxmt-national-security-risks-.html",
+      "publisher": "CNBC",
+      "date": "2026-06-17",
+      "type": "news"
+    },
+    {
+      "title": "Pentagon expands list of China military-linked firms to include Alibaba, Baidu, BYD",
+      "url": "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html",
+      "publisher": "CNBC",
+      "date": "2026-06-09",
+      "type": "news"
+    },
+    {
+      "title": "Anthropic, OpenAI among firms facing new scrutiny under EU AI Act enforcement",
+      "url": "https://www.cnbc.com/2026/08/03/eu-ai-act-enforcement-powers.html",
+      "publisher": "CNBC",
+      "date": "2026-08-03",
+      "type": "news"
+    },
+    {
+      "title": "Commission starts enforcing AI Act rules and new transparency obligations",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+      "publisher": "European Commission",
+      "date": "2026-08-02",
+      "type": "law"
+    },
+    {
+      "title": "Overview of the General-Purpose AI Code of Practice",
+      "url": "https://artificialintelligenceact.eu/code-of-practice-overview/",
+      "publisher": "EU AI Act explorer",
+      "date": "2025-07-10",
+      "type": "docs"
+    },
+    {
+      "title": "EU AI Act rules on GPAI models under DeepSeek review",
+      "url": "https://www.pinsentmasons.com/out-law/analysis/eu-ai-act-gpai-deepseek-review",
+      "publisher": "Pinsent Masons",
+      "date": "2025",
+      "type": "blog"
+    },
+    {
+      "title": "White House accuses Moonshot AI of distilling Anthropic's model",
+      "url": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/",
+      "publisher": "CyberScoop",
+      "date": "2026-07-22",
+      "type": "news"
+    },
+    {
+      "title": "Experts say exploiting Anthropic's Fable isn't how Kimi K3 got so good",
+      "url": "https://techcrunch.com/2026/07/23/experts-say-exploiting-anthropics-fable-isnt-how-kimi-k3-got-so-good/",
+      "publisher": "TechCrunch",
+      "date": "2026-07-23",
+      "type": "news"
+    },
+    {
+      "title": "Three reasons why DeepSeek's new model matters",
+      "url": "https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/",
+      "publisher": "MIT Technology Review",
+      "date": "2026-04-24",
+      "type": "news"
+    },
+    {
+      "title": "The Case for Imposing Costs on China's AI Distillation Campaigns",
+      "url": "https://www.justsecurity.org/134124/costs-china-ai-distillation/",
+      "publisher": "Just Security",
+      "date": "2026",
+      "type": "blog"
+    },
+    {
+      "title": "From Diagnosis to Deterrence: The Emerging U.S. Response to Distillation",
+      "url": "https://www.justsecurity.org/137498/diagnosis-deterrence-us-response-distillation/",
+      "publisher": "Just Security",
+      "date": "2026",
+      "type": "blog"
+    },
+    {
+      "title": "Responding to AI Distillation Without Panic",
+      "url": "https://law-ai.org/responding-to-ai-distillation-without-panic/",
+      "publisher": "Institute for Law & AI",
+      "date": "2026",
+      "type": "blog"
+    },
+    {
+      "title": "How to Fix the AI Model Theft Bill Before It Becomes Law",
+      "url": "https://itif.org/publications/2026/07/28/how-to-fix-the-ai-model-theft-bill-before-it-becomes-law/",
+      "publisher": "ITIF",
+      "date": "2026-07-28",
+      "type": "blog"
+    },
+    {
+      "title": "Adversarial Distillation: China's Campaign to Extract American AI Capabilities",
+      "url": "https://www.cnas.org/publications/reports/adversarial-distillation",
+      "publisher": "Center for a New American Security",
+      "date": "2026-06-02",
+      "type": "paper"
+    },
+    {
+      "title": "AI Distillation Attacks: Executive and Congressional Action Can Go Further",
+      "url": "https://www.iaps.ai/research/ai-distillation-attacks-executive-and-congressional-action-can-go-further",
+      "publisher": "Institute for AI Policy and Strategy",
+      "date": "2026",
+      "type": "paper"
+    },
+    {
+      "title": "Trade Secrecy Meets Generative AI",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5121745",
+      "publisher": "Camilla Alexandra Hrdy, SSRN",
+      "date": "2025",
+      "type": "paper"
+    },
+    {
+      "title": "Dispute over AI model distillation tech in OpenAI-DeepSeek case",
+      "url": "https://law.asia/openai-deepseek-ai-distillation/",
+      "publisher": "Law.asia",
+      "date": "2025",
+      "type": "blog"
+    },
+    {
+      "title": "Copyright Office report on copyrightability of AI-generated material",
+      "url": "https://www.copyright.gov/newsnet/2025/1060.html",
+      "publisher": "US Copyright Office",
+      "date": "2025-01",
+      "type": "law"
+    },
+    {
+      "title": "'Ironic, hypocritical' of big tech to call out DeepSeek",
+      "url": "https://news.cornell.edu/media-relations/tip-sheets/ironic-hypocritical-big-tech-call-out-deepseek",
+      "publisher": "Cornell University",
+      "date": "2025-01",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI hit with mockery over DeepSeek complaint",
+      "url": "https://futurism.com/openai-mockery-stole-work-deepseek",
+      "publisher": "Futurism",
+      "date": "2025-01",
+      "type": "news"
+    },
+    {
+      "title": "Why DeepSeek's new AI model thinks it's ChatGPT",
+      "url": "https://techcrunch.com/2024/12/27/why-deepseeks-new-ai-model-thinks-its-chatgpt/",
+      "publisher": "TechCrunch",
+      "date": "2024-12-27",
+      "type": "news"
+    },
+    {
+      "title": "Anthropic blocks sales of AI to Chinese firms",
+      "url": "https://www.semafor.com/article/09/05/2025/anthropic-blocks-ai-sales-in-china",
+      "publisher": "Semafor",
+      "date": "2025-09-05",
+      "type": "news"
+    },
+    {
+      "title": "US AI giant Anthropic bars Chinese-owned entities",
+      "url": "https://www.rte.ie/news/business/2025/0905/1531954-us-ai-giant-anthropic-bars-chinese-owned-entities/",
+      "publisher": "RTE",
+      "date": "2025-09-05",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI Terms of Use",
+      "url": "https://openai.com/policies/row-terms-of-use/",
+      "publisher": "OpenAI",
+      "date": "2025",
+      "type": "docs"
+    },
+    {
+      "title": "Anthropic Consumer Terms of Service",
+      "url": "https://www.anthropic.com/legal/consumer-terms",
+      "publisher": "Anthropic",
+      "date": "2025",
+      "type": "docs"
+    },
+    {
+      "title": "Meta Llama 3 Community License",
+      "url": "https://www.llama.com/llama3/license/",
+      "publisher": "Meta",
+      "date": "2024",
+      "type": "docs"
+    },
+    {
+      "title": "Llama 3.3 70B Instruct model card",
+      "url": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
+      "publisher": "Meta / Hugging Face",
+      "date": "2024-12",
+      "type": "docs"
+    },
+    {
+      "title": "API Organization Verification",
+      "url": "https://help.openai.com/en/articles/10910291-api-organization-verification",
+      "publisher": "OpenAI",
+      "date": "2025-04",
+      "type": "docs"
+    },
+    {
+      "title": "OpenAI to cut off API access in China on July 9",
+      "url": "https://restofworld.org/2024/exporter-openai-china-api-access/",
+      "publisher": "Rest of World",
+      "date": "2024-06",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI accuses DeepSeek of malpractice ahead of AI launch",
+      "url": "https://restofworld.org/2026/openai-deepseek-distillation-dispute-us-china/",
+      "publisher": "Rest of World",
+      "date": "2026",
+      "type": "news"
+    },
+    {
+      "title": "These States Have Banned DeepSeek",
+      "url": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek",
+      "publisher": "StateTech Magazine",
+      "date": "2025-04",
+      "type": "news"
+    },
+    {
+      "title": "New York state bans DeepSeek from government devices",
+      "url": "https://www.nbcnews.com/tech/new-york-state-bans-deepseek-government-devices-rcna191510",
+      "publisher": "NBC News",
+      "date": "2025-02-10",
+      "type": "news"
+    },
+    {
+      "title": "Italy and South Korea ban DeepSeek and start investigation",
+      "url": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/",
+      "publisher": "Privacy Laws & Business",
+      "date": "2025-02",
+      "type": "news"
+    },
+    {
+      "title": "Governor Stitt bans DeepSeek on all state-owned devices",
+      "url": "https://oklahoma.gov/governor/newsroom/newsroom/2025/-governor-stitt-bans-deepseek-on-all-state-owned-devices-due-to-.html",
+      "publisher": "State of Oklahoma",
+      "date": "2025-03",
+      "type": "law"
+    },
+    {
+      "title": "South Korea's AI Basic Act: Overview and Key Takeaways",
+      "url": "https://www.cooley.com/news/insight/2026/2026-01-27-south-koreas-ai-basic-act-overview-and-key-takeaways",
+      "publisher": "Cooley",
+      "date": "2026-01-27",
+      "type": "blog"
+    },
+    {
+      "title": "AI Watch: Global regulatory tracker - Japan",
+      "url": "https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-japan",
+      "publisher": "White & Case",
+      "date": "2025",
+      "type": "blog"
+    },
+    {
+      "title": "UK Sovereign AI Unit",
+      "url": "https://oecd.ai/en/dashboards/policy-initiatives/uk-sovereign-ai-unit",
+      "publisher": "OECD.AI",
+      "date": "2025",
+      "type": "docs"
+    },
+    {
+      "title": "China proposes new global AI cooperation organization, headquarters planned in Shanghai",
+      "url": "https://technode.com/2025/07/29/china-proposes-new-global-ai-cooperation-organization-headquarter-planned-in-shanghai/",
+      "publisher": "TechNode",
+      "date": "2025-07-29",
+      "type": "news"
+    },
+    {
+      "title": "China launches Shanghai-based AI governance body with 29 founding nations",
+      "url": "https://www.caixinglobal.com/2026-07-17/china-launches-shanghai-based-ai-governance-body-with-29-founding-nations-102465524.html",
+      "publisher": "Caixin Global",
+      "date": "2026-07-17",
+      "type": "news"
+    },
+    {
+      "title": "China Accuses US AI Firms of Distilling Chinese Models",
+      "url": "https://www.implicator.ai/china-says-us-firms-distilled-chinese-models/",
+      "publisher": "Implicator.ai",
+      "date": "2026-07-27",
+      "type": "news"
+    },
+    {
+      "title": "China Considers Export Controls on AI Models, Training Data and Chip Technology",
+      "url": "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/",
+      "publisher": "TechRepublic",
+      "date": "2026-07",
+      "type": "news"
+    },
+    {
+      "title": "Google disrupts Gemini model extraction attempts",
+      "url": "https://techinformed.com/google-disrupts-gemini-model-extraction-attempts/",
+      "publisher": "TechInformed",
+      "date": "2026-02-16",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI, Anthropic, Google join forces against China",
+      "url": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab",
+      "publisher": "Tech Brew",
+      "date": "2026-04-07",
+      "type": "news"
+    },
+    {
+      "title": "How to Buy Cheap Claude Tokens in China",
+      "url": "https://www.chinatalk.media/p/how-to-buy-cheap-claude-tokens-in",
+      "publisher": "ChinaTalk",
+      "date": "2026",
+      "type": "news"
+    },
+    {
+      "title": "Inside the Gray Market for LLM Access",
+      "url": "https://www.deeplearning.ai/the-batch/inside-the-gray-market-for-llm-access",
+      "publisher": "DeepLearning.AI, The Batch",
+      "date": "2026",
+      "type": "news"
+    },
+    {
+      "title": "Open Weights and American AI Leadership (open letter)",
+      "url": "https://images.nvidia.com/pdf/Open-Weights-and-American-AI-Leadership.pdf",
+      "publisher": "Multi-company coalition",
+      "date": "2026-07-24",
+      "type": "filing"
+    },
+    {
+      "title": "Gulf AI infrastructure and the limits of technological sovereignty",
+      "url": "https://www.iiss.org/publications/strategic-comments/2026/06/gulf-ai-infrastructure-and-the-limits-of-technological-sovereignty/",
+      "publisher": "IISS",
+      "date": "2026-06",
+      "type": "paper"
+    },
+    {
+      "title": "Which Countries Have Banned DeepSeek Already?",
+      "url": "https://tech.co/news/which-countries-have-banned-deepseek-already",
+      "publisher": "Tech.co",
+      "date": "2025",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek and Chinese AI Models: GDPR Data Transfer Compliance",
+      "url": "https://www.aipolicydesk.com/blog/deepseek-chinese-ai-models-gdpr-compliance-2026",
+      "publisher": "AI Policy Desk",
+      "date": "2026-06",
+      "type": "blog"
+    },
+    {
+      "title": "Report: Commerce Department bans use of DeepSeek on government devices",
+      "url": "https://www.pymnts.com/artificial-intelligence-2/2025/report-commerce-department-bans-use-of-deepseek-on-government-devices",
+      "publisher": "PYMNTS",
+      "date": "2025-02",
+      "type": "news"
+    },
+    {
+      "title": "Three States Ban DeepSeek Use on State Devices and Networks",
+      "url": "https://natlawreview.com/article/three-states-ban-deepseek-use-state-devices-and-networks",
+      "publisher": "National Law Review",
+      "date": "2025-02",
+      "type": "news"
+    },
+    {
+      "title": "South Korea joins Italy, Australia in banning DeepSeek",
+      "url": "https://www.thecable.ng/south-korea-joins-italy-australia-in-banning-deepseek-over-security-concerns/",
+      "publisher": "The Cable",
+      "date": "2025-02",
+      "type": "news"
+    },
+    {
+      "title": "Nvidia expects to lose billions in revenue due to H20 chip licensing requirements",
+      "url": "https://techcrunch.com/2025/05/28/nvidia-expects-to-lose-billions-in-revenue-due-to-h20-chip-licensing-requirements/",
+      "publisher": "TechCrunch",
+      "date": "2025-05-28",
+      "type": "news"
+    },
+    {
+      "title": "Nvidia announces financial results for 1st quarter fiscal 2026",
+      "url": "https://www.hpcwire.com/off-the-wire/nvidia-announces-financial-results-for-1st-quarter-fiscal-2026/",
+      "publisher": "HPCwire",
+      "date": "2025-05-28",
+      "type": "filing"
+    },
+    {
+      "title": "H.R. 9363, AI Security and Innovation Act",
+      "url": "https://science.house.gov/2026/6/h-r-9363-ai-security-and-innovation-act",
+      "publisher": "House Science, Space and Technology Committee",
+      "date": "2026-06-25",
+      "type": "law"
+    },
+    {
+      "title": "CBO cost estimate, H.R. 9363",
+      "url": "https://www.cbo.gov/publication/62730",
+      "publisher": "Congressional Budget Office",
+      "date": "2026",
+      "type": "law"
+    },
+    {
+      "title": "President Trump orders narrowly targeted 25% Section 232 tariff on certain advanced semiconductors",
+      "url": "https://www.whitecase.com/insight-alert/president-trump-orders-narrowly-targeted-25-section-232-tariff-certain-advanced",
+      "publisher": "White & Case",
+      "date": "2026-01",
+      "type": "law"
+    },
+    {
+      "title": "BlnBDI press release: DeepSeek apps reported to Apple and Google",
+      "url": "https://www.datenschutz-berlin.de/fileadmin/user_upload/pdf/pressemitteilungen/2025/20250627-BlnBDI-Press-Release_DeepSeek.pdf",
+      "publisher": "Berlin Commissioner for Data Protection and Freedom of Information",
+      "date": "2025-06-27",
+      "type": "law"
+    },
+    {
+      "title": "Nvidia and 24 other companies sign open-weights letter",
+      "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidia-and-24-other-companies-sign-open-weights-letter-as-washington-weighs-chinese-ai-model-ban",
+      "publisher": "Tom's Hardware",
+      "date": "2026-07-24",
+      "type": "news"
+    },
+    {
+      "title": "Open weights, American AI leadership letter: OpenAI absent",
+      "url": "https://thenextweb.com/news/open-weights-american-ai-leadership-letter-huang-nvidia-openai-absent",
+      "publisher": "The Next Web",
+      "date": "2026-07-25",
+      "type": "news"
+    },
+    {
+      "title": "Taiwan bans DeepSeek in the public sector",
+      "url": "https://www.taipeitimes.com/News/front/archives/2025/02/02/2003831193",
+      "publisher": "Taipei Times",
+      "date": "2025-02-02",
+      "type": "news"
+    },
+    {
+      "title": "H.R. 4142 No Adversarial AI Act (introduced)",
+      "url": "https://www.govinfo.gov/app/details/BILLS-119hr4142ih",
+      "publisher": "GovInfo",
+      "date": "2025-06-25",
+      "type": "law"
+    },
+    {
+      "title": "House Foreign Affairs markup documents, H.R. 8283 (April 22, 2026)",
+      "url": "https://www.congress.gov/119/meeting/house/119191/documents/HMKP-119-FA00-20260422-SD002.pdf",
+      "publisher": "Congress.gov",
+      "date": "2026-04-22",
+      "type": "law"
+    },
+    {
+      "title": "Distillation, experimentation and integration: adversarial use of AI",
+      "url": "https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use",
+      "publisher": "Google Threat Intelligence Group",
+      "date": "2026-02-12",
+      "type": "blog"
+    },
+    {
+      "title": "Updated Stakes for American-Led, Democratic AI (memo to House Select Committee)",
+      "url": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf",
+      "publisher": "OpenAI",
+      "date": "2026-02-12",
+      "type": "filing"
+    },
+    {
+      "title": "Anthropic Commercial Terms of Service",
+      "url": "https://www.anthropic.com/legal/commercial-terms",
+      "publisher": "Anthropic",
+      "date": "2025",
+      "type": "docs"
+    },
+    {
+      "title": "Anthropic Usage Policy",
+      "url": "https://www.anthropic.com/legal/usage-policy",
+      "publisher": "Anthropic",
+      "date": "2025",
+      "type": "docs"
+    }
+  ],
+  "extras": {
+    "policies": [
+      {
+        "jurisdiction": "United States",
+        "name": "OSTP Memorandum NSTM-4, Adversarial Distillation of American AI Models",
+        "status": "In force",
+        "date": "2026-04-23",
+        "whatItSays": "Memorandum issued by OSTP under Director Michael Kratsios, finding that foreign entities principally based in China are running deliberate, industrial-scale campaigns to distill US frontier AI systems using tens of thousands of proxy accounts and jailbreaking techniques, and that the resulting models deliberately strip security protocols.",
+        "distillationRelevance": "The first US policy instrument to name distillation as a national security threat. Commits agencies to intelligence sharing with AI companies, joint defensive best practices, and exploring accountability measures.",
+        "source": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "National Security Presidential Memorandum NSPM-11, AI in the National Security Enterprise",
+        "status": "In force",
+        "date": "2026-06-05",
+        "whatItSays": "Organises national security AI policy around adoption, adaptation, assurance and accountability; establishes governance guardrails, a talent reserve, and controls preventing deployed national-security AI from being disabled without federal approval. Rescinds and replaces NSM-25.",
+        "distillationRelevance": "Section 4(c) directs leaders to secure advanced AI systems including against malicious distillation attacks, and to partner with private-sector AI companies through threat-intelligence sharing and joint red-teaming.",
+        "source": "https://www.whitehouse.gov/presidential-actions/2026/06/national-security-presidential-memorandum-nspm-11/"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "H.R. 8283, Deterring American AI Model Theft Act of 2026",
+        "status": "Reported by House Foreign Affairs 43-0; not enacted",
+        "date": "2026-04-15",
+        "whatItSays": "Defines 'model extraction attack', 'closed-source AI model', 'entity of concern', 'country of concern' (PRC including Hong Kong and Macau, Russia, and designated Country Group D:5 states) and 'fraudulent account network provider'. Requires an executive assessment within 180 days, creates a public AI Model Extraction Attackers List maintained by the Secretary of State, and authorises IEEPA sanctions and Entity List designation.",
+        "distillationRelevance": "The core proposed statute. Its Sense of Congress expressly preserves authorized model training that adheres to terms of service as legitimate research, distinguishing it from extraction attacks.",
+        "source": "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "Winning the Race: America's AI Action Plan",
+        "status": "In force",
+        "date": "2025-07-23",
+        "whatItSays": "More than 90 federal actions across innovation, infrastructure and international pillars, including promotion of open-source and open-weight models and export of the full American AI stack to allied countries.",
+        "distillationRelevance": "Called for an industry information-sharing centre that became the channel for the April 2026 Frontier Model Forum distillation intelligence sharing. Its open-weights promotion also sits in tension with restricting capability diffusion.",
+        "source": "https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "AI Diffusion Rule (Framework for Artificial Intelligence Diffusion)",
+        "status": "Rescinded before enforcement",
+        "date": "2025-01-15",
+        "whatItSays": "Worldwide tiered licensing framework for advanced computing and model weights, due to be enforced from May 15, 2025.",
+        "distillationRelevance": "OpenAI's March 2025 OSTP filing proposed banning PRC-produced models across the rule's Tier 1 country group. BIS announced rescission on May 13, 2025 and instructed non-enforcement pending formalisation.",
+        "source": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "BIS advanced computing export controls (Oct 2022 and Oct 2023)",
+        "status": "In force as amended",
+        "date": "2022-10-07",
+        "whatItSays": "Restricts export of high-end AI accelerators to China; the October 2023 update captured the China-specific A800 and H800 designed around the original thresholds.",
+        "distillationRelevance": "Establishes the compute asymmetry the distillation argument depends on: harvested exchanges only convert into capability if the recipient has training compute.",
+        "source": "https://www.congress.gov/crs-product/R48642"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "H200 / MI325X case-by-case licensing plus 25% tariff",
+        "status": "In force",
+        "date": "2026-01-15",
+        "whatItSays": "Replaces presumption of denial with case-by-case review for China and Macau destinations, subject to third-party technical testing and a limit on the China share relative to US customers. A proclamation signed January 14, 2026 imposes a 25% duty on advanced computing chips at the same performance thresholds.",
+        "distillationRelevance": "Loosens exactly the constraint that Anthropic and CNAS argue is the binding limit on distillation's usefulness. Reported volume allowances were contested in press accounts.",
+        "source": "https://www.cnbc.com/2026/01/14/trump-nvidia-h200-china-ai-chips.html"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "Chip Security Act (H.R. 3447 / S. 1705)",
+        "status": "H.R. 3447 reported 42-0 on 2026-03-26; not enacted",
+        "date": "2025-05-08",
+        "whatItSays": "Would require Commerce, within 180 days, to mandate chip security mechanisms implementing location verification on covered integrated circuits before export, reexport or in-country transfer, with reporting when a chip is detected outside its licensed location.",
+        "distillationRelevance": "Targets smuggling, the alleged compute channel behind DeepSeek V4 and Moonshot's infrastructure claims.",
+        "source": "https://www.congress.gov/bill/119th-congress/house-bill/3447"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "GAIN AI Act of 2025 (S. 3150 / H.R. 5885)",
+        "status": "Passed Senate as an NDAA amendment; excluded from the enacted FY2026 NDAA",
+        "date": "2025-11-06",
+        "whatItSays": "Would require US chipmakers to prioritise American customers before selling advanced AI chips to China and other arms-embargoed countries.",
+        "distillationRelevance": "The main proposed statutory brake on the compute flows that make distilled data useful. Opposed by Nvidia, SIA and the White House AI adviser; dropped in conference.",
+        "source": "https://www.congress.gov/bill/119th-congress/senate-bill/3150"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "No Adversarial AI Act (S. 2177 / H.R. 4142)",
+        "status": "Referred to committee",
+        "date": "2025-06-25",
+        "whatItSays": "Would direct the Federal Acquisition Security Council to identify and publish a list of AI developed by companies associated with China, Russia, Iran and North Korea, and ban executive agency use with narrow research, testing and mission-critical exceptions requiring written justification to Congress and OMB.",
+        "distillationRelevance": "Procurement-side response: keeps allegedly distilled models out of federal systems rather than punishing the extraction itself.",
+        "source": "https://www.congress.gov/bill/119th-congress/senate-bill/2177/text"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "Decoupling America's Artificial Intelligence Capabilities from China Act (S. 321)",
+        "status": "Referred to Senate Judiciary; not advanced",
+        "date": "2025-01-29",
+        "whatItSays": "Would prohibit US persons from exporting AI or generative AI technology or IP to China or importing Chinese-developed AI, bar US-China joint AI research, and prohibit financing China-linked AI R&D, with penalties up to 20 years imprisonment.",
+        "distillationRelevance": "The maximalist response, introduced the day the DeepSeek distillation story broke. Its breadth — potentially reaching individuals downloading Chinese models — drew criticism across the political spectrum.",
+        "source": "https://www.congress.gov/bill/119th-congress/senate-bill/321"
+      },
+      {
+        "jurisdiction": "United States",
+        "name": "Section 1260H Chinese Military Companies List (June 2026 update)",
+        "status": "In force; procurement prohibitions from 2026-06-30",
+        "date": "2026-06-08",
+        "whatItSays": "Adds 65 entities including Alibaba, Baidu, BYD and Unitree, bringing the list to 188. Designations cite indirect SASAC affiliation and military-civil fusion contributions.",
+        "distillationRelevance": "Anthropic's June 10 letter cites the Alibaba listing to argue that distillation feeds PLA-relevant capability. DeepSeek was not added despite State Department claims about its military support.",
+        "source": "https://www.cnbc.com/2026/06/09/alibaba-baidu-byd-named-on-pentagons-china-military-list-.html"
+      },
+      {
+        "jurisdiction": "United States (states)",
+        "name": "State bans on DeepSeek for government devices",
+        "status": "In force in 14+ states",
+        "date": "2025-01-31",
+        "whatItSays": "Executive directives barring DeepSeek from state-owned devices and networks: Texas (Jan 31, 2025), New York (Feb 10), Virginia (Feb 11), Iowa (Feb 19), South Dakota, Nebraska, Tennessee, Arkansas, North Dakota, Oklahoma (Mar 21), Alabama, Georgia and North Carolina (March), and Kansas (April) — 14 states as of April 2025 per StateTech. Some states, such as Florida, restricted at agency level only.",
+        "distillationRelevance": "Not distillation-specific — the stated grounds are data collection and CCP linkage — but the state layer is where restriction on allegedly distilled models actually binds today.",
+        "source": "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek"
+      },
+      {
+        "jurisdiction": "United States (states)",
+        "name": "California SB 53 (TFAIA) and New York RAISE Act",
+        "status": "In force",
+        "date": "2026-01-01",
+        "whatItSays": "California's Transparency in Frontier Artificial Intelligence Act took effect January 1, 2026 as the first state law requiring standardized safety and transparency disclosures from frontier developers. New York's RAISE Act was substantially amended on March 27, 2026 to align with it.",
+        "distillationRelevance": "Neither addresses distillation. They matter because they fill the federal gap on frontier-model regulation while distillation policy runs entirely through national security channels.",
+        "source": "https://www.cooley.com/news/insight/2026/2026-03-31-new-yorks-frontier-ai-law-gets-a-california-makeover-with-some-key-differences"
+      },
+      {
+        "jurisdiction": "European Union",
+        "name": "EU AI Act, general-purpose AI obligations",
+        "status": "Applying since 2025-08-02; enforceable since 2026-08-02",
+        "date": "2025-08-02",
+        "whatItSays": "Obligations on GPAI providers covering technical documentation, downstream information, copyright policy and a public training-data summary, with additional systemic-risk duties above a compute threshold. Fines up to EUR 15 million or 3% of worldwide turnover.",
+        "distillationRelevance": "Provenance-neutral: nothing in the Act makes extracting another model's capabilities an offence. Commission officials have signalled that DeepSeek-style compute efficiency may force a rethink of the systemic-risk compute threshold.",
+        "source": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714"
+      },
+      {
+        "jurisdiction": "European Union",
+        "name": "General-Purpose AI Code of Practice",
+        "status": "Published 2025-07-10; approved 2025-08-01; voluntary",
+        "date": "2025-07-10",
+        "whatItSays": "Three chapters — Transparency, Copyright, Safety and Security — offering a presumption-of-conformity route for GPAI providers.",
+        "distillationRelevance": "The Copyright chapter is the closest EU analogue to the distillation debate, but it governs what goes into training rather than where the training data came from.",
+        "source": "https://artificialintelligenceact.eu/code-of-practice-overview/"
+      },
+      {
+        "jurisdiction": "Italy",
+        "name": "Garante order blocking DeepSeek",
+        "status": "In force",
+        "date": "2025-01-30",
+        "whatItSays": "The Italian data protection authority ordered DeepSeek to block its chatbot in Italy after it failed to address concerns about its privacy policy and data transfers to China.",
+        "distillationRelevance": "Shows the European route runs through GDPR, not IP or security law. Self-hosted open weights on EU infrastructure avoid the transfer question entirely.",
+        "source": "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/"
+      },
+      {
+        "jurisdiction": "South Korea",
+        "name": "AI Basic Act (Framework Act on AI Development and Trust)",
+        "status": "In force",
+        "date": "2026-01-22",
+        "whatItSays": "Comprehensive framework with generative-AI and high-impact AI obligations, a triennial AI Basic Plan, a National AI Committee, an AI Policy Center and an AI Safety Research Institute.",
+        "distillationRelevance": "Silent on distillation. Korea's operative action against Chinese models was the February 2025 PIPC suspension of DeepSeek app downloads on data-protection grounds.",
+        "source": "https://www.cooley.com/news/insight/2026/2026-01-27-south-koreas-ai-basic-act-overview-and-key-takeaways"
+      },
+      {
+        "jurisdiction": "Japan",
+        "name": "Act on Promotion of Research and Development and Application of AI-Related Technologies",
+        "status": "In force",
+        "date": "2025-05",
+        "whatItSays": "Japan's first comprehensive AI legislation. Promotional and light-touch: establishes an AI Strategy Headquarters chaired by the Prime Minister and a Basic Plan, with principles including maintaining domestic R&D capability and national security.",
+        "distillationRelevance": "No distillation provisions and no restrictions on Chinese models. Japan's relevance to the distillation chain is upstream, through its semiconductor equipment export controls.",
+        "source": "https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-japan"
+      },
+      {
+        "jurisdiction": "United Kingdom",
+        "name": "Sovereign AI Unit and AI Security Institute",
+        "status": "Non-statutory; operating",
+        "date": "2025",
+        "whatItSays": "The Sovereign AI Unit was established within DSIT in 2025 under the AI Opportunities Action Plan, alongside roughly GBP 2 billion in commitments, compute infrastructure plans and AI Growth Zones. The safety institute's remit has expanded toward standards and assurance.",
+        "distillationRelevance": "The UK has no distillation instrument and no ban on Chinese models. Its contribution is evaluation evidence — published findings on DeepSeek R1 jailbreak susceptibility and embedded political bias.",
+        "source": "https://oecd.ai/en/dashboards/policy-initiatives/uk-sovereign-ai-unit"
+      },
+      {
+        "jurisdiction": "China",
+        "name": "Global AI Governance Action Plan and World AI Cooperation Organization",
+        "status": "Announced 2025-07; organisation launched 2026-07 with 29 founding members",
+        "date": "2025-07-26",
+        "whatItSays": "A thirteen-point roadmap on AI safety, infrastructure, data standards and sustainable development, plus an International Open Source AI Cooperation Initiative and a proposed cooperation body headquartered in Shanghai.",
+        "distillationRelevance": "China's counter-narrative: open capability diffusion as a global public good, positioned directly against US restriction of model access.",
+        "source": "https://technode.com/2025/07/29/china-proposes-new-global-ai-cooperation-organization-headquarter-planned-in-shanghai/"
+      },
+      {
+        "jurisdiction": "China",
+        "name": "MOFCOM consultation on AI export controls",
+        "status": "Under consultation",
+        "date": "2026-07-21",
+        "whatItSays": "Reported consultation with Alibaba, ByteDance, Zhipu and chip firms on adding model weights, key training data and chip designs to the technology export catalogue, potentially restricting foreign download of leading Chinese model weights while keeping hosted access open, plus limits on foreign fabrication of Chinese chip designs.",
+        "distillationRelevance": "Would end the asymmetry that makes the current US framing possible: if Chinese weights become licensed exports, both sides regulate model diffusion.",
+        "source": "https://www.techrepublic.com/article/news-apac-china-ai-model-export-controls/"
+      },
+      {
+        "jurisdiction": "Corporate (United States)",
+        "name": "Anthropic policy barring entities controlled from China, Russia, Iran and North Korea",
+        "status": "In force",
+        "date": "2025-09-05",
+        "whatItSays": "Terms of service update prohibiting service to companies more than 50% owned by entities in those jurisdictions, regardless of where the subsidiary operates. Cited legal compulsion to share data with intelligence services; estimated revenue impact in the low hundreds of millions of dollars.",
+        "distillationRelevance": "Private access policy that H.R. 8283 would convert into a legal designation trigger. Anthropic's June 2026 letter cites it as the reason Alibaba's access was unauthorized.",
+        "source": "https://www.semafor.com/article/09/05/2025/anthropic-blocks-ai-sales-in-china"
+      },
+      {
+        "jurisdiction": "Corporate (United States)",
+        "name": "OpenAI geographic API blocking and Verified Organization checks",
+        "status": "In force",
+        "date": "2024-07-09",
+        "whatItSays": "From July 9, 2024 OpenAI blocked API traffic from unsupported regions including mainland China. From April 2025 it required government-ID Verified Organization status for access to certain frontier models, one ID per organisation per 90 days.",
+        "distillationRelevance": "The access-control layer whose circumvention is what H.R. 8283's definition of a model extraction attack actually turns on.",
+        "source": "https://help.openai.com/en/articles/10910291-api-organization-verification"
+      },
+      {
+        "jurisdiction": "Multilateral (industry)",
+        "name": "Frontier Model Forum distillation threat-intelligence sharing",
+        "status": "Operating since 2026-04",
+        "date": "2026-04-07",
+        "whatItSays": "OpenAI, Anthropic and Google agreed to share indicators of extraction campaigns through the Frontier Model Forum, responding to the AI Action Plan's call for an industry information-sharing centre.",
+        "distillationRelevance": "The main non-governmental countermeasure. Its principal obstacle is antitrust: Anthropic has asked Congress to clarify that sharing tactics between competing labs is lawful.",
+        "source": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab"
+      }
+    ],
+    "disputes": [
+      {
+        "date": "2025-01-28",
+        "accuser": "David Sacks, White House AI and crypto czar",
+        "accused": "DeepSeek",
+        "claim": "DeepSeek distilled knowledge out of OpenAI models to build its own systems",
+        "evidence": "Asserted 'substantial evidence' in a Fox News interview; no evidence detailed publicly",
+        "outcome": "Set the political frame for everything that followed; no legal action",
+        "source": "https://www.bloomberg.com/news/articles/2025-01-28/ai-czar-sacks-says-evidence-deepseek-leaned-on-openai-s-models"
+      },
+      {
+        "date": "2025-01-29",
+        "accuser": "OpenAI and Microsoft",
+        "accused": "A group believed linked to DeepSeek",
+        "claim": "Large-scale unauthorized data exfiltration through the OpenAI API, violating terms of service",
+        "evidence": "Microsoft security researchers observed the activity in autumn 2024; OpenAI said it had seen evidence of distillation and referenced obfuscated methods",
+        "outcome": "Accounts terminated; no lawsuit filed as of September 2026; matter escalated to Congress and the executive branch instead",
+        "source": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data"
+      },
+      {
+        "date": "2025-03-13",
+        "accuser": "OpenAI (OSTP filing)",
+        "accused": "DeepSeek and PRC-produced models generally",
+        "claim": "DeepSeek is state-subsidized and state-controlled, is insecure because Chinese law compels data disclosure, and has attempted distillation of US frontier models including through new obfuscated methods",
+        "evidence": "Platform activity described in the filing and in a parallel assessment provided to the House Select Committee",
+        "outcome": "OpenAI later said it was proposing export-rule changes rather than usage bans; no PRC model ban was adopted",
+        "source": "https://techcrunch.com/2025/03/13/openai-calls-deepseek-state-controlled-calls-for-bans-on-prc-produced-models/"
+      },
+      {
+        "date": "2025-04-16",
+        "accuser": "House Select Committee on the CCP (bipartisan)",
+        "accused": "DeepSeek",
+        "claim": "Profound national security threat: data routed through China Mobile-linked infrastructure, likely unlawful distillation of US models, and use of restricted Nvidia chips",
+        "evidence": "Committee investigation; report 'DeepSeek Unmasked'; questions posed to Nvidia about chip use",
+        "outcome": "Recommendations to expand and better enforce export controls; no enforcement action against DeepSeek followed directly",
+        "source": "https://chinaselectcommittee.house.gov/media/press-releases/moolenaar-krishnamoorthi-unveil-explosive-report-on-chinese-ai-firm-deepseek-demand-answers-from-nvidia-over-chip-use"
+      },
+      {
+        "date": "2026-02-12",
+        "accuser": "OpenAI",
+        "accused": "Several major Chinese LLM providers and some university research labs; also actors in Russia",
+        "claim": "Sophisticated, multi-stage pipelines used to distill American AI capabilities; attackers now also use the models to filter data and simulate human task feedback",
+        "evidence": "Memo to the House Select Committee, 'Updated Stakes for American-Led, Democratic AI'",
+        "outcome": "Fed directly into the April 2026 hearing and NSTM-4; no named-entity enforcement",
+        "source": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf"
+      },
+      {
+        "date": "2026-02-12",
+        "accuser": "Google Threat Intelligence Group",
+        "accused": "Unattributed actors worldwide, including researchers and private companies",
+        "claim": "Model extraction activity targeting Gemini, including one cluster of more than 100,000 prompts attempting to coerce reasoning behaviour usable for replication",
+        "evidence": "Google Threat Intelligence Group publication, February 12, 2026; activity disrupted",
+        "outcome": "Notably framed as global rather than China-specific, complicating the geopolitical narrative",
+        "source": "https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use"
+      },
+      {
+        "date": "2026-02-23",
+        "accuser": "Anthropic",
+        "accused": "DeepSeek, Moonshot AI, MiniMax",
+        "claim": "Industrial-scale distillation attacks: over 16 million exchanges via approximately 24,000 fraudulent accounts, in violation of terms of service and regional access restrictions",
+        "evidence": "Internal detection classifiers and account analysis; per-lab attribution of 150,000+ (DeepSeek), 3.4M (Moonshot) and 13M (MiniMax) exchanges",
+        "outcome": "Accounts terminated; detection classifiers, access controls and model-level countermeasures deployed; Anthropic called for coordinated industry and government response and for sustained chip export controls",
+        "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks"
+      },
+      {
+        "date": "2026-04-23",
+        "accuser": "White House OSTP (Michael Kratsios)",
+        "accused": "Foreign entities principally based in China",
+        "claim": "Deliberate, industrial-scale campaigns to distill US frontier AI systems using tens of thousands of proxy accounts and jailbreaking; resulting models strip security protocols and undo neutrality mechanisms",
+        "evidence": "Memorandum NSTM-4; underlying evidence drawn from lab disclosures rather than published independently",
+        "outcome": "Directed agency intelligence sharing with industry and exploration of accountability measures; issued weeks before a planned Trump-Xi meeting",
+        "source": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/"
+      },
+      {
+        "date": "2026-04-24",
+        "accuser": "US State Department",
+        "accused": "DeepSeek, Moonshot AI, MiniMax",
+        "claim": "Surreptitious, unauthorized distillation campaigns producing models that appear comparable on select benchmarks at a fraction of the cost but do not replicate full performance and deliberately strip security protocols",
+        "evidence": "Diplomatic cable to posts worldwide instructing staff to raise the issue with foreign counterparts",
+        "outcome": "Chinese Embassy rejected the allegations as groundless and a deliberate attack on China's AI development",
+        "source": "https://www.cnbc.com/2026/04/25/us-global-warning-alleged-china-ai-theft.html"
+      },
+      {
+        "date": "2026-06-10",
+        "accuser": "Anthropic (Sarah Heck, Head of Policy)",
+        "accused": "Alibaba and Alibaba Qwen-affiliated operators",
+        "claim": "Largest known distillation attack against Anthropic: more than 28.8 million exchanges through almost 25,000 fraudulent accounts between April 22 and June 5, 2026, targeting agentic reasoning, software engineering and long-horizon tasks",
+        "evidence": "Confidential evidence provided to the Senate Banking Committee ahead of its June 11 hearing; described as following the same patterns as the February disclosure",
+        "outcome": "Alibaba denied using proprietary model outputs and denied government involvement; it barred employees from using Anthropic products (announced 6 July 2026, effective 10 July 2026). Anthropic asked Congress for antitrust clarity on lab-to-lab sharing, chip-loophole closure, and penalties for responsible labs",
+        "source": "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf"
+      },
+      {
+        "date": "2026-07-21",
+        "accuser": "US Treasury Secretary Scott Bessent",
+        "accused": "Chinese AI model developers generally",
+        "claim": "Watermarks of American large language models are appearing inside Chinese AI systems; the US has the ability to sanction overseas models that steal from US companies",
+        "evidence": "Asserted on Fox Business; the watermark evidence was not published",
+        "outcome": "Threat only. No Chinese AI model had been sanctioned as of early September 2026; China's Ministry of Commerce promised 'all necessary measures' in response",
+        "source": "https://www.cnbc.com/2026/07/21/bessent-china-ai-sanctions.html"
+      },
+      {
+        "date": "2026-07-22",
+        "accuser": "White House OSTP (Michael Kratsios)",
+        "accused": "Moonshot AI",
+        "claim": "Covertly distilled Anthropic's Fable to build Kimi K3, using an internal platform that switched rapidly between access methods to avoid detection, and obtained export-controlled Nvidia servers",
+        "evidence": "None published in the week following the accusation",
+        "outcome": "Researchers including Nathan Lambert (Allen Institute for AI) and Braden Hancock (Laude Institute) publicly doubted distillation alone could explain K3's capabilities; Moonshot did not respond and Anthropic did not comment on the specific allegation",
+        "source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+      },
+      {
+        "date": "2026-07-27",
+        "accuser": "China Ministry of Commerce",
+        "accused": "Many American AI enterprises",
+        "claim": "US firms have themselves distilled Chinese models; US allegations lack factual basis and legal support and constitute double standards and 'AI hegemony'",
+        "evidence": "None supplied; no companies named",
+        "outcome": "Paired with a promise of countermeasures if Chinese AI firms are sanctioned, and with a reported MOFCOM consultation on export controls covering model weights and training data",
+        "source": "https://www.implicator.ai/china-says-us-firms-distilled-chinese-models/"
+      },
+      {
+        "date": "2026-02",
+        "accuser": "Unnamed senior Trump administration officials",
+        "accused": "DeepSeek",
+        "claim": "DeepSeek trained V4 on banned Nvidia Blackwell GPUs smuggled via Southeast Asian shell companies and housed in an Inner Mongolia data centre",
+        "evidence": "Official statements to press; no documentation published",
+        "outcome": "Nvidia called the claim farfetched; the V4 preview released April 24, 2026 was notable for being optimised for Huawei Ascend silicon",
+        "source": "https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/"
+      }
+    ]
+  }
+}

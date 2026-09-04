@@ -570,7 +570,6 @@ export function initPalette() {
   if (!root || !input || !list) return;
   started = true;
 
-  injectSupplementalStyles();
 
   el = { root, input, list, trigger: document.getElementById('open-palette'), count: null };
 
@@ -634,21 +633,4 @@ export function initPalette() {
   });
 
   window.addEventListener('hashchange', () => { if (isOpen()) close({ restore: false }); });
-}
-
-/* ------------------------------------------------------- style supplement */
-// assets/css/app.css owns the palette's appearance. These two rules cover the
-// only hooks it does not define; they are inserted as the first node in <head>
-// so the stylesheet still wins if it ever adopts them.
-
-function injectSupplementalStyles() {
-  if (document.getElementById('palette-supplement-css')) return;
-  const style = document.createElement('style');
-  style.id = 'palette-supplement-css';
-  style.textContent =
-    '.palette__hit{background:none;color:var(--accent-ink);font-weight:600}' +
-    '.palette__count{margin-left:auto;font-family:var(--mono)}';
-  const head = document.head;
-  if (head.firstChild) head.insertBefore(style, head.firstChild);
-  else head.appendChild(style);
 }

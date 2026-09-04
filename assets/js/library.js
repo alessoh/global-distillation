@@ -15,7 +15,7 @@ const DATA_LABELS = {
   none: 'No teacher data',
 };
 
-const ACCESS_LABELS = { 'white-box': 'White-box', 'black-box': 'Black-box' };
+const ACCESS_LABELS = { 'white-box': 'White-box', 'black-box': 'Black-box', none: 'Teacherless' };
 
 // Family hue classes are defined in app.css (.fam--logit … .fam--other) and are
 // shared with the timeline, so a family keeps one colour across the whole site.
@@ -139,201 +139,6 @@ function renderMarkdown(src) {
   return out.join('');
 }
 
-/* ------------------------------------------------------------------ styles */
-/* Two parts. The layered block is a fallback for the shared components in
-   app.css: cascade layers always lose to unlayered rules, so app.css wins
-   wherever the two meet, and this only shows through if the stylesheet has not
-   loaded. The unlayered block below styles the .lib-* / .mth-* classes this
-   module owns; nothing else on the site uses those names. */
-
-const STYLES = `
-@layer gd-library {
-  .method-card {
-    display: flex; flex-direction: column; gap: 12px; text-align: left; width: 100%;
-    background: var(--surface, #fff); border: 0; border-radius: var(--r-lg, 10px);
-    box-shadow: var(--shadow-card, 0 1px 2px rgba(26,24,20,.05), 0 0 0 1px #E4DED2);
-    padding: var(--s-5, 24px); cursor: pointer; font-family: var(--sans, system-ui);
-  }
-  .method-card__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .method-card__family {
-    display: inline-flex; align-items: center; gap: 7px;
-    font: 500 var(--fs-micro, 11px)/1.3 var(--mono, monospace);
-    letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3, #837C71);
-  }
-  .method-card__family i { width: 7px; height: 7px; border-radius: 50%; background: var(--cat-8, #7A6A57); }
-  .method-card__name { font: 400 var(--fs-h3, 20px)/1.2 var(--serif, Georgia, serif); color: var(--ink, #1A1814); }
-  .method-card__desc { font: 400 var(--fs-small, 13px)/1.5 var(--sans, system-ui); color: var(--ink-2, #4C4740); flex: 1; }
-  .method-card__foot {
-    display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2, 8px);
-    padding-top: var(--s-3, 12px); border-top: 1px solid var(--rule, #E4DED2);
-  }
-  .method-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4, 16px); }
-  .dots { display: inline-flex; gap: 3px; flex: none; }
-  .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--surface-3, #EBE6DC); display: block; }
-  .dots i.is-on { background: var(--ink-2, #4C4740); }
-  .chip {
-    display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px;
-    border: 1px solid var(--rule-strong, #CEC6B6); border-radius: var(--r-pill, 999px);
-    background: var(--surface, #fff); color: var(--ink-2, #4C4740); font-size: 12.5px;
-    line-height: 1; cursor: pointer;
-  }
-  .chip[aria-pressed="true"] {
-    background: var(--accent-soft, #F6E5DC); border-color: var(--accent, #B5451B);
-    color: var(--accent-ink, #8E3412); font-weight: 500;
-  }
-  .chip__count { font-family: var(--mono, monospace); font-size: 10.5px; color: var(--ink-3, #837C71); }
-  .badge {
-    display: inline-flex; align-items: center; padding: 3px 7px; border-radius: var(--r-sm, 4px);
-    font: 500 var(--fs-micro, 11px)/1.3 var(--sans, system-ui); letter-spacing: .07em;
-    text-transform: uppercase; background: var(--surface-2, #F3F0EA); color: var(--ink-2, #4C4740);
-    white-space: nowrap;
-  }
-  .badge--good { background: var(--good-soft, #E4F0E8); color: var(--good, #2E7D53); }
-  .badge--warn { background: var(--warn-soft, #F7EDD8); color: var(--warn, #9A6C10); }
-  .badge--info { background: var(--info-soft, #E4EEF4); color: var(--info, #1F6A99); }
-  .field__input {
-    height: 34px; padding: 0 10px; border: 1px solid var(--rule-strong, #CEC6B6);
-    border-radius: var(--r-md, 6px); background: var(--surface, #fff); color: var(--ink, #1A1814);
-    font-size: var(--fs-small, 13px);
-  }
-  .field__label {
-    font: 400 var(--fs-micro, 11px)/1.3 var(--mono, monospace); letter-spacing: .08em;
-    text-transform: uppercase; color: var(--ink-3, #837C71);
-  }
-  .empty {
-    display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2, 8px);
-    padding: var(--s-7, 48px) var(--s-6, 32px); background: var(--surface, #fff);
-    border-radius: var(--r-lg, 10px); box-shadow: 0 0 0 1px var(--rule, #E4DED2);
-    border-left: 2px solid var(--rule-strong, #CEC6B6);
-  }
-  .empty__title { font: 400 var(--fs-h3, 20px)/1.25 var(--serif, Georgia, serif); color: var(--ink, #1A1814); }
-  .empty__text { font: 400 var(--fs-small, 13px)/1.55 var(--sans, system-ui); color: var(--ink-3, #837C71); max-width: 62ch; }
-  .formula {
-    background: var(--surface, #fff); box-shadow: 0 0 0 1px var(--rule, #E4DED2);
-    border-radius: var(--r-md, 6px); padding: var(--s-5, 24px) var(--s-4, 16px);
-    margin-top: var(--s-3, 12px); overflow-x: auto;
-  }
-  .formula .katex-display { margin: 0; }
-  .proscons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5, 24px); }
-  .related { display: flex; flex-wrap: wrap; gap: var(--s-2, 8px); margin-top: var(--s-3, 12px); }
-  .related button {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px;
-    border: 0; border-radius: var(--r-pill, 999px); background: var(--surface, #fff);
-    box-shadow: 0 0 0 1px var(--rule, #E4DED2); font-size: 12.5px; color: var(--ink-2, #4C4740); cursor: pointer;
-  }
-  .drawer__section {
-    font: 500 var(--fs-micro, 11px)/1.3 var(--mono, monospace); letter-spacing: .1em;
-    text-transform: uppercase; color: var(--ink-3, #837C71);
-    margin: var(--s-6, 32px) 0 var(--s-3, 12px); padding-top: var(--s-4, 16px);
-    border-top: 1px solid var(--rule, #E4DED2);
-  }
-  .drawer__eyebrow {
-    display: flex; align-items: center; gap: var(--s-3, 12px);
-    font: 400 var(--fs-micro, 11px)/1.3 var(--mono, monospace); letter-spacing: .1em;
-    text-transform: uppercase; color: var(--ink-3, #837C71);
-  }
-  .drawer__lede { font-size: 15.5px; line-height: 1.6; color: var(--ink-2, #4C4740); margin-top: var(--s-4, 16px); }
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; overflow: hidden;
-    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
-  }
-}
-
-/* --- owned by this module (unlayered) --- */
-.lib-controls {
-  position: sticky; top: var(--nav-h, 60px); z-index: 4;
-  background: var(--paper, #FAF8F4);
-  padding: var(--s-4, 16px) 0 var(--s-3, 12px);
-  border-bottom: 1px solid var(--rule, #E4DED2);
-  margin: 0 0 var(--s-4, 16px);
-}
-.lib-controls .field { max-width: 420px; }
-.lib-filters { display: grid; gap: var(--s-2, 8px); margin-top: var(--s-4, 16px); }
-.lib-filter { display: flex; gap: var(--s-4, 16px); align-items: baseline; flex-wrap: wrap; }
-.lib-filter__label {
-  flex: 0 0 104px; padding-top: 7px;
-  font-family: var(--mono, monospace); font-size: var(--fs-micro, 11px); line-height: 1.3;
-  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3, #837C71);
-}
-.lib-chips { display: flex; gap: var(--s-2, 8px); flex-wrap: wrap; flex: 1 1 auto; margin: 0; }
-.lib-chips .chip__dot { background: var(--fam, var(--ink-4, #B2AA9D)); }
-.lib-count {
-  font-size: var(--fs-small, 13px); line-height: 1.5; color: var(--ink-3, #837C71);
-  margin: var(--s-4, 16px) 0 0;
-}
-.lib-count strong { font-weight: 600; color: var(--ink, #1A1814); font-variant-numeric: tabular-nums; }
-.lib-count__sep { color: var(--ink-4, #B2AA9D); padding: 0 7px; }
-.lib-reset {
-  font: 500 var(--fs-small, 13px)/1.5 var(--sans, system-ui); color: var(--accent-ink, #8E3412);
-  background: none; border: 0; padding: 0; cursor: pointer;
-  border-bottom: 1px solid var(--accent-soft, #F6E5DC);
-}
-.lib-reset:hover { border-bottom-color: var(--accent, #B5451B); }
-.method-card__year {
-  font-family: var(--mono, monospace); font-size: var(--fs-micro, 11px);
-  color: var(--ink-3, #837C71); font-variant-numeric: tabular-nums; flex: none;
-}
-.method-card__difficulty { font-size: var(--fs-micro, 11px); color: var(--ink-3, #837C71); }
-.method-card__badges { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
-.lib-note { margin-top: var(--s-6, 32px); font-size: var(--fs-micro, 11px); line-height: 1.5; color: var(--ink-3, #837C71); }
-.lib-empty-actions { margin-top: var(--s-3, 12px); }
-
-.mth__badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: var(--s-4, 16px); }
-.mth__prose > .mth-h:first-child { margin-top: 0; }
-.mth__prose .mth-h {
-  font-family: var(--sans, system-ui); font-size: var(--fs-body, 15px); line-height: 1.35;
-  font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink, #1A1814);
-  margin: var(--s-5, 24px) 0 var(--s-2, 8px); padding: 0; border: 0;
-}
-.mth__prose .mth-list { margin: var(--s-2, 8px) 0 var(--s-3, 12px); }
-.mth__prose ol.mth-list > li { list-style: decimal; }
-.mth__prose p + .mth-h { margin-top: var(--s-5, 24px); }
-.mth-code {
-  font-family: var(--mono, monospace); font-size: .88em;
-  background: var(--surface-2, #F3F0EA); border-radius: var(--r-sm, 4px);
-  padding: 1px 4px; color: var(--ink, #1A1814);
-}
-.mth__pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--s-3, 12px); }
-.mth__pill {
-  font-size: 12.5px; line-height: 1.3; color: var(--ink-2, #4C4740);
-  background: var(--surface-2, #F3F0EA); border-radius: var(--r-pill, 999px); padding: 6px 11px;
-}
-.mth__host {
-  font-family: var(--mono, monospace); font-size: var(--fs-micro, 11px);
-  color: var(--ink-3, #837C71); white-space: nowrap;
-}
-.mth__missing {
-  font-size: 12.5px; color: var(--ink-3, #837C71); padding: 6px 11px;
-  border: 1px dashed var(--rule-strong, #CEC6B6); border-radius: var(--r-pill, 999px);
-}
-.mth__formula-wrap { position: relative; }
-.mth__formula-wrap.is-scrollable::after {
-  content: ""; position: absolute; top: 1px; right: 1px; bottom: 1px; width: 32px;
-  border-radius: 0 var(--r-md, 6px) var(--r-md, 6px) 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(255,255,255,0), var(--surface, #fff) 78%);
-}
-.mth__formula-wrap .formula:focus-visible { outline: 2px solid var(--accent, #B5451B); outline-offset: 2px; }
-@media (max-width: 767px) { .drawer__body .formula .katex { font-size: 1.05em; } }
-.mth__formula-fallback {
-  font-family: var(--mono, monospace); font-size: var(--fs-small, 13px); line-height: 1.5;
-  color: var(--ink-2, #4C4740); white-space: pre-wrap; word-break: break-word; margin: 0;
-}
-
-@media (max-width: 767px) {
-  .lib-controls { position: static; }
-  .lib-filter__label { flex-basis: 100%; padding-top: 0; }
-  .lib-controls .field { max-width: none; }
-}
-`;
-
-function ensureStyles() {
-  if (document.getElementById('gd-library-styles')) return;
-  const s = document.createElement('style');
-  s.id = 'gd-library-styles';
-  s.textContent = STYLES;
-  document.head.appendChild(s);
-}
-
 /* ------------------------------------------------------------- normalising */
 
 function famClass(family, index) {
@@ -364,7 +169,7 @@ function normalise(m, i) {
     relatedMethods: arr(m && m.relatedMethods).map(String),
     difficulty: clampDifficulty(m && m.difficulty),
     dataNeeded: needs,
-    teacherAccess: access === 'white-box' || access === 'black-box' ? access : '',
+    teacherAccess: ACCESS_LABELS[access] ? access : '',
   };
   method._hay = [
     method.name, method.family, method.description, method.whenToUse, method.howItWorks,
@@ -390,7 +195,7 @@ function ingest(d) {
   state.difficulties = [1, 2, 3, 4, 5]
     .map((lv) => ({ lv, n: state.methods.filter((m) => m.difficulty === lv).length }))
     .filter((x) => x.n > 0);
-  state.accesses = ['white-box', 'black-box']
+  state.accesses = ['white-box', 'black-box', 'none']
     .map((a) => ({ a, n: state.methods.filter((m) => m.teacherAccess === a).length }))
     .filter((x) => x.n > 0);
 }
@@ -430,7 +235,8 @@ function dotsHtml(level, label) {
 }
 
 function accessBadge(m) {
-  return '<span class="badge ' + (m.teacherAccess === 'white-box' ? 'badge--good' : 'badge--warn') + '">' +
+  const cls = m.teacherAccess === 'white-box' ? 'badge--good' : m.teacherAccess === 'none' ? 'badge--info' : 'badge--warn';
+  return '<span class="badge ' + cls + '">' +
     esc(ACCESS_LABELS[m.teacherAccess]) + '</span>';
 }
 
@@ -444,7 +250,7 @@ function cardHtml(m) {
     : '';
   const label = m.name + '. ' + m.family + (m.year ? ', ' + m.year : '') +
     (m.difficulty ? '. Difficulty ' + m.difficulty + ' of 5, ' + DIFFICULTY_LABELS[m.difficulty - 1] : '') +
-    (m.teacherAccess ? '. ' + ACCESS_LABELS[m.teacherAccess] + ' teacher access' : '') + '.';
+    (m.teacherAccess === 'none' ? '. No teacher model' : m.teacherAccess ? '. ' + ACCESS_LABELS[m.teacherAccess] + ' teacher access' : '') + '.';
   return '<button class="method-card" type="button" data-method="' + esc(m.id) + '" aria-label="' + esc(label) + '">' +
     '<span class="method-card__top">' +
       '<span class="method-card__family ' + m.hue + '"><i aria-hidden="true"></i>' + esc(m.family) + '</span>' +
@@ -775,7 +581,6 @@ function wireView(el) {
 
 export function renderLibrary(el, d, param) {
   if (!el) return;
-  ensureStyles();
   wireGlobal();
   state.root = el;
   state.openId = null;

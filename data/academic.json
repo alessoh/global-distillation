@@ -1,0 +1,3172 @@
+{
+  "perspective": "academic",
+  "title": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
+  "updated": "2026-09-04",
+  "summary": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). For a decade the literature organised itself along three axes — what is transferred (response/logit, feature, relation), how the teacher is available (white-box logits vs black-box text), and when the student samples (offline, online, self) — with BERT-era students such as DistilBERT, TinyBERT and MobileBERT retaining 96.8-99.2% of teacher quality at 1.7-7.5x smaller size (DistilBERT is 40% smaller; TinyBERT 7.5x, MobileBERT 4.3x). The January 2025 release of the DeepSeek-R1-Distill series turned distillation from a compression tool into the default way to transfer reasoning: an 800k-trace SFT run on Qwen2.5-32B reached AIME 2024 pass@1 of 72.6 versus 47.0 for large-scale RL applied to the same base model, and triggered a wave of ultra-cheap replications (Sky-T1 at under $450, s1 at 1,000 samples and ~7 H100-hours, LIMO at 817 samples, Bespoke-Stratos at 17k). Since late 2025 the frontier has shifted from off-policy trace imitation to on-policy distillation, where the student samples and the teacher grades every token: arXiv submissions mentioning on-policy distillation jumped from 38 in 2025 to 359 in the first eight months of 2026, and Qwen3, DeepSeek-V4 and Nemotron 3 Ultra all use it as a primary post-training stage — Qwen3 reports matching-or-better results at roughly one tenth of RL GPU-hours. The open research questions are now theoretical rather than engineering: distillation scaling laws, the capacity gap between teacher and student, whether students can ever exceed their teachers, and the homogenisation/model-collapse risk of a literature increasingly trained on its own outputs.",
+  "stats": [
+    {
+      "label": "Citations: Hinton, Vinyals & Dean (2015)",
+      "value": 25899,
+      "unit": "citations",
+      "delta": "the field's founding text",
+      "note": "Semantic Scholar citation count for arXiv:1503.02531, retrieved 2026-09-04",
+      "source": "https://api.semanticscholar.org/graph/v1/paper/arXiv:1503.02531?fields=title,year,citationCount"
+    },
+    {
+      "label": "arXiv papers with 'knowledge distillation' in abstract (2025)",
+      "value": 1084,
+      "unit": "papers",
+      "delta": "+11.6% vs 2024 (971)",
+      "note": "arXiv API count, submittedDate 2025-01-01 to 2025-12-31",
+      "source": "https://export.arxiv.org/api/query?search_query=abs:%22knowledge%20distillation%22%20AND%20submittedDate:%5B202501010000%20TO%20202512312359%5D&max_results=1"
+    },
+    {
+      "label": "Same query, 2026 year-to-date (through 2026-09-04)",
+      "value": 709,
+      "unit": "papers",
+      "delta": "on pace for ~1,050 full-year",
+      "note": "arXiv API count, submittedDate 2026-01-01 to 2026-09-04",
+      "source": "https://export.arxiv.org/api/query?search_query=abs:%22knowledge%20distillation%22%20AND%20submittedDate:%5B202601010000%20TO%20202609042359%5D&max_results=1"
+    },
+    {
+      "label": "arXiv papers mentioning 'on-policy distillation' (2026 YTD)",
+      "value": 359,
+      "unit": "papers",
+      "delta": "9.4x the 38 seen in all of 2025",
+      "note": "arXiv API full-text field count; the single fastest-growing sub-topic in the distillation literature",
+      "source": "https://export.arxiv.org/api/query?search_query=all:%22on-policy%20distillation%22%20AND%20submittedDate:%5B202601010000%20TO%20202609042359%5D&max_results=1"
+    },
+    {
+      "label": "Citations: DeepSeek-R1 (Nature, 2025)",
+      "value": 5597,
+      "unit": "citations",
+      "delta": "first peer-reviewed open-weight frontier LLM",
+      "note": "Semantic Scholar count for the Nature version of arXiv:2501.12948, retrieved 2026-09-04",
+      "source": "https://api.semanticscholar.org/graph/v1/paper/arXiv:2501.12948?fields=title,year,citationCount"
+    },
+    {
+      "label": "Cheapest published reasoning distillation run (s1-32B)",
+      "value": 7,
+      "unit": "H100 GPU-hours",
+      "delta": "1,000 training samples",
+      "note": "26 minutes on 16 NVIDIA H100s, fine-tuning Qwen2.5-32B-Instruct on the s1K trace set",
+      "source": "https://arxiv.org/abs/2501.19393"
+    },
+    {
+      "label": "Qwen3-8B: on-policy distillation vs RL GPU-hours",
+      "value": 10,
+      "unit": "x cheaper",
+      "delta": "1,800 vs 17,920 GPU-hours",
+      "note": "Qwen3 Technical Report Table 21; distillation also scored higher (AIME'24 74.4 vs 67.6)",
+      "source": "https://arxiv.org/html/2505.09388v1"
+    },
+    {
+      "label": "Compute efficiency of a distilled 8B vs training the same model from scratch",
+      "value": 2000,
+      "unit": "x",
+      "delta": "2026 controlled benchmark study",
+      "note": "\"creating a distilled 8B model is over 2,000 times more compute-efficient than training its vanilla counterpart\"",
+      "source": "https://arxiv.org/abs/2602.20164"
+    }
+  ],
+  "keyFindings": [
+    {
+      "title": "Distillation is now measurably better than RL at instilling reasoning in mid-size models",
+      "detail": "DeepSeek's own ablation is the cleanest evidence: applying large-scale RL directly to Qwen2.5-32B (DeepSeek-R1-Zero-Qwen-32B) reached AIME 2024 pass@1 of 47.0 and MATH-500 of 91.6, while plain supervised fine-tuning on 800k traces sampled from the 671B DeepSeek-R1 teacher reached 72.6 and 94.3 on the same base model. Qwen3 reproduced the pattern a few months later with on-policy logit distillation: 74.4 vs 67.6 AIME'24 at one tenth the GPU-hours. The 2025 follow-up by Kim et al. refines the claim — RL with verifiable rewards raises pass@1 but often not pass@k, whereas distillation can raise both when it injects genuinely new knowledge.",
+      "audience": [
+        "developer",
+        "company",
+        "customer"
+      ],
+      "sources": [
+        "https://arxiv.org/html/2501.12948v1",
+        "https://arxiv.org/html/2505.09388v1",
+        "https://arxiv.org/abs/2505.14216"
+      ]
+    },
+    {
+      "title": "The field's centre of gravity moved from off-policy traces to on-policy token-level grading",
+      "detail": "Off-policy distillation trains the student on the teacher's own perfect outputs, so errors compound at inference — exposure bias that the 2026 survey by Song and Zheng argues scales roughly with the square of sequence length. On-policy distillation instead samples trajectories from the student and has the teacher score each token, combining RL's distribution match with distillation's dense signal. arXiv mentions went from 38 in 2025 to 359 in the first eight months of 2026, and by mid-2026 Qwen3, DeepSeek-V4 and NVIDIA's Nemotron 3 Ultra (and GLM-5, per a Hugging Face community write-up) had all made it a primary post-training stage.",
+      "audience": [
+        "developer",
+        "company"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2604.00626",
+        "https://thinkingmachines.ai/blog/on-policy-distillation/",
+        "https://huggingface.co/blog/sergiopaniego/distillation-2026"
+      ]
+    },
+    {
+      "title": "Sample efficiency collapsed by three orders of magnitude in a single year",
+      "detail": "DeepSeek-R1-Distill used 800,000 curated reasoning traces. Within weeks, Berkeley's Sky-T1 matched o1-preview-class math with 17k traces for under $450, Bespoke-Stratos hit AIME 2024 63.3 with the same 17k budget, Stanford's s1 reached AIME 56.7 and MATH-500 93.0 on 1,000 examples in 26 minutes on 16 H100s, and LIMO reported 63.3/95.6 from 817 samples — roughly 1% of the data used by prior approaches. The academic lesson is that a strong base model already contains most of the reasoning capability; the traces mainly teach a format and a search policy.",
+      "audience": [
+        "developer",
+        "customer",
+        "political"
+      ],
+      "sources": [
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://huggingface.co/bespokelabs/Bespoke-Stratos-32B",
+        "https://arxiv.org/abs/2501.19393",
+        "https://arxiv.org/abs/2502.03387"
+      ]
+    },
+    {
+      "title": "Retention degrades sharply below ~14B parameters on hard reasoning, but barely at all on easier benchmarks",
+      "detail": "Across the DeepSeek-R1-Distill family the same teacher yields very different retention depending on task difficulty and student size. On MATH-500 the 1.5B student already retains 86.2% of the 671B teacher and the 32B student retains 96.9%. On AIME 2024 the 1.5B student retains only 36.2% while the 32B retains 91.0%. Retention is therefore not a property of the method but of the interaction between benchmark difficulty and student capacity — the 'capacity gap' that Cho and Hariharan identified in vision in 2019 and that Kajitsuka et al. revisited for chain-of-thought distillation in April 2026.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "https://arxiv.org/abs/1910.01348",
+        "https://arxiv.org/abs/2604.08880"
+      ]
+    },
+    {
+      "title": "Distillation now has a scaling law, and it says teachers can be too strong",
+      "detail": "Apple's Distillation Scaling Laws (ICML 2025) is a large-scale controlled study of distillation — students from 143M to 12.6B parameters, teachers spanning a similar range, up to 512B training tokens, figures taken from the paper body and the Apple ML Research write-up rather than the abstract — and produced a law predicting student cross-entropy from the compute split between teacher and student. The headline practical result: distillation beats supervised learning only up to a compute level that scales predictably with student size, and a teacher that is too capable for the student's budget makes things worse rather than better.",
+      "audience": [
+        "developer",
+        "company"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2502.08606",
+        "https://machinelearning.apple.com/research/distillation-scaling-laws"
+      ]
+    },
+    {
+      "title": "Pretraining-time distillation is now standard at the frontier, not just a fine-tuning trick",
+      "detail": "Gemma 2's 2B and 9B models replaced next-token prediction with distillation from a larger teacher and were trained on more than 50x the compute-optimal token count; the paper's ablation shows a 2B model trained on 500B tokens scoring 60.3 average from scratch versus 67.7 distilled. Gemma 3 refined this by sampling 256 teacher logits per token, renormalising, and using cross-entropy over that sample. Meta pruned Llama 3.1 8B in one shot and used logits from Llama 3.1 8B and 70B as token-level targets during pretraining of Llama 3.2 1B and 3B. NVIDIA's Minitron showed pruning-plus-distillation needs up to 40x fewer tokens per model than training from scratch.",
+      "audience": [
+        "developer",
+        "company"
+      ],
+      "sources": [
+        "https://arxiv.org/html/2408.00118v1",
+        "https://arxiv.org/html/2503.19786v1",
+        "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/",
+        "https://arxiv.org/abs/2407.14679"
+      ]
+    },
+    {
+      "title": "The divergence you minimise determines what kind of student you get",
+      "detail": "Classical KD minimises forward KL, which is mode-covering: the student spreads mass over regions the teacher barely visits, which is fine for classification but produces hallucinated low-probability text in generation. MiniLLM (ICLR 2024) swapped in reverse KL, which is mode-seeking, and reported lower exposure bias, better calibration and stronger long-text generation across 120M-13B students. GKD generalised this to a JSD family evaluated on student-sampled sequences, and by 2026 reverse KL over on-policy rollouts had become the default objective in industrial post-training pipelines.",
+      "audience": [
+        "developer"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2306.08543",
+        "https://arxiv.org/abs/2306.13649",
+        "https://thinkingmachines.ai/blog/on-policy-distillation/"
+      ]
+    },
+    {
+      "title": "A small student can beat a much larger teacher when the transferred signal is rationales, not labels",
+      "detail": "Distilling Step-by-Step extracted natural-language rationales alongside labels and trained a 770M T5 that outperformed few-shot-prompted 540B PaLM while using only 80% of the available data — a ~700x parameter reduction. Orca (13B) learned from GPT-4 explanation traces and beat Vicuna-13B by over 100% on Big-Bench Hard and 42% on AGIEval. MobileBERT even exceeds the same-size BERT-base baseline on SQuAD (its actual teacher is a custom IB-BERT-LARGE, which it does not beat) (F1 90.0 vs 88.5 on v1.1, 79.2 vs 77.1 on v2.0) at 4.3x smaller and 5.5x faster. The pattern: intermediate supervision, not just the final answer, is what closes the gap.",
+      "audience": [
+        "developer",
+        "customer"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2305.02301",
+        "https://arxiv.org/abs/2306.02707",
+        "https://arxiv.org/abs/2004.02984"
+      ]
+    },
+    {
+      "title": "Distillation has become measurable — and the measurements suggest widespread homogenisation",
+      "detail": "The Quantification of Large Language Model Distillation framework (ACL 2025) proposes Response Similarity Evaluation and Identity Consistency Evaluation to estimate how heavily a model was distilled from another, and reports that most well-known closed- and open-source LLMs exhibit high distillation degrees, with base models more distilled than aligned ones. Read alongside Shumailov et al.'s Nature result that recursive training on generated data destroys distribution tails, this defines a genuine research risk: a literature that trains overwhelmingly on frontier-model outputs may be narrowing the diversity it depends on.",
+      "audience": [
+        "political",
+        "company",
+        "developer"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2501.12619",
+        "https://www.nature.com/articles/s41586-024-07566-y"
+      ]
+    },
+    {
+      "title": "Reproducibility improved in 2025-2026 — distillation is one of the few frontier techniques the open literature can actually replicate",
+      "detail": "Hugging Face's Open-R1 reproduced DeepSeek's reported MATH-500 result for R1-Distill-Qwen-32B (95.6 vs 94.3 reported, per the Open-R1 repository evaluation table) and released OpenR1-Math-220k and Mixture-of-Thoughts as fully open training data. OpenThoughts ran 1,000+ controlled ablations to build OpenThoughts3-1.2M, whose 7B student beat DeepSeek-R1-Distill-Qwen-7B by 15.3 points on AIME 2025, 17.2 on LiveCodeBench and 20.5 on GPQA Diamond. DeepSeek-R1 itself became the first major open-weight LLM published after independent peer review, in Nature in September 2025.",
+      "audience": [
+        "developer",
+        "political"
+      ],
+      "sources": [
+        "https://github.com/huggingface/open-r1",
+        "https://huggingface.co/blog/open-r1",
+        "https://arxiv.org/abs/2506.04178",
+        "https://www.nature.com/articles/s41586-025-09422-z"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "kd-method-taxonomy",
+      "title": "Taxonomy of distillation methods",
+      "description": "The three canonical axes of the KD literature — what knowledge is transferred, how the teacher is accessed, and whether the student's own samples are used — mapped onto the seminal work for each family.",
+      "columns": [
+        {
+          "key": "family",
+          "label": "Method family",
+          "type": "text"
+        },
+        {
+          "key": "knowledge",
+          "label": "Knowledge transferred",
+          "type": "text"
+        },
+        {
+          "key": "access",
+          "label": "Teacher access",
+          "type": "text"
+        },
+        {
+          "key": "policy",
+          "label": "Sampling regime",
+          "type": "text"
+        },
+        {
+          "key": "seminal",
+          "label": "Seminal work",
+          "type": "text"
+        },
+        {
+          "key": "year",
+          "label": "Year",
+          "type": "number"
+        },
+        {
+          "key": "cites",
+          "label": "Citations",
+          "type": "number",
+          "unit": "citations"
+        }
+      ],
+      "rows": [
+        {
+          "family": "Ensemble compression",
+          "knowledge": "Labels on unlabelled transfer set",
+          "access": "black-box",
+          "policy": "offline",
+          "seminal": "Buciluă, Caruana & Niculescu-Mizil, Model Compression",
+          "year": 2006,
+          "cites": 2907,
+          "_source": "https://dl.acm.org/doi/10.1145/1150402.1150464"
+        },
+        {
+          "family": "Response / logit-based",
+          "knowledge": "Temperature-softened output distribution ('dark knowledge')",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "Hinton, Vinyals & Dean",
+          "year": 2015,
+          "cites": 25899,
+          "_source": "https://arxiv.org/abs/1503.02531"
+        },
+        {
+          "family": "Feature-based (hints)",
+          "knowledge": "Intermediate activations via a regressor",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "FitNets (Romero et al.)",
+          "year": 2015,
+          "cites": 4873,
+          "_source": "https://arxiv.org/abs/1412.6550"
+        },
+        {
+          "family": "Attention transfer",
+          "knowledge": "Spatial attention maps",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "Zagoruyko & Komodakis",
+          "year": 2017,
+          "cites": 3209,
+          "_source": "https://arxiv.org/abs/1612.03928"
+        },
+        {
+          "family": "Relation-based",
+          "knowledge": "Pairwise/triplet structure of the embedding space",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "Relational KD (Park et al.)",
+          "year": 2019,
+          "cites": 2038,
+          "_source": "https://arxiv.org/abs/1904.05068"
+        },
+        {
+          "family": "Contrastive representation",
+          "knowledge": "Mutual information between teacher and student features",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "CRD (Tian, Krishnan & Isola)",
+          "year": 2020,
+          "cites": 1406,
+          "_source": "https://arxiv.org/abs/1910.10699"
+        },
+        {
+          "family": "Sequence-level KD",
+          "knowledge": "Teacher-generated output sequences as hard targets",
+          "access": "black-box",
+          "policy": "offline",
+          "seminal": "Kim & Rush",
+          "year": 2016,
+          "cites": 1478,
+          "_source": "https://arxiv.org/abs/1606.07947"
+        },
+        {
+          "family": "Self-attention relation",
+          "knowledge": "Query-key and value-value relation matrices",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "MiniLM (Wang et al.)",
+          "year": 2020,
+          "cites": 2550,
+          "_source": "https://arxiv.org/abs/2002.10957"
+        },
+        {
+          "family": "Online / mutual",
+          "knowledge": "Peer predictions, no fixed teacher",
+          "access": "white-box",
+          "policy": "online",
+          "seminal": "Deep Mutual Learning (Zhang et al.)",
+          "year": 2018,
+          "cites": 2033,
+          "_source": "https://arxiv.org/abs/1706.00384"
+        },
+        {
+          "family": "Self-distillation",
+          "knowledge": "The model's own earlier generation",
+          "access": "white-box",
+          "policy": "self",
+          "seminal": "Born-Again Neural Networks (Furlanello et al.)",
+          "year": 2018,
+          "cites": 1279,
+          "_source": "https://arxiv.org/abs/1805.04770"
+        },
+        {
+          "family": "Reverse-KL policy distillation",
+          "knowledge": "Mode-seeking match to teacher distribution",
+          "access": "white-box",
+          "policy": "on-policy",
+          "seminal": "MiniLLM (Gu et al.)",
+          "year": 2024,
+          "cites": 116,
+          "_source": "https://arxiv.org/abs/2306.08543"
+        },
+        {
+          "family": "Generalized on-policy KD",
+          "knowledge": "Generalized JSD on student-generated sequences",
+          "access": "white-box",
+          "policy": "on-policy",
+          "seminal": "GKD (Agarwal et al.)",
+          "year": 2024,
+          "cites": 732,
+          "_source": "https://arxiv.org/abs/2306.13649"
+        },
+        {
+          "family": "Rationale / CoT distillation",
+          "knowledge": "Natural-language rationales as a second training signal",
+          "access": "black-box",
+          "policy": "offline",
+          "seminal": "Distilling Step-by-Step (Hsieh et al.)",
+          "year": 2023,
+          "cites": 1074,
+          "_source": "https://arxiv.org/abs/2305.02301"
+        },
+        {
+          "family": "Explanation-trace imitation",
+          "knowledge": "Full step-by-step GPT-4 explanation traces",
+          "access": "black-box",
+          "policy": "offline",
+          "seminal": "Orca (Mukherjee et al.)",
+          "year": 2023,
+          "cites": 433,
+          "_source": "https://arxiv.org/abs/2306.02707"
+        },
+        {
+          "family": "Prune + distil",
+          "knowledge": "Logits used to recover accuracy after structured pruning",
+          "access": "white-box",
+          "policy": "offline",
+          "seminal": "Minitron (Muralidharan et al.)",
+          "year": 2024,
+          "cites": 189,
+          "_source": "https://arxiv.org/abs/2407.14679"
+        },
+        {
+          "family": "Draft-model distillation",
+          "knowledge": "Alignment of a small drafter to the target for speculative decoding",
+          "access": "white-box",
+          "policy": "on/off-policy",
+          "seminal": "DistillSpec (Zhou et al.)",
+          "year": 2024,
+          "cites": 171,
+          "_source": "https://arxiv.org/abs/2310.08461"
+        },
+        {
+          "family": "Dataset distillation",
+          "knowledge": "A synthetic dataset rather than a model",
+          "access": "n/a",
+          "policy": "offline",
+          "seminal": "Dataset Distillation (Wang et al.)",
+          "year": 2018,
+          "cites": 386,
+          "_source": "https://arxiv.org/abs/1811.10959"
+        },
+        {
+          "family": "Cross-tokenizer distillation",
+          "knowledge": "Logits mapped across mismatched vocabularies",
+          "access": "white-box",
+          "policy": "off/on-policy",
+          "seminal": "Universal Logit Distillation (Boizard et al.)",
+          "year": 2024,
+          "cites": 60,
+          "_source": "https://arxiv.org/abs/2402.12030"
+        },
+        {
+          "family": "Multi-teacher on-policy distillation",
+          "knowledge": "Weighted reverse KL against >10 domain specialists on student rollouts",
+          "access": "white-box",
+          "policy": "on-policy",
+          "seminal": "Nemotron 3 Ultra (NVIDIA)",
+          "year": 2026,
+          "cites": 14,
+          "_source": "https://arxiv.org/abs/2606.15007"
+        }
+      ],
+      "notes": "Citation counts retrieved from the Semantic Scholar Graph API on 2026-09-04. 'Year' is the year of the archival venue where one exists, otherwise the arXiv year. MiniLLM's count (116) could not be confirmed: the Semantic Scholar record appears to be split between the arXiv preprint (arXiv:2306.08543) and the ICLR 2024 proceedings entry, so the figure shown is likely an undercount and is not comparable to neighbouring rows such as GKD.",
+      "sources": [
+        "https://api.semanticscholar.org/graph/v1/paper/batch",
+        "https://arxiv.org/abs/2006.05525",
+        "https://arxiv.org/abs/2402.13116"
+      ]
+    },
+    {
+      "id": "student-teacher-retention",
+      "title": "Student-vs-teacher retention on hard reasoning benchmarks",
+      "description": "Reported pass@1 scores for distilled students against their teachers, with retention computed as student/teacher. Shows how retention collapses on the hardest benchmark (AIME) for small students while staying near-parity on MATH-500.",
+      "columns": [
+        {
+          "key": "student",
+          "label": "Student",
+          "type": "text"
+        },
+        {
+          "key": "params",
+          "label": "Student params",
+          "type": "number",
+          "unit": "B"
+        },
+        {
+          "key": "teacher",
+          "label": "Teacher",
+          "type": "text"
+        },
+        {
+          "key": "benchmark",
+          "label": "Benchmark",
+          "type": "text"
+        },
+        {
+          "key": "teacher_score",
+          "label": "Teacher",
+          "type": "number",
+          "unit": "%"
+        },
+        {
+          "key": "student_score",
+          "label": "Student",
+          "type": "number",
+          "unit": "%"
+        },
+        {
+          "key": "retention",
+          "label": "Retention",
+          "type": "number",
+          "unit": "%"
+        }
+      ],
+      "rows": [
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-1.5B",
+          "params": 1.5,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 28.9,
+          "retention": 36.2,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Llama-8B",
+          "params": 8,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 50.4,
+          "retention": 63.2,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-7B",
+          "params": 7,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 55.5,
+          "retention": 69.5,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-14B",
+          "params": 14,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 69.7,
+          "retention": 87.3,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Llama-70B",
+          "params": 70,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 70,
+          "retention": 87.7,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-32B",
+          "params": 32,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 72.6,
+          "retention": 91,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-1.5B",
+          "params": 1.5,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "MATH-500",
+          "teacher_score": 97.3,
+          "student_score": 83.9,
+          "retention": 86.2,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-32B",
+          "params": 32,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "MATH-500",
+          "teacher_score": 97.3,
+          "student_score": 94.3,
+          "retention": 96.9,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "DeepSeek-R1-Distill-Qwen-32B",
+          "params": 32,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "GPQA Diamond",
+          "teacher_score": 71.5,
+          "student_score": 62.1,
+          "retention": 86.9,
+          "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+        },
+        {
+          "student": "Sky-T1-32B-Preview",
+          "params": 32,
+          "teacher": "QwQ-32B-Preview",
+          "benchmark": "AIME 2024",
+          "teacher_score": 50,
+          "student_score": 43.3,
+          "retention": 86.6,
+          "_source": "https://novasky-ai.github.io/posts/sky-t1/"
+        },
+        {
+          "student": "Bespoke-Stratos-32B",
+          "params": 32,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "AIME 2024",
+          "teacher_score": 79.8,
+          "student_score": 63.3,
+          "retention": 79.3,
+          "_source": "https://huggingface.co/bespokelabs/Bespoke-Stratos-32B"
+        },
+        {
+          "student": "s1.1-32B",
+          "params": 32,
+          "teacher": "DeepSeek-R1 (671B)",
+          "benchmark": "MATH-500",
+          "teacher_score": 97.3,
+          "student_score": 95.4,
+          "retention": 98,
+          "_source": "https://arxiv.org/html/2501.19393v3"
+        },
+        {
+          "student": "Qwen3-8B (on-policy distilled)",
+          "params": 8,
+          "teacher": "Qwen3-32B",
+          "benchmark": "AIME 2024",
+          "teacher_score": 81.4,
+          "student_score": 74.4,
+          "retention": 91.4,
+          "_source": "https://arxiv.org/html/2505.09388v1"
+        }
+      ],
+      "notes": "Retention = student score / teacher score, computed from the sources' reported pass@1 figures. DeepSeek-R1 GPQA Diamond teacher score is 71.5 as reported in the R1 paper. Cross-paper comparisons carry evaluation-harness differences: Open-R1 independently measured DeepSeek-R1-Distill-Qwen-32B at 95.6 on MATH-500 versus 94.3 reported — roughly a 1.3-point harness spread, large enough to swamp several of the cross-paper retention deltas in this table.",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "https://arxiv.org/html/2501.12948v1",
+        "https://github.com/huggingface/open-r1"
+      ]
+    },
+    {
+      "id": "bert-era-compression",
+      "title": "The BERT era: how much quality survived compression",
+      "description": "Encoder-model distillation results that set the field's expectations before the LLM wave. These are the numbers every later paper benchmarks against.",
+      "columns": [
+        {
+          "key": "model",
+          "label": "Student",
+          "type": "text"
+        },
+        {
+          "key": "teacher",
+          "label": "Teacher",
+          "type": "text"
+        },
+        {
+          "key": "technique",
+          "label": "Technique",
+          "type": "text"
+        },
+        {
+          "key": "size_reduction",
+          "label": "Size reduction",
+          "type": "text"
+        },
+        {
+          "key": "speedup",
+          "label": "Speedup",
+          "type": "text"
+        },
+        {
+          "key": "retention",
+          "label": "Quality retained",
+          "type": "text"
+        },
+        {
+          "key": "year",
+          "label": "Year",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        {
+          "model": "DistilBERT",
+          "teacher": "BERT-base",
+          "technique": "Pretraining-time logit KD + cosine-distance loss",
+          "size_reduction": "40% smaller",
+          "speedup": "60% faster",
+          "retention": "97% of language-understanding capability",
+          "year": 2019,
+          "_source": "https://arxiv.org/abs/1910.01108"
+        },
+        {
+          "model": "Patient-KD BERT (6L)",
+          "teacher": "BERT-base",
+          "technique": "Learn from multiple intermediate layers",
+          "size_reduction": "~2x fewer layers",
+          "speedup": "undisclosed",
+          "retention": "task-dependent; established multi-layer KD for BERT",
+          "year": 2019,
+          "_source": "https://arxiv.org/abs/1908.09355"
+        },
+        {
+          "model": "TinyBERT (4 layers)",
+          "teacher": "BERT-base",
+          "technique": "Two-stage transformer distillation (pretraining + task)",
+          "size_reduction": "7.5x smaller",
+          "speedup": "9.4x faster",
+          "retention": ">96.8% of teacher on GLUE",
+          "year": 2020,
+          "_source": "https://arxiv.org/abs/1909.10351"
+        },
+        {
+          "model": "TinyBERT (6 layers)",
+          "teacher": "BERT-base",
+          "technique": "Two-stage transformer distillation",
+          "size_reduction": "2x smaller",
+          "speedup": "undisclosed",
+          "retention": "on par with teacher",
+          "year": 2020,
+          "_source": "https://arxiv.org/abs/1909.10351"
+        },
+        {
+          "model": "MobileBERT",
+          "teacher": "IB-BERT-large (custom teacher)",
+          "technique": "Bottleneck architecture + progressive knowledge transfer",
+          "size_reduction": "4.3x smaller",
+          "speedup": "5.5x faster (62 ms on Pixel 4)",
+          "retention": "GLUE 77.7 vs BERT-base 78.3; SQuAD v1.1 F1 90.0 vs 88.5 (exceeds teacher reference)",
+          "year": 2020,
+          "_source": "https://arxiv.org/abs/2004.02984"
+        },
+        {
+          "model": "MiniLM",
+          "teacher": "BERT-base / UniLM",
+          "technique": "Deep self-attention relation distillation (Q-K and V-V)",
+          "size_reduction": "task-agnostic 6-layer students",
+          "speedup": "undisclosed",
+          "retention": "state of the art for task-agnostic compression at the time",
+          "year": 2020,
+          "_source": "https://arxiv.org/abs/2002.10957"
+        }
+      ],
+      "notes": "MobileBERT's BERT-base GLUE reference of 78.3 is derived from the paper's statement that MobileBERT's 77.7 is '0.6 lower than BERT_BASE'. Speed and size figures are as reported by the authors on their own hardware and are not directly comparable across papers.",
+      "sources": [
+        "https://arxiv.org/abs/1910.01108",
+        "https://arxiv.org/abs/1909.10351",
+        "https://arxiv.org/abs/2004.02984",
+        "https://arxiv.org/abs/2002.10957",
+        "https://arxiv.org/abs/1908.09355"
+      ]
+    },
+    {
+      "id": "compute-cost-per-method",
+      "title": "Compute and data cost per distillation recipe",
+      "description": "What each published recipe actually cost, in the units its authors reported. The spread — from 7 GPU-hours to a full pretraining run — is the single most striking fact about the 2025-2026 literature.",
+      "columns": [
+        {
+          "key": "run",
+          "label": "Run / method",
+          "type": "text"
+        },
+        {
+          "key": "approach",
+          "label": "Approach",
+          "type": "text"
+        },
+        {
+          "key": "teacher",
+          "label": "Teacher",
+          "type": "text"
+        },
+        {
+          "key": "data",
+          "label": "Training data",
+          "type": "text"
+        },
+        {
+          "key": "compute",
+          "label": "Compute",
+          "type": "text"
+        },
+        {
+          "key": "cost",
+          "label": "Reported cost",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "run": "s1-32B (Stanford, 2025)",
+          "approach": "Offline SFT on curated traces + budget forcing",
+          "teacher": "Gemini 2.0 Flash Thinking",
+          "data": "1,000 samples (s1K)",
+          "compute": "26 min on 16x H100 (~7 GPU-hours)",
+          "cost": "undisclosed in the paper (~$50 widely reported in press coverage)",
+          "_source": "https://arxiv.org/abs/2501.19393"
+        },
+        {
+          "run": "LIMO (2025)",
+          "approach": "Offline SFT on hand-curated reasoning chains",
+          "teacher": "curated, multi-source",
+          "data": "817 samples",
+          "compute": "undisclosed",
+          "cost": "undisclosed",
+          "_source": "https://arxiv.org/abs/2502.03387"
+        },
+        {
+          "run": "Sky-T1-32B-Preview (Berkeley NovaSky, 2025)",
+          "approach": "Offline SFT on rejection-sampled teacher traces",
+          "teacher": "QwQ-32B-Preview",
+          "data": "17k (10k math, 5k code, 1k science/puzzle)",
+          "compute": "19 hours on 8x H100 (152 GPU-hours)",
+          "cost": "under $450",
+          "_source": "https://novasky-ai.github.io/posts/sky-t1/"
+        },
+        {
+          "run": "Bespoke-Stratos-32B (2025)",
+          "approach": "Offline SFT, Sky-T1 pipeline with modified filtering",
+          "teacher": "DeepSeek-R1",
+          "data": "17k (47x fewer than R1-Distill)",
+          "compute": "trace generation ~1.5 hours with DeepSeek-R1",
+          "cost": "undisclosed",
+          "_source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation"
+        },
+        {
+          "run": "Stanford Alpaca-7B (2023)",
+          "approach": "Black-box output imitation (self-instruct)",
+          "teacher": "text-davinci-003",
+          "data": "52k instruction-following demonstrations",
+          "compute": "undisclosed",
+          "cost": "under $500 API + under $600 total",
+          "_source": "https://crfm.stanford.edu/2023/03/13/alpaca.html"
+        },
+        {
+          "run": "DeepSeek-R1-Distill series (2025)",
+          "approach": "Offline SFT only, no RL on the student",
+          "teacher": "DeepSeek-R1 (671B MoE, 37B active)",
+          "data": "800k rejection-sampled traces, 2-3 epochs",
+          "compute": "undisclosed",
+          "cost": "undisclosed",
+          "_source": "https://arxiv.org/html/2501.12948v1"
+        },
+        {
+          "run": "OpenThoughts3 / OpenThinker3-7B (2025)",
+          "approach": "Offline SFT on an ablation-optimised recipe",
+          "teacher": "QwQ-32B",
+          "data": "1.2M examples",
+          "compute": "1,000+ controlled pipeline experiments",
+          "cost": "undisclosed",
+          "_source": "https://arxiv.org/abs/2506.04178"
+        },
+        {
+          "run": "Qwen3-8B strong-to-weak distillation (2025)",
+          "approach": "Off-policy then on-policy logit KL",
+          "teacher": "Qwen3-32B / Qwen3-235B-A22B",
+          "data": "on-policy rollouts",
+          "compute": "1,800 GPU-hours (vs 17,920 for the RL alternative)",
+          "cost": "~1/10 the GPU-hours of RL",
+          "_source": "https://arxiv.org/html/2505.09388v1"
+        },
+        {
+          "run": "On-policy distillation of Qwen3-8B (Thinking Machines, 2025)",
+          "approach": "Reverse-KL token grading on student rollouts",
+          "teacher": "Qwen3-32B",
+          "data": "77k prompts x 4 samples, ~150 steps",
+          "compute": "8.4e19 teacher FLOPs + 8.2e19 student FLOPs",
+          "cost": "9-30x cheaper than the SFT extrapolation, depending on teacher-FLOP amortisation",
+          "_source": "https://thinkingmachines.ai/blog/on-policy-distillation/"
+        },
+        {
+          "run": "Minitron / Nemotron-4 15B to 8B and 4B (2024)",
+          "approach": "Structured pruning + KD retraining",
+          "teacher": "Nemotron-4 15B",
+          "data": "<3% of the original pretraining data",
+          "compute": "up to 40x fewer training tokens per model",
+          "cost": "1.8x compute saving for the full model family",
+          "_source": "https://arxiv.org/abs/2407.14679"
+        },
+        {
+          "run": "Llama 3.2 1B / 3B (Meta, 2024)",
+          "approach": "One-shot structured pruning + logit distillation in pretraining",
+          "teacher": "Llama 3.1 8B and 70B",
+          "data": "pretraining corpus with teacher logits as token-level targets",
+          "compute": "undisclosed",
+          "cost": "undisclosed",
+          "_source": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/"
+        },
+        {
+          "run": "Gemma 2 2B (Google, 2024)",
+          "approach": "Distillation replaces next-token prediction in pretraining",
+          "teacher": "larger Gemma teacher (7B in ablation, 27B for release)",
+          "data": ">50x compute-optimal tokens; 500B-token ablation",
+          "compute": "full pretraining run",
+          "cost": "ablation: 60.3 avg from scratch vs 67.7 distilled",
+          "_source": "https://arxiv.org/html/2408.00118v1"
+        },
+        {
+          "run": "Gemma 3 (Google, 2025)",
+          "approach": "Pretraining KD with 256 sampled teacher logits per token",
+          "teacher": "larger instruction-tuned Gemma teacher",
+          "data": "full pretraining corpus",
+          "compute": "full pretraining run",
+          "cost": "undisclosed",
+          "_source": "https://arxiv.org/html/2503.19786v1"
+        },
+        {
+          "run": "Distilled 8B vs from-scratch 8B (benchmark study, 2026)",
+          "approach": "Controlled comparison of distillation vs vanilla pretraining",
+          "teacher": "various",
+          "data": "n/a",
+          "compute": ">2,000x more compute-efficient than the vanilla counterpart",
+          "cost": "undisclosed",
+          "_source": "https://arxiv.org/abs/2602.20164"
+        }
+      ],
+      "notes": "Costs are as reported by the original authors and use different accounting (rented GPU-hours, API spend, FLOPs). They are not directly comparable; treat them as order-of-magnitude signals. 'undisclosed' means no figure was published, not that the run was free.",
+      "sources": [
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://arxiv.org/abs/2501.19393",
+        "https://arxiv.org/html/2505.09388v1",
+        "https://thinkingmachines.ai/blog/on-policy-distillation/",
+        "https://arxiv.org/abs/2407.14679"
+      ]
+    },
+    {
+      "id": "distillation-vs-rl",
+      "title": "Distillation vs reinforcement learning, head to head",
+      "description": "Two independent controlled comparisons on the same base model, plus the theoretical result that explains the difference.",
+      "columns": [
+        {
+          "key": "study",
+          "label": "Study",
+          "type": "text"
+        },
+        {
+          "key": "base",
+          "label": "Base model",
+          "type": "text"
+        },
+        {
+          "key": "rl_result",
+          "label": "RL result",
+          "type": "text"
+        },
+        {
+          "key": "distill_result",
+          "label": "Distillation result",
+          "type": "text"
+        },
+        {
+          "key": "verdict",
+          "label": "Verdict",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "study": "DeepSeek-R1 (2025), Table 6",
+          "base": "Qwen2.5-32B",
+          "rl_result": "AIME 2024 47.0, MATH-500 91.6 (DeepSeek-R1-Zero-Qwen-32B, large-scale RL)",
+          "distill_result": "AIME 2024 72.6, MATH-500 94.3 (SFT on 800k R1 traces, no RL)",
+          "verdict": "Distillation wins by 25.6 AIME points on identical base",
+          "_source": "https://arxiv.org/html/2501.12948v1"
+        },
+        {
+          "study": "Qwen3 Technical Report (2025), Table 21",
+          "base": "Qwen3-8B",
+          "rl_result": "AIME'24 67.6, AIME'25 55.5; 17,920 GPU-hours",
+          "distill_result": "AIME'24 74.4, AIME'25 65.5; 1,800 GPU-hours",
+          "verdict": "Distillation wins by 6.8 / 10.0 points at 1/10 the compute",
+          "_source": "https://arxiv.org/html/2505.09388v1"
+        },
+        {
+          "study": "Kim et al. (2025), RL vs Distillation",
+          "base": "various reasoning students",
+          "rl_result": "RLVR raises pass@1 but often not pass@k; gains concentrate on easy questions",
+          "distill_result": "Distillation can raise both accuracy and capability when it injects new knowledge",
+          "verdict": "RL sharpens; distillation can genuinely extend",
+          "_source": "https://arxiv.org/abs/2505.14216"
+        },
+        {
+          "study": "Thinking Machines Lab (2025)",
+          "base": "Qwen3-8B from a 400k SFT checkpoint",
+          "rl_result": "reference RL trajectory to the same target",
+          "distill_result": "reaches teacher performance ~7-10x faster; 50-100x total compute reduction accounting for context and batch differences",
+          "verdict": "On-policy distillation dominates RL on this task",
+          "_source": "https://thinkingmachines.ai/blog/on-policy-distillation/"
+        }
+      ],
+      "notes": "The DeepSeek and Qwen comparisons are the field's two cleanest controlled ablations because both hold the base model fixed. Both come from the labs that shipped the models, so independent replication (e.g. Open-R1) matters.",
+      "sources": [
+        "https://arxiv.org/html/2501.12948v1",
+        "https://arxiv.org/html/2505.09388v1",
+        "https://arxiv.org/abs/2505.14216"
+      ]
+    },
+    {
+      "id": "open-problems",
+      "title": "Open research problems as of September 2026",
+      "description": "Where the theory is still behind the practice.",
+      "columns": [
+        {
+          "key": "problem",
+          "label": "Problem",
+          "type": "text"
+        },
+        {
+          "key": "state",
+          "label": "State of the art",
+          "type": "text"
+        },
+        {
+          "key": "why",
+          "label": "Why it is unresolved",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "problem": "Capacity gap",
+          "state": "Cho & Hariharan (2019) showed bigger teachers are not better teachers and proposed teacher early-stopping; Kajitsuka et al. (2026) show the effect varies widely by task and teacher-student pairing in CoT distillation",
+          "why": "No predictive rule for choosing the right teacher for a given student budget",
+          "_source": "https://arxiv.org/abs/2604.08880"
+        },
+        {
+          "problem": "Can a student exceed its teacher?",
+          "state": "MobileBERT exceeds the same-size BERT-base baseline on SQuAD, but not its own teacher (IB-BERT-LARGE); no clean published case of a student exceeding its own teacher is offered here. 2026 work explores objectives that deliberately push past the teacher distribution",
+          "why": "Standard KD objectives have an imitation ceiling by construction; exceeding it requires an extra signal (verifier, search, or new data)",
+          "_source": "https://arxiv.org/abs/2004.02984"
+        },
+        {
+          "problem": "Scaling laws",
+          "state": "Apple's Distillation Scaling Laws (ICML 2025) fit student loss to the teacher/student compute split across 143M-12.6B students",
+          "why": "The law is fit on pretraining cross-entropy, not on downstream reasoning, and does not yet cover on-policy regimes",
+          "_source": "https://machinelearning.apple.com/research/distillation-scaling-laws"
+        },
+        {
+          "problem": "Does KD actually match the teacher function?",
+          "state": "Stanton et al. (2021) found students often fail to match the teacher's predictive distribution even when generalisation improves",
+          "why": "Optimisation, not capacity, appears to be the bottleneck — and it remains poorly characterised",
+          "_source": "https://arxiv.org/abs/2106.05945"
+        },
+        {
+          "problem": "Tokenizer mismatch",
+          "state": "ULD (2024), approximate likelihood matching (NeurIPS 2025), byte-level interfaces and projection-guided methods (2026)",
+          "why": "Logit-level transfer across different vocabularies is still lossy; most cross-family distillation falls back to black-box text",
+          "_source": "https://arxiv.org/abs/2503.20083"
+        },
+        {
+          "problem": "Homogenisation and model collapse",
+          "state": "Distillation-degree metrics (RSE/ICE, ACL 2025) report high distillation degrees across well-known LLMs; Shumailov et al. (Nature 2024) show recursive synthetic training destroys distribution tails",
+          "why": "No agreed measurement of how much real-data grounding a training corpus needs to stay safe",
+          "_source": "https://arxiv.org/abs/2501.12619"
+        },
+        {
+          "problem": "Evaluation contamination in the distillation loop",
+          "state": "Independent replications (Open-R1) differ from reported numbers by ~1.3 points on MATH-500",
+          "why": "Teacher traces are generated on the same benchmark families used for evaluation; harness differences compound the ambiguity",
+          "_source": "https://github.com/huggingface/open-r1"
+        },
+        {
+          "problem": "Attribution and provenance",
+          "state": "Response Similarity Evaluation and Identity Consistency Evaluation give a first quantitative handle",
+          "why": "No method reliably proves which teacher a given open-weight model was distilled from",
+          "_source": "https://arxiv.org/abs/2501.12619"
+        }
+      ],
+      "notes": "Each row states the strongest published position as of 2026-09-04, not a consensus.",
+      "sources": [
+        "https://arxiv.org/abs/2502.08606",
+        "https://arxiv.org/abs/2106.05945",
+        "https://arxiv.org/abs/2604.00626"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "papers-per-year",
+      "title": "arXiv papers with 'knowledge distillation' in the abstract, 2015-2026",
+      "type": "bar",
+      "xLabel": "Year",
+      "yLabel": "Papers",
+      "unit": "papers",
+      "series": [
+        {
+          "name": "arXiv submissions",
+          "data": [
+            {
+              "x": "2015",
+              "y": 2
+            },
+            {
+              "x": "2016",
+              "y": 6
+            },
+            {
+              "x": "2017",
+              "y": 18
+            },
+            {
+              "x": "2018",
+              "y": 51
+            },
+            {
+              "x": "2019",
+              "y": 159
+            },
+            {
+              "x": "2020",
+              "y": 327
+            },
+            {
+              "x": "2021",
+              "y": 451
+            },
+            {
+              "x": "2022",
+              "y": 624
+            },
+            {
+              "x": "2023",
+              "y": 777
+            },
+            {
+              "x": "2024",
+              "y": 971
+            },
+            {
+              "x": "2025",
+              "y": 1084
+            },
+            {
+              "x": "2026",
+              "y": 709
+            }
+          ]
+        }
+      ],
+      "notes": "Counts retrieved from the arXiv API on 2026-09-04 using search_query=abs:\"knowledge distillation\" restricted per submission year. 2026 covers 1 January to 4 September only, so the full year is on pace for roughly 1,050. Growth is 542x from 2015 to 2025.",
+      "sources": [
+        "https://export.arxiv.org/api/query?search_query=abs:%22knowledge%20distillation%22%20AND%20submittedDate:%5B202501010000%20TO%20202512312359%5D&max_results=1",
+        "https://info.arxiv.org/help/api/user-manual.html"
+      ]
+    },
+    {
+      "id": "retention-vs-student-size",
+      "title": "Retention of teacher score vs student size (DeepSeek-R1-Distill family)",
+      "type": "scatter",
+      "xLabel": "Student parameters (B)",
+      "yLabel": "Retention of DeepSeek-R1 teacher score (%)",
+      "unit": "%",
+      "series": [
+        {
+          "name": "AIME 2024 (hard)",
+          "data": [
+            {
+              "x": 1.5,
+              "y": 36.2
+            },
+            {
+              "x": 7,
+              "y": 69.5
+            },
+            {
+              "x": 8,
+              "y": 63.2
+            },
+            {
+              "x": 14,
+              "y": 87.3
+            },
+            {
+              "x": 32,
+              "y": 91
+            },
+            {
+              "x": 70,
+              "y": 87.7
+            }
+          ]
+        },
+        {
+          "name": "MATH-500 (moderate)",
+          "data": [
+            {
+              "x": 1.5,
+              "y": 86.2
+            },
+            {
+              "x": 7,
+              "y": 95.4
+            },
+            {
+              "x": 8,
+              "y": 91.6
+            },
+            {
+              "x": 14,
+              "y": 96.5
+            },
+            {
+              "x": 32,
+              "y": 96.9
+            },
+            {
+              "x": 70,
+              "y": 97.1
+            }
+          ]
+        },
+        {
+          "name": "GPQA Diamond (knowledge)",
+          "data": [
+            {
+              "x": 1.5,
+              "y": 47.3
+            },
+            {
+              "x": 7,
+              "y": 68.7
+            },
+            {
+              "x": 8,
+              "y": 68.5
+            },
+            {
+              "x": 14,
+              "y": 82.7
+            },
+            {
+              "x": 32,
+              "y": 86.9
+            },
+            {
+              "x": 70,
+              "y": 91.2
+            }
+          ]
+        }
+      ],
+      "notes": "Retention = student pass@1 / DeepSeek-R1 pass@1, using teacher scores of 79.8 (AIME 2024), 97.3 (MATH-500) and 71.5 (GPQA Diamond). The 8B point is a Llama-3.1 student rather than Qwen, which is why it sits below the 7B Qwen student on AIME. The gap between the AIME and MATH-500 curves is the clearest published picture of the capacity gap.",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "https://arxiv.org/html/2501.12948v1"
+      ]
+    },
+    {
+      "id": "method-adoption-by-year",
+      "title": "Method adoption: arXiv mentions by sub-topic, 2020-2026",
+      "type": "line",
+      "xLabel": "Year",
+      "yLabel": "arXiv papers mentioning the term",
+      "unit": "papers",
+      "series": [
+        {
+          "name": "on-policy distillation",
+          "data": [
+            {
+              "x": "2020",
+              "y": 9
+            },
+            {
+              "x": "2021",
+              "y": 7
+            },
+            {
+              "x": "2022",
+              "y": 9
+            },
+            {
+              "x": "2023",
+              "y": 10
+            },
+            {
+              "x": "2024",
+              "y": 17
+            },
+            {
+              "x": "2025",
+              "y": 38
+            },
+            {
+              "x": "2026",
+              "y": 359
+            }
+          ]
+        },
+        {
+          "name": "self-distillation",
+          "data": [
+            {
+              "x": "2020",
+              "y": 28
+            },
+            {
+              "x": "2021",
+              "y": 55
+            },
+            {
+              "x": "2022",
+              "y": 75
+            },
+            {
+              "x": "2023",
+              "y": 123
+            },
+            {
+              "x": "2024",
+              "y": 132
+            },
+            {
+              "x": "2025",
+              "y": 209
+            },
+            {
+              "x": "2026",
+              "y": 427
+            }
+          ]
+        },
+        {
+          "name": "dataset distillation",
+          "data": [
+            {
+              "x": "2020",
+              "y": 5
+            },
+            {
+              "x": "2021",
+              "y": 2
+            },
+            {
+              "x": "2022",
+              "y": 18
+            },
+            {
+              "x": "2023",
+              "y": 51
+            },
+            {
+              "x": "2024",
+              "y": 88
+            },
+            {
+              "x": "2025",
+              "y": 104
+            },
+            {
+              "x": "2026",
+              "y": 68
+            }
+          ]
+        },
+        {
+          "name": "chain-of-thought distillation",
+          "data": [
+            {
+              "x": "2020",
+              "y": 0
+            },
+            {
+              "x": "2021",
+              "y": 0
+            },
+            {
+              "x": "2022",
+              "y": 0
+            },
+            {
+              "x": "2023",
+              "y": 4
+            },
+            {
+              "x": "2024",
+              "y": 4
+            },
+            {
+              "x": "2025",
+              "y": 12
+            },
+            {
+              "x": "2026",
+              "y": 14
+            }
+          ]
+        }
+      ],
+      "notes": "arXiv API full-text ('all:') phrase counts per submission year, retrieved 2026-09-04. 2026 covers only 1 January to 4 September. The on-policy curve is the story of 2026: a 9.4x jump in eight months, matching its adoption in Qwen3, DeepSeek-V4 and Nemotron 3 Ultra. Phrase counting is a proxy — it over-counts passing mentions and misses papers that use different terminology.",
+      "sources": [
+        "https://export.arxiv.org/api/query?search_query=all:%22on-policy%20distillation%22%20AND%20submittedDate:%5B202601010000%20TO%20202609042359%5D&max_results=1",
+        "https://arxiv.org/abs/2604.00626"
+      ]
+    },
+    {
+      "id": "distill-vs-rl-bars",
+      "title": "Same base model, two training recipes",
+      "type": "bar",
+      "xLabel": "Setting",
+      "yLabel": "AIME pass@1 (%)",
+      "unit": "%",
+      "series": [
+        {
+          "name": "Reinforcement learning",
+          "data": [
+            {
+              "x": "Qwen2.5-32B (DeepSeek, AIME'24)",
+              "y": 47
+            },
+            {
+              "x": "Qwen3-8B (AIME'24)",
+              "y": 67.6
+            },
+            {
+              "x": "Qwen3-8B (AIME'25)",
+              "y": 55.5
+            }
+          ]
+        },
+        {
+          "name": "Distillation",
+          "data": [
+            {
+              "x": "Qwen2.5-32B (DeepSeek, AIME'24)",
+              "y": 72.6
+            },
+            {
+              "x": "Qwen3-8B (AIME'24)",
+              "y": 74.4
+            },
+            {
+              "x": "Qwen3-8B (AIME'25)",
+              "y": 65.5
+            }
+          ]
+        }
+      ],
+      "notes": "DeepSeek's comparison is offline SFT on 800k teacher traces versus large-scale RL on the identical Qwen2.5-32B base. Qwen3's is on-policy logit distillation versus RL, at 1,800 vs 17,920 GPU-hours.",
+      "sources": [
+        "https://arxiv.org/html/2501.12948v1",
+        "https://arxiv.org/html/2505.09388v1"
+      ]
+    },
+    {
+      "id": "landmark-citations",
+      "title": "Citation counts of landmark distillation and distillation-adjacent papers",
+      "type": "bar",
+      "xLabel": "Paper",
+      "yLabel": "Citations",
+      "unit": "citations",
+      "series": [
+        {
+          "name": "Semantic Scholar citations (2026-09-04)",
+          "data": [
+            {
+              "x": "Hinton 2015 (KD)",
+              "y": 25899
+            },
+            {
+              "x": "DistilBERT 2019",
+              "y": 10433
+            },
+            {
+              "x": "DeepSeek-R1 2025",
+              "y": 5597
+            },
+            {
+              "x": "FitNets 2015",
+              "y": 4873
+            },
+            {
+              "x": "KD Survey (Gou 2021)",
+              "y": 4570
+            },
+            {
+              "x": "Attention Transfer 2017",
+              "y": 3209
+            },
+            {
+              "x": "Buciluă 2006 (Model Compression)",
+              "y": 2907
+            },
+            {
+              "x": "MiniLM 2020",
+              "y": 2550
+            },
+            {
+              "x": "TinyBERT 2020",
+              "y": 2504
+            },
+            {
+              "x": "Relational KD 2019",
+              "y": 2038
+            },
+            {
+              "x": "Deep Mutual Learning 2018",
+              "y": 2033
+            },
+            {
+              "x": "Speculative Decoding 2023",
+              "y": 1950
+            },
+            {
+              "x": "Seq-Level KD 2016",
+              "y": 1478
+            },
+            {
+              "x": "CRD 2020",
+              "y": 1406
+            },
+            {
+              "x": "Born-Again NN 2018",
+              "y": 1279
+            },
+            {
+              "x": "Distilling Step-by-Step 2023",
+              "y": 1074
+            },
+            {
+              "x": "GKD 2024",
+              "y": 732
+            },
+            {
+              "x": "Orca 2023",
+              "y": 433
+            }
+          ]
+        }
+      ],
+      "notes": "Retrieved from the Semantic Scholar Graph API batch endpoint on 2026-09-04. Citation counts move; treat these as a September 2026 snapshot. Hinton et al. alone accounts for more citations than the next four papers combined. Speculative Decoding (Leviathan et al. 2023) is included as distillation-adjacent: it is not a KD method, but it created the demand for draft-model distillation as a distinct research problem.",
+      "sources": [
+        "https://api.semanticscholar.org/graph/v1/paper/arXiv:1503.02531?fields=title,year,citationCount",
+        "https://www.semanticscholar.org/paper/0c908739fbff75f03469d13d4a1a07de3414ee19"
+      ]
+    },
+    {
+      "id": "sample-efficiency-collapse",
+      "title": "Training samples needed to reach o1-preview-class math reasoning",
+      "type": "bar",
+      "xLabel": "Recipe",
+      "yLabel": "Training samples (log-ish scale)",
+      "unit": "samples",
+      "series": [
+        {
+          "name": "Reasoning traces used",
+          "data": [
+            {
+              "x": "OpenThoughts3 (Jun 2025)",
+              "y": 1200000
+            },
+            {
+              "x": "DeepSeek-R1-Distill (Jan 2025)",
+              "y": 800000
+            },
+            {
+              "x": "Alpaca (Mar 2023)",
+              "y": 52000
+            },
+            {
+              "x": "Sky-T1 (Jan 2025)",
+              "y": 17000
+            },
+            {
+              "x": "Bespoke-Stratos (Jan 2025)",
+              "y": 17000
+            },
+            {
+              "x": "s1 (Jan 2025)",
+              "y": 1000
+            },
+            {
+              "x": "LIMO (Feb 2025)",
+              "y": 817
+            }
+          ]
+        }
+      ],
+      "notes": "These recipes do not all target the same capability or reach the same score, so this is a chart about data budgets, not a quality ranking. OpenThoughts3 uses more data because it targets a 7B student and a higher absolute ceiling; s1 and LIMO use a 32B base whose latent ability is largely already present. LIMO figures are from v3 (July 2025); v1 reported AIME24 57.1 from the same 817 samples.",
+      "sources": [
+        "https://arxiv.org/html/2501.12948v1",
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://arxiv.org/abs/2501.19393",
+        "https://arxiv.org/abs/2502.03387",
+        "https://arxiv.org/abs/2506.04178",
+        "https://crfm.stanford.edu/2023/03/13/alpaca.html"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2006-08-20",
+      "title": "Buciluă, Caruana & Niculescu-Mizil: Model Compression",
+      "detail": "KDD 2006 paper compresses a large ensemble into a single small neural network by labelling a synthetic transfer set. The first statement of the teacher-student idea; ~2,900 citations.",
+      "category": "research",
+      "source": "https://dl.acm.org/doi/10.1145/1150402.1150464"
+    },
+    {
+      "date": "2015-03-09",
+      "title": "Hinton, Vinyals & Dean: Distilling the Knowledge in a Neural Network",
+      "detail": "Introduces temperature-softened soft targets and the term 'distillation'. Presented at the NIPS 2014 Deep Learning Workshop; now the field's canonical reference at ~25,900 citations.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1503.02531"
+    },
+    {
+      "date": "2015-03-27",
+      "title": "FitNets: hints from intermediate layers",
+      "detail": "Romero et al. show that matching intermediate feature maps, not just outputs, lets thin deep students beat their teachers. Opens the feature-based branch of the taxonomy.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1412.6550"
+    },
+    {
+      "date": "2016-06-25",
+      "title": "Kim & Rush: Sequence-Level Knowledge Distillation",
+      "detail": "Extends KD to sequence generation by training on teacher-generated output sequences rather than per-token distributions — the direct ancestor of every black-box LLM distillation recipe.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1606.07947"
+    },
+    {
+      "date": "2018-11-27",
+      "title": "Dataset Distillation",
+      "detail": "Wang et al. compress a dataset rather than a model, synthesising a handful of images that train a network to near-full accuracy. Spawns a sub-field that reached ~104 arXiv papers in 2025.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1811.10959"
+    },
+    {
+      "date": "2019-10-02",
+      "title": "DistilBERT",
+      "detail": "Sanh et al. distil BERT during pretraining: 40% smaller, 60% faster, 97% of language-understanding capability retained. The result that made distillation standard practice in NLP.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1910.01108"
+    },
+    {
+      "date": "2019-10-03",
+      "title": "Cho & Hariharan: On the Efficacy of Knowledge Distillation",
+      "detail": "ICCV 2019 paper shows larger teachers are often worse teachers because of capacity mismatch, and that stopping teacher training early mitigates it. First rigorous statement of the capacity gap.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/1910.01348"
+    },
+    {
+      "date": "2020-04-06",
+      "title": "MobileBERT",
+      "detail": "A 4.3x smaller, 5.5x faster BERT that runs in 62 ms on a Pixel 4 and beats BERT-base on SQuAD F1 — an early demonstration that a student can exceed its reference on some tasks.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2004.02984"
+    },
+    {
+      "date": "2021-06-01",
+      "title": "Knowledge Distillation: A Survey (IJCV)",
+      "detail": "Gou et al. codify the response/feature/relation and offline/online/self taxonomies that the field still uses. ~4,570 citations.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2006.05525"
+    },
+    {
+      "date": "2023-03-13",
+      "title": "Stanford Alpaca",
+      "detail": "LLaMA-7B fine-tuned on 52k self-instruct demonstrations generated by text-davinci-003 for under $600 total. The moment black-box distillation of a commercial API became a mainstream academic method — and a terms-of-service question.",
+      "category": "research",
+      "source": "https://crfm.stanford.edu/2023/03/13/alpaca.html"
+    },
+    {
+      "date": "2023-05-03",
+      "title": "Distilling Step-by-Step",
+      "detail": "Hsieh et al. extract rationales as an extra supervision signal; a 770M T5 outperforms few-shot 540B PaLM using 80% of the data. The founding paper of chain-of-thought distillation.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2305.02301"
+    },
+    {
+      "date": "2023-06-05",
+      "title": "Orca",
+      "detail": "Microsoft distils GPT-4 explanation traces into a 13B student that beats Vicuna-13B by >100% on Big-Bench Hard and 42% on AGIEval, establishing trace imitation as a serious method.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2306.02707"
+    },
+    {
+      "date": "2023-06-14",
+      "title": "MiniLLM: reverse-KL distillation",
+      "detail": "Gu et al. replace forward KL with reverse KL to stop the student overestimating low-probability regions of the teacher, and derive an on-policy optimisation for it. Scales 120M-13B.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2306.08543"
+    },
+    {
+      "date": "2023-06-23",
+      "title": "GKD: on-policy distillation of language models",
+      "detail": "Agarwal et al. train on student-generated sequences graded by the teacher, with a generalized JSD family of losses — the template every 2026 industrial pipeline now follows.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2306.13649"
+    },
+    {
+      "date": "2023-10-25",
+      "title": "Zephyr-7B: distilled DPO",
+      "detail": "Hugging Face show alignment itself can be distilled — dDPO on AI-ranked preferences gives MT-Bench 7.34, surpassing Llama2-Chat-70B, with no human annotation.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2310.16944"
+    },
+    {
+      "date": "2024-07-19",
+      "title": "Minitron: pruning + distillation",
+      "detail": "NVIDIA compress Nemotron-4 15B into 8B and 4B using up to 40x fewer training tokens per model and under 3% of the original data, with up to 16% higher MMLU than training from scratch.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2407.14679"
+    },
+    {
+      "date": "2024-07-24",
+      "title": "Shumailov et al., Nature: model collapse",
+      "detail": "Recursive training on generated data irreversibly destroys the tails of the original distribution. The strongest published caution against a purely distillation-fed research ecosystem.",
+      "category": "research",
+      "source": "https://www.nature.com/articles/s41586-024-07566-y"
+    },
+    {
+      "date": "2024-07-31",
+      "title": "Gemma 2 makes distillation a pretraining objective",
+      "detail": "Google trains the 2B and 9B models with distillation instead of next-token prediction on >50x the compute-optimal token count; the ablation shows 60.3 to 67.7 average improvement at 500B tokens.",
+      "category": "research",
+      "source": "https://arxiv.org/html/2408.00118v1"
+    },
+    {
+      "date": "2024-09-25",
+      "title": "Llama 3.2 1B/3B: one-shot pruning plus logit distillation",
+      "detail": "Meta prunes Llama 3.1 8B and uses logits from Llama 3.1 8B and 70B as token-level targets during pretraining — distillation as a first-class step in a frontier lab's small-model pipeline.",
+      "category": "product",
+      "source": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/"
+    },
+    {
+      "date": "2025-01-10",
+      "title": "Sky-T1-32B-Preview trained for under $450",
+      "detail": "Berkeley's NovaSky distils QwQ-32B-Preview traces into Qwen2.5-32B-Instruct in 19 hours on 8 H100s, matching o1-preview on math and coding and releasing data, code and weights.",
+      "category": "research",
+      "source": "https://novasky-ai.github.io/posts/sky-t1/"
+    },
+    {
+      "date": "2025-01-22",
+      "title": "DeepSeek-R1 and the R1-Distill series",
+      "detail": "Six students (Qwen 1.5B/7B/14B/32B, Llama 8B/70B) fine-tuned on 800k traces from the 671B teacher. The 32B student hits AIME 2024 72.6 vs 47.0 for large-scale RL on the same base. The single most consequential distillation release to date.",
+      "category": "research",
+      "source": "https://arxiv.org/html/2501.12948v1"
+    },
+    {
+      "date": "2025-01-22",
+      "title": "Quantification of LLM Distillation",
+      "detail": "Response Similarity and Identity Consistency Evaluation give the first quantitative estimate of how distilled a model is, and report high distillation degrees across well-known open and closed LLMs.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2501.12619"
+    },
+    {
+      "date": "2025-01-22",
+      "title": "Bespoke-Stratos-32B: 17k samples, 47x less data",
+      "detail": "Bespoke Labs distil DeepSeek-R1 through a modified Sky-T1 pipeline, generating the dataset in ~1.5 hours and nearly matching R1-Distill-Qwen-32B (AIME 63.3, MATH-500 93.0).",
+      "category": "research",
+      "source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation"
+    },
+    {
+      "date": "2025-01-28",
+      "title": "Hugging Face launches Open-R1",
+      "detail": "A fully open reproduction effort; its evaluation table later scores DeepSeek-R1-Distill-Qwen-32B at 95.6 on MATH-500 against the 94.3 DeepSeek reported, and the project releases OpenR1-Math-220k and Mixture-of-Thoughts.",
+      "category": "research",
+      "source": "https://github.com/huggingface/open-r1"
+    },
+    {
+      "date": "2025-01-31",
+      "title": "s1: 1,000 samples, 26 minutes, 16 H100s",
+      "detail": "Muennighoff et al. distil Gemini Flash Thinking traces and add budget forcing; s1-32B reaches AIME 2024 56.7 and MATH-500 93.0, exceeding o1-preview on AIME by up to 27%.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2501.19393"
+    },
+    {
+      "date": "2025-02-05",
+      "title": "LIMO: 817 samples",
+      "detail": "Ye et al. reach AIME24 63.3 and MATH500 95.6 with 1% of the data used by prior approaches, arguing that reasoning is elicited rather than taught.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2502.03387"
+    },
+    {
+      "date": "2025-02-12",
+      "title": "Apple publishes Distillation Scaling Laws",
+      "detail": "Busbridge et al. fit student loss to the teacher/student compute split across 143M-12.6B students and up to 512B tokens, giving compute-optimal recipes and showing distillation's advantage over supervised learning is bounded.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2502.08606"
+    },
+    {
+      "date": "2025-03-12",
+      "title": "Gemma 3 refines pretraining distillation",
+      "detail": "All Gemma 3 sizes are trained with KD by sampling 256 teacher logits per token, renormalising over the sample, and applying cross-entropy — a cheap approximation to full-vocabulary logit matching. (The model shipped 12 March 2025; the technical report followed on 25 March.)",
+      "category": "research",
+      "source": "https://arxiv.org/html/2503.19786v1"
+    },
+    {
+      "date": "2025-05-14",
+      "title": "Qwen3 formalises strong-to-weak distillation",
+      "detail": "Off-policy trace distillation followed by on-policy logit KL against Qwen3-32B / 235B-A22B teachers, reported at 1,800 GPU-hours vs 17,920 for RL, with AIME'24 74.4 vs 67.6.",
+      "category": "research",
+      "source": "https://arxiv.org/html/2505.09388v1"
+    },
+    {
+      "date": "2025-06-04",
+      "title": "OpenThoughts3-1.2M and OpenThinker3-7B",
+      "detail": "1,000+ controlled ablations produce a 1.2M-example recipe whose 7B student beats DeepSeek-R1-Distill-Qwen-7B by 15.3 (AIME25), 17.2 (LiveCodeBench) and 20.5 (GPQA Diamond) points.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2506.04178"
+    },
+    {
+      "date": "2025-09-17",
+      "title": "DeepSeek-R1 published in Nature",
+      "detail": "The first major open-weight LLM to appear after independent peer review, with a 64-page reviewer exchange. Legitimises reasoning distillation as peer-reviewed science rather than preprint folklore.",
+      "category": "research",
+      "source": "https://www.nature.com/articles/s41586-025-09422-z"
+    },
+    {
+      "date": "2025-10-27",
+      "title": "Thinking Machines Lab popularises on-policy distillation",
+      "detail": "A widely-read technical post frames on-policy distillation as RL's relevance plus distillation's dense reward, and reports reaching teacher parity 7-10x faster than RL for Qwen3-8B.",
+      "category": "research",
+      "source": "https://thinkingmachines.ai/blog/on-policy-distillation/"
+    },
+    {
+      "date": "2026-04-01",
+      "title": "A Survey of On-Policy Distillation for Large Language Models",
+      "detail": "Song and Zheng formalise OPD as minimising an f-divergence over student-sampled trajectories, organise the field along optimisation target / signal source / stabilisation, and connect it to KL-constrained RL. Revised to v4 by June 2026.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2604.00626"
+    },
+    {
+      "date": "2026-04-10",
+      "title": "Capacity gap revisited for chain-of-thought distillation",
+      "detail": "Kajitsuka, Honda and Takase show CoT distillation can make students worse than baseline under the standard evaluation protocol, propose a corrected protocol, and give practical teacher-student pairing rules.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2604.08880"
+    },
+    {
+      "date": "2026-04-26",
+      "title": "DeepSeek-V4 replaces mixed RL with on-policy distillation",
+      "detail": "V4-Pro (1.6T, 49B active) and V4-Flash (284B, 13B active) train independent domain experts, then consolidate them into a single student via on-policy distillation instead of a further multi-domain RL stage.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2606.19348"
+    },
+    {
+      "date": "2026-06-12",
+      "title": "Nemotron 3 Ultra introduces multi-teacher on-policy distillation",
+      "detail": "NVIDIA train more than ten domain-specialised teachers and consolidate them into a 550B/55B-active hybrid Mamba-Transformer student via dense token-level guidance on student rollouts (MOPD).",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2606.15007"
+    },
+    {
+      "date": "2026-07-08",
+      "title": "A community survey reports distillation across the 2026 frontier",
+      "detail": "A Hugging Face community post surveying 2026 frontier releases reports that Qwen3, DeepSeek-V4, GLM-5, Nemotron 3 Ultra and Cursor Composer 2.5 use some form of distillation — spanning black-box traces, white-box logits, on-policy grading and self-distillation — and infers from its post-training recipe that Gemma 4 likely does too.",
+      "category": "research",
+      "source": "https://huggingface.co/blog/sergiopaniego/distillation-2026"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Knowledge distillation (KD)",
+      "definition": "Training a compact 'student' model to reproduce the behaviour of a larger 'teacher' model, using the teacher's outputs as the training signal instead of, or alongside, ground-truth labels."
+    },
+    {
+      "term": "Soft targets / dark knowledge",
+      "definition": "The teacher's full probability distribution over classes or tokens. The relative probabilities assigned to wrong answers encode similarity structure that one-hot labels throw away — Hinton's term for this is 'dark knowledge'."
+    },
+    {
+      "term": "Temperature (T)",
+      "definition": "A divisor applied to logits before the softmax. Higher T flattens the distribution, exposing more of the teacher's relative ordering over low-probability classes. Gradients are typically rescaled by T-squared to keep loss magnitudes comparable."
+    },
+    {
+      "term": "Response-based / logit distillation",
+      "definition": "Transferring only the teacher's output distribution. The original and still most common form; requires white-box access to logits."
+    },
+    {
+      "term": "Feature-based distillation",
+      "definition": "Matching the student's intermediate activations to the teacher's, usually through a learned projection. Introduced by FitNets as 'hints'."
+    },
+    {
+      "term": "Relation-based distillation",
+      "definition": "Transferring the structure between examples — pairwise distances, angles or attention relations — rather than per-example outputs. Relational KD and CRD are the canonical examples."
+    },
+    {
+      "term": "Sequence-level KD",
+      "definition": "For generative models, training on complete teacher-generated output sequences treated as hard targets, rather than matching per-token distributions. Kim & Rush, 2016."
+    },
+    {
+      "term": "White-box vs black-box distillation",
+      "definition": "White-box distillation needs the teacher's internal logits or activations, so it requires open weights. Black-box distillation uses only the teacher's sampled text, so it works through any API — which is why it dominates the reasoning-distillation literature and why it raises terms-of-service questions."
+    },
+    {
+      "term": "Offline, online and self-distillation",
+      "definition": "The three sampling regimes. Offline uses a fixed pretrained teacher; online trains teacher and student together (or trains peers mutually); self-distillation uses the model's own earlier checkpoint or a stronger-context version of itself as the teacher."
+    },
+    {
+      "term": "On-policy distillation",
+      "definition": "The student generates the trajectories and the teacher scores each token of the student's own output. Combines RL's on-policy distribution match with distillation's dense per-token signal; the dominant frontier post-training technique of 2026."
+    },
+    {
+      "term": "Exposure bias",
+      "definition": "The mismatch between training on the teacher's perfect prefixes and generating your own at inference, so early errors compound. The 2026 on-policy distillation survey argues the resulting error scales roughly with the square of sequence length."
+    },
+    {
+      "term": "Forward vs reverse KL",
+      "definition": "Forward KL (teacher-to-student) is mode-covering: the student spreads probability mass over regions the teacher rarely visits, which produces plausible-sounding but unsupported generations. Reverse KL (student-to-teacher) is mode-seeking: the student concentrates on regions the teacher genuinely supports. MiniLLM made reverse KL standard for generative distillation."
+    },
+    {
+      "term": "Capacity gap",
+      "definition": "The observation that a teacher can be too strong for a given student: beyond some size ratio, distillation quality degrades rather than improves. Identified by Cho & Hariharan (2019) and revisited for chain-of-thought distillation in 2026."
+    },
+    {
+      "term": "Chain-of-thought (CoT) distillation",
+      "definition": "Training a small model on the teacher's step-by-step reasoning traces rather than only its final answers. The mechanism behind Distilling Step-by-Step, Orca, and the entire DeepSeek-R1-Distill wave."
+    },
+    {
+      "term": "Rationale distillation",
+      "definition": "A multi-task variant of CoT distillation in which the student is trained to predict both the label and a natural-language rationale, treating the rationale as auxiliary supervision rather than as the output format."
+    },
+    {
+      "term": "Pruning + distillation",
+      "definition": "Structurally removing width, depth, attention heads or MLP channels from a trained model, then using the original model as a teacher to recover the lost accuracy. NVIDIA's Minitron and Meta's Llama 3.2 1B/3B both use this pattern."
+    },
+    {
+      "term": "Draft-model distillation",
+      "definition": "Aligning a small 'draft' model to a large target model so that speculative decoding accepts more of the draft's proposed tokens. DistillSpec reports 10-45% speedups over standard speculative decoding."
+    },
+    {
+      "term": "Dataset distillation",
+      "definition": "Compressing a training set rather than a model: synthesising a tiny set of examples (sometimes one image per class) that trains a network to near-full accuracy. A separate lineage from model distillation, starting with Wang et al. 2018."
+    },
+    {
+      "term": "Cross-tokenizer distillation",
+      "definition": "Transferring logit-level knowledge between models with incompatible vocabularies, via optimal-transport losses (ULD), approximate likelihood matching, byte-level interfaces, or learned projection matrices."
+    },
+    {
+      "term": "Distillation degree",
+      "definition": "A quantitative estimate of how heavily a model was trained on another model's outputs, measured in the ACL 2025 framework by Response Similarity Evaluation and Identity Consistency Evaluation."
+    },
+    {
+      "term": "Model collapse",
+      "definition": "The irreversible loss of distribution tails when generative models are recursively trained on generated data. Established for LLMs, VAEs and Gaussian mixtures by Shumailov et al. in Nature (2024); the structural risk that a distillation-dominated ecosystem runs."
+    },
+    {
+      "term": "Budget forcing",
+      "definition": "A test-time control introduced by s1 that either terminates the model's thinking early or extends it by appending 'Wait', letting a distilled student trade compute for accuracy without retraining."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Distilling the Knowledge in a Neural Network",
+      "url": "https://arxiv.org/abs/1503.02531",
+      "publisher": "arXiv (Hinton, Vinyals, Dean)",
+      "date": "2015-03-09",
+      "type": "paper"
+    },
+    {
+      "title": "Model compression",
+      "url": "https://dl.acm.org/doi/10.1145/1150402.1150464",
+      "publisher": "ACM KDD (Buciluă, Caruana, Niculescu-Mizil)",
+      "date": "2006",
+      "type": "paper"
+    },
+    {
+      "title": "FitNets: Hints for Thin Deep Nets",
+      "url": "https://arxiv.org/abs/1412.6550",
+      "publisher": "arXiv / ICLR",
+      "date": "2015-03-27",
+      "type": "paper"
+    },
+    {
+      "title": "Sequence-Level Knowledge Distillation",
+      "url": "https://arxiv.org/abs/1606.07947",
+      "publisher": "arXiv / EMNLP",
+      "date": "2016-06-25",
+      "type": "paper"
+    },
+    {
+      "title": "DistilBERT, a distilled version of BERT",
+      "url": "https://arxiv.org/abs/1910.01108",
+      "publisher": "arXiv (Hugging Face)",
+      "date": "2019-10-02",
+      "type": "paper"
+    },
+    {
+      "title": "TinyBERT: Distilling BERT for Natural Language Understanding",
+      "url": "https://arxiv.org/abs/1909.10351",
+      "publisher": "arXiv / Findings of EMNLP",
+      "date": "2019-09-23",
+      "type": "paper"
+    },
+    {
+      "title": "MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices",
+      "url": "https://arxiv.org/abs/2004.02984",
+      "publisher": "arXiv / ACL",
+      "date": "2020-04-06",
+      "type": "paper"
+    },
+    {
+      "title": "MiniLM: Deep Self-Attention Distillation",
+      "url": "https://arxiv.org/abs/2002.10957",
+      "publisher": "arXiv / NeurIPS",
+      "date": "2020-02-25",
+      "type": "paper"
+    },
+    {
+      "title": "On the Efficacy of Knowledge Distillation",
+      "url": "https://arxiv.org/abs/1910.01348",
+      "publisher": "arXiv / ICCV",
+      "date": "2019-10-03",
+      "type": "paper"
+    },
+    {
+      "title": "Knowledge Distillation: A Survey",
+      "url": "https://arxiv.org/abs/2006.05525",
+      "publisher": "arXiv / IJCV",
+      "date": "2020-06-09",
+      "type": "paper"
+    },
+    {
+      "title": "A Survey on Knowledge Distillation of Large Language Models",
+      "url": "https://arxiv.org/abs/2402.13116",
+      "publisher": "arXiv",
+      "date": "2024-02-20",
+      "type": "paper"
+    },
+    {
+      "title": "Distilling Step-by-Step!",
+      "url": "https://arxiv.org/abs/2305.02301",
+      "publisher": "arXiv / ACL (Google)",
+      "date": "2023-05-03",
+      "type": "paper"
+    },
+    {
+      "title": "Orca: Progressive Learning from Complex Explanation Traces of GPT-4",
+      "url": "https://arxiv.org/abs/2306.02707",
+      "publisher": "arXiv (Microsoft Research)",
+      "date": "2023-06-05",
+      "type": "paper"
+    },
+    {
+      "title": "MiniLLM: Knowledge Distillation of Large Language Models",
+      "url": "https://arxiv.org/abs/2306.08543",
+      "publisher": "arXiv / ICLR 2024",
+      "date": "2023-06-14",
+      "type": "paper"
+    },
+    {
+      "title": "On-Policy Distillation of Language Models (GKD)",
+      "url": "https://arxiv.org/abs/2306.13649",
+      "publisher": "arXiv / ICLR 2024 (Google DeepMind)",
+      "date": "2023-06-23",
+      "type": "paper"
+    },
+    {
+      "title": "Zephyr: Direct Distillation of LM Alignment",
+      "url": "https://arxiv.org/abs/2310.16944",
+      "publisher": "arXiv (Hugging Face)",
+      "date": "2023-10-25",
+      "type": "paper"
+    },
+    {
+      "title": "Compact Language Models via Pruning and Knowledge Distillation (Minitron)",
+      "url": "https://arxiv.org/abs/2407.14679",
+      "publisher": "arXiv / NeurIPS (NVIDIA)",
+      "date": "2024-07-19",
+      "type": "paper"
+    },
+    {
+      "title": "Gemma 2: Improving Open Language Models at a Practical Size",
+      "url": "https://arxiv.org/html/2408.00118v1",
+      "publisher": "arXiv (Google DeepMind)",
+      "date": "2024-07-31",
+      "type": "paper"
+    },
+    {
+      "title": "Gemma 3 Technical Report",
+      "url": "https://arxiv.org/html/2503.19786v1",
+      "publisher": "arXiv (Google DeepMind)",
+      "date": "2025-03-25",
+      "type": "paper"
+    },
+    {
+      "title": "Llama 3.2: Revolutionizing edge AI and vision",
+      "url": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/",
+      "publisher": "Meta AI",
+      "date": "2024-09-25",
+      "type": "blog"
+    },
+    {
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "publisher": "arXiv (DeepSeek-AI)",
+      "date": "2025-01-22",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning",
+      "url": "https://www.nature.com/articles/s41586-025-09422-z",
+      "publisher": "Nature 645(8081)",
+      "date": "2025-09-17",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-R1-Distill-Qwen-32B model card",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "publisher": "Hugging Face (DeepSeek-AI)",
+      "date": "2025-01-20",
+      "type": "docs"
+    },
+    {
+      "title": "Sky-T1: Train your own O1 preview model within $450",
+      "url": "https://novasky-ai.github.io/posts/sky-t1/",
+      "publisher": "NovaSky, UC Berkeley Sky Computing Lab",
+      "date": "2025-01-10",
+      "type": "blog"
+    },
+    {
+      "title": "Bespoke-Stratos: The unreasonable effectiveness of reasoning distillation",
+      "url": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation",
+      "publisher": "Bespoke Labs",
+      "date": "2025-01-22",
+      "type": "blog"
+    },
+    {
+      "title": "Bespoke-Stratos-32B model card",
+      "url": "https://huggingface.co/bespokelabs/Bespoke-Stratos-32B",
+      "publisher": "Hugging Face (Bespoke Labs)",
+      "date": "2025-01-22",
+      "type": "docs"
+    },
+    {
+      "title": "s1: Simple test-time scaling",
+      "url": "https://arxiv.org/abs/2501.19393",
+      "publisher": "arXiv / EMNLP 2025 (Stanford, UW)",
+      "date": "2025-01-31",
+      "type": "paper"
+    },
+    {
+      "title": "LIMO: Less is More for Reasoning",
+      "url": "https://arxiv.org/abs/2502.03387",
+      "publisher": "arXiv (SJTU / GAIR)",
+      "date": "2025-02-05",
+      "type": "paper"
+    },
+    {
+      "title": "Distillation Scaling Laws",
+      "url": "https://arxiv.org/abs/2502.08606",
+      "publisher": "arXiv / ICML 2025 (Apple)",
+      "date": "2025-02-12",
+      "type": "paper"
+    },
+    {
+      "title": "Distillation Scaling Laws (Apple ML Research page)",
+      "url": "https://machinelearning.apple.com/research/distillation-scaling-laws",
+      "publisher": "Apple Machine Learning Research",
+      "date": "2025-02-12",
+      "type": "blog"
+    },
+    {
+      "title": "Qwen3 Technical Report",
+      "url": "https://arxiv.org/html/2505.09388v1",
+      "publisher": "arXiv (Qwen Team, Alibaba)",
+      "date": "2025-05-14",
+      "type": "paper"
+    },
+    {
+      "title": "OpenThoughts: Data Recipes for Reasoning Models",
+      "url": "https://arxiv.org/abs/2506.04178",
+      "publisher": "arXiv (OpenThoughts consortium)",
+      "date": "2025-06-04",
+      "type": "paper"
+    },
+    {
+      "title": "Open-R1: a fully open reproduction of DeepSeek-R1",
+      "url": "https://huggingface.co/blog/open-r1",
+      "publisher": "Hugging Face",
+      "date": "2025-01-28",
+      "type": "blog"
+    },
+    {
+      "title": "On-Policy Distillation",
+      "url": "https://thinkingmachines.ai/blog/on-policy-distillation/",
+      "publisher": "Thinking Machines Lab",
+      "date": "2025-10-27",
+      "type": "blog"
+    },
+    {
+      "title": "A Survey of On-Policy Distillation for Large Language Models",
+      "url": "https://arxiv.org/abs/2604.00626",
+      "publisher": "arXiv (Song & Zheng)",
+      "date": "2026-04-01",
+      "type": "paper"
+    },
+    {
+      "title": "Revisiting the Capacity Gap in Chain-of-Thought Distillation from a Practical Perspective",
+      "url": "https://arxiv.org/abs/2604.08880",
+      "publisher": "arXiv (Kajitsuka, Honda, Takase)",
+      "date": "2026-04-10",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
+      "url": "https://arxiv.org/abs/2606.19348",
+      "publisher": "arXiv (DeepSeek-AI)",
+      "date": "2026-04-26",
+      "type": "paper"
+    },
+    {
+      "title": "Nemotron 3 Ultra: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+      "url": "https://arxiv.org/abs/2606.15007",
+      "publisher": "arXiv (NVIDIA)",
+      "date": "2026-06-12",
+      "type": "paper"
+    },
+    {
+      "title": "Distillation in 2026 (so far): which frontier models use it and how",
+      "url": "https://huggingface.co/blog/sergiopaniego/distillation-2026",
+      "publisher": "Hugging Face",
+      "date": "2026-07-08",
+      "type": "blog"
+    },
+    {
+      "title": "Benchmarking Distilled Language Models: Performance and Efficiency in Resource-Constrained Settings",
+      "url": "https://arxiv.org/abs/2602.20164",
+      "publisher": "arXiv (Wani, Page, Dholakia, Ellison)",
+      "date": "2026-01-28",
+      "type": "paper"
+    },
+    {
+      "title": "Quantification of Large Language Model Distillation",
+      "url": "https://arxiv.org/abs/2501.12619",
+      "publisher": "arXiv / ACL 2025",
+      "date": "2025-01-22",
+      "type": "paper"
+    },
+    {
+      "title": "AI models collapse when trained on recursively generated data",
+      "url": "https://www.nature.com/articles/s41586-024-07566-y",
+      "publisher": "Nature 631(8022):755-759",
+      "date": "2024-07-24",
+      "type": "paper"
+    },
+    {
+      "title": "Reinforcement Learning vs. Distillation: Understanding Accuracy and Capability in LLM Reasoning",
+      "url": "https://arxiv.org/abs/2505.14216",
+      "publisher": "arXiv (Kim et al., NYU)",
+      "date": "2025-05-20",
+      "type": "paper"
+    },
+    {
+      "title": "Alpaca: A Strong, Replicable Instruction-Following Model",
+      "url": "https://crfm.stanford.edu/2023/03/13/alpaca.html",
+      "publisher": "Stanford CRFM",
+      "date": "2023-03-13",
+      "type": "blog"
+    },
+    {
+      "title": "Semantic Scholar Graph API (citation counts)",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/arXiv:1503.02531?fields=title,year,citationCount",
+      "publisher": "Allen Institute for AI",
+      "date": "2026-09-04",
+      "type": "docs"
+    },
+    {
+      "title": "arXiv API user manual (paper-count methodology)",
+      "url": "https://info.arxiv.org/help/api/user-manual.html",
+      "publisher": "arXiv / Cornell University",
+      "date": "2026-09-04",
+      "type": "docs"
+    },
+    {
+      "title": "Open-R1 repository (evaluation tables)",
+      "url": "https://github.com/huggingface/open-r1",
+      "publisher": "Hugging Face",
+      "date": "2025-01-28",
+      "type": "docs"
+    },
+    {
+      "title": "Contrastive Representation Distillation",
+      "url": "https://arxiv.org/abs/1910.10699",
+      "publisher": "arXiv (MIT / Google Research)",
+      "date": "2019-10-23",
+      "type": "paper"
+    }
+  ],
+  "extras": {
+    "papers": [
+      {
+        "id": "bucila2006",
+        "title": "Model Compression",
+        "authors": "Cristian Buciluă, Rich Caruana, Alexandru Niculescu-Mizil",
+        "year": 2006,
+        "venue": "KDD",
+        "url": "https://dl.acm.org/doi/10.1145/1150402.1150464",
+        "method": "Ensemble compression via labelled synthetic transfer set",
+        "category": "origins",
+        "oneLiner": "Compress a large ensemble into a single small neural net by having the ensemble label unlabelled or synthetic data.",
+        "significance": "The original teacher-student result, nine years before the word 'distillation' was applied to it.",
+        "citations_est": 2907
+      },
+      {
+        "id": "hinton2015",
+        "title": "Distilling the Knowledge in a Neural Network",
+        "authors": "Geoffrey Hinton, Oriol Vinyals, Jeff Dean",
+        "year": 2015,
+        "venue": "arXiv / NIPS 2014 Deep Learning Workshop",
+        "url": "https://arxiv.org/abs/1503.02531",
+        "method": "Response/logit KD with temperature-softened soft targets",
+        "category": "origins",
+        "oneLiner": "Softened teacher output distributions carry 'dark knowledge' that one-hot labels discard.",
+        "significance": "The field's canonical reference; defines temperature, soft targets, and the KD loss that almost every later method modifies.",
+        "citations_est": 25899
+      },
+      {
+        "id": "romero2015",
+        "title": "FitNets: Hints for Thin Deep Nets",
+        "authors": "Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou, Antoine Chassang, Carlo Gatta, Yoshua Bengio",
+        "year": 2015,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/1412.6550",
+        "method": "Feature-based (hint layer + regressor)",
+        "category": "taxonomy-feature",
+        "oneLiner": "Match intermediate activations, not just outputs, so thin deep students can be trained at all.",
+        "significance": "Opened the feature-based branch of the taxonomy and showed students can outperform teachers.",
+        "citations_est": 4873
+      },
+      {
+        "id": "kim2016",
+        "title": "Sequence-Level Knowledge Distillation",
+        "authors": "Yoon Kim, Alexander M. Rush",
+        "year": 2016,
+        "venue": "EMNLP",
+        "url": "https://arxiv.org/abs/1606.07947",
+        "method": "Sequence-level KD on teacher-generated outputs",
+        "category": "sequence",
+        "oneLiner": "For generation, train on the teacher's whole output sequences rather than token-level distributions.",
+        "significance": "The direct ancestor of every black-box LLM distillation recipe, including DeepSeek-R1-Distill.",
+        "citations_est": 1478
+      },
+      {
+        "id": "zagoruyko2017",
+        "title": "Paying More Attention to Attention",
+        "authors": "Sergey Zagoruyko, Nikos Komodakis",
+        "year": 2017,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/1612.03928",
+        "method": "Attention-map transfer",
+        "category": "taxonomy-feature",
+        "oneLiner": "Transfer spatial attention maps between teacher and student CNNs.",
+        "significance": "Established that where a model looks is a transferable form of knowledge.",
+        "citations_est": 3209
+      },
+      {
+        "id": "zhang2018",
+        "title": "Deep Mutual Learning",
+        "authors": "Ying Zhang, Tao Xiang, Timothy M. Hospedales, Huchuan Lu",
+        "year": 2018,
+        "venue": "CVPR",
+        "url": "https://arxiv.org/abs/1706.00384",
+        "method": "Online / mutual distillation between peers",
+        "category": "taxonomy-online",
+        "oneLiner": "A cohort of students teach each other during training with no pretrained teacher at all.",
+        "significance": "Founding paper of online distillation; showed a fixed superior teacher is not required.",
+        "citations_est": 2033
+      },
+      {
+        "id": "furlanello2018",
+        "title": "Born Again Neural Networks",
+        "authors": "Tommaso Furlanello, Zachary C. Lipton, Michael Tschannen, Laurent Itti, Anima Anandkumar",
+        "year": 2018,
+        "venue": "ICML",
+        "url": "https://arxiv.org/abs/1805.04770",
+        "method": "Self-distillation across generations",
+        "category": "taxonomy-self",
+        "oneLiner": "Distil a model into an identically-sized copy of itself, repeatedly, and it keeps improving.",
+        "significance": "Showed distillation is a regulariser, not only a compression technique.",
+        "citations_est": 1279
+      },
+      {
+        "id": "cho2019",
+        "title": "On the Efficacy of Knowledge Distillation",
+        "authors": "Jang Hyun Cho, Bharath Hariharan",
+        "year": 2019,
+        "venue": "ICCV",
+        "url": "https://arxiv.org/abs/1910.01348",
+        "method": "Empirical study of capacity mismatch",
+        "category": "theory",
+        "oneLiner": "Bigger teachers are often worse teachers; early-stopping the teacher mitigates the capacity gap.",
+        "significance": "The first rigorous statement of the capacity-gap problem that the 2026 CoT literature revisits.",
+        "citations_est": 803
+      },
+      {
+        "id": "park2019",
+        "title": "Relational Knowledge Distillation",
+        "authors": "Wonpyo Park, Dongju Kim, Yan Lu, Minsu Cho",
+        "year": 2019,
+        "venue": "CVPR",
+        "url": "https://arxiv.org/abs/1904.05068",
+        "method": "Relation-based (distance-wise and angle-wise losses)",
+        "category": "taxonomy-relation",
+        "oneLiner": "Transfer the geometric relations between examples rather than their individual representations.",
+        "significance": "Defines the third arm of the standard taxonomy.",
+        "citations_est": 2038
+      },
+      {
+        "id": "sanh2019",
+        "title": "DistilBERT, a distilled version of BERT",
+        "authors": "Victor Sanh, Lysandre Debut, Julien Chaumond, Thomas Wolf",
+        "year": 2019,
+        "venue": "arXiv / NeurIPS EMC^2 Workshop",
+        "url": "https://arxiv.org/abs/1910.01108",
+        "method": "Pretraining-time triple loss (LM + distillation + cosine distance)",
+        "category": "encoder-compression",
+        "oneLiner": "40% smaller, 60% faster, 97% of BERT's language-understanding capability retained.",
+        "significance": "The result that made distillation routine engineering practice in NLP.",
+        "citations_est": 10433
+      },
+      {
+        "id": "sun2019",
+        "title": "Patient Knowledge Distillation for BERT Model Compression",
+        "authors": "Siqi Sun, Yu Cheng, Zhe Gan, Jingjing Liu",
+        "year": 2019,
+        "venue": "EMNLP",
+        "url": "https://arxiv.org/abs/1908.09355",
+        "method": "Multi-layer intermediate supervision",
+        "category": "encoder-compression",
+        "oneLiner": "Learn from several of the teacher's intermediate layers instead of only its last one.",
+        "significance": "Established multi-layer supervision as the default for transformer distillation.",
+        "citations_est": 994
+      },
+      {
+        "id": "jiao2020",
+        "title": "TinyBERT: Distilling BERT for Natural Language Understanding",
+        "authors": "Xiaoqi Jiao, Yichun Yin, Lifeng Shang, Xin Jiang, Xiao Chen, Linlin Li, Fang Wang, Qun Liu",
+        "year": 2020,
+        "venue": "Findings of EMNLP",
+        "url": "https://arxiv.org/abs/1909.10351",
+        "method": "Two-stage transformer distillation (pretraining + task-specific)",
+        "category": "encoder-compression",
+        "oneLiner": "A 4-layer student keeps >96.8% of BERT-base GLUE at 7.5x smaller and 9.4x faster.",
+        "significance": "Set the size/speed/quality frontier that pre-LLM compression work benchmarked against.",
+        "citations_est": 2504
+      },
+      {
+        "id": "sun2020",
+        "title": "MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices",
+        "authors": "Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, Denny Zhou",
+        "year": 2020,
+        "venue": "ACL",
+        "url": "https://arxiv.org/abs/2004.02984",
+        "method": "Bottleneck architecture + progressive knowledge transfer from a custom IB-BERT-large teacher",
+        "category": "encoder-compression",
+        "oneLiner": "4.3x smaller, 5.5x faster, 62 ms on a Pixel 4 — and beats the BERT-base baseline on SQuAD F1.",
+        "significance": "Frequently miscited as a student beating its teacher: MobileBERT beats the same-size BERT-base baseline on SQuAD, while its actual teacher is a custom IB-BERT-LARGE that scores above it.",
+        "citations_est": 1078
+      },
+      {
+        "id": "wang2020",
+        "title": "MiniLM: Deep Self-Attention Distillation",
+        "authors": "Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, Ming Zhou",
+        "year": 2020,
+        "venue": "NeurIPS",
+        "url": "https://arxiv.org/abs/2002.10957",
+        "method": "Query-key and value-value relation distillation from the last self-attention layer",
+        "category": "encoder-compression",
+        "oneLiner": "Distil attention relations rather than activations, avoiding layer-mapping heuristics.",
+        "significance": "The most architecture-agnostic of the BERT-era recipes; still the base of many embedding models.",
+        "citations_est": 2550
+      },
+      {
+        "id": "wang2018dd",
+        "title": "Dataset Distillation",
+        "authors": "Tongzhou Wang, Jun-Yan Zhu, Antonio Torralba, Alexei A. Efros",
+        "year": 2018,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/1811.10959",
+        "method": "Gradient-based synthesis of a tiny training set",
+        "category": "dataset-distillation",
+        "oneLiner": "Compress a dataset, not a model: a handful of synthetic images that train a network to near-full accuracy.",
+        "significance": "Founded a parallel sub-field that reached ~104 arXiv papers in 2025.",
+        "citations_est": 386
+      },
+      {
+        "id": "gou2021",
+        "title": "Knowledge Distillation: A Survey",
+        "authors": "Jianping Gou, Baosheng Yu, Stephen J. Maybank, Dacheng Tao",
+        "year": 2021,
+        "venue": "IJCV",
+        "url": "https://arxiv.org/abs/2006.05525",
+        "method": "Survey",
+        "category": "survey",
+        "oneLiner": "Codifies the response/feature/relation and offline/online/self taxonomies the field still uses.",
+        "significance": "The reference taxonomy for the pre-LLM era.",
+        "citations_est": 4570
+      },
+      {
+        "id": "stanton2021",
+        "title": "Does Knowledge Distillation Really Work?",
+        "authors": "Samuel Stanton, Pavel Izmailov, Polina Kirichenko, Alexander A. Alemi, Andrew Gordon Wilson",
+        "year": 2021,
+        "venue": "NeurIPS",
+        "url": "https://arxiv.org/abs/2106.05945",
+        "method": "Empirical analysis of student-teacher fidelity",
+        "category": "theory",
+        "oneLiner": "Students often improve in generalisation without ever matching the teacher's predictive distribution.",
+        "significance": "Separates 'distillation works' from 'distillation transfers the function' — still unresolved.",
+        "citations_est": 309
+      },
+      {
+        "id": "leviathan2023",
+        "title": "Fast Inference from Transformers via Speculative Decoding",
+        "authors": "Yaniv Leviathan, Matan Kalman, Yossi Matias",
+        "year": 2023,
+        "venue": "ICML",
+        "url": "https://arxiv.org/abs/2211.17192",
+        "method": "Draft-and-verify decoding with a small approximation model",
+        "category": "inference",
+        "oneLiner": "A small drafter proposes tokens that the large model verifies in parallel, with no quality loss.",
+        "significance": "Created the demand for draft-model distillation as a distinct research problem.",
+        "citations_est": 1950
+      },
+      {
+        "id": "hsieh2023",
+        "title": "Distilling Step-by-Step!",
+        "authors": "Cheng-Yu Hsieh, Chun-Liang Li, Chih-Kuan Yeh, Hootan Nakhost, Yasuhisa Fujii, Alexander Ratner, Ranjay Krishna, Chen-Yu Lee, Tomas Pfister",
+        "year": 2023,
+        "venue": "ACL Findings",
+        "url": "https://arxiv.org/abs/2305.02301",
+        "method": "Multi-task training on labels plus extracted LLM rationales",
+        "category": "cot-distillation",
+        "oneLiner": "A 770M T5 beats few-shot 540B PaLM using 80% of the available data.",
+        "significance": "Founding paper of rationale/CoT distillation; a ~700x parameter reduction at higher accuracy.",
+        "citations_est": 1074
+      },
+      {
+        "id": "ho2023",
+        "title": "Large Language Models Are Reasoning Teachers",
+        "authors": "Namgyu Ho, Laura Schmid, Se-Young Yun",
+        "year": 2023,
+        "venue": "ACL",
+        "url": "https://arxiv.org/abs/2212.10071",
+        "method": "Fine-tune-CoT: sample teacher rationales, filter by correctness, fine-tune a small student",
+        "category": "cot-distillation",
+        "oneLiner": "Very large teachers can hand their chain-of-thought ability to models orders of magnitude smaller.",
+        "significance": "With Magister et al., one of the two papers that named CoT distillation as a method.",
+        "citations_est": 552
+      },
+      {
+        "id": "magister2023",
+        "title": "Teaching Small Language Models to Reason",
+        "authors": "Lucie Charlotte Magister, Jonathan Mallinson, Jakub Adamek, Eric Malmi, Aliaksei Severyn",
+        "year": 2023,
+        "venue": "ACL",
+        "url": "https://arxiv.org/abs/2212.08410",
+        "method": "CoT distillation with answer-consistency filtering",
+        "category": "cot-distillation",
+        "oneLiner": "Distilling reasoning chains from a 540B teacher lifts small T5 students far above their scale.",
+        "significance": "Concurrent independent discovery of CoT distillation at Google.",
+        "citations_est": 439
+      },
+      {
+        "id": "fu2023",
+        "title": "Specializing Smaller Language Models towards Multi-Step Reasoning",
+        "authors": "Yao Fu, Hao Peng, Litu Ou, Ashish Sabharwal, Tushar Khot",
+        "year": 2023,
+        "venue": "ICML",
+        "url": "https://arxiv.org/abs/2301.12726",
+        "method": "Capability-targeted distillation with an explicit generality trade-off",
+        "category": "cot-distillation",
+        "oneLiner": "Small models can be specialised into strong reasoners, but they pay for it in general ability.",
+        "significance": "First clean statement of the specialisation trade-off in distilled students.",
+        "citations_est": 370
+      },
+      {
+        "id": "mukherjee2023",
+        "title": "Orca: Progressive Learning from Complex Explanation Traces of GPT-4",
+        "authors": "Subhabrata Mukherjee, Arindam Mitra, Ganesh Jawahar, Sahaj Agarwal, Hamid Palangi, Ahmed Awadallah",
+        "year": 2023,
+        "venue": "arXiv (Microsoft Research)",
+        "url": "https://arxiv.org/abs/2306.02707",
+        "method": "Explanation-trace imitation with progressive learning from ChatGPT then GPT-4",
+        "category": "cot-distillation",
+        "oneLiner": "A 13B student trained on GPT-4 explanation traces beats Vicuna-13B by >100% on Big-Bench Hard.",
+        "significance": "Showed imitation of process, not just output, closes most of the gap to a frontier teacher.",
+        "citations_est": 433
+      },
+      {
+        "id": "gu2024",
+        "title": "MiniLLM: Knowledge Distillation of Large Language Models",
+        "authors": "Yuxian Gu, Li Dong, Furu Wei, Minlie Huang",
+        "year": 2024,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/2306.08543",
+        "method": "Reverse KL divergence with on-policy policy-gradient optimisation",
+        "category": "objective",
+        "oneLiner": "Swap mode-covering forward KL for mode-seeking reverse KL, and the student stops hallucinating the teacher's tails.",
+        "significance": "Made reverse KL the default objective for generative distillation; scales 120M-13B. Citation count is unconfirmed — the Semantic Scholar record appears split across the arXiv and ICLR 2024 entries, so 116 likely understates the true figure.",
+        "citations_est": 116
+      },
+      {
+        "id": "agarwal2024",
+        "title": "On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes (GKD)",
+        "authors": "Rishabh Agarwal, Nino Vieillard, Yongchao Zhou, Piotr Stanczyk, Sabela Ramos, Matthieu Geist, Olivier Bachem",
+        "year": 2024,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/2306.13649",
+        "method": "Generalized KD: teacher feedback on student-generated sequences with a generalized JSD loss family",
+        "category": "on-policy",
+        "oneLiner": "Train the student on its own outputs and let the teacher grade them, fixing the train/inference distribution mismatch.",
+        "significance": "The template for the on-policy distillation pipelines that dominate 2026 post-training.",
+        "citations_est": 732
+      },
+      {
+        "id": "tunstall2023",
+        "title": "Zephyr: Direct Distillation of LM Alignment",
+        "authors": "Lewis Tunstall, Edward Beeching, Nathan Lambert, Nazneen Rajani, Kashif Rasul, Younes Belkada, Shengyi Huang, Leandro von Werra, Clémentine Fourrier, Nathan Habib, Nathan Sarrazin, Omar Sanseviero, Alexander M. Rush, Thomas Wolf",
+        "year": 2023,
+        "venue": "arXiv (Hugging Face)",
+        "url": "https://arxiv.org/abs/2310.16944",
+        "method": "Distilled supervised fine-tuning followed by distilled DPO on AI-ranked preferences",
+        "category": "alignment",
+        "oneLiner": "Alignment itself can be distilled: MT-Bench 7.34 with no human annotation, beating Llama2-Chat-70B.",
+        "significance": "Extended distillation from capability to preference and safety behaviour.",
+        "citations_est": 634
+      },
+      {
+        "id": "zhou2024",
+        "title": "DistillSpec: Improving Speculative Decoding via Knowledge Distillation",
+        "authors": "Yongchao Zhou, Kaifeng Lyu, Ankit Singh Rawat, Aditya Krishna Menon, Afshin Rostamizadeh, Sanjiv Kumar, Jean-François Kagy, Rishabh Agarwal",
+        "year": 2024,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/2310.08461",
+        "method": "Distil the draft model to the target using on-policy data and a divergence chosen per task",
+        "category": "inference",
+        "oneLiner": "Aligning the drafter to the target yields 10-45% speedups over standard speculative decoding.",
+        "significance": "Turns distillation into a latency technique rather than a capacity technique.",
+        "citations_est": 171
+      },
+      {
+        "id": "muralidharan2024",
+        "title": "Compact Language Models via Pruning and Knowledge Distillation (Minitron)",
+        "authors": "Saurav Muralidharan, Sharath Turuvekere Sreenivas, Raviraj Joshi, Marcin Chochowski, Mostofa Patwary, Mohammad Shoeybi, Bryan Catanzaro, Jan Kautz, Pavlo Molchanov",
+        "year": 2024,
+        "venue": "NeurIPS",
+        "url": "https://arxiv.org/abs/2407.14679",
+        "method": "Depth/width/attention/MLP pruning + KD-based retraining",
+        "category": "pruning-distillation",
+        "oneLiner": "Derive 8B and 4B models from a 15B parent with up to 40x fewer training tokens and <3% of the data.",
+        "significance": "Made prune-then-distil the standard way to produce a small-model family from one pretraining run.",
+        "citations_est": 189
+      },
+      {
+        "id": "gemma2-2024",
+        "title": "Gemma 2: Improving Open Language Models at a Practical Size",
+        "authors": "Gemma Team, Google DeepMind",
+        "year": 2024,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/html/2408.00118v1",
+        "method": "Distillation replaces next-token prediction during pretraining",
+        "category": "pretraining-kd",
+        "oneLiner": "Train the 2B and 9B models on teacher distributions for >50x the compute-optimal token count.",
+        "significance": "Reframed distillation as a way to simulate training beyond the available data, not just to compress.",
+        "citations_est": 2389
+      },
+      {
+        "id": "deepseekr1-2025",
+        "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+        "authors": "DeepSeek-AI",
+        "year": 2025,
+        "venue": "arXiv; Nature 645(8081) 2025",
+        "url": "https://arxiv.org/html/2501.12948v1",
+        "method": "Sequence-level SFT on 800k rejection-sampled traces from a 671B MoE teacher",
+        "category": "reasoning-distillation",
+        "oneLiner": "Six open students from 1.5B to 70B, with the 32B beating large-scale RL on the same base by 25.6 AIME points.",
+        "significance": "The most consequential distillation release to date; first open-weight frontier LLM published after peer review.",
+        "citations_est": 5597
+      },
+      {
+        "id": "muennighoff2025",
+        "title": "s1: Simple test-time scaling",
+        "authors": "Niklas Muennighoff, Zitong Yang, Weijia Shi, Xiang Lisa Li, Li Fei-Fei, Hannaneh Hajishirzi, Luke Zettlemoyer, Percy Liang, Emmanuel Candès, Tatsunori Hashimoto",
+        "year": 2025,
+        "venue": "EMNLP",
+        "url": "https://arxiv.org/abs/2501.19393",
+        "method": "SFT on 1,000 curated Gemini Flash Thinking traces plus budget forcing at inference",
+        "category": "reasoning-distillation",
+        "oneLiner": "AIME 2024 56.7 and MATH-500 93.0 from 1,000 samples and 26 minutes on 16 H100s.",
+        "significance": "The sample-efficiency floor of the 2025 wave; showed the base model already contains most of the capability.",
+        "citations_est": 1427
+      },
+      {
+        "id": "ye2025",
+        "title": "LIMO: Less is More for Reasoning",
+        "authors": "Yixin Ye, Zhen Huang, Yang Xiao, Ethan Chern, Shijie Xia, Pengfei Liu",
+        "year": 2025,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2502.03387",
+        "method": "Hand-curated SFT on 817 reasoning chains",
+        "category": "reasoning-distillation",
+        "oneLiner": "817 samples beat datasets 100x larger, with a 45.8-point absolute out-of-distribution gain.",
+        "significance": "Argues reasoning is elicited from pretraining, not taught by the traces — the strongest form of the 'less is more' claim.",
+        "citations_est": 508
+      },
+      {
+        "id": "busbridge2025",
+        "title": "Distillation Scaling Laws",
+        "authors": "Dan Busbridge, Amitis Shidani, Floris Weers, Jason Ramapuram, Etai Littwin, Russ Webb",
+        "year": 2025,
+        "venue": "ICML",
+        "url": "https://arxiv.org/abs/2502.08606",
+        "method": "Controlled scaling study fitting student loss to the teacher/student compute split",
+        "category": "theory",
+        "oneLiner": "Students 143M-12.6B, teachers spanning a similar range, up to 512B tokens — the first predictive law for distillation.",
+        "significance": "Gives compute-optimal recipes and bounds where distillation beats supervised learning.",
+        "citations_est": 58
+      },
+      {
+        "id": "lee2025",
+        "title": "Quantification of Large Language Model Distillation",
+        "authors": "Sunbowen Lee, Junting Zhou, Chang Ao, Kaige Li, Xinrun Du, Sirui He, Haihong Wu, Tianci Liu, Jiaheng Liu, Hamid Alinejad-Rokny, Min Yang, Yitao Liang, Zhoufutu Wen, Shiwen Ni",
+        "year": 2025,
+        "venue": "ACL",
+        "url": "https://arxiv.org/abs/2501.12619",
+        "method": "Response Similarity Evaluation + Identity Consistency Evaluation",
+        "category": "measurement",
+        "oneLiner": "Two metrics that estimate how heavily a given model was distilled from another.",
+        "significance": "The first quantitative handle on provenance and homogenisation in the open-model ecosystem.",
+        "citations_est": 11
+      },
+      {
+        "id": "kim2025rlvsdistill",
+        "title": "Reinforcement Learning vs. Distillation: Understanding Accuracy and Capability in LLM Reasoning",
+        "authors": "Minwu Kim, Anubhav Shrestha, Safal Shrestha, Aadim Nepal, Keith Ross",
+        "year": 2025,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2505.14216",
+        "method": "Controlled pass@1 vs pass@k analysis of RLVR and distillation",
+        "category": "theory",
+        "oneLiner": "RLVR raises accuracy but rarely capability; distillation raises both when it injects new knowledge.",
+        "significance": "The clearest theoretical account of why distillation beat RL in the DeepSeek and Qwen ablations.",
+        "citations_est": 30
+      },
+      {
+        "id": "qwen3-2025",
+        "title": "Qwen3 Technical Report",
+        "authors": "Qwen Team, Alibaba",
+        "year": 2025,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/html/2505.09388v1",
+        "method": "Strong-to-weak distillation: off-policy trace distillation then on-policy logit KL",
+        "category": "on-policy",
+        "oneLiner": "1,800 GPU-hours of on-policy distillation beats 17,920 GPU-hours of RL by 6.8 AIME'24 points.",
+        "significance": "The first frontier-lab report to publish a like-for-like GPU-hour comparison of distillation against RL.",
+        "citations_est": 7650
+      },
+      {
+        "id": "guha2025",
+        "title": "OpenThoughts: Data Recipes for Reasoning Models",
+        "authors": "Etash Guha, Ryan Marten, Sedrick Keh, Negin Raoof, Georgios Smyrnis and the OpenThoughts team",
+        "year": 2025,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2506.04178",
+        "method": "1,000+ controlled ablations over the trace-generation pipeline",
+        "category": "reasoning-distillation",
+        "oneLiner": "OpenThoughts3-1.2M yields a 7B student beating DeepSeek-R1-Distill-Qwen-7B by 15-20 points across three benchmarks.",
+        "significance": "Turned reasoning-trace curation from folklore into a measured, reproducible recipe.",
+        "citations_est": 208
+      },
+      {
+        "id": "boizard2024",
+        "title": "Towards Cross-Tokenizer Distillation: the Universal Logit Distillation Loss for LLMs",
+        "authors": "Nicolas Boizard, Kevin El-Haddad, Céline Hudelot, Pierre Colombo",
+        "year": 2024,
+        "venue": "TMLR",
+        "url": "https://arxiv.org/abs/2402.12030",
+        "method": "Optimal-transport loss over logits from mismatched vocabularies",
+        "category": "cross-tokenizer",
+        "oneLiner": "Distil between model families whose tokenizers do not align.",
+        "significance": "Removed the same-tokenizer constraint that limited white-box distillation to a single family.",
+        "citations_est": 60
+      },
+      {
+        "id": "minixhofer2025",
+        "title": "Universal Cross-Tokenizer Distillation via Approximate Likelihood Matching",
+        "authors": "Benjamin Minixhofer, Ivan Vulić, Edoardo Maria Ponti",
+        "year": 2025,
+        "venue": "NeurIPS",
+        "url": "https://arxiv.org/abs/2503.20083",
+        "method": "Approximate likelihood matching across tokenizers",
+        "category": "cross-tokenizer",
+        "oneLiner": "A principled cross-tokenizer objective that substantially outperforms prior heuristic methods.",
+        "significance": "Current strongest published result on the tokenizer-mismatch problem.",
+        "citations_est": 41
+      },
+      {
+        "id": "shumailov2024",
+        "title": "AI models collapse when trained on recursively generated data",
+        "authors": "Ilia Shumailov, Zakhar Shumaylov, Yiren Zhao, Nicolas Papernot, Ross Anderson, Yarin Gal",
+        "year": 2024,
+        "venue": "Nature 631(8022):755-759",
+        "url": "https://www.nature.com/articles/s41586-024-07566-y",
+        "method": "Recursive-training analysis for LLMs, VAEs and Gaussian mixtures",
+        "category": "risk",
+        "oneLiner": "Training generation after generation on model output irreversibly erases the tails of the data distribution.",
+        "significance": "The strongest published caution against an ecosystem in which most training data is teacher output.",
+        "citations_est": 989
+      },
+      {
+        "id": "song2026",
+        "title": "A Survey of On-Policy Distillation for Large Language Models",
+        "authors": "Mingyang Song, Mao Zheng",
+        "year": 2026,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2604.00626",
+        "method": "Survey; formalises OPD as f-divergence minimisation over student-sampled trajectories",
+        "category": "survey",
+        "oneLiner": "Organises the on-policy literature along optimisation target, signal source and training stabilisation.",
+        "significance": "The reference text for the technique that defines 2026 post-training; revised to v4 within three months.",
+        "citations_est": 109
+      },
+      {
+        "id": "kajitsuka2026",
+        "title": "Revisiting the Capacity Gap in Chain-of-Thought Distillation from a Practical Perspective",
+        "authors": "Tokio Kajitsuka, Ukyo Honda, Sho Takase",
+        "year": 2026,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2604.08880",
+        "method": "Corrected evaluation protocol for CoT distillation across teacher-student pairs",
+        "category": "theory",
+        "oneLiner": "Under a fair protocol, CoT distillation sometimes makes students worse than their own baseline.",
+        "significance": "Brings the 2019 capacity-gap result into the reasoning era and gives practical pairing rules.",
+        "citations_est": 3
+      },
+      {
+        "id": "wani2026",
+        "title": "Benchmarking Distilled Language Models: Performance and Efficiency in Resource-Constrained Settings",
+        "authors": "Sachin Gopal Wani, Eric Page, Ajay Dholakia, David Ellison",
+        "year": 2026,
+        "venue": "TPC Technology Conference",
+        "url": "https://arxiv.org/abs/2602.20164",
+        "method": "Controlled performance/efficiency benchmark of distilled vs vanilla models",
+        "category": "measurement",
+        "oneLiner": "A distilled 8B is over 2,000x more compute-efficient than training its vanilla counterpart, with reasoning on par with models 10x its size.",
+        "significance": "Quantifies the claim that distillation is now a primary training strategy rather than a compression afterthought.",
+        "citations_est": 1
+      },
+      {
+        "id": "nemotron3ultra-2026",
+        "title": "Nemotron 3 Ultra: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+        "authors": "NVIDIA",
+        "year": 2026,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2606.15007",
+        "method": "Multi-teacher on-policy distillation (MOPD) from >10 domain specialists",
+        "category": "on-policy",
+        "oneLiner": "Consolidate more than ten domain-specialised teachers into one 550B/55B-active student via dense token-level grading of student rollouts.",
+        "significance": "The most elaborate published distillation pipeline to date; MOPD replaces a multi-domain RL stage entirely.",
+        "citations_est": 14
+      },
+      {
+        "id": "deepseekv4-2026",
+        "title": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
+        "authors": "DeepSeek-AI",
+        "year": 2026,
+        "venue": "arXiv",
+        "url": "https://arxiv.org/abs/2606.19348",
+        "method": "Independent domain experts merged into one student via on-policy distillation",
+        "category": "on-policy",
+        "oneLiner": "V4-Pro (1.6T, 49B active) and V4-Flash (284B, 13B active) use distillation, not mixed RL, as the capability-merging step.",
+        "significance": "Confirms that at the frontier, distillation has moved from compression to model composition.",
+        "citations_est": 710
+      },
+      {
+        "id": "crd2020",
+        "title": "Contrastive Representation Distillation",
+        "authors": "Yonglong Tian, Dilip Krishnan, Phillip Isola",
+        "year": 2020,
+        "venue": "ICLR",
+        "url": "https://arxiv.org/abs/1910.10699",
+        "method": "Contrastive objective maximising a lower bound on mutual information between teacher and student representations",
+        "category": "feature",
+        "oneLiner": "Treat distillation as representation learning: maximise mutual information between teacher and student features instead of matching logits.",
+        "significance": "Established the contrastive family of feature distillation, and its benchmark suite is widely reused for KD comparisons.",
+        "citations_est": 1406
+      }
+    ],
+    "benchmarks": [
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-1.5B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 1.5,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 28.9,
+        "retention_pct": 36.2,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-7B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 7,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 55.5,
+        "retention_pct": 69.5,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Llama-8B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 8,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 50.4,
+        "retention_pct": 63.2,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-14B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 14,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 69.7,
+        "retention_pct": 87.3,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 72.6,
+        "retention_pct": 91,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Llama-70B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 70,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 79.8,
+        "student_score": 70,
+        "retention_pct": 87.7,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-1.5B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 1.5,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500 pass@1",
+        "teacher_score": 97.3,
+        "student_score": 83.9,
+        "retention_pct": 86.2,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-7B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 7,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500 pass@1",
+        "teacher_score": 97.3,
+        "student_score": 92.8,
+        "retention_pct": 95.4,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500 pass@1",
+        "teacher_score": 97.3,
+        "student_score": 94.3,
+        "retention_pct": 96.9,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Llama-70B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 70,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500 pass@1",
+        "teacher_score": 97.3,
+        "student_score": 94.5,
+        "retention_pct": 97.1,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Qwen-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "GPQA Diamond pass@1",
+        "teacher_score": 71.5,
+        "student_score": 62.1,
+        "retention_pct": 86.9,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "DeepSeek-R1-Distill-Llama-70B",
+        "teacher": "DeepSeek-R1",
+        "method": "Sequence-level SFT on 800k teacher traces (black-box)",
+        "params_student_b": 70,
+        "params_teacher_b": 671,
+        "benchmark": "GPQA Diamond pass@1",
+        "teacher_score": 71.5,
+        "student_score": 65.2,
+        "retention_pct": 91.2,
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "student": "Sky-T1-32B-Preview",
+        "teacher": "QwQ-32B-Preview",
+        "method": "SFT on 17k rejection-sampled teacher traces",
+        "params_student_b": 32,
+        "params_teacher_b": 32,
+        "benchmark": "MATH-500",
+        "teacher_score": 85.4,
+        "student_score": 82.4,
+        "retention_pct": 96.5,
+        "source": "https://novasky-ai.github.io/posts/sky-t1/"
+      },
+      {
+        "student": "Sky-T1-32B-Preview",
+        "teacher": "QwQ-32B-Preview",
+        "method": "SFT on 17k rejection-sampled teacher traces",
+        "params_student_b": 32,
+        "params_teacher_b": 32,
+        "benchmark": "AIME 2024",
+        "teacher_score": 50,
+        "student_score": 43.3,
+        "retention_pct": 86.6,
+        "source": "https://novasky-ai.github.io/posts/sky-t1/"
+      },
+      {
+        "student": "Bespoke-Stratos-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "SFT on 17k traces via a modified Sky-T1 pipeline",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "AIME 2024",
+        "teacher_score": 79.8,
+        "student_score": 63.3,
+        "retention_pct": 79.3,
+        "source": "https://huggingface.co/bespokelabs/Bespoke-Stratos-32B"
+      },
+      {
+        "student": "Bespoke-Stratos-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "SFT on 17k traces via a modified Sky-T1 pipeline",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500",
+        "teacher_score": 97.3,
+        "student_score": 93,
+        "retention_pct": 95.6,
+        "source": "https://huggingface.co/bespokelabs/Bespoke-Stratos-32B"
+      },
+      {
+        "student": "s1.1-32B",
+        "teacher": "DeepSeek-R1",
+        "method": "SFT on 1,000 curated traces + budget forcing",
+        "params_student_b": 32,
+        "params_teacher_b": 671,
+        "benchmark": "MATH-500",
+        "teacher_score": 97.3,
+        "student_score": 95.4,
+        "retention_pct": 98,
+        "source": "https://arxiv.org/html/2501.19393v3"
+      },
+      {
+        "student": "Qwen3-8B (on-policy distilled)",
+        "teacher": "Qwen3-32B",
+        "method": "On-policy logit KL on student rollouts",
+        "params_student_b": 8,
+        "params_teacher_b": 32,
+        "benchmark": "AIME 2024 pass@1",
+        "teacher_score": 81.4,
+        "student_score": 74.4,
+        "retention_pct": 91.4,
+        "source": "https://arxiv.org/html/2505.09388v1"
+      },
+      {
+        "student": "Qwen3-8B (on-policy distilled)",
+        "teacher": "Qwen3-32B",
+        "method": "On-policy logit KL on student rollouts",
+        "params_student_b": 8,
+        "params_teacher_b": 32,
+        "benchmark": "AIME 2025 pass@1",
+        "teacher_score": 72.9,
+        "student_score": 65.5,
+        "retention_pct": 89.8,
+        "source": "https://arxiv.org/html/2505.09388v1"
+      },
+      {
+        "student": "MobileBERT",
+        "teacher": "IB-BERT-LARGE (teacher); BERT-base scores shown as reference baseline",
+        "method": "Bottleneck architecture + progressive knowledge transfer",
+        "params_student_b": 0.025,
+        "params_teacher_b": 0.11,
+        "benchmark": "GLUE score",
+        "teacher_score": 78.3,
+        "student_score": 77.7,
+        "retention_pct": 99.2,
+        "source": "https://arxiv.org/abs/2004.02984",
+        "note": "teacher_score and retention_pct here are computed against the BERT-base reference baseline, not against MobileBERT’s actual teacher (IB-BERT-LARGE), which scores above MobileBERT. Read retention_pct as a baseline ratio, not as teacher retention."
+      },
+      {
+        "student": "MobileBERT",
+        "teacher": "IB-BERT-LARGE (teacher); BERT-base scores shown as reference baseline",
+        "method": "Bottleneck architecture + progressive knowledge transfer",
+        "params_student_b": 0.025,
+        "params_teacher_b": 0.11,
+        "benchmark": "SQuAD v1.1 F1",
+        "teacher_score": 88.5,
+        "student_score": 90,
+        "retention_pct": 101.7,
+        "source": "https://arxiv.org/abs/2004.02984",
+        "note": "teacher_score and retention_pct here are computed against the BERT-base reference baseline, not against MobileBERT’s actual teacher (IB-BERT-LARGE), which scores above MobileBERT. Read retention_pct as a baseline ratio, not as teacher retention."
+      },
+      {
+        "student": "MobileBERT",
+        "teacher": "IB-BERT-LARGE (teacher); BERT-base scores shown as reference baseline",
+        "method": "Bottleneck architecture + progressive knowledge transfer",
+        "params_student_b": 0.025,
+        "params_teacher_b": 0.11,
+        "benchmark": "SQuAD v2.0 F1",
+        "teacher_score": 77.1,
+        "student_score": 79.2,
+        "retention_pct": 102.7,
+        "source": "https://arxiv.org/abs/2004.02984",
+        "note": "teacher_score and retention_pct here are computed against the BERT-base reference baseline, not against MobileBERT’s actual teacher (IB-BERT-LARGE), which scores above MobileBERT. Read retention_pct as a baseline ratio, not as teacher retention."
+      },
+      {
+        "student": "DistilBERT",
+        "teacher": "BERT-base",
+        "method": "Pretraining-time logit KD + cosine-distance loss",
+        "params_student_b": 0.066,
+        "params_teacher_b": 0.11,
+        "benchmark": "GLUE (normalised: teacher = 100)",
+        "teacher_score": 100,
+        "student_score": 97,
+        "retention_pct": 97,
+        "source": "https://arxiv.org/abs/1910.01108"
+      },
+      {
+        "student": "TinyBERT (4 layers)",
+        "teacher": "BERT-base",
+        "method": "Two-stage transformer distillation",
+        "params_student_b": 0.0145,
+        "params_teacher_b": 0.11,
+        "benchmark": "GLUE (normalised: teacher = 100)",
+        "teacher_score": 100,
+        "student_score": 96.8,
+        "retention_pct": 96.8,
+        "source": "https://arxiv.org/abs/1909.10351"
+      }
+    ],
+    "methodology": {
+      "paperCounts": "arXiv counts were taken from the public arXiv API on 2026-09-04 using search_query=abs:\"knowledge distillation\" (or all:\"<phrase>\" for the sub-topic chart) intersected with a per-year submittedDate range, reading totalResults. Phrase counting over-counts passing mentions and misses papers using other terminology; treat the shape of the curve, not the absolute level, as the finding.",
+      "citationCounts": "Citation counts come from the Semantic Scholar Graph API batch endpoint (fields=title,year,citationCount,venue), retrieved 2026-09-04. They differ from Google Scholar, typically by 10-30% downward.",
+      "retention": "retention_pct = student_score / teacher_score x 100, using each source's own reported figures. Where student and teacher were evaluated in different papers or harnesses, that is noted on the relevant table.",
+      "omissions": "Any figure a primary source did not publish is marked 'undisclosed' rather than estimated. Several 2025-2026 recipes (Bespoke-Stratos, LIMO, OpenThoughts, DeepSeek-R1-Distill) never published a dollar or GPU-hour training cost.",
+      "sourcesRegister": "$.sources[] is a curated register of the principal works, not a complete bibliography: roughly 18 further URLs are cited inline via per-row `_source` and per-chart `sources` fields (for example Stanton et al. arXiv:2106.05945 and Minixhofer et al. arXiv:2503.20083). Any bibliography rendered from $.sources[] alone will omit those; render inline `_source` values as well for completeness."
+    }
+  }
+}
