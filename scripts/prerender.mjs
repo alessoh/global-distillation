@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const oi = process.argv.indexOf('--origin');
-const ORIGIN = (oi > -1 ? process.argv[oi + 1] : 'https://global-distillation.vercel.app')
+const ORIGIN = (oi > -1 ? process.argv[oi + 1] : process.env.SITE_ORIGIN || 'https://global-distillation.com')
   .replace(/\/+$/, '');
 
 /* ---------------------------------------------------------------- routes */

@@ -31,7 +31,7 @@ const argOrigin = (() => {
   return i > -1 ? process.argv[i + 1] : null;
 })();
 
-export const ORIGIN = (argOrigin || 'https://global-distillation.vercel.app').replace(/\/$/, '');
+export const ORIGIN = (argOrigin || process.env.SITE_ORIGIN || 'https://global-distillation.com').replace(/\/$/, '');
 
 /** MIT, per LICENSE and package.json. */
 export const LICENSE = 'https://opensource.org/licenses/MIT';

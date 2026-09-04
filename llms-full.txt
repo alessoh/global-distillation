@@ -2,13 +2,13 @@
 GLOBAL DISTILLATION — FULL TEXT DIGEST
 ================================================================================================
 
-Site:            https://global-distillation.vercel.app/
-Licence:         MIT (see https://global-distillation.vercel.app/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
-Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.vercel.app/, accessed <date>.
+Site:            https://global-distillation.com/
+Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
+Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
 Digest built:    from data/*.json as of 2026-09-04, by scripts/gen-llms.mjs
-Machine data:    https://global-distillation.vercel.app/data/ — one JSON file per section, schema at https://global-distillation.vercel.app/data/SCHEMA.md
-Q&A pairs:       https://global-distillation.vercel.app/data/answers.json
+Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
+Q&A pairs:       https://global-distillation.com/data/answers.json
 
 This is the whole compendium in one plain-text file, for language models and answer engines. It
 contains every perspective summary, every key finding, every headline figure with its unit and
@@ -21,14 +21,14 @@ never published a figure, the cell reads "undisclosed" or "n/a" rather than an e
 CONTENTS
   1. What distillation is, and how this compendium is sourced
   2. Live signals (refreshed daily)
-  3. Academic perspective — https://global-distillation.vercel.app/academic
-  4. Financial perspective — https://global-distillation.vercel.app/financial
-  5. Political perspective — https://global-distillation.vercel.app/political
-  6. Company perspective — https://global-distillation.vercel.app/company
-  7. Developer perspective — https://global-distillation.vercel.app/developer
-  8. Customer perspective — https://global-distillation.vercel.app/customer
-  9. Method library — https://global-distillation.vercel.app/library
- 10. Timeline 2006-2026 — https://global-distillation.vercel.app/timeline
+  3. Academic perspective — https://global-distillation.com/academic
+  4. Financial perspective — https://global-distillation.com/financial
+  5. Political perspective — https://global-distillation.com/political
+  6. Company perspective — https://global-distillation.com/company
+  7. Developer perspective — https://global-distillation.com/developer
+  8. Customer perspective — https://global-distillation.com/customer
+  9. Method library — https://global-distillation.com/library
+ 10. Timeline 2006-2026 — https://global-distillation.com/timeline
  11. Glossary (merged across all files)
 
 Sources are listed at the end of each section, in the order the section cites them, and per-row
@@ -57,24 +57,24 @@ reported as accusations, with the accuser, the claim, the evidence offered and t
 recorded separately.
 
 Page URLs:
-  Overview:       https://global-distillation.vercel.app/
-  Academic:       https://global-distillation.vercel.app/academic
-  Financial:      https://global-distillation.vercel.app/financial
-  Political:      https://global-distillation.vercel.app/political
-  Company:        https://global-distillation.vercel.app/company
-  Developer:      https://global-distillation.vercel.app/developer
-  Customer:       https://global-distillation.vercel.app/customer
-  Method library: https://global-distillation.vercel.app/library
-  Timeline:       https://global-distillation.vercel.app/timeline
-  Compare:        https://global-distillation.vercel.app/compare
-  Methodology:    https://global-distillation.vercel.app/methodology
+  Overview:       https://global-distillation.com/
+  Academic:       https://global-distillation.com/academic
+  Financial:      https://global-distillation.com/financial
+  Political:      https://global-distillation.com/political
+  Company:        https://global-distillation.com/company
+  Developer:      https://global-distillation.com/developer
+  Customer:       https://global-distillation.com/customer
+  Method library: https://global-distillation.com/library
+  Timeline:       https://global-distillation.com/timeline
+  Compare:        https://global-distillation.com/compare
+  Methodology:    https://global-distillation.com/methodology
 
 ================================================================================================
 2. LIVE SIGNALS (REFRESHED DAILY)
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-04T20:21:49.184Z. Endpoint: https://global-distillation.vercel.app/data/live.json.
+2026-09-04T20:45:23.458Z. Endpoint: https://global-distillation.com/data/live.json.
 
 - arXiv papers matching "knowledge distillation" (all time): 5,372 papers
 - arXiv papers matching "knowledge distillation" (last 30 days): 78 papers
@@ -118,8 +118,8 @@ NVIDIA/NeMo | 18388 | n/a
 axolotl-ai-cloud/axolotl | 12440 | n/a
 unslothai/unsloth | 75621 | n/a
 hiyouga/LLaMA-Factory | 74577 | n/a
-vllm-project/vllm | 90974 | n/a
-sgl-project/sglang | 35467 | n/a
+vllm-project/vllm | 90975 | n/a
+sgl-project/sglang | 35469 | n/a
 huggingface/open-r1 | 26452 | n/a
 open-thoughts/open-thoughts | 2331 | n/a
 EleutherAI/lm-evaluation-harness | 13890 | n/a
@@ -154,8 +154,8 @@ Recent news items tracked by the daily refresh:
 3. ACADEMIC PERSPECTIVE — ACADEMIC VIEW OF AI DISTILLATION: FROM DARK KNOWLEDGE TO ON-POLICY REASONING TRANSFER
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/academic
-Data:    https://global-distillation.vercel.app/data/academic.json
+Page:    https://global-distillation.com/academic
+Data:    https://global-distillation.com/data/academic.json
 Updated: 2026-09-04
 Content: 8 key figures, 6 tables, 6 charts, 37 dated events, 22 glossary terms, 48 sources
 
@@ -887,8 +887,8 @@ SOURCES CITED BY THIS SECTION (48)
 4. FINANCIAL PERSPECTIVE — THE ECONOMICS OF AI DISTILLATION: PRICES, TRAINING COSTS, AND THE MARKET SHOCKS
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/financial
-Data:    https://global-distillation.vercel.app/data/financial.json
+Page:    https://global-distillation.com/financial
+Data:    https://global-distillation.com/data/financial.json
 Updated: 2026-09-03
 Content: 8 key figures, 8 tables, 7 charts, 30 dated events, 16 glossary terms, 63 sources
 
@@ -1809,8 +1809,8 @@ SOURCES CITED BY THIS SECTION (63)
 5. POLITICAL PERSPECTIVE — POLITICAL AND GEOPOLITICAL VIEW OF AI DISTILLATION
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/political
-Data:    https://global-distillation.vercel.app/data/political.json
+Page:    https://global-distillation.com/political
+Data:    https://global-distillation.com/data/political.json
 Updated: 2026-09-04
 Content: 8 key figures, 6 tables, 5 charts, 47 dated events, 16 glossary terms, 100 sources
 
@@ -2876,8 +2876,8 @@ SOURCES CITED BY THIS SECTION (100)
 6. COMPANY PERSPECTIVE — COMPANY VIEW OF AI DISTILLATION: WHO USES IT, WHO SELLS IT, WHO POLICES IT
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/company
-Data:    https://global-distillation.vercel.app/data/company.json
+Page:    https://global-distillation.com/company
+Data:    https://global-distillation.com/data/company.json
 Updated: 2026-09-03
 Content: 8 key figures, 7 tables, 7 charts, 40 dated events, 14 glossary terms, 75 sources
 
@@ -3867,8 +3867,8 @@ SOURCES CITED BY THIS SECTION (75)
 7. DEVELOPER PERSPECTIVE — DEVELOPER VIEW OF AI DISTILLATION: TOOLING, PLATFORMS AND RECIPES (2026)
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/developer
-Data:    https://global-distillation.vercel.app/data/developer.json
+Page:    https://global-distillation.com/developer
+Data:    https://global-distillation.com/data/developer.json
 Updated: 2026-09-03
 Content: 8 key figures, 7 tables, 8 charts, 20 dated events, 14 glossary terms, 58 sources
 
@@ -4959,8 +4959,8 @@ SOURCES CITED BY THIS SECTION (58)
 8. CUSTOMER PERSPECTIVE — THE BUYER’S VIEW OF AI DISTILLATION: WHICH SMALL MODEL TO ACTUALLY DEPLOY
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/customer
-Data:    https://global-distillation.vercel.app/data/customer.json
+Page:    https://global-distillation.com/customer
+Data:    https://global-distillation.com/data/customer.json
 Updated: 2026-09-04
 Content: 8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources
 
@@ -5998,8 +5998,8 @@ SOURCES CITED BY THIS SECTION (78)
 9. METHOD LIBRARY — THE DISTILLATION METHOD LIBRARY
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/library
-Data:    https://global-distillation.vercel.app/data/library.json
+Page:    https://global-distillation.com/library
+Data:    https://global-distillation.com/data/library.json
 Updated: 2026-09-04
 
 SUMMARY
@@ -6416,7 +6416,7 @@ THE METHODS (27)
 One paragraph per method, in the order they appear in the library. Each entry gives the family,
 the year and paper it comes from, what the teacher must expose, what data it needs, its loss
 function in LaTeX, when to use it, and its honest trade-offs. The full multi-paragraph
-explanation for each method is on https://global-distillation.vercel.app/library and in
+explanation for each method is on https://global-distillation.com/library and in
 data/library.json $.extras.methods[].howItWorks.
 
 ------------------------------------------------------------------------------------------------
@@ -7262,8 +7262,8 @@ SOURCES CITED BY THE LIBRARY (66)
 10. TIMELINE 2006-2026 — CROSS-CUTTING TIMELINE OF AI DISTILLATION, 2006 TO 2026
 ================================================================================================
 
-Page:    https://global-distillation.vercel.app/timeline
-Data:    https://global-distillation.vercel.app/data/timeline.json
+Page:    https://global-distillation.com/timeline
+Data:    https://global-distillation.com/data/timeline.json
 Updated: 2026-09-03
 
 SUMMARY
@@ -8846,5 +8846,5 @@ White-box vs black-box distillation [academic]
     it works through any API — which is why it dominates the reasoning-distillation
     literature and why it raises terms-of-service questions.
 ================================================================================================
-END OF DIGEST — Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.vercel.app/, accessed <date>. Dataset updated 2026-09-04.
+END OF DIGEST — Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>. Dataset updated 2026-09-04.
 ================================================================================================

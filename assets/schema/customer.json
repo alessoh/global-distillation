@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/customer#webpage",
-      "url": "https://global-distillation.vercel.app/customer",
+      "@id": "https://global-distillation.com/customer#webpage",
+      "url": "https://global-distillation.com/customer",
       "name": "The buyer’s view of AI distillation: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/customer#breadcrumb"
+        "@id": "https://global-distillation.com/customer#breadcrumb"
       },
       "dateModified": "2026-09-04"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/customer#breadcrumb",
+      "@id": "https://global-distillation.com/customer#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Customer",
-          "item": "https://global-distillation.vercel.app/customer"
+          "item": "https://global-distillation.com/customer"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/customer#article",
+      "@id": "https://global-distillation.com/customer#article",
       "headline": "The buyer’s view of AI distillation: which small model to actually deploy",
       "name": "The buyer’s view of AI distillation: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
       "articleBody": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself. Open weights have become the buyer's real leverage — DeepSeek V4 (MIT), Gemma 4 (Apache 2.0), Qwen3.8-27B (Apache 2.0) and Mistral Small 4 (Apache 2.0) all clear 71.2–90.1 GPQA Diamond with no per-token fee and no anti-distillation clause — which is why the Silicon Data enterprise inference index fell from $2.04/MTok on 31 May 2026 to $1.16–1.18 in early August. The three things that should drive the decision, in order, are: whether your traffic needs frontier-grade agentic reliability on more than 15% of calls;",
       "articleSection": "Customer",
-      "url": "https://global-distillation.vercel.app/customer",
+      "url": "https://global-distillation.com/customer",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/customer#webpage"
+        "@id": "https://global-distillation.com/customer#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-04",
       "dateModified": "2026-09-04",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/customer.json#dataset",
+      "@id": "https://global-distillation.com/data/customer.json#dataset",
       "name": "The buyer’s view of AI distillation: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself.",
-      "url": "https://global-distillation.vercel.app/customer",
+      "url": "https://global-distillation.com/customer",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-04",
       "temporalCoverage": "2024-07-18/2026-09-04",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "customer.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/customer.json"
+          "contentUrl": "https://global-distillation.com/data/customer.json"
         }
       ],
       "variableMeasured": [
@@ -566,9 +566,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/customer#glossary",
+      "@id": "https://global-distillation.com/customer#glossary",
       "name": "The buyer’s view of AI distillation: which small model to actually deploy — glossary",
-      "url": "https://global-distillation.vercel.app/customer#glossary",
+      "url": "https://global-distillation.com/customer#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -577,7 +577,7 @@
           "name": "Knowledge distillation",
           "description": "Training a small \"student\" model to reproduce the behaviour of a large \"teacher\" — either from its output text (black-box) or from its output probability distribution over tokens (white-box logit distillation).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -585,7 +585,7 @@
           "name": "Teacher / student",
           "description": "The large source model and the small target model in a distillation. AWS documents Nova Premier as a teacher to Nova Pro, Lite and Micro, and Nova Pro as a teacher to Lite and Micro.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -593,7 +593,7 @@
           "name": "Quality retention",
           "description": "The student’s benchmark score as a percentage of the teacher’s on the same benchmark. Useful for buyers because it is scale-free, but it varies enormously by benchmark: broad knowledge retains worse than narrow maths.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -601,7 +601,7 @@
           "name": "Small sibling",
           "description": "A cheaper tier released alongside a frontier model (mini, nano, Flash, Haiku, Luna) where the vendor has not publicly documented how it was built. Behaves like a distillation commercially whether or not it is one technically.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -609,7 +609,7 @@
           "name": "k-sparse distillation",
           "description": "Storing only the top-k entries of the teacher’s next-token probability distribution instead of the full vocabulary, to make logit distillation affordable at scale. Documented in the Gemini 2.5 technical report.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -617,7 +617,7 @@
           "name": "Codistillation",
           "description": "Training several student models jointly against a shared teacher during the teacher’s own training run. Meta used this for Llama 4 Scout and Maverick against Llama 4 Behemoth.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -625,7 +625,7 @@
           "name": "Strong-to-weak distillation",
           "description": "Alibaba’s two-phase Qwen3 pipeline: off-policy distillation on teacher outputs in both thinking and non-thinking modes, then on-policy distillation aligning student logits with a Qwen3-32B or 235B-A22B teacher by KL divergence.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -633,7 +633,7 @@
           "name": "GPQA Diamond",
           "description": "A 198-question set of graduate-level science problems written to be resistant to web search. The most commonly quoted knowledge benchmark for 2025–26 frontier models.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -641,7 +641,7 @@
           "name": "MMLU-Pro",
           "description": "A harder, ten-choice successor to MMLU with more reasoning-heavy questions. Scores are typically 10–20 points below MMLU for the same model, so the two are not interchangeable in a comparison table.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -649,7 +649,7 @@
           "name": "SWE-bench Verified",
           "description": "A 500-issue human-validated subset of SWE-bench measuring whether a model can resolve a real GitHub issue end to end. The benchmark where distilled tiers lose the most ground.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -657,7 +657,7 @@
           "name": "Time to first token (TTFT)",
           "description": "Latency from request to first streamed token. On reasoning models it now includes thinking time, so a \"fast\" model at high effort can measure slower than a \"slow\" model at low effort.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -665,7 +665,7 @@
           "name": "Blended price",
           "description": "A single price per million tokens computed as 0.75 x input + 0.25 x output, the 3:1 weighting Artificial Analysis uses. Handy for ranking, misleading for workloads with unusual input:output ratios.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -673,7 +673,7 @@
           "name": "Prompt caching",
           "description": "Charging a reduced rate for repeated prefix tokens. Cache reads cost 10% of base input on most Claude models and 2.5% on Fable 5.1; OpenAI caches at roughly 10% of input. Often a larger saving than switching model tiers.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -681,7 +681,7 @@
           "name": "Anti-distillation clause",
           "description": "Contract language barring customers from using a vendor’s outputs to train a competing model. Anthropic’s Commercial Terms D.4 and OpenAI’s Services Agreement both contain one; MIT and Apache 2.0 open-weight models do not.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -689,7 +689,7 @@
           "name": "Model tiering / routing",
           "description": "Sending most traffic to a cheap model and escalating only hard requests to a frontier tier. The dominant 2026 cost-control pattern and the main practical way distillation shows up on a buyer’s invoice.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         },
         {
@@ -697,7 +697,7 @@
           "name": "Effective parameters",
           "description": "For MoE and Matformer-style models, the parameters actually activated per token (e.g. Gemma 4 26B A4B activates 3.8B of 25.2B; DeepSeek-V4-Flash activates 13B of 284B). Determines serving cost far more than total parameter count.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/customer#glossary"
+            "@id": "https://global-distillation.com/customer#glossary"
           }
         }
       ]

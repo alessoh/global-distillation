@@ -9,46 +9,46 @@ papers, model cards, official pricing pages, filings, statutes and public statem
 primary source never published are marked "undisclosed" rather than estimated. The eight
 perspective files are edited by hand and dated individually; the live signals file (arXiv
 counts, Hugging Face downloads, repository stars, news) is refreshed automatically every day at
-06:17 UTC. Content is licensed MIT (see https://global-distillation.vercel.app/LICENSE). Free to
-quote, excerpt, cite and redistribute with attribution. Cite as: Global Distillation, "How
-frontier intelligence is compressed, priced and contested",
-https://global-distillation.vercel.app/, accessed <date>. Dataset last updated 2026-09-04.
+06:17 UTC. Content is licensed MIT (see https://global-distillation.com/LICENSE). Free to quote,
+excerpt, cite and redistribute with attribution. Cite as: Global Distillation, "How frontier
+intelligence is compressed, priced and contested", https://global-distillation.com/, accessed
+<date>. Dataset last updated 2026-09-04.
 
 ## Perspectives
 
-- [Overview](https://global-distillation.vercel.app/): The front page: the strongest figure from each of the six perspectives, the price gap and benchmark-retention charts, live daily signals, and the six most recent dated events.
-- [Academic](https://global-distillation.vercel.app/academic): Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). (8 key figures, 6 tables, 6 charts, 37 dated events, 22 glossary terms, 48 sources).
-- [Financial](https://global-distillation.vercel.app/financial): Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars. (8 key figures, 8 tables, 7 charts, 30 dated events, 16 glossary terms, 63 sources).
-- [Political](https://global-distillation.vercel.app/political): Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. (8 key figures, 6 tables, 5 charts, 47 dated events, 16 glossary terms, 100 sources).
-- [Company](https://global-distillation.vercel.app/company): Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth,… (8 key figures, 7 tables, 7 charts, 40 dated events, 14 glossary terms, 75 sources).
-- [Developer](https://global-distillation.vercel.app/developer): By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines… (8 key figures, 7 tables, 8 charts, 20 dated events, 14 glossary terms, 58 sources).
-- [Customer](https://global-distillation.vercel.app/customer): For an enterprise buyer in September 2026, the distillation question is no longer "is the small model good enough" but "which small model, and what does the licence let me do with it". (8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources).
+- [Overview](https://global-distillation.com/): The front page: the strongest figure from each of the six perspectives, the price gap and benchmark-retention charts, live daily signals, and the six most recent dated events.
+- [Academic](https://global-distillation.com/academic): Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). (8 key figures, 6 tables, 6 charts, 37 dated events, 22 glossary terms, 48 sources).
+- [Financial](https://global-distillation.com/financial): Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars. (8 key figures, 8 tables, 7 charts, 30 dated events, 16 glossary terms, 63 sources).
+- [Political](https://global-distillation.com/political): Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. (8 key figures, 6 tables, 5 charts, 47 dated events, 16 glossary terms, 100 sources).
+- [Company](https://global-distillation.com/company): Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth,… (8 key figures, 7 tables, 7 charts, 40 dated events, 14 glossary terms, 75 sources).
+- [Developer](https://global-distillation.com/developer): By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines… (8 key figures, 7 tables, 8 charts, 20 dated events, 14 glossary terms, 58 sources).
+- [Customer](https://global-distillation.com/customer): For an enterprise buyer in September 2026, the distillation question is no longer "is the small model good enough" but "which small model, and what does the licence let me do with it". (8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources).
 
 ## Reference
 
-- [Method library](https://global-distillation.vercel.app/library): Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and… (8 key figures, 4 tables, 5 charts, 40 dated events, 31 glossary terms, 66 sources).
-- [Timeline](https://global-distillation.vercel.app/timeline): Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). (6 key figures, 1 table, 3 charts, 130 dated events, 15 glossary terms, 111 sources).
-- [Compare](https://global-distillation.vercel.app/compare): An interactive builder: pick two to four models and compare price, quality, latency, context and licence side by side, drawn from the same customer dataset.
-- [Methodology](https://global-distillation.vercel.app/methodology): How the compendium is built: where each figure comes from, what counts as a distilled model, how often each data stream is refreshed, and what the method cannot tell you.
+- [Method library](https://global-distillation.com/library): Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and… (8 key figures, 4 tables, 5 charts, 40 dated events, 31 glossary terms, 66 sources).
+- [Timeline](https://global-distillation.com/timeline): Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). (6 key figures, 1 table, 3 charts, 130 dated events, 15 glossary terms, 111 sources).
+- [Compare](https://global-distillation.com/compare): An interactive builder: pick two to four models and compare price, quality, latency, context and licence side by side, drawn from the same customer dataset.
+- [Methodology](https://global-distillation.com/methodology): How the compendium is built: where each figure comes from, what counts as a distilled model, how often each data stream is refreshed, and what the method cannot tell you.
 
 ## Full text for language models
 
-- [llms-full.txt](https://global-distillation.vercel.app/llms-full.txt): the entire compendium as one plain-text digest — every summary, key finding, figure with its unit and source URL, every table as pipe-separated text, the full timeline, the method library and the glossary.
-- [answers.json](https://global-distillation.vercel.app/data/answers.json): 67 question-and-answer pairs built from the dataset, each with the perspective it came from and the source URLs backing it.
-- [Data schema](https://global-distillation.vercel.app/data/SCHEMA.md): the shape every data file follows, field by field.
+- [llms-full.txt](https://global-distillation.com/llms-full.txt): the entire compendium as one plain-text digest — every summary, key finding, figure with its unit and source URL, every table as pipe-separated text, the full timeline, the method library and the glossary.
+- [answers.json](https://global-distillation.com/data/answers.json): 67 question-and-answer pairs built from the dataset, each with the perspective it came from and the source URLs backing it.
+- [Data schema](https://global-distillation.com/data/SCHEMA.md): the shape every data file follows, field by field.
 
 ## Optional
 
 Raw JSON endpoints. Each is the exact source of the corresponding page, is CORS-open, and follows the schema above.
 
-- [data/academic.json](https://global-distillation.vercel.app/data/academic.json): 8 key figures, 6 tables, 6 charts, 37 dated events, 22 glossary terms, 48 sources; updated 2026-09-04.
-- [data/financial.json](https://global-distillation.vercel.app/data/financial.json): 8 key figures, 8 tables, 7 charts, 30 dated events, 16 glossary terms, 63 sources; updated 2026-09-03.
-- [data/political.json](https://global-distillation.vercel.app/data/political.json): 8 key figures, 6 tables, 5 charts, 47 dated events, 16 glossary terms, 100 sources; updated 2026-09-04.
-- [data/company.json](https://global-distillation.vercel.app/data/company.json): 8 key figures, 7 tables, 7 charts, 40 dated events, 14 glossary terms, 75 sources; updated 2026-09-03.
-- [data/developer.json](https://global-distillation.vercel.app/data/developer.json): 8 key figures, 7 tables, 8 charts, 20 dated events, 14 glossary terms, 58 sources; updated 2026-09-03.
-- [data/customer.json](https://global-distillation.vercel.app/data/customer.json): 8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources; updated 2026-09-04.
-- [data/library.json](https://global-distillation.vercel.app/data/library.json): 8 key figures, 4 tables, 5 charts, 40 dated events, 31 glossary terms, 66 sources; updated 2026-09-04.
-- [data/timeline.json](https://global-distillation.vercel.app/data/timeline.json): 6 key figures, 1 table, 3 charts, 130 dated events, 15 glossary terms, 111 sources; updated 2026-09-03.
-- [data/live.json](https://global-distillation.vercel.app/data/live.json): daily signals — arXiv distillation paper counts, Hugging Face model downloads, GitHub repository stars and recent news; updated 2026-09-04.
-- [sitemap.xml](https://global-distillation.vercel.app/sitemap.xml): every canonical page URL.
-- [robots.txt](https://global-distillation.vercel.app/robots.txt): crawling policy — every documented AI crawler is explicitly allowed.
+- [data/academic.json](https://global-distillation.com/data/academic.json): 8 key figures, 6 tables, 6 charts, 37 dated events, 22 glossary terms, 48 sources; updated 2026-09-04.
+- [data/financial.json](https://global-distillation.com/data/financial.json): 8 key figures, 8 tables, 7 charts, 30 dated events, 16 glossary terms, 63 sources; updated 2026-09-03.
+- [data/political.json](https://global-distillation.com/data/political.json): 8 key figures, 6 tables, 5 charts, 47 dated events, 16 glossary terms, 100 sources; updated 2026-09-04.
+- [data/company.json](https://global-distillation.com/data/company.json): 8 key figures, 7 tables, 7 charts, 40 dated events, 14 glossary terms, 75 sources; updated 2026-09-03.
+- [data/developer.json](https://global-distillation.com/data/developer.json): 8 key figures, 7 tables, 8 charts, 20 dated events, 14 glossary terms, 58 sources; updated 2026-09-03.
+- [data/customer.json](https://global-distillation.com/data/customer.json): 8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources; updated 2026-09-04.
+- [data/library.json](https://global-distillation.com/data/library.json): 8 key figures, 4 tables, 5 charts, 40 dated events, 31 glossary terms, 66 sources; updated 2026-09-04.
+- [data/timeline.json](https://global-distillation.com/data/timeline.json): 6 key figures, 1 table, 3 charts, 130 dated events, 15 glossary terms, 111 sources; updated 2026-09-03.
+- [data/live.json](https://global-distillation.com/data/live.json): daily signals — arXiv distillation paper counts, Hugging Face model downloads, GitHub repository stars and recent news; updated 2026-09-04.
+- [sitemap.xml](https://global-distillation.com/sitemap.xml): every canonical page URL.
+- [robots.txt](https://global-distillation.com/robots.txt): crawling policy — every documented AI crawler is explicitly allowed.

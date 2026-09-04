@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/political#webpage",
-      "url": "https://global-distillation.vercel.app/political",
+      "@id": "https://global-distillation.com/political#webpage",
+      "url": "https://global-distillation.com/political",
       "name": "Political and geopolitical view of AI distillation",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/political#breadcrumb"
+        "@id": "https://global-distillation.com/political#breadcrumb"
       },
       "dateModified": "2026-09-04"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/political#breadcrumb",
+      "@id": "https://global-distillation.com/political#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Political",
-          "item": "https://global-distillation.vercel.app/political"
+          "item": "https://global-distillation.com/political"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/political#article",
+      "@id": "https://global-distillation.com/political#article",
       "headline": "Political and geopolitical view of AI distillation",
       "name": "Political and geopolitical view of AI distillation",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models.",
       "articleBody": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models. It escalated through OpenAI's March 2025 OSTP filing calling DeepSeek 'state-subsidized' and 'state-controlled,' Anthropic's September 2025 ban on entities majority-controlled from China, and a February 2026 wave of disclosures in which OpenAI, Google and Anthropic each published evidence of large-scale extraction campaigns. It became formal policy in April 2026 with OSTP memorandum NSTM-4 on 'adversarial distillation,' a State Department demarche cable, and H.R. 8283, which would create a public 'AI Model Extraction Attackers List' — followed by NSPM-11 in June, Anthropic's letter alleging a 28.8-million-exchange Alibaba campaign, and Treasury Secretary Bessent's July 2026 sanctions threat. Underneath the geopolitics sits an unresolved legal question: the strongest theory against distillation is breach of contract, not copyright or trade secret, and critics from ITIF to the Institute for Law & AI warn that building export controls and sanctions on top of private terms of service is a shaky foundation.",
       "articleSection": "Political",
-      "url": "https://global-distillation.vercel.app/political",
+      "url": "https://global-distillation.com/political",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/political#webpage"
+        "@id": "https://global-distillation.com/political#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-04",
       "dateModified": "2026-09-04",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/political.json#dataset",
+      "@id": "https://global-distillation.com/data/political.json#dataset",
       "name": "Political and geopolitical view of AI distillation",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models. It escalated through OpenAI's March 2025 OSTP filing calling DeepSeek 'state-subsidized' and 'state-controlled,' Anthropic's September 2025 ban on entities majority-controlled from China, and a February 2026 wave of disclosures in which OpenAI, Google and Anthropic each published evidence of large-scale extraction campaigns. It became formal policy in April 2026 with OSTP memorandum NSTM-4 on 'adversarial distillation,' a State Department demarche cable, and H.R. 8283, which would create a public 'AI Model Extraction Attackers List' — followed by NSPM-11 in June, Anthropic's letter alleging a 28.8-million-exchange Alibaba campaign, and Treasury Secretary Bessent's July 2026 sanctions threat.",
-      "url": "https://global-distillation.vercel.app/political",
+      "url": "https://global-distillation.com/political",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-04",
       "temporalCoverage": "2022-10-07/2026-09-04",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "political.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/political.json"
+          "contentUrl": "https://global-distillation.com/data/political.json"
         }
       ],
       "variableMeasured": [
@@ -507,9 +507,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/political#glossary",
+      "@id": "https://global-distillation.com/political#glossary",
       "name": "Political and geopolitical view of AI distillation — glossary",
-      "url": "https://global-distillation.vercel.app/political#glossary",
+      "url": "https://global-distillation.com/political#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -518,7 +518,7 @@
           "name": "Distillation",
           "description": "Training a smaller or cheaper student model on the outputs of a larger teacher model. Legitimate and standard when the teacher's licence permits it; the policy fight is about doing it to a closed model in breach of its terms.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -526,7 +526,7 @@
           "name": "Adversarial distillation",
           "description": "The term adopted by OSTP memorandum NSTM-4 (April 23, 2026) for systematic extraction of a frontier model's capabilities via large volumes of constructed queries, typically through proxy accounts that evade access controls.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -534,7 +534,7 @@
           "name": "Model extraction attack",
           "description": "The statutory term in H.R. 8283: unauthorized extracting of a closed-source model's capabilities to replicate, develop, train or improve another model, where the querying circumvents access controls, uses fraudulent credentials, or violates output-training terms.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -542,7 +542,7 @@
           "name": "AI Model Extraction Attackers List",
           "description": "The public list H.R. 8283 would have the Secretary of State maintain, naming individuals and entities assessed to have conducted model extraction attacks, as a predicate for sanctions or Entity Listing.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -550,7 +550,7 @@
           "name": "Fraudulent account network provider",
           "description": "A category defined in H.R. 8283 covering foreign entities that create, sell or broker accounts allowing entities of concern to reach models they are barred from, with a carve-out for services enabling internet access for freedom of expression.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -558,7 +558,7 @@
           "name": "Entity List",
           "description": "The Commerce/BIS list imposing licence requirements, usually with a presumption of denial, on exports to named foreign parties. Repeatedly floated for Chinese AI labs; not applied to DeepSeek as of September 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -566,7 +566,7 @@
           "name": "Section 1260H list",
           "description": "The Pentagon's annual list of Chinese military companies. Listing bars Department procurement contracts. Alibaba, Baidu, BYD and Unitree were added in June 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -574,7 +574,7 @@
           "name": "IEEPA",
           "description": "The International Emergency Economic Powers Act, the authority under which a president can declare a national emergency and impose blocking sanctions. The main vehicle proposed for sanctioning distillation actors.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -582,7 +582,7 @@
           "name": "AI Diffusion Rule",
           "description": "The January 15, 2025 BIS framework creating worldwide tiered licensing for advanced computing. BIS announced its rescission on May 13, 2025, before its May 15 enforcement date.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -590,7 +590,7 @@
           "name": "GPAI obligations",
           "description": "The EU AI Act duties on providers of general-purpose AI models — technical documentation, copyright policy, training-data summary, and systemic-risk duties above a compute threshold — applying from August 2, 2025 and enforceable from August 2, 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -598,7 +598,7 @@
           "name": "Code of Practice (GPAI)",
           "description": "The voluntary EU compliance instrument published July 10, 2025, with Transparency, Copyright, and Safety and Security chapters. Signing it is a presumption-of-conformity route, not a legal obligation.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -606,7 +606,7 @@
           "name": "Open weights",
           "description": "Model parameters published for download and self-hosting. Central to the policy paradox: the US AI Action Plan promotes open weights while distillation policy tries to restrict capability diffusion.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -614,7 +614,7 @@
           "name": "Sovereign AI",
           "description": "A state's pursuit of domestically controlled compute, models and data. In 2026 the practical question is whether a country's sovereign stack sits on US closed models, US open weights, or Chinese open weights.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -622,7 +622,7 @@
           "name": "Transfer station economy",
           "description": "The grey market of proxy servers and reseller billing panels that resell access to Western frontier models inside China, sometimes at a fraction of list price. The practical delivery mechanism behind alleged extraction campaigns.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -630,7 +630,7 @@
           "name": "Military-civil fusion",
           "description": "China's policy of integrating civilian technology development with military modernisation, invoked by US officials to argue that capabilities distilled by commercial Chinese labs reach the PLA.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         },
         {
@@ -638,7 +638,7 @@
           "name": "Frontier Model Forum",
           "description": "The industry body founded in 2023 by Anthropic, Google, Microsoft and OpenAI, used from April 2026 as the channel for sharing distillation threat intelligence between labs.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/political#glossary"
+            "@id": "https://global-distillation.com/political#glossary"
           }
         }
       ]

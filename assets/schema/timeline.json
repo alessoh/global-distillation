@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/timeline#webpage",
-      "url": "https://global-distillation.vercel.app/timeline",
+      "@id": "https://global-distillation.com/timeline#webpage",
+      "url": "https://global-distillation.com/timeline",
       "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3).",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/timeline#breadcrumb"
+        "@id": "https://global-distillation.com/timeline#breadcrumb"
       },
       "dateModified": "2026-09-03"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/timeline#breadcrumb",
+      "@id": "https://global-distillation.com/timeline#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Timeline",
-          "item": "https://global-distillation.vercel.app/timeline"
+          "item": "https://global-distillation.com/timeline"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/timeline#article",
+      "@id": "https://global-distillation.com/timeline#article",
       "headline": "Cross-cutting timeline of AI distillation, 2006 to 2026",
       "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3).",
       "articleBody": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). In 2024 it turned into a cloud product line (OpenAI Model Distillation, Amazon Bedrock Model Distillation) and a pricing strategy (Gemini Flash, GPT-4o mini, Haiku). DeepSeek-R1's January 2025 release, with six openly distilled students, triggered a market shock and the first public accusation that a rival had distilled a frontier lab's API outputs. By 2026 distillation was a national-security issue: Anthropic, OpenAI and Google all disclosed industrial-scale extraction campaigns within eleven days of each other in February, the White House issued National Security and Technology Memorandum 4 on adversarial distillation, and Congress advanced the Deterring American AI Model Theft Act and the BLADE Act while Beijing publicly rejected the whole framing. This timeline records 130 dated events across research, product, market, policy and legal categories, each with a source URL.",
       "articleSection": "Timeline",
-      "url": "https://global-distillation.vercel.app/timeline",
+      "url": "https://global-distillation.com/timeline",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/timeline#webpage"
+        "@id": "https://global-distillation.com/timeline#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-03",
       "dateModified": "2026-09-03",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/timeline.json#dataset",
+      "@id": "https://global-distillation.com/data/timeline.json#dataset",
       "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). In 2024 it turned into a cloud product line (OpenAI Model Distillation, Amazon Bedrock Model Distillation) and a pricing strategy (Gemini Flash, GPT-4o mini, Haiku). DeepSeek-R1's January 2025 release, with six openly distilled students, triggered a market shock and the first public accusation that a rival had distilled a frontier lab's API outputs. By 2026 distillation was a national-security issue: Anthropic, OpenAI and Google all disclosed industrial-scale extraction campaigns within eleven days of each other in February, the White House issued National Security and Technology Memorandum 4 on adversarial distillation, and Congress advanced the Deterring American AI Model Theft Act and the BLADE Act while Beijing publicly rejected the whole framing. This timeline records 130 dated events across research, product, market, policy and legal categories, each with a source URL.",
-      "url": "https://global-distillation.vercel.app/timeline",
+      "url": "https://global-distillation.com/timeline",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-03",
       "temporalCoverage": "2006-08-20/2026-09-03",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "timeline.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/timeline.json"
+          "contentUrl": "https://global-distillation.com/data/timeline.json"
         }
       ],
       "variableMeasured": [
@@ -439,9 +439,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/timeline#glossary",
+      "@id": "https://global-distillation.com/timeline#glossary",
       "name": "Cross-cutting timeline of AI distillation, 2006 to 2026 — glossary",
-      "url": "https://global-distillation.vercel.app/timeline#glossary",
+      "url": "https://global-distillation.com/timeline#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -450,7 +450,7 @@
           "name": "Knowledge distillation (KD)",
           "description": "Training a smaller 'student' model to reproduce the behaviour of a larger 'teacher', classically by matching the teacher's softened output probabilities (Hinton et al., 2015).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -458,7 +458,7 @@
           "name": "Model compression",
           "description": "The 2006 precursor to KD in which a compact model is trained on unlabeled data pseudo-labeled by a large ensemble (Bucila, Caruana and Niculescu-Mizil).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -466,7 +466,7 @@
           "name": "Soft targets / dark knowledge",
           "description": "The full probability distribution a teacher assigns over outputs; its relative probabilities on wrong classes carry information a hard label does not.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -474,7 +474,7 @@
           "name": "Sequence-level distillation",
           "description": "Training a student on whole sequences generated by the teacher rather than per-token distributions (Kim and Rush, 2016); the basis of fine-tuning on reasoning traces.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -482,7 +482,7 @@
           "name": "Black-box distillation",
           "description": "Distillation using only a teacher's text outputs obtained via an API, with no access to weights or logits (Alpaca, Vicuna, Orca, the DeepSeek accusations).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -490,7 +490,7 @@
           "name": "Model extraction attack",
           "description": "The security framing of the same mechanic: querying a deployed model to reconstruct its functionality (Tramer et al., 2016; Krishna et al., 2019). US policy documents in 2026 use 'model extraction' and 'adversarial distillation' interchangeably.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -498,7 +498,7 @@
           "name": "On-policy distillation",
           "description": "The student generates its own samples and the teacher scores them token by token (GKD, 2023); reported to match RL at 50-100x lower compute in 2025 and the default post-training stage in 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -506,7 +506,7 @@
           "name": "Multi-teacher on-policy distillation (MOPD)",
           "description": "Training several domain-specialist teachers by RL (math, code, agents, safety) and merging them into one student with dense token-level rewards on student rollouts; used by MiMo-V2-Flash, Nemotron 3 Ultra and DeepSeek-V4.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -514,7 +514,7 @@
           "name": "Reverse KL",
           "description": "A distillation loss that penalises the student for placing mass where the teacher does not; preferred for generative models (MiniLLM, DeepSeek-V4).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -522,7 +522,7 @@
           "name": "Self-distillation",
           "description": "A model teaching a same-size or earlier version of itself: Born-Again Networks (2018), DINO (2021), GLM-5's cross-stage checkpoint distillation and Cursor Composer 2.5's hint-conditioned KL.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -530,7 +530,7 @@
           "name": "Pruning plus distillation",
           "description": "Removing layers or widths from a large model and recovering accuracy with distillation (Nvidia Minitron, Llama 3.2 1B/3B).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -538,7 +538,7 @@
           "name": "Antidistillation sampling",
           "description": "A decoding-time defence that perturbs the teacher's next-token distribution so its reasoning traces are poor training data for a student while its own answers stay useful (Savani et al., 2025).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -546,7 +546,7 @@
           "name": "Hydra cluster",
           "description": "Anthropic's term for networks of thousands of fraudulent accounts, often behind commercial proxies, that spread distillation traffic thinly enough to look like ordinary usage.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -554,7 +554,7 @@
           "name": "Adversarial distillation / distillation attack",
           "description": "Unauthorised, large-scale extraction of a proprietary model's outputs through fraudulent accounts, proxies or jailbreaks for the purpose of training a competing model; defined in the US as a national-security concern by NSTM-4 (April 2026).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         },
         {
@@ -562,7 +562,7 @@
           "name": "Model Extraction Attackers List",
           "description": "The public list of foreign entities engaged in distillation attacks proposed by H.R. 8283 and the BLADE Act, to be maintained with Commerce and Treasury for sanctions and export controls.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/timeline#glossary"
+            "@id": "https://global-distillation.com/timeline#glossary"
           }
         }
       ]

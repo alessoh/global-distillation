@@ -1,9 +1,9 @@
 {
   "name": "Global Distillation — question and answer pairs",
-  "description": "Answers to common questions about AI model distillation, assembled from the published dataset at https://global-distillation.vercel.app/data/. Every answer is composed from values read out of those files at generation time; no claim here is absent from the underlying data.",
-  "site": "https://global-distillation.vercel.app/",
-  "licence": "MIT (see https://global-distillation.vercel.app/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
-  "citation": "Global Distillation, \"How frontier intelligence is compressed, priced and contested\", https://global-distillation.vercel.app/, accessed <date>.",
+  "description": "Answers to common questions about AI model distillation, assembled from the published dataset at https://global-distillation.com/data/. Every answer is composed from values read out of those files at generation time; no claim here is absent from the underlying data.",
+  "site": "https://global-distillation.com/",
+  "licence": "MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
+  "citation": "Global Distillation, \"How frontier intelligence is compressed, priced and contested\", https://global-distillation.com/, accessed <date>.",
   "datasetUpdated": "2026-09-04",
   "generated": "2026-09-04",
   "generator": "scripts/gen-llms.mjs",
@@ -14,7 +14,7 @@
       "question": "What is knowledge distillation?",
       "answer": "Training a student model to reproduce the behaviour of a teacher model, using the teacher's outputs, internal states or generated data as the supervision signal instead of (or alongside) ground-truth labels. The teacher is the model whose behaviour is being copied. The student is the model being trained. The modern soft-target formulation comes from Hinton, Vinyals and Dean (2015), which now has 25,899 citations.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://api.semanticscholar.org/graph/v1/paper/arXiv:1503.02531?fields=title,year,citationCount",
         "https://arxiv.org/abs/1503.02531"
@@ -26,7 +26,7 @@
       "question": "What are soft targets and dark knowledge in distillation?",
       "answer": "The teacher's full probability distribution over classes or tokens, as opposed to a one-hot label. Carries information about which wrong answers were nearly right. Hinton's informal name for the information in the relative probabilities the teacher assigns to incorrect classes — the part of the teacher's judgement that a hard label throws away. A divisor applied to logits before the softmax.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1503.02531"
       ],
@@ -37,7 +37,7 @@
       "question": "What is the difference between white-box and black-box distillation?",
       "answer": "Distillation that requires access to teacher internals — logits, hidden states, attention maps or gradients. Only possible when you can run the teacher's weights yourself. Distillation from sampled teacher outputs only, as returned by an API. Every method in this library sits on one side of a hard line.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/2402.13116",
         "https://arxiv.org/abs/1606.07947"
@@ -49,7 +49,7 @@
       "question": "What is on-policy distillation?",
       "answer": "Sampling training sequences from the student and having the teacher score them token by token, so the student is corrected exactly on the distribution it will actually produce at inference. Training on a fixed corpus of teacher-generated (or human) sequences. Simpler and cheaper, but the student never sees its own mistakes during training. It is the fastest-growing sub-topic in the literature: arXiv papers mentioning 'on-policy distillation' (2026 YTD) reached 359 papers (9.4x the 38 seen in all of 2025).",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://export.arxiv.org/api/query?search_query=all:%22on-policy%20distillation%22%20AND%20submittedDate:%5B202601010000%20TO%20202609042359%5D&max_results=1",
         "https://arxiv.org/abs/2306.13649"
@@ -61,7 +61,7 @@
       "question": "What is exposure bias in knowledge distillation?",
       "answer": "The compounding error that occurs when an autoregressive model trained only on teacher-forced sequences meets its own generated prefixes at inference. The problem on-policy distillation exists to solve. Off-policy distillation trains the student on the teacher's own sequences, so at inference the student meets its own distribution for the first time and compounds errors. GKD (2023) and MiniLLM (2023) fix this by sampling from the student and having the teacher grade those tokens, with a divergence (reverse KL or generalized JSD) that tolerates a student too small to cover the teacher's modes.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/2306.13649",
         "https://arxiv.org/abs/2306.08543",
@@ -74,7 +74,7 @@
       "question": "Should I use forward KL or reverse KL when distilling a language model?",
       "answer": "Forward KL: KL(teacher || student) — mass-covering: it punishes the student for assigning low probability anywhere the teacher assigns mass, so an under-capacity student smears probability across modes it cannot represent. Reverse KL: KL(student || teacher) — mode-seeking: it punishes the student only where the student itself puts mass, so a small student concentrates on the teacher's dominant modes instead of hedging. Generalized JSD: A beta-interpolated Jensen-Shannon divergence used in GKD — beta = 0 approximates forward KL, beta = 1 approximates reverse KL, and intermediate values trade off between them. Classical KD minimises forward KL, which is mode-covering: the student spreads mass over regions the teacher barely visits, which is fine for classification but produces hallucinated low-probability text in generation.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/2306.08543",
         "https://arxiv.org/abs/2306.13649",
@@ -87,7 +87,7 @@
       "question": "What is sequence-level knowledge distillation?",
       "answer": "Replace token-level distribution matching with plain maximum-likelihood training on complete sequences generated by the teacher, typically its beam-search output. Use it as the default whenever the teacher is behind an API, or whenever you want a reusable, auditable training set. It is also the correct first step before any on-policy method, since it gives a strong initialisation cheaply.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1606.07947"
       ],
@@ -98,7 +98,7 @@
       "question": "What is dataset distillation, and is it the same thing as model distillation?",
       "answer": "Compressing a training set rather than a model: synthesising a tiny set of examples (sometimes one image per class) that trains a network to near-full accuracy. Hold the model fixed and compress the *training set* into a tiny synthetic set that trains a network to comparable accuracy. The data, not the network, is the thing distilled. Teacher access required: none.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1811.10959"
       ],
@@ -109,7 +109,7 @@
       "question": "What is self-distillation?",
       "answer": "Distil a trained model into a student with an identical architecture and parameter count. The student reliably beats the teacher, and repeating the process compounds the gain. Use when you have spare training compute, cannot change the deployed architecture, and want a few points of accuracy — or when you need to collapse an ensemble. Also the right mental model for any self-improvement loop on filtered self-generated data.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1805.04770"
       ],
@@ -120,7 +120,7 @@
       "question": "Can a student model be too small for its teacher?",
       "answer": "The empirical finding that distillation degrades when teacher and student are too far apart in size, motivating teacher-assistant chains and mode-seeking divergences. Apple's Distillation Scaling Laws (ICML 2025) is a large-scale controlled study of distillation — students from 143M to 12.6B parameters, teachers spanning a similar range, up to 512B training tokens, figures taken from the paper body and the Apple ML Research write-up rather than the abstract — and produced a law predicting student cross-entropy from the compute split between teacher and student. The headline practical result: distillation beats supervised learning only up to a compute level that scales predictably with student size, and a teacher that is too capable for the student's budget makes things worse rather than better.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/abs/2502.08606",
         "https://machinelearning.apple.com/research/distillation-scaling-laws"
@@ -132,7 +132,7 @@
       "question": "Who invented knowledge distillation, and when?",
       "answer": "2006-08-20: The paper shows that a single small neural network trained on unlabeled data pseudo-labeled by a large ensemble can match the ensemble's accuracy at a fraction of the size. It is the earliest widely cited ancestor of modern knowledge distillation. 2015-03-09: The paper coins 'distillation', introduces temperature-scaled soft targets and shows ensemble knowledge can be compressed into one model on MNIST and speech. That paper now carries 25,899 citations.",
       "perspective": "timeline",
-      "page": "https://global-distillation.vercel.app/timeline",
+      "page": "https://global-distillation.com/timeline",
       "sources": [
         "https://dl.acm.org/doi/10.1145/1150402.1150464",
         "https://arxiv.org/abs/1503.02531",
@@ -145,7 +145,7 @@
       "question": "Does training models on other models cause homogenisation or model collapse?",
       "answer": "The irreversible loss of distribution tails when generative models are recursively trained on generated data. Established for LLMs, VAEs and Gaussian mixtures by Shumailov et al. in Nature (2024); the structural risk that a distillation-dominated ecosystem runs. The Quantification of Large Language Model Distillation framework (ACL 2025) proposes Response Similarity Evaluation and Identity Consistency Evaluation to estimate how heavily a model was distilled from another, and reports that most well-known closed- and open-source LLMs exhibit high distillation degrees, with base models more distilled than aligned ones. Read alongside Shumailov et al.'s Nature result that recursive training on generated data destroys distribution tails, this defines a genuine research risk: a literature that trains overwhelmingly on frontier-model outputs may be narrowing the diversity it depends on.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/abs/2501.12619",
         "https://www.nature.com/articles/s41586-024-07566-y"
@@ -157,7 +157,7 @@
       "question": "How much cheaper is a distilled model than its teacher?",
       "answer": "It depends on the pair, but the gap is between one and two orders of magnitude. Cost per 1M requests, GPT-5.6 Sol vs Luna: 18 x cheaper ($3,600 → $200). Output price gap, flagship vs nano tier (OpenAI GPT-6 Astra vs GPT-5-nano): 125 x cheaper ($50.00 vs $0.40 per 1M output tokens). Frontier-vs-small output price spread, OpenAI is 42 x ($50 vs $1.20 per MTok).",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://developers.openai.com/api/docs/pricing"
       ],
@@ -168,7 +168,7 @@
       "question": "How much quality does a distilled or small-tier model actually retain?",
       "answer": "Retention depends on the task, and it is high on knowledge benchmarks and lower on agentic coding. GPQA retained by GPT-5.6 Luna vs Sol: 94.2 % (at 5% of the input price (94.2–97.3% across providers)). GPQA of DeepSeek-V4-Flash vs V4-Pro: 97.8 % (at 33% of the price). SWE-bench Verified retained by Claude Haiku 4.5 vs Opus 5: 76.4 % (at 20% of the price).",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://openrouter.ai/openai/gpt-5.6-luna",
         "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash",
@@ -181,7 +181,7 @@
       "question": "How much does it cost to train a distilled reasoning model?",
       "answer": "Cost to train Sky-T1-32B by distillation was 450 USD (8x H100 for 19 hours). Cheapest published reasoning distillation run (s1-32B) used 7 H100 GPU-hours (1,000 training samples). For contrast, the deepseek-r1 reinforcement-learning training cost was 294,000 USD (512 H800s x 80 hours).",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://novasky-ai.github.io/posts/sky-t1/",
         "https://arxiv.org/abs/2501.19393",
@@ -194,7 +194,7 @@
       "question": "Is distillation cheaper than reinforcement learning for teaching a model to reason?",
       "answer": "Yes, by roughly an order of magnitude on the published comparisons. Qwen3-8B: on-policy distillation vs RL GPU-hours: 10 x cheaper (1,800 vs 17,920 GPU-hours). DeepSeek's own ablation is the cleanest evidence: applying large-scale RL directly to Qwen2.5-32B (DeepSeek-R1-Zero-Qwen-32B) reached AIME 2024 pass@1 of 47.0 and MATH-500 of 91.6, while plain supervised fine-tuning on 800k traces sampled from the 671B DeepSeek-R1 teacher reached 72.6 and 94.3 on the same base model. Qwen3 reproduced the pattern a few months later with on-policy logit distillation: 74.4 vs 67.6 AIME'24 at one tenth the GPU-hours.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/html/2505.09388v1",
         "https://arxiv.org/html/2501.12948v1",
@@ -207,7 +207,7 @@
       "question": "What does it cost to buy a teacher model's reasoning traces?",
       "answer": "Teacher-query bill to rebuild an 800k-trace reasoning corpus is 40,000 USD (upper end) ($1,920 at the cheap end). Author calculation. Assumes an average reasoning trace of 2,000 output tokens and ignores input-token cost (prompts are short relative to reasoning traces). The full per-teacher breakdown is the \"What it costs to buy a teacher's reasoning traces at 2026 list prices\" table, 7 teachers priced at list.",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://platform.claude.com/docs/en/about-claude/pricing",
         "https://developers.openai.com/api/docs/pricing",
@@ -220,7 +220,7 @@
       "question": "What happened to Nvidia's market capitalisation after DeepSeek-R1?",
       "answer": "Nvidia single-day market-cap loss: 589 USD billions (-17% in one session). DeepSeek-R1 shipped on 20 January 2025 with six open-weight distilled students under MIT licence. Seven days later Nvidia fell 17% and lost $589B of market capitalisation, the Nasdaq 100 fell 3%, and the semiconductor index had its worst day since March 2020.",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html",
         "https://www.thenationalnews.com/future/technology/2026/04/25/will-deepseeks-new-ai-model-crash-nvidias-5tn-party/",
@@ -233,7 +233,7 @@
       "question": "Is it cheaper to self-host a distilled model or to call an API?",
       "answer": "On our TCO model (1x H100 SXM at $2.40/GPU-hour on demand, 24/7, plus 0.25 FTE of MLOps at $200k/yr fully loaded = $5,919/month), a self-hosted distilled model only undercuts Claude Opus 5 above ~132M output tokens a month, Claude Sonnet 5 above ~329M, and Claude Haiku 4.5 above ~658M. It never undercuts gpt-5.6-luna or DeepSeek V4-Flash within the throughput capacity of a single GPU. The model assumes one H100 at $2.4/GPU-hour for 730 hours plus 0.25 FTE, a total of $5,919 a month for about 1,051 MTok of output capacity.",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis",
         "https://platform.claude.com/docs/en/about-claude/pricing",
@@ -247,7 +247,7 @@
       "question": "What is the cheapest hosted model per million tokens?",
       "answer": "Cheapest hosted model per 1M tokens (in) is 0.035 USD (Amazon Nova Micro). For context, the enterprise inference price index stands at 1.17 USD / M tokens (-43% since 31 May 2026).",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://pricepertoken.com/pricing-page/model/amazon-nova-micro-v1",
         "https://www.scmp.com/tech/tech-trends/article/3363549/enterprise-ai-costs-hit-2026-low-driven-price-wars-chinese-open-source-models-research"
@@ -259,7 +259,7 @@
       "question": "How fast is the price of a fixed AI capability falling?",
       "answer": "Inference price decline for fixed capability runs at 900 x per year (upper bound) (range 9x-900x), while the frontier training-run cost growth is 2.4 x per year (95% CI 2.0x-3.1x, since 2016). DeepSeek warned on 6 August 2026 of a significant price increase and implemented it on 16 August: V4-Flash output went from $0.28/MTok to $0.66 off-peak and $1.32 at peak; V4-Pro output from $0.87 to $1.98/$3.96. Cache-hit input tokens rose by as much as 1,100%.",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://epoch.ai/data-insights/llm-inference-price-trends",
         "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
@@ -273,7 +273,7 @@
       "question": "Are AI inference prices still falling in 2026?",
       "answer": "DeepSeek warned on 6 August 2026 of a significant price increase and implemented it on 16 August: V4-Flash output went from $0.28/MTok to $0.66 off-peak and $1.32 at peak; V4-Pro output from $0.87 to $1.98/$3.96. Cache-hit input tokens rose by as much as 1,100%. Seventeen of twenty-four hours remain at the half-price off-peak rate, and peak hours are set on Beijing business time, so the increase falls hardest on domestic users and lightest on Western buyers. DeepSeek V4 API price increase: 1,100 % (maximum) (effective 16 Aug 2026).",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html",
         "https://api-docs.deepseek.com/quick_start/pricing/",
@@ -286,7 +286,7 @@
       "question": "How expensive is it to extract a model through its API?",
       "answer": "Carlini et al. recovered the exact hidden dimension of gpt-3.5-turbo and estimated the full embedding-projection matrix could be extracted for under $2,000 in API queries; a limited version of the attack cost under $200, and ada and babbage were fully extracted for under $20. Combined with the corpus-generation figures above, the total cash cost of a serious behavioural-cloning effort against a frontier model sits in the $10^3-$10^5 range against a $10^8 asset. No defensive spend scales down to that. The \"The cost-of-theft asymmetry, line by line\" table itemises 14 line items on both sides of that trade.",
       "perspective": "financial",
-      "page": "https://global-distillation.vercel.app/financial",
+      "page": "https://global-distillation.com/financial",
       "sources": [
         "https://arxiv.org/pdf/2403.06634",
         "https://proceedings.mlr.press/v235/carlini24a.html",
@@ -300,7 +300,7 @@
       "question": "Did DeepSeek distil OpenAI's models?",
       "answer": "It is a public accusation that has never been tested in court. On 2025-01-28, David Sacks, White House AI and crypto czar alleged: \"DeepSeek distilled knowledge out of OpenAI models to build its own systems\" — evidence offered: Asserted 'substantial evidence' in a Fox News interview; no evidence detailed publicly. On 2025-01-29, OpenAI and Microsoft alleged: \"Large-scale unauthorized data exfiltration through the OpenAI API, violating terms of service\". Outcome to date: Set the political frame for everything that followed; no legal action.",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://www.bloomberg.com/news/articles/2025-01-28/ai-czar-sacks-says-evidence-deepseek-leaned-on-openai-s-models",
         "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data"
@@ -312,7 +312,7 @@
       "question": "Is it legal to distil another company's model?",
       "answer": "US copyright law does not protect purely machine-generated outputs, and OpenAI's own terms assign output rights to the user, so a copyright claim against a distiller is difficult. Trade secret theory is available but unsettled: it depends on whether querying an API counts as acquisition by 'improper means.' The theory that actually fits is contract — OpenAI's terms bar using Output 'to develop models that compete with OpenAI' — plus, where fraudulent accounts and evaded geo-restrictions are involved, the Computer Fraud and Abuse Act. The \"Legal theories for attacking distillation, and how strong each is\" table scores 8 distinct legal theories with the weakness of each — this is a description of the public record, not legal advice.",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://www.govinfo.gov/content/pkg/BILLS-119hr8283ih/pdf/BILLS-119hr8283ih.pdf",
         "https://law.asia/openai-deepseek-ai-distillation/",
@@ -326,7 +326,7 @@
       "question": "Do OpenAI's terms of service allow you to train on its outputs?",
       "answer": "OpenAI's terms prohibit using output to build a competing model: \"use Output to develop models that compete with OpenAI\" — Terms of Use, https://openai.com/policies/row-terms-of-use/ OpenAI forbids using 'Output to develop models that compete with OpenAI'; Anthropic's commercial terms bar access 'to build a competing product or service, including to train competing AI models'; Google's Gemini API terms say 'You may not use the Services to develop models that compete with the Services'; xAI's terms list 'distilling' among prohibited acts; Cohere bars use 'for the purpose of building a similar or competitive product or service'. Meta's Llama 4 license takes the opposite approach: derivative models are allowed but must carry 'Llama' at the start of their name.",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
         "https://openai.com/policies/row-terms-of-use/",
@@ -340,7 +340,7 @@
       "question": "What has Anthropic disclosed about distillation attacks on Claude?",
       "answer": "Claude exchanges in largest disclosed campaign: 28,800,000 exchanges (vs 16M disclosed in Feb 2026). Fraudulent accounts alleged (Alibaba campaign): 25,000 accounts (24,000 in the Feb 2026 DeepSeek/Moonshot/MiniMax disclosure). January 2025 accusations were qualitative: Microsoft security researchers observed suspected DeepSeek-linked individuals exfiltrating data via the OpenAI API, and David Sacks cited 'substantial evidence' without detailing it. By February 2026 the labs published counts: Anthropic attributed 150,000+ exchanges to DeepSeek, 3.4 million to Moonshot AI and 13 million to MiniMax across ~24,000 fraudulent accounts; Google's Threat Intelligence Group disrupted a cluster of 100,000+ prompts aimed at coercing Gemini reasoning traces.",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://d1e00ek4ebabms.cloudfront.net/production/uploaded-files/Anthropic%20letter%20Alibaba%E3%83%BBJun%2010%202026%20-ba307cab-ccb4-43f1-88c0-515f29694678.pdf",
         "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
@@ -354,7 +354,7 @@
       "question": "Which governments have restricted DeepSeek?",
       "answer": "US states restricting DeepSeek on state devices: 14 states (0 before Jan 31, 2025). The \"Government restrictions on DeepSeek, by jurisdiction\" table records 13 jurisdictions with the date, scope and stated rationale of each restriction.",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://statetechmagazine.com/article/2025/04/these-states-have-banned-deepseek",
         "https://www.privacylaws.com/news/italy-and-south-korea-ban-deepseek-and-start-investigation/",
@@ -368,7 +368,7 @@
       "question": "Does the EU AI Act regulate distillation?",
       "answer": "EU AI Act GPAI obligations began applying August 2, 2025, backed by a Code of Practice published July 10, 2025 with Transparency, Copyright, and Safety & Security chapters; Commission enforcement powers, including fines up to EUR 15 million or 3% of global turnover, went live August 2, 2026. None of this creates a distillation-specific offence. Europe's actual friction with Chinese models has run through GDPR instead — Italy's Garante ordered DeepSeek's chatbot blocked in early 2025, and Berlin's commissioner found its transfer practices unlawful — while self-hosted open weights on EU servers sidestep the transfer question entirely. Maximum EU AI Act fine for GPAI providers: 15,000,000 EUR or 3% of global turnover (enforceable from Aug 2, 2026).",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
         "https://artificialintelligenceact.eu/code-of-practice-overview/",
@@ -382,7 +382,7 @@
       "question": "What are US lawmakers doing about model distillation?",
       "answer": "OSTP memorandum NSTM-4, 'Adversarial Distillation of American AI Models,' issued by OSTP under Director Michael Kratsios on April 23, 2026, is the first US policy instrument to formally classify systematic capability extraction from frontier models as a national security threat. It found that foreign entities, principally in China, are running 'deliberate, industrial-scale campaigns' using tens of thousands of proxy accounts, and committed the executive branch to threat-intelligence sharing with industry, joint defensive best practices, and exploration of accountability measures. The bill tracker follows 8 federal bills in the 119th Congress. House Foreign Affairs vote on H.R. 8283 was 43 yeas (43-0) (unanimous).",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://www.congress.gov/119/meeting/house/119191/documents/HMKP-119-FA00-20260422-SD002.pdf",
         "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/",
@@ -396,7 +396,7 @@
       "question": "How do chip export controls relate to the distillation argument?",
       "answer": "Anthropic's public position is that distillation 'reinforces the rationale for export controls,' because harvested exchanges are only useful if the distiller has compute to train on them. Dario Amodei made the compute-asymmetry argument in January 2025. The counter-current is commercial: the Biden AI Diffusion Rule (Jan 15, 2025) was rescinded before its May 15, 2025 enforcement date; the GAIN AI Act, which would have required US customers be served first, passed the Senate as an NDAA amendment in October 2025 but was dropped from the final FY2026 NDAA; and in January 2026 H200 and MI325X exports moved from presumption of denial to case-by-case review with a 25% tariff. Section 232 tariff on advanced AI chips imported into the US (incl. those routed to China): 25 % (new; paired with BIS case-by-case review replacing presumption of denial).",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://www.whitecase.com/insight-alert/president-trump-orders-narrowly-targeted-25-section-232-tariff-certain-advanced",
         "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
@@ -410,7 +410,7 @@
       "question": "How do distillers get API access if their accounts are banned?",
       "answer": "Extraction at the scale the labs describe requires access the labs have formally denied. Reporting on China's 'transfer station' economy describes tens of thousands of internet-facing servers running reseller billing panels that proxy OpenAI, Anthropic, Google and other Western models into China, sometimes at roughly a tenth of list price. Anthropic says a single proxy network managed more than 20,000 fraudulent accounts. Fraudulent account network provider: A category defined in H.R. 8283 covering foreign entities that create, sell or broker accounts allowing entities of concern to reach models they are barred from, with a carve-out for services enabling internet access for freedom of expression.",
       "perspective": "political",
-      "page": "https://global-distillation.vercel.app/political",
+      "page": "https://global-distillation.com/political",
       "sources": [
         "https://www.chinatalk.media/p/how-to-buy-cheap-claude-tokens-in",
         "https://www.deeplearning.ai/the-batch/inside-the-gray-market-for-llm-access",
@@ -423,7 +423,7 @@
       "question": "Which AI companies use distillation to build their models?",
       "answer": "Google's Gemini 2.5 report states plainly that 'the smaller models in the Gemini 2.5 series — Flash size and below — use distillation', and Gemma 2 and Gemma 3 are trained with knowledge distillation rather than plain next-token prediction. Meta pruned Llama 3.1 8B and distilled logits from 8B/70B to make Llama 3.2 1B/3B, then co-distilled Llama 4 Maverick from Behemoth. Companies profiled that publicly document a distilled model: 11 of 18 (7 undisclosed). The lineage table documents 22 teacher-to-student pairs with the method and release date of each.",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://arxiv.org/html/2507.06261v1/",
         "https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
@@ -437,7 +437,7 @@
       "question": "Can I buy distillation as a managed service?",
       "answer": "Distillation-as-a-service products from hyperscalers: 3 shipped (+1 pre-GA) (Oct 2024 to 2025). OpenAI's Model Distillation (stored completions + evals + fine-tuning, Oct 2024) lets customers distill GPT-4o/o1-preview into GPT-4o mini; Azure mirrors it; Amazon Bedrock requires teacher and student to be from the same model family, so Nova Premier distills into Nova Pro/Lite/Micro, Claude 3.5 Sonnet v2 into Claude 3 Haiku, and Llama 3.3 70B / Llama 3.1 405B into Llama 3.2 1B/3B and Llama 3.1 70B/8B; Google's Vertex early-access service distills Gemini 3.1 Pro into Gemini 2.5 Flash. In every case the student must be a model the vendor hosts, so distillation revenue stays on-platform. Bedrock Model Distillation claim: 75 % cheaper (and up to 500% faster).",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available",
         "https://aws.amazon.com/bedrock/model-distillation/",
@@ -451,7 +451,7 @@
       "question": "Which companies forbid distillation in their terms of service?",
       "answer": "Companies with explicit anti-distillation / anti-competing-model ToS clauses: 5 companies (OpenAI, Anthropic, Google, xAI, Cohere). The clause table quotes 18 documents with the effect and date of each. Brief verbatim quotes from each company's governing document, with effective/last-updated date where the page states it.",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://ospo.co/blog/be-careful-with-openais-terms-of-use/",
         "https://www.anthropic.com/legal/commercial-terms",
@@ -465,7 +465,7 @@
       "question": "Do open-weight licences allow you to distil the model?",
       "answer": "DeepSeek-R1's model card states the series 'allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs' under MIT. Qwen3, Mistral 3/Ministral 3 and SmolLM3 ship under Apache 2.0; Kimi K2 and MiniMax M2 use a modified MIT that only adds an attribution requirement above 100M MAU or $20M monthly revenue; NVIDIA releases Nemotron under its Open Model License and even lists the teacher models (DeepSeek-R1, GPT-OSS-120B, Qwen) used to synthesise 3.5T of its 10.6T pre-training tokens. Anthropic’s Commercial Terms section D.4 bars customers from accessing the Services \"to build a competing product or service, including to train competing AI models\". OpenAI’s Services Agreement carries an equivalent restriction.",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-R1",
         "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE",
@@ -479,7 +479,7 @@
       "question": "What is prune-and-distill, and how much does it save?",
       "answer": "NVIDIA's recipe: structured width/depth pruning of a trained model followed by KD to recover accuracy with far fewer tokens (e.g. 94B vs 15T). Training tokens saved by prune-and-distill (NVIDIA Minitron): 160 x fewer (94B tokens vs 15T for the Llama 3.1 8B teacher). Use when you own or can license the teacher weights and need a specific smaller architecture for a hard latency or memory budget.",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/",
         "https://arxiv.org/abs/2407.14679"
@@ -491,7 +491,7 @@
       "question": "How do labs defend against having their models distilled?",
       "answer": "Anthropic barred entities more than 50% owned by companies in unsupported regions in September 2025, citing that they 'could also potentially use our models to advance their own AI development through techniques like distillation'. OpenAI's memo describes classifiers for 'reinforcement learning-style grading behavior', models 'trained not to reveal reasoning traces', and account bans. Anthropic admitted a March 2026 Claude Code 'experiment' that embedded identifying markers to protect against distillation; Alibaba responded by banning Claude Code for staff from 10 July 2026. Antidistillation sampling: A decoding-time defence that perturbs the teacher's next-token distribution so its reasoning traces are poor training data for a student while its own answers stay useful (Savani et al., 2025).",
       "perspective": "company",
-      "page": "https://global-distillation.vercel.app/company",
+      "page": "https://global-distillation.com/company",
       "sources": [
         "https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions",
         "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
@@ -504,7 +504,7 @@
       "question": "Which distillation method should I use for a classification task?",
       "answer": "If you host both models and they share a label set or tokenizer, start with Response-based KD (soft targets with temperature) (difficulty 1/5, teacher access: white-box, data needed: logits). Use it first whenever you host both models and they share a tokenizer or label set. It is the right baseline for classifiers, encoders, and same-family LLM pairs (Llama 3.1 8B into Llama 3.2 1B), and the right first thing to try before reaching for on-policy methods. If the teacher is a closed API, use Black-box output distillation (Alpaca / Vicuna / Orca style) instead: Generate a synthetic instruction-following dataset by prompting a strong API teacher, then supervised-fine-tune an open base model on it.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1503.02531",
         "https://crfm.stanford.edu/2023/03/13/alpaca.html"
@@ -516,7 +516,7 @@
       "question": "Which distillation method should I use to teach a small model to reason?",
       "answer": "Supervised fine-tuning on long chain-of-thought traces from a dedicated reasoning teacher, with no reinforcement-learning stage. The single most-copied recipe of 2025. Use when you need frontier-level maths, code or multi-step reasoning in a self-hostable model and you have (or can license) a reasoning teacher plus a verifier. Distilling Step-by-Step extracts teacher rationales as a second supervised task alongside the label, and reports a 770M T5 outperforming a few-shot-prompted 540B PaLM using only 80% of the available data — roughly a 700x parameter reduction.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
         "https://arxiv.org/abs/2305.02301"
@@ -528,7 +528,7 @@
       "question": "How do I distil a model from a closed API I cannot see the logits of?",
       "answer": "Distill a frontier API teacher into Llama-3.1-8B for classification (black-box SeqKD). First step: Collect 5k-20k representative unlabeled inputs from production logs; hold out 500 for evaluation. Estimated cost: $20-$40 total: ~$10-$20 teacher labels (DeepSeek V4-Pro rates) + ~$10-$20 training (Together: 20k x 650 tokens x 3 epochs = 39M tokens x $0.48 = ~$19; or ~2-4 h on a $2.50/h A100); estimated time: Half a day: 1-2 h teacher labeling, 2-4 h training, 1 h evaluation (author estimate from listed prices).",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://www.together.ai/pricing",
         "https://api-docs.deepseek.com/quick_start/pricing",
@@ -541,7 +541,7 @@
       "question": "What open-source tools can I use to distil a model?",
       "answer": "TRL v1.12 offers four distillation trainers: GKDTrainer (generalized JSD, lmbda/beta/seq_kd), DistillationTrainer (on-policy, chunked JSD, vLLM-accelerated generation, tool-use and VLM support), GOLDTrainer (cross-tokenizer via Universal Logit Distillation) and MiniLLMTrainer (reverse-KL policy gradient). Hugging Face's July 2026 survey finds Qwen3, DeepSeek-V4, GLM-5, Nemotron 3 Ultra and MiMo-V2-Flash all use some form of on-policy distillation where the teacher grades the student's own rollouts. Hugging Face TRL (GKDTrainer, DistillationTrainer, GOLDTrainer, MiniLLMTrainer, SFTTrainer): The most complete open implementation of modern (on-policy, cross-tokenizer, multimodal) distillation, with a `trl distillation` CLI. The feature matrix compares 11 libraries on logit KD, on-policy training, cross-tokenizer support, pruning and PEFT.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://huggingface.co/docs/trl/distillation_trainer",
         "https://huggingface.co/docs/trl/gold_trainer",
@@ -555,7 +555,7 @@
       "question": "What GPU do I need to distil a model?",
       "answer": "Unsloth's published minimums are 5 GB VRAM for a 7B QLoRA run and 41 GB for 70B; a 32B student needs 26 GB (QLoRA) or 76 GB (LoRA 16-bit). Long reasoning traces (8k-16k tokens) raise activation memory well above these floors, so an 80 GB A100/H100 at $2.50-$3.95/h (Modal) or $1.99/h preemptible (Together) is the practical single-GPU tier for R1-style distillation. The requirements table lists QLoRA and LoRA memory floors for 13 student sizes alongside a suitable GPU and its hourly rental price.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://unsloth.ai/docs/get-started/fine-tuning-for-beginners/unsloth-requirements",
         "https://modal.com/pricing",
@@ -568,7 +568,7 @@
       "question": "Are there open datasets of teacher reasoning traces I can train on?",
       "answer": "Bespoke-Stratos-17k cost about $800 of DeepSeek-R1 calls to generate; OpenR1-Math-220k, OpenThoughts3-1.2M (QwQ-32B traces), Mixture-of-Thoughts and NVIDIA's OpenMathReasoning are all Apache-2.0 or similar and together see hundreds of thousands of downloads a month. OpenThinker3-7B, trained on OpenThoughts3 from Qwen2.5-7B-Instruct, reports AIME25 53.3 and LiveCodeBench 51.7, above DeepSeek-R1-Distill-Qwen-32B on the same dataset card. OpenThoughts3-1.2M rows: 1,200,000 rows (850k math / 250k code / 100k science). The dataset table compares 12 open corpora by teacher, domain, licence and download volume.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M",
         "https://huggingface.co/datasets/bespokelabs/Bespoke-Stratos-17k",
@@ -582,7 +582,7 @@
       "question": "What is the cheapest managed fine-tuning for a distilled student?",
       "answer": "Cheapest managed LoRA SFT (≤16B student): 0.48 USD per 1M tokens (Together AI; Fireworks $0.50). OpenAI is winding down its fine-tuning platform in phases (2026-05-07, 2026-07-02, 2027-01-06); Azure retires stored completions on 2026-10-15; Amazon Bedrock's supported-model table states distillation is not currently available for Anthropic models with no restoration timeline; Google's Vertex AI still documents teacher-to-student distillation fine-tuning, but only for open models (Llama 3.1, Qwen) via the GenAI SDK, while Gemini tuning is limited to supervised, RL and preference tuning. The action has moved to per-token fine-tuning APIs (Together, Fireworks, Databricks) and to open libraries.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://www.together.ai/pricing",
         "https://developers.openai.com/api/docs/deprecations",
@@ -596,7 +596,7 @@
       "question": "Can I still fine-tune OpenAI models on teacher outputs?",
       "answer": "Days left to start a new OpenAI fine-tuning job: 125 days (new orgs blocked since 2026-05-07). OpenAI is winding down its fine-tuning platform in phases (2026-05-07, 2026-07-02, 2027-01-06); Azure retires stored completions on 2026-10-15; Amazon Bedrock's supported-model table states distillation is not currently available for Anthropic models with no restoration timeline; Google's Vertex AI still documents teacher-to-student distillation fine-tuning, but only for open models (Llama 3.1, Qwen) via the GenAI SDK, while Gemini tuning is limited to supervised, RL and preference tuning. The action has moved to per-token fine-tuning APIs (Together, Fireworks, Databricks) and to open libraries.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://developers.openai.com/api/docs/deprecations",
         "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/stored-completions",
@@ -610,7 +610,7 @@
       "question": "Is speculative decoding a form of distillation?",
       "answer": "EAGLE-3 trains a one-layer draft head on the target model's hidden features; Red Hat/vLLM report an up to 2.5x headline speedup, with measured latency gains of 1.6x-2.1x, and the May 2026 EAGLE 3.1 release reports 2.03x per-user throughput on Kimi-K2.6 at concurrency 1. SGLang's SpecForge (1.1k stars) and TorchSpec train these heads, and they are served with a single --speculative-config flag, so a distilled student can itself be paired with an even smaller draft. Distil a tiny draft head from a frozen target model so that speculative decoding accepts more proposed tokens. The target model's output distribution is provably unchanged; only latency falls.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://arxiv.org/abs/2401.15077",
         "https://vllm.ai/blog/2026-05-26-eagle-3-1",
@@ -624,7 +624,7 @@
       "question": "How widely used are the DeepSeek-R1-Distill models?",
       "answer": "DeepSeek-R1-Distill family, all-time HF downloads: 97,824,225 downloads (2.23M in the last 30 days). The student table lists 6 sizes with AIME, MATH, GPQA and LiveCodeBench scores next to download counts.",
       "perspective": "developer",
-      "page": "https://global-distillation.vercel.app/developer",
+      "page": "https://global-distillation.com/developer",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
         "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
@@ -636,7 +636,7 @@
       "question": "Should I buy a frontier model or a cheaper distilled one?",
       "answer": "Within a single current generation the small sibling retains 88–98% of its teacher's knowledge benchmark. GPT-5.6 Luna scores 87.0 GPQA Diamond against Sol's 92.4; GPT-5.4 mini scores 88.0 against 93.0; Gemini 2.5 Flash scores 82.8 against 2.5 Pro's 86.4; DeepSeek-V4-Flash scores 88.1 against V4-Pro's 90.1. Knowledge benchmarks compress; long-horizon agent benchmarks do not. Claude Opus 5 scores 96.0 on SWE-bench Verified, Sonnet 5 85.2 (89% retention) and Haiku 4.5 73.3 (76% retention).",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://openrouter.ai/openai/gpt-5.6-luna",
         "https://openrouter.ai/openai/gpt-5.6-sol",
@@ -650,10 +650,10 @@
       "question": "Which model should I use for high-volume classification and routing?",
       "answer": "Recommendation: Amazon Nova Micro or GPT-5 nano; Ministral 3 3B if you must self-host. At 400 input + 100 output tokens a request, Nova Micro costs $28 per million requests and GPT-5 nano $60. Neither needs reasoning. Nova Micro is a documented Bedrock distillation student, so you can also distil it further on your own labels.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
-        "https://global-distillation.vercel.app/customer",
-        "https://global-distillation.vercel.app/data/customer.json"
+        "https://global-distillation.com/customer",
+        "https://global-distillation.com/data/customer.json"
       ],
       "sentences": 4
     },
@@ -662,12 +662,12 @@
       "question": "Which model should I use for an autonomous coding agent?",
       "answer": "Recommendation: Claude Opus 5; drop to Claude Sonnet 5 only after measuring your own retry rate. This is the one workload where the retention curve is genuinely steep: Opus 5 scores 96.0 on SWE-bench Verified, Sonnet 5 85.2 and Haiku 4.5 73.3. A 20% failure delta on a long-horizon task compounds into far more than 20% extra cost once retries and human review are counted. Knowledge benchmarks compress; long-horizon agent benchmarks do not.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://datanorth.ai/news/claude-opus-5-by-anthropic",
         "https://www.morphllm.com/claude-benchmarks",
         "https://www.anthropic.com/news/claude-haiku-4-5",
-        "https://global-distillation.vercel.app/data/customer.json"
+        "https://global-distillation.com/data/customer.json"
       ],
       "sentences": 4
     },
@@ -676,10 +676,10 @@
       "question": "Which model should I use on-device or offline?",
       "answer": "Recommendation: Gemma 4 E4B, with Llama 3.2 3B as the proven-in-production alternative. Gemma 4 E4B runs at 4.5B effective parameters with MMLU-Pro 69.4 and a 128K window — roughly GPT-4o mini class, entirely offline, Apache 2.0. Llama 3.2 3B is the reference documented distillation (logits from Llama 3.1 8B and 70B as token-level targets after pruning) and has the widest edge-runtime support. Expect broad-knowledge accuracy to degrade much faster than format compliance at this size.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
-        "https://global-distillation.vercel.app/customer",
-        "https://global-distillation.vercel.app/data/customer.json"
+        "https://global-distillation.com/customer",
+        "https://global-distillation.com/data/customer.json"
       ],
       "sentences": 4
     },
@@ -688,12 +688,12 @@
       "question": "Which model can I run when data cannot leave my own infrastructure?",
       "answer": "Recommendation: Gemma 4 31B or 26B A4B (Apache 2.0); Phi-4-mini (MIT) at the small end. Gemma 4 31B posts MMLU-Pro 85.2 and GPQA Diamond 84.3 under Apache 2.0 with a 256K window — self-hostable quality that did not exist a year ago. The 26B MoE gets 82.3 GPQA with 3.8B active parameters, so it serves cheaply. Four open-weight families now clear 71.2–90.1 GPQA Diamond with no per-token fee and no anti-distillation clause: DeepSeek V4-Pro/Flash (MIT, 90.1/88.1), Qwen3.8-27B (Apache 2.0, 89.2), Gemma 4 31B (Apache 2.0, 84.3 GPQA / 85.2 MMLU-Pro) and Mistral Small 4 (Apache 2.0, 71.2 GPQA / 78.0 MMLU-Pro).",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro",
         "https://huggingface.co/Qwen/Qwen3.8-27B",
         "https://ai.google.dev/gemma/docs/core/model_card_4",
-        "https://global-distillation.vercel.app/data/customer.json"
+        "https://global-distillation.com/data/customer.json"
       ],
       "sentences": 4
     },
@@ -702,7 +702,7 @@
       "question": "What is the strongest open-weight model in this dataset?",
       "answer": "Best open-weight GPQA Diamond in this dataset: 90.1 % (DeepSeek-V4-Pro, MIT licence (open-weight range 71.2–90.1)). Four open-weight families now clear 71.2–90.1 GPQA Diamond with no per-token fee and no anti-distillation clause: DeepSeek V4-Pro/Flash (MIT, 90.1/88.1), Qwen3.8-27B (Apache 2.0, 89.2), Gemma 4 31B (Apache 2.0, 84.3 GPQA / 85.2 MMLU-Pro) and Mistral Small 4 (Apache 2.0, 71.2 GPQA / 78.0 MMLU-Pro). Having a credible self-host fallback is what makes an API price cut stick — and 2026 has been a year of price cuts.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro",
         "https://huggingface.co/Qwen/Qwen3.8-27B",
@@ -716,7 +716,7 @@
       "question": "Are distilled models faster than their teachers?",
       "answer": "Vendor tables still say \"fastest\", but the number a buyer feels now depends on the reasoning effort setting. Artificial Analysis measures GPT-5.6 Luna at 1.70s time-to-first-token at low effort and 19.87s at high; Claude Haiku 4.5 with reasoning on measures 19.92s; Claude Sonnet 5 at max effort measures 177.77s. Gemini 2.5 Flash-Lite in non-reasoning mode measures 0.30s. The latency table reports measured time-to-first-token and throughput for 12 models.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://artificialanalysis.ai/models/comparisons/gpt-5-6-luna-low-vs-claude-4-5-haiku-reasoning",
         "https://artificialanalysis.ai/models/comparisons/gemini-3-5-flash-lite-vs-gpt-5-6-luna-high",
@@ -730,7 +730,7 @@
       "question": "Do I have to pay frontier prices to get a long context window?",
       "answer": "Every GPT-5.6 tier including the $0.20 Luna carries a 1.05M-token window. Claude Sonnet 5 and Opus 5 both carry 1M. Gemini 3.5 Flash-Lite carries 1M at $0.30/MTok.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://developers.openai.com/api/docs/models",
         "https://platform.claude.com/docs/en/about-claude/models/overview",
@@ -744,7 +744,7 @@
       "question": "What kind of capability does distillation transfer well?",
       "answer": "The DeepSeek R1 student series is the cleanest natural experiment available. R1-Distill-Qwen-1.5B keeps 86% of R1’s MATH-500 (83.9 vs 97.3-class teacher performance) but only 47% of its GPQA Diamond (33.8 vs 71.5). Across the DeepSeek-R1-Distill family the same teacher yields very different retention depending on task difficulty and student size. On MATH-500 the 1.5B student already retains 86.2% of the 671B teacher and the 32B student retains 96.9%.",
       "perspective": "customer",
-      "page": "https://global-distillation.vercel.app/customer",
+      "page": "https://global-distillation.com/customer",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-R1",
         "https://huggingface.co/deepseek-ai/DeepSeek-R1-0528",
@@ -758,7 +758,7 @@
       "question": "What happened in January 2025 with DeepSeek?",
       "answer": "DeepSeek-R1 (20 January 2025) shipped six distilled dense students from 1.5B to 70B and proved that reasoning traces transfer cheaply; Sky-T1 ($450), s1 (1,000 examples), LIMO (817 examples) and OpenThoughts pushed the data floor lower. Nvidia lost nearly $600B of market value in one session, and within 48 hours OpenAI and the White House alleged DeepSeek had distilled OpenAI outputs. Gemma 3, Llama 4 and Qwen3 all disclosed teacher-student training as core recipe, and CMU's Antidistillation Sampling opened a defensive research line. Nvidia single-day market-cap loss: 589 USD billions (-17% in one session).",
       "perspective": "timeline",
-      "page": "https://global-distillation.vercel.app/timeline",
+      "page": "https://global-distillation.com/timeline",
       "sources": [
         "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html",
         "https://arxiv.org/abs/2501.12948",
@@ -772,7 +772,7 @@
       "question": "How has distillation changed since 2006?",
       "answer": "Bucila, Caruana and Niculescu-Mizil showed in 2006 that a small network trained on the pseudo-labels of a large ensemble could match it; Hinton, Vinyals and Dean formalised soft-target 'dark knowledge' in 2015 and FitNets, sequence-level KD (Kim and Rush) and Born-Again Networks extended it to deeper students, seq2seq models and self-distillation. Stanford Alpaca (52K text-davinci-003 demonstrations for under $600), Vicuna (ShareGPT conversations), Orca (GPT-4 explanation traces) and Distilling Step-by-Step showed that a small open model could inherit behaviour from a closed API using only outputs, not logits. Three US labs published extraction evidence within eleven days: OpenAI's memo to the House Select Committee (12 February), Google's Threat Intelligence Group report on a 100,000-prompt Gemini campaign (12 February) and Anthropic's disclosure of 16M+ Claude exchanges from ~24,000 fraudulent accounts (23 February). The timeline records 130 events across 20 years (2006-08-20 → 2026-09-03).",
       "perspective": "timeline",
-      "page": "https://global-distillation.vercel.app/timeline",
+      "page": "https://global-distillation.com/timeline",
       "sources": [
         "https://dl.acm.org/doi/10.1145/1150402.1150464",
         "https://www.cnbc.com/2026/09/03/open-ai-astra-gpt-6-cyber.html",
@@ -786,11 +786,11 @@
       "question": "How much research is published on knowledge distillation?",
       "answer": "arXiv papers with 'knowledge distillation' in abstract (2025): 1,084 papers (+11.6% vs 2024 (971)). Same query, 2026 year-to-date (through 2026-09-04): 709 papers (on pace for ~1,050 full-year). The live daily count of all arXiv papers matching the phrase is 5,372, with 78 in the last 30 days.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://export.arxiv.org/api/query?search_query=abs:%22knowledge%20distillation%22%20AND%20submittedDate:%5B202501010000%20TO%20202512312359%5D&max_results=1",
         "https://export.arxiv.org/api/query?search_query=abs:%22knowledge%20distillation%22%20AND%20submittedDate:%5B202601010000%20TO%20202609042359%5D&max_results=1",
-        "https://global-distillation.vercel.app/data/live.json"
+        "https://global-distillation.com/data/live.json"
       ],
       "sentences": 3
     },
@@ -799,7 +799,7 @@
       "question": "How many training examples do you need to distil reasoning into a model?",
       "answer": "DeepSeek-R1-Distill used 800,000 curated reasoning traces. Within weeks, Berkeley's Sky-T1 matched o1-preview-class math with 17k traces for under $450, Bespoke-Stratos hit AIME 2024 63.3 with the same 17k budget, Stanford's s1 reached AIME 56.7 and MATH-500 93.0 on 1,000 examples in 26 minutes on 16 H100s, and LIMO reported 63.3/95.6 from 817 samples — roughly 1% of the data used by prior approaches. s1K reasoning-distillation dataset size: 1,000 examples (beats o1-preview on AIME24/MATH by up to 27%).",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/abs/2501.19393",
         "https://novasky-ai.github.io/posts/sky-t1/",
@@ -813,7 +813,7 @@
       "question": "Can a distilled student ever beat its teacher?",
       "answer": "Distilling Step-by-Step extracted natural-language rationales alongside labels and trained a 770M T5 that outperformed few-shot-prompted 540B PaLM while using only 80% of the available data — a ~700x parameter reduction. Orca (13B) learned from GPT-4 explanation traces and beat Vicuna-13B by over 100% on Big-Bench Hard and 42% on AGIEval. MobileBERT even exceeds the same-size BERT-base baseline on SQuAD (its actual teacher is a custom IB-BERT-LARGE, which it does not beat) (F1 90.0 vs 88.5 on v1.1, 79.2 vs 77.1 on v2.0) at 4.3x smaller and 5.5x faster.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/abs/2305.02301",
         "https://arxiv.org/abs/2306.02707",
@@ -826,7 +826,7 @@
       "question": "Is distillation used during pretraining, or only for fine-tuning?",
       "answer": "Gemma 2's 2B and 9B models replaced next-token prediction with distillation from a larger teacher and were trained on more than 50x the compute-optimal token count; the paper's ablation shows a 2B model trained on 500B tokens scoring 60.3 average from scratch versus 67.7 distilled. Gemma 3 refined this by sampling 256 teacher logits per token, renormalising, and using cross-entropy over that sample. Meta pruned Llama 3.1 8B in one shot and used logits from Llama 3.1 8B and 70B as token-level targets during pretraining of Llama 3.2 1B and 3B.",
       "perspective": "academic",
-      "page": "https://global-distillation.vercel.app/academic",
+      "page": "https://global-distillation.com/academic",
       "sources": [
         "https://arxiv.org/html/2408.00118v1",
         "https://arxiv.org/html/2503.19786v1",
@@ -840,7 +840,7 @@
       "question": "How much quality did DistilBERT and TinyBERT keep?",
       "answer": "DistilBERT GLUE retention: 97 % of BERT-base (40% fewer params, 60% faster). TinyBERT-4L GLUE retention: 96.8 % of BERT-base (7.5x smaller, 9.4x faster). The BERT-era table compares 6 compressed models on size reduction, speedup and retention.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/1910.01108",
         "https://arxiv.org/abs/1909.10351",
@@ -854,7 +854,7 @@
       "question": "Does distillation apply to image and video models too?",
       "answer": "Compress the number of sampling steps rather than the parameter count: train a student to jump along the denoising trajectory in one step where the teacher took many. Latent Consistency Model training cost: 32 A100 GPU-hours (50 steps -> 2-4 steps at 768x768). Four of the methods here do not shrink a model at all.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/2202.00512",
         "https://arxiv.org/abs/2310.04378"
@@ -866,7 +866,7 @@
       "question": "How many distillation methods are there, and how are they organised?",
       "answer": "Methods catalogued here: 27 methods (spanning 2014-2025), grouped into 11 families by what actually crosses from teacher to student. Every method in this library sits on one side of a hard line. White-box methods need per-token logits or internal activations and are only available if you host the teacher's weights.",
       "perspective": "library",
-      "page": "https://global-distillation.vercel.app/library",
+      "page": "https://global-distillation.com/library",
       "sources": [
         "https://arxiv.org/abs/2006.05525",
         "https://arxiv.org/abs/2503.12067",
@@ -877,12 +877,12 @@
     {
       "id": "how-this-site-is-sourced",
       "question": "Where does Global Distillation get its data, and how often is it updated?",
-      "answer": "Every figure is read from a public JSON dataset at https://global-distillation.vercel.app/data/ and carries a primary-source URL: papers, model cards, official pricing pages, filings, statutes and named public statements. The eight perspective files are hand-edited and individually dated (most recent: 2026-09-04), while data/live.json is regenerated daily at 06:17 UTC with arXiv counts, Hugging Face downloads, repository stars and news. Figures a primary source never published are marked undisclosed rather than estimated, and the content is licensed MIT (see https://global-distillation.vercel.app/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
+      "answer": "Every figure is read from a public JSON dataset at https://global-distillation.com/data/ and carries a primary-source URL: papers, model cards, official pricing pages, filings, statutes and named public statements. The eight perspective files are hand-edited and individually dated (most recent: 2026-09-04), while data/live.json is regenerated daily at 06:17 UTC with arXiv counts, Hugging Face downloads, repository stars and news. Figures a primary source never published are marked undisclosed rather than estimated, and the content is licensed MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
       "perspective": "overview",
-      "page": "https://global-distillation.vercel.app/",
+      "page": "https://global-distillation.com/",
       "sources": [
-        "https://global-distillation.vercel.app/data/SCHEMA.md",
-        "https://global-distillation.vercel.app/llms-full.txt"
+        "https://global-distillation.com/data/SCHEMA.md",
+        "https://global-distillation.com/llms-full.txt"
       ],
       "sentences": 4
     }

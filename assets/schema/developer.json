@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/developer#webpage",
-      "url": "https://global-distillation.vercel.app/developer",
+      "@id": "https://global-distillation.com/developer#webpage",
+      "url": "https://global-distillation.com/developer",
       "name": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
       "description": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/developer#breadcrumb"
+        "@id": "https://global-distillation.com/developer#breadcrumb"
       },
       "dateModified": "2026-09-03"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/developer#breadcrumb",
+      "@id": "https://global-distillation.com/developer#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Developer",
-          "item": "https://global-distillation.vercel.app/developer"
+          "item": "https://global-distillation.com/developer"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/developer#article",
+      "@id": "https://global-distillation.com/developer#article",
       "headline": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
       "name": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
       "description": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token",
       "articleBody": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token fine-tuning APIs (Together, Fireworks, Databricks) fed by teacher-generated data. The field has converged on on-policy distillation where the student generates and the teacher grades every token; Qwen3 reports this needs roughly 1/10 of the GPU hours of RL for a better 8B model. Open reasoning datasets (OpenThoughts3-1.2M, OpenR1-Math-220k, Bespoke-Stratos-17k) plus cheap QLoRA mean a 7B reasoning student can be trained for well under $200 of GPU time, and DeepSeek's R1-Distill family alone has passed 97 million Hugging Face downloads. Managed options are in flux: OpenAI stops accepting new fine-tuning jobs on 2027-01-06, Azure retires stored completions on 2026-10-15, Bedrock currently lists no Anthropic teacher, and Vertex AI documents distillation only for open-model tuning. Every number below carries a source URL; where a vendor no longer publishes a figure it is marked undisclosed.",
       "articleSection": "Developer",
-      "url": "https://global-distillation.vercel.app/developer",
+      "url": "https://global-distillation.com/developer",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/developer#webpage"
+        "@id": "https://global-distillation.com/developer#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-03",
       "dateModified": "2026-09-03",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/developer.json#dataset",
+      "@id": "https://global-distillation.com/data/developer.json#dataset",
       "name": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
       "description": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token fine-tuning APIs (Together, Fireworks, Databricks) fed by teacher-generated data. The field has converged on on-policy distillation where the student generates and the teacher grades every token; Qwen3 reports this needs roughly 1/10 of the GPU hours of RL for a better 8B model. Open reasoning datasets (OpenThoughts3-1.2M, OpenR1-Math-220k, Bespoke-Stratos-17k) plus cheap QLoRA mean a 7B reasoning student can be trained for well under $200 of GPU time, and DeepSeek's R1-Distill family alone has passed 97 million Hugging Face downloads. Managed options are in flux: OpenAI stops accepting new fine-tuning jobs on 2027-01-06, Azure retires stored completions on 2026-10-15, Bedrock currently lists no Anthropic teacher, and Vertex AI documents distillation only for open-model tuning.",
-      "url": "https://global-distillation.vercel.app/developer",
+      "url": "https://global-distillation.com/developer",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-03",
       "temporalCoverage": "2024-08/2027-01-06",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "developer.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/developer.json"
+          "contentUrl": "https://global-distillation.com/data/developer.json"
         }
       ],
       "variableMeasured": [
@@ -581,9 +581,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/developer#glossary",
+      "@id": "https://global-distillation.com/developer#glossary",
       "name": "Developer view of AI distillation: tooling, platforms and recipes (2026) — glossary",
-      "url": "https://global-distillation.vercel.app/developer#glossary",
+      "url": "https://global-distillation.com/developer#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -592,7 +592,7 @@
           "name": "Sequence-level KD (SeqKD)",
           "description": "Fine-tuning the student on text generated by the teacher. Needs no logits, so it works with API teachers; this is what 'distilling R1 traces' means in practice.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -600,7 +600,7 @@
           "name": "Logit (white-box) KD",
           "description": "Matching the student's next-token distribution to the teacher's full distribution with KL/JSD; requires teacher weights or logprobs (torchtune, DistillKit, Axolotl KD plugin, NeMo).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -608,7 +608,7 @@
           "name": "On-policy distillation",
           "description": "The student generates its own completions and the teacher scores each token; fixes train/inference mismatch. Implemented by TRL's GKDTrainer (lmbda), DistillationTrainer, MiniLLM and used by Qwen3, DeepSeek-V4 and others.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -616,7 +616,7 @@
           "name": "Generalized JSD (beta)",
           "description": "Loss interpolating forward KL (beta=0) and reverse KL (beta=1); TRL exposes it as the beta parameter in GKD/Distillation/GOLD configs.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -624,7 +624,7 @@
           "name": "Cross-tokenizer distillation (ULD / GOLD)",
           "description": "Aligning teacher and student tokens by visible text spans and merging probabilities so a Qwen teacher can distill into a Llama student despite different vocabularies.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -632,7 +632,7 @@
           "name": "Stored completions",
           "description": "OpenAI/Azure feature (store=true) that logs prompt-response pairs from a teacher model into a dataset that can be evaluated or used to fine-tune a smaller model.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -640,7 +640,7 @@
           "name": "Teacher correction",
           "description": "Fine-tuning the teacher on the distillation corpus first so its distribution matches the transfer set; NVIDIA used 94B tokens for Minitron and torchtune found a LoRA-tuned teacher lowers KD loss.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -648,7 +648,7 @@
           "name": "Prune-and-distill (Minitron)",
           "description": "Remove layers (depth) or hidden/MLP width from a larger model, then recover accuracy by distilling from the original; yields model families with far fewer training tokens.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -656,7 +656,7 @@
           "name": "Rejection sampling",
           "description": "Keeping only teacher traces whose final answers verify (exact match for math, unit tests for code) before SFT; used by Sky-T1, Bespoke-Stratos and Open-R1.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -664,7 +664,7 @@
           "name": "QLoRA",
           "description": "LoRA adapters on a 4-bit-quantized base model; the reason a 7B student can be trained in ~5 GB of VRAM.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -672,7 +672,7 @@
           "name": "Draft model / EAGLE-3",
           "description": "A tiny model or head trained to predict the target model's tokens for speculative decoding; a form of distillation whose success metric is acceptance length, not benchmark score.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -680,7 +680,7 @@
           "name": "Budget forcing",
           "description": "s1's test-time trick of appending 'Wait' or forcing an end-of-thinking token to control reasoning length in a distilled model.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -688,7 +688,7 @@
           "name": "Data synthesis (Bedrock)",
           "description": "Bedrock's proprietary prompt augmentation that can expand a distillation set to at most 15k prompt-response pairs, billed at the teacher's on-demand rate.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         },
         {
@@ -696,7 +696,7 @@
           "name": "Evaluation harness",
           "description": "A framework (lm-eval-harness, lighteval, evalchemy) that runs standardized benchmarks so a distilled student can be compared with its teacher and with published baselines.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/developer#glossary"
+            "@id": "https://global-distillation.com/developer#glossary"
           }
         }
       ]

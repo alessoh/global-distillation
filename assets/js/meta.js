@@ -10,7 +10,7 @@
 //
 // Everything here is best-effort: metadata must never break the page.
 
-const ORIGIN = 'https://global-distillation.vercel.app';
+const ORIGIN = 'https://global-distillation.com';
 
 const routeFromHash = () => {
   const id = (location.hash || '').replace(/^#\/?/, '').split('/')[0];

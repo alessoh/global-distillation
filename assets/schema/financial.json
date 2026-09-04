@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/financial#webpage",
-      "url": "https://global-distillation.vercel.app/financial",
+      "@id": "https://global-distillation.com/financial#webpage",
+      "url": "https://global-distillation.com/financial",
       "name": "The economics of AI distillation: prices, training costs, and the market shocks",
       "description": "Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/financial#breadcrumb"
+        "@id": "https://global-distillation.com/financial#breadcrumb"
       },
       "dateModified": "2026-09-03"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/financial#breadcrumb",
+      "@id": "https://global-distillation.com/financial#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Financial",
-          "item": "https://global-distillation.vercel.app/financial"
+          "item": "https://global-distillation.com/financial"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/financial#article",
+      "@id": "https://global-distillation.com/financial#article",
       "headline": "The economics of AI distillation: prices, training costs, and the market shocks",
       "name": "The economics of AI distillation: prices, training costs, and the market shocks",
       "description": "Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars.",
       "articleBody": "Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars. That asymmetry is now visible in published price lists, where the gap between a vendor's flagship and its small tier runs 10x to 42x on output tokens, and in the research record, where Sky-T1-32B was distilled for under $450 and s1-32B for a reported ~$50. It became a macro event on 27 January 2025, when DeepSeek-R1 and its six open-weight distilled students wiped $589B off Nvidia's market capitalisation in a single session - the largest one-day loss in stock-market history - and it became a policy event in February 2026 when OpenAI told the House Select Committee on China that DeepSeek was running obfuscated distillation pipelines against its models. The counter-trend matters too: Epoch AI measures inference prices for a fixed capability level falling 9x-900x per year, which compresses the payback on self-hosting a distilled model to the point where, on our own TCO model, a single-GPU deployment only beats Claude Haiku 4.5 above ~658M output tokens a month and never beats the cheapest serverless open-model endpoints.",
       "articleSection": "Financial",
-      "url": "https://global-distillation.vercel.app/financial",
+      "url": "https://global-distillation.com/financial",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/financial#webpage"
+        "@id": "https://global-distillation.com/financial#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-03",
       "dateModified": "2026-09-03",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/financial.json#dataset",
+      "@id": "https://global-distillation.com/data/financial.json#dataset",
       "name": "The economics of AI distillation: prices, training costs, and the market shocks",
       "description": "Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars. That asymmetry is now visible in published price lists, where the gap between a vendor's flagship and its small tier runs 10x to 42x on output tokens, and in the research record, where Sky-T1-32B was distilled for under $450 and s1-32B for a reported ~$50. It became a macro event on 27 January 2025, when DeepSeek-R1 and its six open-weight distilled students wiped $589B off Nvidia's market capitalisation in a single session - the largest one-day loss in stock-market history - and it became a policy event in February 2026 when OpenAI told the House Select Committee on China that DeepSeek was running obfuscated distillation pipelines against its models.",
-      "url": "https://global-distillation.vercel.app/financial",
+      "url": "https://global-distillation.com/financial",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-03",
       "temporalCoverage": "2024-10-01/2026-09-03",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "financial.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/financial.json"
+          "contentUrl": "https://global-distillation.com/data/financial.json"
         }
       ],
       "variableMeasured": [
@@ -597,9 +597,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/financial#glossary",
+      "@id": "https://global-distillation.com/financial#glossary",
       "name": "The economics of AI distillation: prices, training costs, and the market shocks — glossary",
-      "url": "https://global-distillation.vercel.app/financial#glossary",
+      "url": "https://global-distillation.com/financial#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -608,7 +608,7 @@
           "name": "MTok",
           "description": "One million tokens. The standard unit for LLM API pricing. Input and output tokens are billed at different rates, with output typically 4-5x more expensive.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -616,7 +616,7 @@
           "name": "Blended cost per MTok",
           "description": "A single price figure for a workload with a known input:output ratio. For a 4:1 ratio, blended cost per million output tokens = 4 x input price + output price. Used throughout the TCO tables here.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -624,7 +624,7 @@
           "name": "Teacher API cost",
           "description": "The money paid to a frontier vendor for the inference calls that generate a distillation corpus. Usually the dominant cash cost of a distillation project, larger than the student fine-tune itself.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -632,7 +632,7 @@
           "name": "Amortised training cost",
           "description": "Epoch AI's accounting method: hardware depreciation plus energy over the final training run. Produces figures roughly half those of cloud-rental accounting, which charges the full market rate for every chip-hour.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -640,7 +640,7 @@
           "name": "Cloud-rental accounting",
           "description": "Costing a training run at the price of renting equivalent GPUs on the open market. Used by the Stanford AI Index. Gives $78M for GPT-4 where Epoch's amortised method gives ~$40M.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -648,7 +648,7 @@
           "name": "Marginal training cost",
           "description": "The GPU-hour bill for a single successful run, excluding R&D, failed runs, data acquisition, staff and infrastructure. DeepSeek's $5.6M and $294,000 figures are both marginal costs.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -656,7 +656,7 @@
           "name": "Provisioned Throughput",
           "description": "AWS Bedrock's committed-capacity billing mode, charged hourly per Model Unit. Custom and distilled models on Bedrock can only be served this way, which imposes a fixed monthly floor regardless of volume.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -664,7 +664,7 @@
           "name": "Prompt caching",
           "description": "Charging a reduced rate for repeated prompt prefixes. Anthropic charges 1.25x base input to write a 5-minute cache and 0.1x to read it (0.025x on Fable 5.1 and Mythos 5.1), which can cut effective input cost by up to 90%.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -672,7 +672,7 @@
           "name": "Batch API discount",
           "description": "A 50% reduction on both input and output tokens for asynchronous processing, offered by both OpenAI and Anthropic. Applies to distillation-corpus generation, halving the teacher-query bill.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -680,7 +680,7 @@
           "name": "Peak/off-peak pricing",
           "description": "Time-of-day API pricing, introduced by DeepSeek on 16 August 2026. Peak hours (01:00-04:00 and 06:00-10:00 UTC) cost double the off-peak rate; 17 of 24 hours remain off-peak.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -688,7 +688,7 @@
           "name": "LLMflation",
           "description": "a16z's term for the ~10x-per-year fall in inference cost at a fixed capability level. Epoch AI measures the same phenomenon at 9x-900x per year across six benchmarks, median near 50x.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -696,7 +696,7 @@
           "name": "Breakeven volume",
           "description": "The monthly token volume at which a fixed-cost self-hosted deployment becomes cheaper than a per-token API. Rises as API prices fall, which is why the case for owning inference has weakened even as distillation has got easier.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -704,7 +704,7 @@
           "name": "Cost-of-theft asymmetry",
           "description": "The gap between what it costs to create a capability and what it costs to copy it. For frontier LLMs the ratio is roughly 10^3 to 10^5, because behavioural cloning requires only API access and modest fine-tuning compute.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -712,7 +712,7 @@
           "name": "Model extraction attack",
           "description": "Recovering structural parameters of a black-box model through API queries alone. Carlini et al. recovered the full projection matrix of ada and babbage for under $20 and estimated under $2,000 for gpt-3.5-turbo.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -720,7 +720,7 @@
           "name": "Neocloud",
           "description": "A GPU-specialist cloud provider (Together AI, Fireworks, CoreWeave, RunPod, Vast.ai) that undercuts hyperscalers on GPU-hour pricing. H100 on-demand rates run ~$1.73-$4.00/hr at neoclouds vs $4.00-$8.00 at AWS, GCP and Azure.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         },
         {
@@ -728,7 +728,7 @@
           "name": "Student / teacher",
           "description": "In distillation, the small model being trained (student) and the large model whose outputs it learns from (teacher). Financially: the student is the asset you own, the teacher is the line item on your API bill.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/financial#glossary"
+            "@id": "https://global-distillation.com/financial#glossary"
           }
         }
       ]

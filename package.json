@@ -17,7 +17,7 @@
   "devDependencies": {
     "playwright": "^1.47.0"
   },
-  "homepage": "https://global-distillation.vercel.app",
+  "homepage": "https://global-distillation.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/alessoh/global-distillation.git"

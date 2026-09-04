@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/company#webpage",
-      "url": "https://global-distillation.vercel.app/company",
+      "@id": "https://global-distillation.com/company#webpage",
+      "url": "https://global-distillation.com/company",
       "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/company#breadcrumb"
+        "@id": "https://global-distillation.com/company#breadcrumb"
       },
       "dateModified": "2026-09-03"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/company#breadcrumb",
+      "@id": "https://global-distillation.com/company#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Company",
-          "item": "https://global-distillation.vercel.app/company"
+          "item": "https://global-distillation.com/company"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/company#article",
+      "@id": "https://global-distillation.com/company#article",
       "headline": "Company view of AI distillation: who uses it, who sells it, who polices it",
       "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
       "articleBody": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation. The same companies police distillation of their own outputs through terms-of-service clauses - OpenAI, Anthropic, Google, xAI and Cohere all bar training competing models - and the dispute escalated from OpenAI's January 2025 claims against DeepSeek to Anthropic's February 2026 report of 24,000 fraudulent accounts, its June 2026 letter to the Senate Banking Committee alleging a 28.8-million-interaction campaign by Alibaba, and White House memorandum NSTM-4 in April 2026.",
       "articleSection": "Company",
-      "url": "https://global-distillation.vercel.app/company",
+      "url": "https://global-distillation.com/company",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/company#webpage"
+        "@id": "https://global-distillation.com/company#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-03",
       "dateModified": "2026-09-03",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/company.json#dataset",
+      "@id": "https://global-distillation.com/data/company.json#dataset",
       "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation.",
-      "url": "https://global-distillation.vercel.app/company",
+      "url": "https://global-distillation.com/company",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-03",
       "temporalCoverage": "2024-05-14/2026-10-15",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "company.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/company.json"
+          "contentUrl": "https://global-distillation.com/data/company.json"
         }
       ],
       "variableMeasured": [
@@ -565,9 +565,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/company#glossary",
+      "@id": "https://global-distillation.com/company#glossary",
       "name": "Company view of AI distillation: who uses it, who sells it, who polices it — glossary",
-      "url": "https://global-distillation.vercel.app/company#glossary",
+      "url": "https://global-distillation.com/company#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -576,7 +576,7 @@
           "name": "Knowledge distillation (KD)",
           "description": "Training a smaller student model to match a larger teacher's output distribution (soft targets / logits) rather than only ground-truth labels; introduced by Hinton et al. 2015 and cited by Gemma 2, Gemma 3 and Llama 3.2 reports.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -584,7 +584,7 @@
           "name": "Strong-to-weak distillation",
           "description": "Qwen3's term for training its 0.6B-30B models from Qwen3-235B-A22B / Qwen3-32B teachers, first off-policy (on teacher outputs) then on-policy (student samples scored by teacher logits).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -592,7 +592,7 @@
           "name": "On-policy distillation",
           "description": "The student generates its own sequences and is corrected by the teacher's token-level distribution, fixing train/inference mismatch (Agarwal et al. GKD; implemented in Hugging Face TRL's GKDTrainer).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -600,7 +600,7 @@
           "name": "Codistillation",
           "description": "Meta's term for training Llama 4 Maverick and Scout concurrently with the Behemoth teacher, using a loss that dynamically weights soft and hard targets.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -608,7 +608,7 @@
           "name": "Cascade distillation",
           "description": "Mistral's iterative loop of pruning a parent model (Mistral Small 3.1) and continuing training with a distillation loss to produce Ministral 3 3B/8B/14B.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -616,7 +616,7 @@
           "name": "Prune-and-distill (Minitron)",
           "description": "NVIDIA's recipe: structured width/depth pruning of a trained model followed by KD to recover accuracy with far fewer tokens (e.g. 94B vs 15T).",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -624,7 +624,7 @@
           "name": "k-sparse teacher distribution",
           "description": "Google's approximation in Gemini 2.5 that stores only the top-k teacher probabilities per token to make distillation storage tractable.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -632,7 +632,7 @@
           "name": "Stored completions",
           "description": "OpenAI / Azure feature that logs production prompt-response pairs (store=true) so they can be filtered into a fine-tuning dataset for a smaller model.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -640,7 +640,7 @@
           "name": "Distillation attack",
           "description": "Industry term (Anthropic, OpenAI, Google, White House) for unauthorised large-scale querying of a proprietary model, often via fraudulent accounts or proxies, to harvest outputs for training a competitor.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -648,7 +648,7 @@
           "name": "Chain-of-thought (CoT) extraction",
           "description": "Eliciting a model's reasoning traces to use as training targets; OpenAI now trains models 'not to reveal reasoning traces' and Google summarises them to blunt this.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -656,7 +656,7 @@
           "name": "Anti-competing-model clause",
           "description": "ToS language (OpenAI, Anthropic, Google, xAI, Cohere) forbidding use of outputs or services to build competing models; the primary legal basis for distillation disputes.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -664,7 +664,7 @@
           "name": "Modified MIT license",
           "description": "Open-weight license used by Moonshot (Kimi K2) and MiniMax that keeps MIT permissions but adds an attribution requirement above 100M MAU or $20M monthly revenue.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -672,7 +672,7 @@
           "name": "Frontier Model Forum (FMF)",
           "description": "Non-profit founded by OpenAI, Anthropic, Google and Microsoft in 2023, used from April 2026 to share distillation-attack intelligence.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         },
         {
@@ -680,7 +680,7 @@
           "name": "NSTM-4",
           "description": "April 2026 White House national security memorandum committing the US government to share intelligence on foreign distillation campaigns and explore accountability measures.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/company#glossary"
+            "@id": "https://global-distillation.com/company#glossary"
           }
         }
       ]

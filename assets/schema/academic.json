@@ -3,20 +3,20 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://global-distillation.vercel.app/#website",
-      "url": "https://global-distillation.vercel.app/",
+      "@id": "https://global-distillation.com/#website",
+      "url": "https://global-distillation.com/",
       "name": "Global Distillation",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://global-distillation.vercel.app/?q={search_term_string}"
+          "urlTemplate": "https://global-distillation.com/?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -26,13 +26,13 @@
         "Organization",
         "Project"
       ],
-      "@id": "https://global-distillation.vercel.app/#org",
+      "@id": "https://global-distillation.com/#org",
       "name": "Global Distillation",
-      "url": "https://global-distillation.vercel.app/",
+      "url": "https://global-distillation.com/",
       "description": "How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/favicon.svg"
+        "url": "https://global-distillation.com/assets/favicon.svg"
       },
       "sameAs": [
         "https://github.com/alessoh/global-distillation"
@@ -40,14 +40,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://global-distillation.vercel.app/academic#webpage",
-      "url": "https://global-distillation.vercel.app/academic",
+      "@id": "https://global-distillation.com/academic#webpage",
+      "url": "https://global-distillation.com/academic",
       "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations).",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "about": {
         "@type": "Thing",
@@ -56,59 +56,59 @@
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://global-distillation.vercel.app/assets/og.png",
+        "url": "https://global-distillation.com/assets/og.png",
         "width": 1200,
         "height": 630
       },
       "breadcrumb": {
-        "@id": "https://global-distillation.vercel.app/academic#breadcrumb"
+        "@id": "https://global-distillation.com/academic#breadcrumb"
       },
       "dateModified": "2026-09-04"
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://global-distillation.vercel.app/academic#breadcrumb",
+      "@id": "https://global-distillation.com/academic#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Global Distillation",
-          "item": "https://global-distillation.vercel.app/"
+          "item": "https://global-distillation.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Academic",
-          "item": "https://global-distillation.vercel.app/academic"
+          "item": "https://global-distillation.com/academic"
         }
       ]
     },
     {
       "@type": "Report",
-      "@id": "https://global-distillation.vercel.app/academic#article",
+      "@id": "https://global-distillation.com/academic#article",
       "headline": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
       "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations).",
       "articleBody": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). For a decade the literature organised itself along three axes — what is transferred (response/logit, feature, relation), how the teacher is available (white-box logits vs black-box text), and when the student samples (offline, online, self) — with BERT-era students such as DistilBERT, TinyBERT and MobileBERT retaining 96.8-99.2% of teacher quality at 1.7-7.5x smaller size (DistilBERT is 40% smaller; TinyBERT 7.5x, MobileBERT 4.3x). The January 2025 release of the DeepSeek-R1-Distill series turned distillation from a compression tool into the default way to transfer reasoning: an 800k-trace SFT run on Qwen2.5-32B reached AIME 2024 pass@1 of 72.6 versus 47.0 for large-scale RL applied to the same base model, and triggered a wave of ultra-cheap replications (Sky-T1 at under $450, s1 at 1,000 samples and ~7 H100-hours, LIMO at 817 samples, Bespoke-Stratos at 17k).",
       "articleSection": "Academic",
-      "url": "https://global-distillation.vercel.app/academic",
+      "url": "https://global-distillation.com/academic",
       "mainEntityOfPage": {
-        "@id": "https://global-distillation.vercel.app/academic#webpage"
+        "@id": "https://global-distillation.com/academic#webpage"
       },
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "datePublished": "2026-09-04",
       "dateModified": "2026-09-04",
       "isPartOf": {
-        "@id": "https://global-distillation.vercel.app/#website"
+        "@id": "https://global-distillation.com/#website"
       },
       "author": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
-      "image": "https://global-distillation.vercel.app/assets/og.png",
+      "image": "https://global-distillation.com/assets/og.png",
       "about": {
         "@type": "Thing",
         "name": "Knowledge distillation"
@@ -368,30 +368,30 @@
     },
     {
       "@type": "Dataset",
-      "@id": "https://global-distillation.vercel.app/data/academic.json#dataset",
+      "@id": "https://global-distillation.com/data/academic.json#dataset",
       "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). For a decade the literature organised itself along three axes — what is transferred (response/logit, feature, relation), how the teacher is available (white-box logits vs black-box text), and when the student samples (offline, online, self) — with BERT-era students such as DistilBERT, TinyBERT and MobileBERT retaining 96.8-99.2% of teacher quality at 1.7-7.5x smaller size (DistilBERT is 40% smaller; TinyBERT 7.5x, MobileBERT 4.3x). The January 2025 release of the DeepSeek-R1-Distill series turned distillation from a compression tool into the default way to transfer reasoning: an 800k-trace SFT run on Qwen2.5-32B reached AIME 2024 pass@1 of 72.6 versus 47.0 for large-scale RL applied to the same base model, and triggered a wave of ultra-cheap replications (Sky-T1 at under $450, s1 at 1,000 samples and ~7 H100-hours, LIMO at 817 samples, Bespoke-Stratos at 17k).",
-      "url": "https://global-distillation.vercel.app/academic",
+      "url": "https://global-distillation.com/academic",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "creator": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "publisher": {
-        "@id": "https://global-distillation.vercel.app/#org"
+        "@id": "https://global-distillation.com/#org"
       },
       "dateModified": "2026-09-04",
       "temporalCoverage": "2006-08-20/2026-09-04",
       "includedInDataCatalog": {
-        "@id": "https://global-distillation.vercel.app/data/#catalog"
+        "@id": "https://global-distillation.com/data/#catalog"
       },
       "distribution": [
         {
           "@type": "DataDownload",
           "name": "academic.json",
           "encodingFormat": "application/json",
-          "contentUrl": "https://global-distillation.vercel.app/data/academic.json"
+          "contentUrl": "https://global-distillation.com/data/academic.json"
         }
       ],
       "variableMeasured": [
@@ -534,9 +534,9 @@
     },
     {
       "@type": "DefinedTermSet",
-      "@id": "https://global-distillation.vercel.app/academic#glossary",
+      "@id": "https://global-distillation.com/academic#glossary",
       "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer — glossary",
-      "url": "https://global-distillation.vercel.app/academic#glossary",
+      "url": "https://global-distillation.com/academic#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
       "hasDefinedTerm": [
@@ -545,7 +545,7 @@
           "name": "Knowledge distillation (KD)",
           "description": "Training a compact 'student' model to reproduce the behaviour of a larger 'teacher' model, using the teacher's outputs as the training signal instead of, or alongside, ground-truth labels.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -553,7 +553,7 @@
           "name": "Soft targets / dark knowledge",
           "description": "The teacher's full probability distribution over classes or tokens. The relative probabilities assigned to wrong answers encode similarity structure that one-hot labels throw away — Hinton's term for this is 'dark knowledge'.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -561,7 +561,7 @@
           "name": "Temperature (T)",
           "description": "A divisor applied to logits before the softmax. Higher T flattens the distribution, exposing more of the teacher's relative ordering over low-probability classes. Gradients are typically rescaled by T-squared to keep loss magnitudes comparable.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -569,7 +569,7 @@
           "name": "Response-based / logit distillation",
           "description": "Transferring only the teacher's output distribution. The original and still most common form; requires white-box access to logits.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -577,7 +577,7 @@
           "name": "Feature-based distillation",
           "description": "Matching the student's intermediate activations to the teacher's, usually through a learned projection. Introduced by FitNets as 'hints'.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -585,7 +585,7 @@
           "name": "Relation-based distillation",
           "description": "Transferring the structure between examples — pairwise distances, angles or attention relations — rather than per-example outputs. Relational KD and CRD are the canonical examples.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -593,7 +593,7 @@
           "name": "Sequence-level KD",
           "description": "For generative models, training on complete teacher-generated output sequences treated as hard targets, rather than matching per-token distributions. Kim & Rush, 2016.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -601,7 +601,7 @@
           "name": "White-box vs black-box distillation",
           "description": "White-box distillation needs the teacher's internal logits or activations, so it requires open weights. Black-box distillation uses only the teacher's sampled text, so it works through any API — which is why it dominates the reasoning-distillation literature and why it raises terms-of-service questions.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -609,7 +609,7 @@
           "name": "Offline, online and self-distillation",
           "description": "The three sampling regimes. Offline uses a fixed pretrained teacher; online trains teacher and student together (or trains peers mutually); self-distillation uses the model's own earlier checkpoint or a stronger-context version of itself as the teacher.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -617,7 +617,7 @@
           "name": "On-policy distillation",
           "description": "The student generates the trajectories and the teacher scores each token of the student's own output. Combines RL's on-policy distribution match with distillation's dense per-token signal; the dominant frontier post-training technique of 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -625,7 +625,7 @@
           "name": "Exposure bias",
           "description": "The mismatch between training on the teacher's perfect prefixes and generating your own at inference, so early errors compound. The 2026 on-policy distillation survey argues the resulting error scales roughly with the square of sequence length.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -633,7 +633,7 @@
           "name": "Forward vs reverse KL",
           "description": "Forward KL (teacher-to-student) is mode-covering: the student spreads probability mass over regions the teacher rarely visits, which produces plausible-sounding but unsupported generations. Reverse KL (student-to-teacher) is mode-seeking: the student concentrates on regions the teacher genuinely supports. MiniLLM made reverse KL standard for generative distillation.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -641,7 +641,7 @@
           "name": "Capacity gap",
           "description": "The observation that a teacher can be too strong for a given student: beyond some size ratio, distillation quality degrades rather than improves. Identified by Cho & Hariharan (2019) and revisited for chain-of-thought distillation in 2026.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -649,7 +649,7 @@
           "name": "Chain-of-thought (CoT) distillation",
           "description": "Training a small model on the teacher's step-by-step reasoning traces rather than only its final answers. The mechanism behind Distilling Step-by-Step, Orca, and the entire DeepSeek-R1-Distill wave.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -657,7 +657,7 @@
           "name": "Rationale distillation",
           "description": "A multi-task variant of CoT distillation in which the student is trained to predict both the label and a natural-language rationale, treating the rationale as auxiliary supervision rather than as the output format.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -665,7 +665,7 @@
           "name": "Pruning + distillation",
           "description": "Structurally removing width, depth, attention heads or MLP channels from a trained model, then using the original model as a teacher to recover the lost accuracy. NVIDIA's Minitron and Meta's Llama 3.2 1B/3B both use this pattern.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -673,7 +673,7 @@
           "name": "Draft-model distillation",
           "description": "Aligning a small 'draft' model to a large target model so that speculative decoding accepts more of the draft's proposed tokens. DistillSpec reports 10-45% speedups over standard speculative decoding.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -681,7 +681,7 @@
           "name": "Dataset distillation",
           "description": "Compressing a training set rather than a model: synthesising a tiny set of examples (sometimes one image per class) that trains a network to near-full accuracy. A separate lineage from model distillation, starting with Wang et al. 2018.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -689,7 +689,7 @@
           "name": "Cross-tokenizer distillation",
           "description": "Transferring logit-level knowledge between models with incompatible vocabularies, via optimal-transport losses (ULD), approximate likelihood matching, byte-level interfaces, or learned projection matrices.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -697,7 +697,7 @@
           "name": "Distillation degree",
           "description": "A quantitative estimate of how heavily a model was trained on another model's outputs, measured in the ACL 2025 framework by Response Similarity Evaluation and Identity Consistency Evaluation.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -705,7 +705,7 @@
           "name": "Model collapse",
           "description": "The irreversible loss of distribution tails when generative models are recursively trained on generated data. Established for LLMs, VAEs and Gaussian mixtures by Shumailov et al. in Nature (2024); the structural risk that a distillation-dominated ecosystem runs.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         },
         {
@@ -713,14 +713,14 @@
           "name": "Budget forcing",
           "description": "A test-time control introduced by s1 that either terminates the model's thinking early or extends it by appending 'Wait', letting a distilled student trade compute for accuracy without retraining.",
           "inDefinedTermSet": {
-            "@id": "https://global-distillation.vercel.app/academic#glossary"
+            "@id": "https://global-distillation.com/academic#glossary"
           }
         }
       ]
     },
     {
       "@type": "FAQPage",
-      "@id": "https://global-distillation.vercel.app/academic#faq",
+      "@id": "https://global-distillation.com/academic#faq",
       "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer — questions answered on this page",
       "mainEntity": [
         {

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T20:21:49.184Z",
+  "updated": "2026-09-04T20:45:23.458Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5372,
@@ -340,7 +340,7 @@
         "repo": "huggingface/trl",
         "stars": 19223,
         "forks": 2958,
-        "pushedAt": "2026-09-04T20:13:52Z",
+        "pushedAt": "2026-09-04T20:35:51Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -375,7 +375,7 @@
         "repo": "unslothai/unsloth",
         "stars": 75621,
         "forks": 6872,
-        "pushedAt": "2026-09-04T20:06:59Z",
+        "pushedAt": "2026-09-04T20:33:54Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
@@ -387,16 +387,16 @@
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 90974,
-        "forks": 21709,
-        "pushedAt": "2026-09-04T20:18:13Z",
+        "stars": 90975,
+        "forks": 21710,
+        "pushedAt": "2026-09-04T20:42:01Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 35467,
+        "stars": 35469,
         "forks": 8555,
-        "pushedAt": "2026-09-04T19:52:31Z",
+        "pushedAt": "2026-09-04T20:32:42Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {

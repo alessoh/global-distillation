@@ -2,7 +2,7 @@
 
 **A public compendium of AI model distillation — how frontier intelligence is compressed, priced and contested.**
 
-Live: **https://global-distillation.vercel.app**
+Live: **https://global-distillation.com**
 
 Distillation moves capability from a large teacher model into a small, cheap student. It is
 the quiet engine behind most models people actually pay for, the subject of an open dispute
@@ -61,9 +61,9 @@ The site is generated from JSON files that are free to fetch, quote and cite wit
 The schema is documented in [`data/SCHEMA.md`](data/SCHEMA.md).
 
 ```bash
-curl https://global-distillation.vercel.app/data/library.json    # 27 distillation methods
-curl https://global-distillation.vercel.app/data/customer.json   # 74 models compared
-curl https://global-distillation.vercel.app/data/live.json       # today's live signals
+curl https://global-distillation.com/data/library.json    # 27 distillation methods
+curl https://global-distillation.com/data/customer.json   # 74 models compared
+curl https://global-distillation.com/data/live.json       # today's live signals
 ```
 
 `llms.txt` at the site root indexes every page and data file for language models and research
