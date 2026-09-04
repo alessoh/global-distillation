@@ -943,8 +943,9 @@ function buildOption(spec, opts) {
  * Named crossings, drawn on the plot. A chart whose headline asks "when does
  * self-hosting win?" has to show where the answer is; stating the three
  * crossing volumes in the footnote leaves the chart itself mute. The labels
- * alternate above and below the line so three marks on one horizontal never
- * collide, whatever the plot is wide.
+ * alternate above and below the line, and same-side neighbours also alternate
+ * distance, so three marks on one horizontal never collide however narrow the
+ * plot is.
  */
 function crossMarks(marks, dateX) {
   return {
@@ -953,7 +954,8 @@ function crossMarks(marks, dateX) {
     data: marks.map((m, i) => ({
       coord: [dateX ? dateValue(m.x) : m.x, m.y],
       label: {
-        show: true, position: m.position || (i % 2 ? 'bottom' : 'top'), distance: 8,
+        show: true, position: m.position || (i % 2 ? 'bottom' : 'top'),
+        distance: isNum(m.distance) ? m.distance : 8,
         color: INK, fontSize: 10.5, lineHeight: 13, align: m.align || 'center',
         backgroundColor: 'rgba(255,255,255,.92)', padding: [2, 4], borderRadius: 3,
         formatter: String(m.text || ''),
@@ -1778,8 +1780,8 @@ function sectionNav(items) {
     // A 25,000px page needs a way back as much as a way down. It is a sibling
     // of the bar rather than an item in it: the two sticky bars already take
     // 105px off an 844px phone and this must not make it a third row.
-    '<button type="button" class="totop" data-scroll-top="1" hidden>' +
-    '<span aria-hidden="true">↑</span> Top</button>';
+    '<button type="button" class="totop" data-scroll-top="1" hidden aria-label="Back to the top of this page">' +
+    '<span aria-hidden="true">↑</span><span class="totop__t">Top</span></button>';
 }
 
 /**
@@ -2796,10 +2798,23 @@ function tcoBreakeven(c) {
     for (const s of styled) for (const p of s.data) if (isNum(p.x) && p.x > 0) xs.push(p.x);
     const lo = Math.log10(Math.min(...xs));
     const hi = Math.log10(Math.max(...xs));
+    // Alternating sides alone is not enough. On a log volume axis the 132M and
+    // 658M crossings are 0.23 of the domain apart, which is ~69px at 390 — less
+    // than one label wide — so both "top" labels overprinted each other into
+    // "13(2M) vs O(vs Haiku 4.5)". Same-side neighbours are now also a
+    // label-height apart vertically, which separates them at any plot width.
+    const SLOTS = [
+      { position: 'top', distance: 8 },
+      { position: 'bottom', distance: 8 },
+      { position: 'bottom', distance: 42 },
+      { position: 'top', distance: 42 },
+    ];
     marks.forEach((m, i) => {
       const f = hi > lo ? (Math.log10(m.x) - lo) / (hi - lo) : 0.5;
       m.text = fmtShort(Math.round(m.x)) + 'M' + String.fromCharCode(10) + 'vs ' + m.name;
-      m.position = i % 2 ? 'bottom' : 'top';
+      const slot = SLOTS[i % SLOTS.length];
+      m.position = slot.position;
+      m.distance = slot.distance;
       if (f > 0.84) m.align = 'right';
       else if (f < 0.16) m.align = 'left';
     });

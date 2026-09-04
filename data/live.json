@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T22:27:24.062Z",
+  "updated": "2026-09-04T23:28:39.998Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5372,
@@ -178,7 +178,7 @@
     ]
   },
   "huggingface": {
-    "distillModels": 16329,
+    "distillModels": 16330,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
@@ -299,7 +299,7 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 7067963,
-        "likes": 1127,
+        "likes": 1128,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
@@ -338,7 +338,7 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19223,
+        "stars": 19224,
         "forks": 2958,
         "pushedAt": "2026-09-04T21:53:29Z",
         "url": "https://github.com/huggingface/trl"
@@ -373,9 +373,9 @@
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 75624,
+        "stars": 75625,
         "forks": 6872,
-        "pushedAt": "2026-09-04T22:22:29Z",
+        "pushedAt": "2026-09-04T23:27:55Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
@@ -387,16 +387,16 @@
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 90979,
-        "forks": 21712,
-        "pushedAt": "2026-09-04T22:13:58Z",
+        "stars": 90981,
+        "forks": 21713,
+        "pushedAt": "2026-09-04T23:23:04Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
         "stars": 35476,
-        "forks": 8557,
-        "pushedAt": "2026-09-04T22:22:31Z",
+        "forks": 8558,
+        "pushedAt": "2026-09-04T23:17:44Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {

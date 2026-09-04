@@ -638,6 +638,18 @@ function balanceColumns(table) {
   for (let i = 0; i < n; i += 1) {
     const label = cellText(headRow.cells[i]);
     headWord[i] = label.split(/\s+/).reduce((m, w) => Math.max(m, w.length), 0);
+    // A figure is an unbreakable token in exactly the way a header word is: a
+    // numeric column narrower than its longest value cannot wrap it, so the
+    // value is painted over the column beside it ("1,600,000,000" landing on
+    // "~50,000 Hopper GPUs"). Floor those columns at their widest figure.
+    if (headRow.cells[i].classList.contains('num')) {
+      for (const tr of rows) {
+        if (!tr.cells[i]) continue;
+        for (const tok of cellText(tr.cells[i]).split(/\s+/)) {
+          if (/\d/.test(tok)) headWord[i] = Math.max(headWord[i], tok.length);
+        }
+      }
+    }
     let sum = label.length * 0.6;
     for (const tr of rows) sum += tr.cells[i] ? cellText(tr.cells[i]).length : 0;
     avg[i] = sum / (rows.length + 0.6);

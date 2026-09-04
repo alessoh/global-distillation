@@ -1307,6 +1307,14 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: var(--s-6) 0; }
   margin-top: 2px;
 }
 
+/* The qualifier under a figure is a word, not a figure: it inherited the
+   numeric cell's nowrap and printed "LiveCodeBench" across its two neighbours
+   on /compare at 390px. The figure itself still never breaks. */
+.table td.num .cell__sub,
+.table td.num > small,
+.table td[data-type="number"] .cell__sub,
+.table td[data-type="number"] > small { white-space: normal; }
+
 .table th.num, .table td.num,
 .table th[data-type="number"], .table td[data-type="number"] {
   text-align: right;
@@ -3906,6 +3914,14 @@ html { scroll-padding-top: 76px; }
   word-break: normal;
   hyphens: none;
 }
+/* A numeric header is still a header. `.table th.num` (0,2,1) sets nowrap for
+   the figures, and outranked the rule above, so on the sortable tables only the
+   `.table__sort` button inside wrapped. The chart "Show data" tables carry no
+   sort button, so their headers kept nowrap, hit the 22ch cap below and painted
+   over the column beside them ("Claude Haiku 4.5 (vendor small tier)" across
+   two neighbours). Figures in the body still never break. */
+.table thead th.num,
+.table thead th[data-type="number"] { white-space: normal; }
 /* Two lines is a header; four is a paragraph standing on its column. */
 .table thead th { max-width: 22ch; }
 .table thead th:first-child { max-width: none; }
@@ -4144,6 +4160,8 @@ html { scroll-padding-top: 76px; }
   .table-scroll::before,
   .table-scroll::after { width: 24px; }
   .table-scroll__hint { padding-inline: var(--s-4); }
-
+  /* On a 390px column a labelled pill covers the line it floats over. */
+  .totop { padding: 10px; right: var(--s-3); bottom: var(--s-3); font-size: 13px; }
+  .totop__t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .kpi > .kpi__note { min-height: 0; }
 }
