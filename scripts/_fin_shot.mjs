@@ -1,0 +1,17 @@
+import { chromium } from 'playwright';
+const argv = process.argv.slice(2);
+const url = argv[0], out = argv[1];
+const opt = (k,d)=>{const i=argv.indexOf(k);return i>=0?argv[i+1]:d;};
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport:{width:Number(opt('--width',1440)),height:Number(opt('--height',900))}, deviceScaleFactor:1 });
+const logs=[];
+page.on('console',m=>{if(['error','warning'].includes(m.type()))logs.push(`[${m.type()}] ${m.text().slice(0,300)}`)});
+page.on('pageerror',e=>logs.push(`[pageerror] ${e.message.slice(0,300)}`));
+page.on('requestfailed',r=>logs.push(`[requestfailed] ${r.url()} ${r.failure()?.errorText}`));
+await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000}).catch(e=>logs.push(`[goto] ${e.message}`));
+await page.waitForTimeout(Number(opt('--wait',2500)));
+console.log('scrollHeight', await page.evaluate(()=>document.documentElement.scrollHeight));
+await page.screenshot({path:out, fullPage:argv.includes('--full'), timeout:120000, animations:'disabled'}).catch(e=>logs.push('[shot] '+e.message));
+console.log('saved '+out);
+console.log(logs.length?logs.slice(0,40).join('\n'):'no console errors');
+await browser.close();

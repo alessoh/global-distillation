@@ -1,9 +1,17 @@
 # Daily refresh of data/live.json (arXiv, Hugging Face, GitHub, Hacker News signals).
 #
-# Deployment note: this workflow never talks to Vercel. The site is deployed through
-# Vercel's Git integration, which watches the `main` branch of this repo. Pushing the
-# refreshed data/live.json to main is enough to trigger a new production deployment,
-# so no VERCEL_TOKEN or deploy step is needed here.
+# Deployment: there are two supported paths, and the workflow handles both.
+#
+#   1. Vercel Git integration (preferred, zero secrets). If the Vercel project is
+#      connected to this repository in the Vercel dashboard, the push below is
+#      enough: Vercel redeploys on every push to main and the deploy step here is
+#      skipped automatically because VERCEL_TOKEN is not set.
+#
+#   2. Token deploy (fallback, used when the Git integration is not connected).
+#      Add three repository secrets - VERCEL_TOKEN, VERCEL_ORG_ID and
+#      VERCEL_PROJECT_ID - and the deploy step below pushes the refreshed site to
+#      production with the Vercel CLI. The org and project ids are in
+#      .vercel/project.json; create the token at vercel.com/account/tokens.
 name: Daily data refresh
 
 on:
@@ -21,6 +29,12 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # Job-level env so the deploy step's `if:` can read it. A step cannot test
+    # env that it defines itself.
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -44,5 +58,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(data): daily refresh $(date -u +%Y-%m-%d)"
-          # Pushing to main triggers Vercel's Git integration to redeploy the site.
+          # With the Git integration connected, this push alone redeploys the site.
           git push origin HEAD:main
+
+      - name: Deploy to Vercel
+        # Only runs when the Git integration is not connected and a token is set.
+        # `secrets` cannot be read in an `if:` on its own, so it is passed through env.
+        if: ${{ env.VERCEL_TOKEN != '' }}
+        run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
