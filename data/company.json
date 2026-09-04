@@ -1,0 +1,976 @@
+{
+  "perspective": "company",
+  "title": "Company view of AI distillation: who uses it, who sells it, who polices it",
+  "updated": "2026-09-03",
+  "summary": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher, and DeepSeek shipped six R1-Distill models under an MIT license that expressly permits further distillation. Four hyperscalers turned the technique into a product (OpenAI Model Distillation, Oct 2024; Azure OpenAI stored completions; Amazon Bedrock Model Distillation, GA May 2025; Google Vertex distillation, early access 2026), while open-source toolkits from Hugging Face (TRL GKD) and Arcee (DistillKit) commoditised it. The same companies police distillation of their own outputs through terms-of-service clauses (OpenAI: 'use Output to develop models that compete with OpenAI'; Anthropic: 'train competing AI models'; Google: 'develop models that compete with the Services'; xAI: 'distilling'), and 2025-2026 saw the dispute escalate from OpenAI's January 2025 claims against DeepSeek to Anthropic's February 2026 report of 24,000 fraudulent accounts and 16 million exchanges by DeepSeek, Moonshot and MiniMax, a June 2026 accusation that Alibaba ran the largest attack yet (25,000 accounts, 28.8 million interactions), and a White House memorandum (NSTM-4, April 2026) committing the US government to intelligence-sharing against 'industrial-scale' distillation. The result is a bifurcated industry: closed-weight labs that sell distillation only within their own model families and treat cross-lab distillation as IP theft, and open-weight labs (DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA, Hugging Face) whose licenses explicitly invite it.",
+  "stats": [
+    {
+      "label": "Fraudulent accounts in Anthropic's Feb 2026 report",
+      "value": 24000,
+      "unit": "accounts",
+      "delta": "16M+ exchanges",
+      "note": "DeepSeek, Moonshot AI and MiniMax combined; MiniMax alone drove 13M+ exchanges",
+      "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks"
+    },
+    {
+      "label": "Largest single distillation attack reported (Alibaba/Qwen on Claude)",
+      "value": 28800000,
+      "unit": "interactions",
+      "delta": "25,000 accounts in ~6 weeks",
+      "note": "Per White House OSTP director Kratsios and Anthropic's June 2026 letter to the Senate; Alibaba banned Claude Code internally two weeks later",
+      "source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+    },
+    {
+      "label": "Companies profiled that ship distilled models",
+      "value": 17,
+      "unit": "of 18",
+      "delta": "5 also sell distillation as a service",
+      "note": "Only Cohere has not publicly described a distilled model; OpenAI, Microsoft/Azure, Amazon, Google and NVIDIA sell distillation tooling",
+      "source": "https://arxiv.org/html/2507.06261v1/"
+    },
+    {
+      "label": "Companies with explicit anti-distillation / anti-competing-model ToS clauses",
+      "value": 5,
+      "unit": "companies",
+      "delta": "OpenAI, Anthropic, Google, xAI, Cohere",
+      "note": "Versus 8 companies whose open-weight licenses (MIT / Apache-2.0 / modified MIT) permit derivative distillation",
+      "source": "https://ai.google.dev/gemini-api/terms"
+    },
+    {
+      "label": "GPU-hour savings of on-policy distillation vs RL (Qwen3-8B)",
+      "value": 10,
+      "unit": "x fewer",
+      "delta": "1,800 vs 17,920 GPU hours",
+      "note": "Qwen3 technical report Table 21; distilled model also scored higher on AIME'24 (74.4 vs 67.6)",
+      "source": "https://arxiv.org/html/2505.09388v1"
+    },
+    {
+      "label": "Training tokens saved by prune-and-distill (NVIDIA Minitron)",
+      "value": 40,
+      "unit": "x fewer",
+      "delta": "94B tokens vs 15T for teacher",
+      "note": "Llama-3.1-Minitron 4B produced from Llama 3.1 8B; 1.8x compute saving to train a model family",
+      "source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/"
+    },
+    {
+      "label": "Output price gap, flagship vs nano tier (OpenAI GPT-5 vs GPT-5-nano)",
+      "value": 25,
+      "unit": "x cheaper",
+      "delta": "$10.00 vs $0.40 per 1M output tokens",
+      "note": "OpenAI does not disclose training method for mini/nano tiers; pricing from OpenAI API pricing page",
+      "source": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "label": "Distillation-as-a-service products from hyperscalers",
+      "value": 4,
+      "unit": "products",
+      "delta": "Oct 2024 to 2026",
+      "note": "OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions + distillation (2024), Amazon Bedrock Model Distillation (preview Dec 2024, GA May 2025), Google Vertex Gemini distillation (early access 2026)",
+      "source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available"
+    }
+  ],
+  "keyFindings": [
+    {
+      "title": "Distillation is now the default way every lab builds its small models",
+      "detail": "Google's Gemini 2.5 report states plainly that 'the smaller models in the Gemini 2.5 series — Flash size and below — use distillation', and Gemma 2 and Gemma 3 are trained with knowledge distillation rather than plain next-token prediction. Meta pruned Llama 3.1 8B and distilled logits from 8B/70B to make Llama 3.2 1B/3B, then co-distilled Llama 4 Maverick from Behemoth. Qwen3, Ministral 3, Apple's on-device 3B, NVIDIA's Minitron/Nemotron Nano and DeepSeek's R1-Distill series all document the same pattern in their technical reports.",
+      "audience": ["developer", "customer", "academic"],
+      "sources": [
+        "https://arxiv.org/html/2507.06261v1/",
+        "https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+        "https://arxiv.org/html/2505.09388v1",
+        "https://arxiv.org/abs/2507.13575"
+      ]
+    },
+    {
+      "title": "Labs report distillation beats RL on cost and often on quality",
+      "detail": "Qwen3's ablation shows on-policy distillation lifting Qwen3-8B to 74.4 on AIME'24 versus 67.6 for RL, using 1,800 rather than 17,920 GPU hours. DeepSeek reports that R1-Distill-Qwen-32B (72.6 AIME'24) beats OpenAI o1-mini (63.6) with SFT-only distillation and no RL stage. NVIDIA reports up to 40x fewer training tokens and Mistral reports Ministral 3 trained on 1-3T tokens versus 15-36T for comparable Qwen 3 / Llama 3 models.",
+      "audience": ["developer", "financial", "academic"],
+      "sources": [
+        "https://arxiv.org/html/2505.09388v1",
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/",
+        "https://www.deeplearning.ai/the-batch/mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/"
+      ]
+    },
+    {
+      "title": "Closed labs sell distillation, but only inside their own model family",
+      "detail": "OpenAI's Model Distillation (stored completions + evals + fine-tuning, Oct 2024) lets customers distill GPT-4o/o1-preview into GPT-4o mini; Azure mirrors it; Amazon Bedrock distills Nova Premier into Nova Pro/Lite/Micro, Claude 3.5 Sonnet v2 and Llama 3.3 70B into Llama 3.2 1B/3B; Google's Vertex early-access service distills Gemini 3.1 Pro into Gemini 2.5 Flash. In every case the student must be a model the vendor hosts, so distillation revenue stays on-platform. Notably OpenAI's docs now say it is 'winding down the fine-tuning platform' for new users, and Azure retires stored completions on 2026-10-15.",
+      "audience": ["developer", "customer", "financial"],
+      "sources": [
+        "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html",
+        "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available",
+        "https://developers.openai.com/api/docs/guides/supervised-fine-tuning",
+        "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions"
+      ]
+    },
+    {
+      "title": "Terms of service, not copyright, are the main legal lever against cross-lab distillation",
+      "detail": "OpenAI forbids using 'Output to develop models that compete with OpenAI'; Anthropic's commercial terms bar access 'to build a competing product or service, including to train competing AI models'; Google's Gemini API terms say 'You may not use the Services to develop models that compete with the Services'; xAI's terms list 'distilling' among prohibited acts; Cohere bars use 'for the purpose of building a similar or competitive product or service'. Meta's Llama 4 license takes the opposite approach: derivative models are allowed but must carry 'Llama' at the start of their name.",
+      "audience": ["political", "customer", "developer"],
+      "sources": [
+        "https://openai.com/policies/row-terms-of-use/",
+        "https://www.anthropic.com/legal/commercial-terms",
+        "https://ai.google.dev/gemini-api/terms",
+        "https://developer.meta.com/ai/llama4/license/"
+      ]
+    },
+    {
+      "title": "Open-weight labs explicitly invite distillation in their licenses",
+      "detail": "DeepSeek-R1's model card states the series 'allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs' under MIT. Qwen3, Mistral 3/Ministral 3 and SmolLM3 ship under Apache 2.0; Kimi K2 and MiniMax M2 use a modified MIT that only adds an attribution requirement above 100M MAU or $20M monthly revenue; NVIDIA releases Nemotron under its Open Model License and even lists the teacher models (DeepSeek-R1, GPT-OSS-120B, Qwen) used to synthesise 3.5T of its 10.6T pre-training tokens.",
+      "audience": ["developer", "library", "academic"],
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE",
+        "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16",
+        "https://mistral.ai/news/mistral-3/"
+      ]
+    },
+    {
+      "title": "The accusation cycle escalated from one lab to a US government policy in 15 months",
+      "detail": "OpenAI first alleged DeepSeek distillation in January 2025; the House Select Committee on the CCP's April 2025 report called it 'highly likely'. In February 2026 OpenAI told the committee DeepSeek used 'obfuscated third-party routers' and Anthropic published per-lab exchange counts (DeepSeek 150K, Moonshot 3.4M, MiniMax 13M). By April 2026 OpenAI, Anthropic and Google were sharing threat intelligence through the Frontier Model Forum and the White House issued NSTM-4 calling the campaigns 'deliberate, industrial-scale'. In July 2026 OSTP director Kratsios accused Moonshot of distilling Anthropic's Fable model to build Kimi K3.",
+      "audience": ["political", "financial"],
+      "sources": [
+        "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/",
+        "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+      ]
+    },
+    {
+      "title": "Defensive measures now shape products: ownership bans, hidden fingerprints, CoT hiding",
+      "detail": "Anthropic barred entities more than 50% owned by companies in unsupported regions in September 2025, citing that they 'could also potentially use our models to advance their own AI development through techniques like distillation'. OpenAI's memo describes classifiers for 'reinforcement learning-style grading behavior', models 'trained not to reveal reasoning traces', and account bans. Anthropic admitted a March 2026 Claude Code 'experiment' that embedded identifying markers to protect against distillation; Alibaba responded by banning Claude Code for staff from 10 July 2026.",
+      "audience": ["customer", "developer", "political"],
+      "sources": [
+        "https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions",
+        "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
+        "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/"
+      ]
+    },
+    {
+      "title": "Accused labs have not answered, and an illicit reseller market has emerged",
+      "detail": "As of the Feb 2026 reports, DeepSeek, Moonshot and MiniMax had not responded to Anthropic's allegations; Moonshot did not respond to the July 2026 K3 claim. OpenAI's memo says Chinese companies 'rely on networks of unauthorized resellers of OpenAI's services to evade our platform's controls', and on 3 September 2026 Anthropic's head of threat intelligence Jacob Klein described 'an entire illicit ecosystem' on the dark web spinning up accounts at scale. Meanwhile Qwen and Zhipu were conspicuously absent from Anthropic's February list, before Alibaba was named in June.",
+      "audience": ["political", "financial", "customer"],
+      "sources": [
+        "https://www.latent.space/p/ainews-anthropic-accuses-deepseek",
+        "https://www.cnbc.com/2026/09/03/anthropic-distillation-battle-turns-to-dark-web-china-concerns-swell.html",
+        "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "company-matrix",
+      "title": "Company distillation matrix: uses, sells, bans, accused, accuser",
+      "description": "One row per company profiled. 'Bans' means the company's ToS or license restricts using its outputs to train competing models. 'Accused' and 'Accuser' refer to public distillation disputes as of 2026-09-03.",
+      "columns": [
+        { "key": "company", "label": "Company", "type": "text" },
+        { "key": "hq", "label": "HQ", "type": "text" },
+        { "key": "uses", "label": "Uses distillation (documented)", "type": "text" },
+        { "key": "sells", "label": "Sells distillation tooling", "type": "text" },
+        { "key": "bans", "label": "Bans distillation of its outputs", "type": "text" },
+        { "key": "accused", "label": "Publicly accused", "type": "text" },
+        { "key": "accuser", "label": "Public accuser", "type": "text" },
+        { "key": "openWeights", "label": "Open weights", "type": "text" },
+        { "key": "stance", "label": "Stance", "type": "text" }
+      ],
+      "rows": [
+        { "company": "OpenAI", "hq": "US", "uses": "Undisclosed (mini/nano tiers presumed; sells GPT-4o->4o-mini distillation)", "sells": "Yes (Model Distillation, Oct 2024)", "bans": "Yes", "accused": "No", "accuser": "Yes (DeepSeek, Jan 2025 and Feb 2026)", "openWeights": "gpt-oss only", "stance": "restrictive", "_source": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0" },
+        { "company": "Anthropic", "hq": "US", "uses": "Undisclosed (Haiku lineage)", "sells": "Via Amazon Bedrock (Claude 3.5 Sonnet v2 as teacher)", "bans": "Yes", "accused": "No", "accuser": "Yes (DeepSeek, Moonshot, MiniMax, Alibaba)", "openWeights": "No", "stance": "restrictive", "_source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+        { "company": "Google DeepMind", "hq": "US", "uses": "Yes (Gemini Flash/Flash-Lite, Gemma 2/3)", "sells": "Yes (Vertex distillation, early access 2026)", "bans": "Yes", "accused": "No", "accuser": "Partial (reported 'distillation attacks' on Gemini; joined FMF intel sharing)", "openWeights": "Gemma", "stance": "restrictive", "_source": "https://arxiv.org/html/2507.06261v1/" },
+        { "company": "Meta", "hq": "US", "uses": "Yes (Llama 3.2 1B/3B, Llama 4 Maverick/Scout)", "sells": "No (teacher on Bedrock)", "bans": "No, but derivative must be named 'Llama...'", "accused": "No", "accuser": "No", "openWeights": "Yes (Llama license)", "stance": "mixed", "_source": "https://developer.meta.com/ai/llama4/license/" },
+        { "company": "DeepSeek", "hq": "China", "uses": "Yes (R1-Distill-Qwen/Llama, six models)", "sells": "No", "bans": "No (MIT, distillation expressly allowed)", "accused": "Yes (OpenAI 2025/2026, House report 2025, Anthropic 2026, Gemini-similarity claims 2025)", "accuser": "No", "openWeights": "Yes (MIT)", "stance": "permissive", "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1" },
+        { "company": "Alibaba (Qwen)", "hq": "China", "uses": "Yes (Qwen3 strong-to-weak distillation)", "sells": "No", "bans": "No (Apache 2.0)", "accused": "Yes (Anthropic, June 2026: 'largest known distillation attack')", "accuser": "No (banned Claude Code internally July 2026)", "openWeights": "Yes (Apache 2.0)", "stance": "permissive", "_source": "https://arxiv.org/html/2505.09388v1" },
+        { "company": "Microsoft", "hq": "US", "uses": "Yes (Phi family distilled from GPT-4; Phi-4-reasoning from o3-mini traces)", "sells": "Yes (Azure OpenAI stored completions + distillation)", "bans": "Azure OpenAI inherits OpenAI-style restrictions; Phi is MIT", "accused": "No", "accuser": "No (FMF founding member)", "openWeights": "Phi (MIT)", "stance": "mixed", "_source": "https://arxiv.org/abs/2412.08905" },
+        { "company": "NVIDIA", "hq": "US", "uses": "Yes (Minitron, Nemotron Nano 2, Nemotron 3 Nano)", "sells": "Yes (NeMo pruning/distillation recipes, TensorRT-LLM)", "bans": "No (Nemotron Open Model License)", "accused": "No", "accuser": "No", "openWeights": "Yes", "stance": "permissive", "_source": "https://arxiv.org/abs/2508.14444" },
+        { "company": "Amazon (AWS)", "hq": "US", "uses": "Undisclosed for Nova tiers", "sells": "Yes (Bedrock Model Distillation, GA May 2025)", "bans": "Undisclosed (AWS service terms)", "accused": "No", "accuser": "No", "openWeights": "No", "stance": "mixed", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+        { "company": "Mistral AI", "hq": "France", "uses": "Yes (Ministral 3 via cascade distillation from Mistral Small 3.1)", "sells": "No", "bans": "No (Apache 2.0 for Mistral 3 family)", "accused": "No", "accuser": "No", "openWeights": "Yes", "stance": "permissive", "_source": "https://arxiv.org/abs/2601.08584" },
+        { "company": "Hugging Face", "hq": "US/France", "uses": "Yes (SmolLM3 synthetic traces from Qwen3-32B; OpenR1-Distill-7B from DeepSeek-R1)", "sells": "Open-source tooling (TRL GKDTrainer, open-r1)", "bans": "No (Apache 2.0)", "accused": "No", "accuser": "No", "openWeights": "Yes", "stance": "permissive", "_source": "https://github.com/huggingface/open-r1" },
+        { "company": "Arcee AI", "hq": "US", "uses": "Yes (1.5B student from 7B Arcee-Agent; AFM-4.5B)", "sells": "Open-source DistillKit (Apache 2.0)", "bans": "No", "accused": "No", "accuser": "No", "openWeights": "Yes", "stance": "permissive", "_source": "https://github.com/arcee-ai/DistillKit" },
+        { "company": "xAI", "hq": "US", "uses": "Undisclosed (Grok mini/fast tiers; Grok 4 Fast described as RL, not distillation)", "sells": "No", "bans": "Yes ('distilling' listed as prohibited)", "accused": "No", "accuser": "No", "openWeights": "Older Grok-1 only", "stance": "restrictive", "_source": "https://x.ai/legal/terms-of-service" },
+        { "company": "Moonshot AI (Kimi)", "hq": "China", "uses": "Undisclosed", "sells": "No", "bans": "No (modified MIT)", "accused": "Yes (Anthropic Feb 2026: 3.4M exchanges; White House July 2026: K3 distilled from Anthropic)", "accuser": "No", "openWeights": "Yes", "stance": "mixed", "_source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/" },
+        { "company": "MiniMax", "hq": "China", "uses": "Undisclosed", "sells": "No", "bans": "No (modified MIT)", "accused": "Yes (Anthropic Feb 2026: 13M+ exchanges, largest of the three)", "accuser": "No", "openWeights": "Yes", "stance": "mixed", "_source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+        { "company": "Zhipu AI (Z.ai)", "hq": "China", "uses": "Partial (GLM-4.5 'expert model iteration' post-training)", "sells": "No", "bans": "No (MIT)", "accused": "No (explicitly not named by Anthropic)", "accuser": "No", "openWeights": "Yes", "stance": "permissive", "_source": "https://www.latent.space/p/ainews-anthropic-accuses-deepseek" },
+        { "company": "Apple", "hq": "US", "uses": "Yes (3B on-device model distilled from 64-expert MoE teacher)", "sells": "No", "bans": "N/A (no public API for its foundation models)", "accused": "No", "accuser": "No", "openWeights": "No", "stance": "mixed", "_source": "https://arxiv.org/abs/2507.13575" },
+        { "company": "Cohere", "hq": "Canada", "uses": "Not publicly described (Command A uses self-refinement and model merging)", "sells": "No", "bans": "Yes ('building a similar or competitive product or service')", "accused": "No", "accuser": "No", "openWeights": "Command R7B (CC-BY-NC)", "stance": "restrictive", "_source": "https://cohere.com/terms-of-use" }
+      ],
+      "notes": "Stance: restrictive = closed weights plus ToS ban on training competing models; permissive = open weights with license expressly allowing derivatives; mixed = open weights with conditions, or closed weights without a public ban, or an accused open-weight lab.",
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
+        "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html"
+      ]
+    },
+    {
+      "id": "distilled-lineage",
+      "title": "Distilled model lineage: teacher to student, as documented by the companies",
+      "description": "Only pairs that the releasing company (or its technical report) describes as distillation. Alleged cross-lab distillation is in the disputes table instead.",
+      "columns": [
+        { "key": "company", "label": "Company", "type": "text" },
+        { "key": "teacher", "label": "Teacher", "type": "text" },
+        { "key": "student", "label": "Student", "type": "text" },
+        { "key": "student_params_b", "label": "Student params (B)", "type": "number", "unit": "B" },
+        { "key": "method", "label": "Method", "type": "text" },
+        { "key": "release", "label": "Release", "type": "text" }
+      ],
+      "rows": [
+        { "company": "Google", "teacher": "Gemini 1.5 Pro", "student": "Gemini 1.5 Flash", "student_params_b": null, "method": "Distillation ('trained by 1.5 Pro through a process called distillation')", "release": "2024-05", "_source": "https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/" },
+        { "company": "Google", "teacher": "Larger Gemma 2 / undisclosed", "student": "Gemma 2 2B, 9B", "student_params_b": 9, "method": "KD instead of next-token prediction (Hinton et al.)", "release": "2024-07", "_source": "https://arxiv.org/abs/2408.00118" },
+        { "company": "Arcee AI", "teacher": "Arcee-Agent 7B", "student": "1.5B-Distilled", "student_params_b": 1.5, "method": "Logit + hidden-state distillation (DistillKit v0.1)", "release": "2024-08", "_source": "https://arcee.ai/blog/announcing-distillkit/" },
+        { "company": "NVIDIA", "teacher": "Llama 3.1 8B", "student": "Llama-3.1-Minitron 4B (width / depth)", "student_params_b": 4, "method": "Structured pruning + logit KD on 94B tokens", "release": "2024-08", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+        { "company": "NVIDIA", "teacher": "Mistral NeMo 12B", "student": "Mistral-NeMo-Minitron 8B", "student_params_b": 8, "method": "Pruning + KD (Minitron)", "release": "2024-08", "_source": "https://arxiv.org/abs/2408.11796" },
+        { "company": "Meta", "teacher": "Llama 3.1 8B and 70B (logits)", "student": "Llama 3.2 1B, 3B", "student_params_b": 3, "method": "Single-shot structured pruning from 8B + logit KD in pre-training", "release": "2024-09", "_source": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/" },
+        { "company": "OpenAI (customer-run)", "teacher": "GPT-4o, o1-preview", "student": "GPT-4o mini (fine-tuned)", "student_params_b": null, "method": "Stored completions -> evals -> SFT (Model Distillation API)", "release": "2024-10", "_source": "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html" },
+        { "company": "Microsoft", "teacher": "GPT-4", "student": "Phi-1 / Phi-2 / Phi-3 family", "student_params_b": 14, "method": "Synthetic 'textbook' data ('largely distill the capabilities of a teacher model (specifically GPT-4)')", "release": "2023-2024", "_source": "https://arxiv.org/abs/2412.08905" },
+        { "company": "DeepSeek", "teacher": "DeepSeek-R1 (671B MoE)", "student": "R1-Distill-Qwen 1.5B/7B/14B/32B; R1-Distill-Llama 8B/70B", "student_params_b": 70, "method": "SFT on ~800K R1 reasoning samples, 2-3 epochs, no RL", "release": "2025-01", "_source": "https://arxiv.org/abs/2501.12948" },
+        { "company": "Google", "teacher": "Undisclosed large teacher; 'large IT teacher' for post-training", "student": "Gemma 3 1B/4B/12B/27B", "student_params_b": 27, "method": "KD sampling 256 logits per token; 2T/4T/12T/14T tokens", "release": "2025-03", "_source": "https://arxiv.org/html/2503.19786v1" },
+        { "company": "Meta", "teacher": "Llama 4 Behemoth (~2T total, 288B active)", "student": "Llama 4 Maverick (400B total, 17B active); Scout", "student_params_b": 400, "method": "Codistillation with dynamically weighted soft/hard targets", "release": "2025-04", "_source": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/" },
+        { "company": "Microsoft", "teacher": "OpenAI o3-mini (reasoning traces)", "student": "Phi-4-reasoning 14B", "student_params_b": 14, "method": "SFT on o3-mini demonstrations + RL", "release": "2025-04", "_source": "https://arxiv.org/abs/2504.21318" },
+        { "company": "Hugging Face", "teacher": "DeepSeek-R1", "student": "OpenR1-Distill-7B", "student_params_b": 7, "method": "SFT on Mixture-of-Thoughts (350K traces)", "release": "2025-05", "_source": "https://github.com/huggingface/open-r1" },
+        { "company": "Alibaba", "teacher": "Qwen3-235B-A22B and Qwen3-32B", "student": "Qwen3 0.6B/1.7B/4B/8B/14B, 30B-A3B", "student_params_b": 30, "method": "Strong-to-weak: off-policy response distillation, then on-policy logit KL", "release": "2025-05", "_source": "https://arxiv.org/html/2505.09388v1" },
+        { "company": "Google", "teacher": "Larger Gemini 2.5 models", "student": "Gemini 2.5 Flash, Flash-Lite", "student_params_b": null, "method": "Distillation with k-sparse teacher distribution", "release": "2025-06", "_source": "https://arxiv.org/html/2507.06261v1/" },
+        { "company": "Hugging Face", "teacher": "Qwen3-32B (synthetic reasoning traces)", "student": "SmolLM3 3B", "student_params_b": 3, "method": "Synthetic data generation + SFT + APO", "release": "2025-07", "_source": "https://huggingface.co/blog/smollm3" },
+        { "company": "Apple", "teacher": "64-expert sparse-upcycled MoE (from 14T-token dense model)", "student": "On-device ~3B model", "student_params_b": 3, "method": "Distillation loss for last 10% (~1.4T) of tokens; teacher cost cut 90%", "release": "2025-07", "_source": "https://arxiv.org/abs/2507.13575" },
+        { "company": "NVIDIA", "teacher": "Nemotron-Nano-12B-v2-Base (20T tokens)", "student": "Nemotron-Nano-9B-v2", "student_params_b": 9, "method": "Minitron pruning + distillation", "release": "2025-08", "_source": "https://arxiv.org/abs/2508.14444" },
+        { "company": "Mistral AI", "teacher": "Mistral Small 3.1 (24B)", "student": "Ministral 3 3B/8B/14B", "student_params_b": 14, "method": "Cascade distillation: iterative pruning + continued training with distillation (1-3T tokens)", "release": "2025-12", "_source": "https://arxiv.org/abs/2601.08584" },
+        { "company": "NVIDIA", "teacher": "DeepSeek-R1, GPT-OSS-120B, Qwen models (synthetic)", "student": "Nemotron 3 Nano 30B-A3B", "student_params_b": 30, "method": "~3.5T of 10.6T pre-training tokens synthesised from teachers", "release": "2025-12", "_source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16" },
+        { "company": "Amazon (customer-run)", "teacher": "Nova Premier; Claude 3.5 Sonnet v2; Llama 3.3 70B", "student": "Nova Pro/Lite/Micro; Llama 3.2 1B/3B", "student_params_b": 3, "method": "Bedrock synthetic data generation + fine-tuning", "release": "2025-05", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+        { "company": "Google (customer-run)", "teacher": "Gemini 3.1 Pro", "student": "Gemini 2.5 Flash (custom)", "student_params_b": null, "method": "Vertex distillation service (pre-GA, allowlist)", "release": "2026-07", "_source": "https://runtimewire.com/article/google-cloud-page-describes-gemini-distillation-service-but-its-release-status-i" }
+      ],
+      "notes": "Parameter counts for Gemini and GPT tiers are undisclosed. Phi row uses Phi-4's 14B as representative size; the Phi-4 report says phi-4 itself 'substantially surpasses its teacher model'.",
+      "sources": [
+        "https://arxiv.org/html/2507.06261v1/",
+        "https://arxiv.org/abs/2501.12948",
+        "https://arxiv.org/html/2505.09388v1"
+      ]
+    },
+    {
+      "id": "tos-clauses",
+      "title": "Terms-of-service and license clauses governing distillation",
+      "description": "Brief verbatim quotes from each company's governing document, with effective/last-updated date where the page states it.",
+      "columns": [
+        { "key": "company", "label": "Company", "type": "text" },
+        { "key": "document", "label": "Document", "type": "text" },
+        { "key": "clause", "label": "Clause (quoted)", "type": "text" },
+        { "key": "effect", "label": "Effect on distillation", "type": "text" },
+        { "key": "date", "label": "Date", "type": "text" }
+      ],
+      "rows": [
+        { "company": "OpenAI", "document": "Terms of Use (ROW)", "clause": "\"use Output to develop models that compete with OpenAI\" (listed under what you cannot do)", "effect": "Prohibited for competing models; OpenAI's own Distillation API is the sanctioned path", "date": "current", "_source": "https://openai.com/policies/row-terms-of-use/" },
+        { "company": "Anthropic", "document": "Commercial Terms of Service, D.4", "clause": "\"access the Services to build a competing product or service, including to train competing AI models or resell the Services\"", "effect": "Prohibited", "date": "2025-06-17", "_source": "https://www.anthropic.com/legal/commercial-terms" },
+        { "company": "Anthropic", "document": "Consumer Terms of Service, s.3", "clause": "\"To develop any products or services that compete with our Services, including to develop or train any artificial intelligence or machine learning algorithms or models\"", "effect": "Prohibited", "date": "2025-10-08", "_source": "https://www.anthropic.com/legal/consumer-terms" },
+        { "company": "Google", "document": "Gemini API Additional Terms, Use Restrictions", "clause": "\"You may not use the Services to develop models that compete with the Services (e.g., Gemini API or Google AI Studio)\"", "effect": "Prohibited; also bars extracting 'parameter weights'", "date": "2026-04-28", "_source": "https://ai.google.dev/gemini-api/terms" },
+        { "company": "xAI", "document": "Terms of Service - Consumer", "clause": "Prohibits \"distilling\" the Service and using \"the Service or Output to develop models or services that compete with xAI\"", "effect": "Prohibited (distillation named explicitly)", "date": "2026-09-01", "_source": "https://x.ai/legal/terms-of-service" },
+        { "company": "Cohere", "document": "Terms of Use, s.14(12)", "clause": "\"for the purpose of building a similar or competitive product or service\"", "effect": "Prohibited", "date": "2022-09-07", "_source": "https://cohere.com/terms-of-use" },
+        { "company": "Meta", "document": "Llama 4 Community License", "clause": "\"If you use the Llama Materials or any outputs ... to create, train, fine tune, or otherwise improve an AI model ... you shall also include 'Llama' at the beginning of any such AI model name\"", "effect": "Allowed with naming + 'Built with Llama' attribution; >700M MAU needs a license", "date": "2025-04-05", "_source": "https://developer.meta.com/ai/llama4/license/" },
+        { "company": "DeepSeek", "document": "DeepSeek-R1 model card (MIT)", "clause": "\"allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs\"", "effect": "Expressly allowed", "date": "2025-01", "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1" },
+        { "company": "Alibaba (Qwen)", "document": "Qwen3 model cards", "clause": "Apache 2.0", "effect": "Allowed", "date": "2025-05", "_source": "https://huggingface.co/Qwen/Qwen3-235B-A22B" },
+        { "company": "Moonshot AI", "document": "Kimi K2 Modified MIT License", "clause": "\"more than 100 million monthly active users, or more than 20 million US dollars ... in monthly revenue, you shall prominently display 'Kimi K2'\"", "effect": "Allowed with attribution above thresholds", "date": "2025-07", "_source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE" },
+        { "company": "MiniMax", "document": "MiniMax-M2 model card", "clause": "License: modified-mit", "effect": "Allowed", "date": "2025", "_source": "https://huggingface.co/MiniMaxAI/MiniMax-M2" },
+        { "company": "Mistral AI", "document": "Mistral 3 release", "clause": "\"All models are released under the Apache 2.0 license\"", "effect": "Allowed", "date": "2025-12-02", "_source": "https://mistral.ai/news/mistral-3/" },
+        { "company": "NVIDIA", "document": "NVIDIA Nemotron Open Model License", "clause": "Open model license; model card lists teacher models used for synthetic data", "effect": "Allowed", "date": "2025-12-15", "_source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16" },
+        { "company": "Microsoft", "document": "Phi-4-mini model card", "clause": "MIT license", "effect": "Allowed for Phi weights; Azure OpenAI service outputs governed separately", "date": "2025-02", "_source": "https://huggingface.co/microsoft/Phi-4-mini-instruct" },
+        { "company": "Hugging Face", "document": "SmolLM3 / TRL", "clause": "Apache 2.0", "effect": "Allowed; TRL ships GKDTrainer for on-policy distillation", "date": "2025-07-08", "_source": "https://huggingface.co/blog/smollm3" },
+        { "company": "Cohere Labs", "document": "Command R7B model card", "clause": "CC-BY-NC plus Acceptable Use Policy", "effect": "Non-commercial derivatives only", "date": "2024-12", "_source": "https://huggingface.co/CohereLabs/c4ai-command-r7b-12-2024" },
+        { "company": "Amazon", "document": "AWS Service Terms (Bedrock)", "clause": "undisclosed", "effect": "Distillation sold in-platform; cross-platform terms not verified", "date": "undisclosed", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" }
+      ],
+      "notes": "OpenAI's and xAI's ToS pages returned HTTP 403 to automated fetching; OpenAI's clause is corroborated by third-party legal commentary and xAI's by search-index text. Quotes are kept under 25 words.",
+      "sources": [
+        "https://ospo.co/blog/be-careful-with-openais-terms-of-use/",
+        "https://www.anthropic.com/legal/commercial-terms",
+        "https://ai.google.dev/gemini-api/terms"
+      ]
+    },
+    {
+      "id": "distillation-products",
+      "title": "Distillation products and toolkits offered by companies",
+      "description": "Commercial services and open-source tools that let third parties run distillation.",
+      "columns": [
+        { "key": "product", "label": "Product", "type": "text" },
+        { "key": "vendor", "label": "Vendor", "type": "text" },
+        { "key": "launched", "label": "Launched", "type": "text" },
+        { "key": "teachers", "label": "Teachers", "type": "text" },
+        { "key": "students", "label": "Students", "type": "text" },
+        { "key": "status", "label": "Status (2026-09)", "type": "text" }
+      ],
+      "rows": [
+        { "product": "Model Distillation (Stored Completions + Evals + Fine-tuning)", "vendor": "OpenAI", "launched": "2024-10-01", "teachers": "GPT-4o, o1-preview, later gpt-4.1", "students": "GPT-4o mini, gpt-4.1-mini", "status": "Docs state fine-tuning platform is 'winding down' for new users", "_source": "https://developers.openai.com/api/docs/guides/supervised-fine-tuning" },
+        { "product": "Stored completions & distillation (Azure OpenAI / Foundry classic)", "vendor": "Microsoft", "launched": "2024", "teachers": "Any Azure OpenAI chat model (e.g. gpt-4o)", "students": "Azure OpenAI fine-tunable models", "status": "Stored completions retire 2026-10-15", "_source": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions" },
+        { "product": "Amazon Bedrock Model Distillation", "vendor": "Amazon", "launched": "2024-12 (preview); 2025-05-01 (GA)", "teachers": "Nova Premier, Claude 3.5 Sonnet v2, Llama 3.3 70B, Llama 3.1 405B", "students": "Nova Pro/Lite/Micro, Llama 3.2 1B/3B, Llama 3.1 70B/8B", "status": "GA; 'up to 500% faster and 75% less expensive ... less than 2% accuracy loss'", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+        { "product": "Gemini distillation (Vertex AI / Gemini Enterprise Agent Platform)", "vendor": "Google", "launched": "2026-07 (docs)", "teachers": "Gemini 3.1 Pro", "students": "Gemini 2.5 Flash", "status": "Pre-GA, allowlist only, no production use", "_source": "https://runtimewire.com/article/google-cloud-page-describes-gemini-distillation-service-but-its-release-status-i" },
+        { "product": "NeMo pruning + distillation (Minitron recipes), TensorRT-LLM", "vendor": "NVIDIA", "launched": "2024-08-14", "teachers": "Llama 3.1 8B, Mistral NeMo 12B, Nemotron 12B", "students": "4B-9B pruned students", "status": "Open recipes; Nemotron Nano 2/3 built with them", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+        { "product": "TRL GKDTrainer (Generalized Knowledge Distillation)", "vendor": "Hugging Face", "launched": "2024", "teachers": "Any HF causal LM", "students": "Any HF causal LM", "status": "Experimental module in TRL v1.12; lmbda/beta/seq_kd controls", "_source": "https://huggingface.co/docs/trl/gkd_trainer" },
+        { "product": "Open R1 (open reproduction of DeepSeek-R1 distillation)", "vendor": "Hugging Face", "launched": "2025-01", "teachers": "DeepSeek-R1", "students": "Qwen2.5-based 1.5B-7B", "status": "OpenR1-Math-220k (Feb 2025), Mixture-of-Thoughts 350K (May 2025)", "_source": "https://github.com/huggingface/open-r1" },
+        { "product": "DistillKit", "vendor": "Arcee AI", "launched": "2024-08-01", "teachers": "Any (online or offline logits)", "students": "Any (cross-architecture via hidden-state loss)", "status": "Apache 2.0; logit compression via polynomial approximation + quantization", "_source": "https://github.com/arcee-ai/DistillKit" }
+      ],
+      "notes": "Every commercial service restricts the student to a model hosted on the same platform.",
+      "sources": [
+        "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html",
+        "https://aws.amazon.com/blogs/aws/build-faster-more-cost-efficient-highly-accurate-models-with-amazon-bedrock-model-distillation-preview/"
+      ]
+    },
+    {
+      "id": "disputes",
+      "title": "Public distillation accusations between companies",
+      "description": "Who accused whom, the evidence disclosed, and the outcome so far.",
+      "columns": [
+        { "key": "date", "label": "Date", "type": "text" },
+        { "key": "accuser", "label": "Accuser", "type": "text" },
+        { "key": "accused", "label": "Accused", "type": "text" },
+        { "key": "exchanges", "label": "Exchanges / queries claimed", "type": "number" },
+        { "key": "accounts", "label": "Accounts claimed", "type": "number" },
+        { "key": "claim", "label": "Claim", "type": "text" },
+        { "key": "outcome", "label": "Outcome", "type": "text" }
+      ],
+      "rows": [
+        { "date": "2025-01", "accuser": "OpenAI", "accused": "DeepSeek", "exchanges": null, "accounts": null, "claim": "DeepSeek distilled OpenAI outputs in violation of ToS; Microsoft flagged API exfiltration", "outcome": "House Select Committee report (April 2025) found it 'highly likely'; no lawsuit", "_source": "https://sites.law.berkeley.edu/thenetwork/2025/03/30/the-innovation-dilemma-ai-distillation-in-openai-v-deepseek/" },
+        { "date": "2025-06-03", "accuser": "Independent researchers (EQ-Bench, SpeechMap)", "accused": "DeepSeek (R1-0528)", "exchanges": null, "accounts": null, "claim": "Outputs stylistically resemble Gemini 2.5 Pro", "outcome": "Suggestive only; Google did not comment", "_source": "https://winbuzzer.com/2025/06/03/is-deepseek-training-its-ai-with-data-from-google-gemini-new-distillation-claims-emerge-xcxwbn/" },
+        { "date": "2026-02-12", "accuser": "OpenAI (memo to House Select Committee)", "accused": "DeepSeek", "exchanges": null, "accounts": null, "claim": "'obfuscated third-party routers', programmatic extraction code, unauthorized reseller networks", "outcome": "Closed-door briefing offered; DeepSeek V4 shipped April-August 2026 regardless", "_source": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0" },
+        { "date": "2026-02-23", "accuser": "Anthropic", "accused": "DeepSeek", "exchanges": 150000, "accounts": null, "claim": "Targeted agentic reasoning, reward modeling and censorship-safe alternatives", "outcome": "No response from DeepSeek", "_source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+        { "date": "2026-02-23", "accuser": "Anthropic", "accused": "Moonshot AI", "exchanges": 3400000, "accounts": null, "claim": "Targeted computer-use agents and vision", "outcome": "No response; later named by White House over Kimi K3", "_source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+        { "date": "2026-02-23", "accuser": "Anthropic", "accused": "MiniMax", "exchanges": 13000000, "accounts": null, "claim": "Agentic coding and tool orchestration; redirected nearly half of traffic to a new Claude model within 24h", "outcome": "No response", "_source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+        { "date": "2026-02-23", "accuser": "Anthropic (aggregate)", "accused": "DeepSeek + Moonshot + MiniMax", "exchanges": 16000000, "accounts": 24000, "claim": "'industrial-scale distillation attacks'", "outcome": "Intel shared with industry and authorities", "_source": "https://cyberscoop.com/anthropic-accuses-chinese-labs-ai-distillation-cyber-risk/" },
+        { "date": "2026-02", "accuser": "Google", "accused": "Unnamed commercial actors", "exchanges": 100000, "accounts": null, "claim": "Gemini targeted by 'distillation attacks' / model extraction; Google classifies it as IP theft", "outcome": "Google joined FMF intel sharing (April 2026)", "_source": "https://techbriefly.com/2026/02/12/google-gemini-targeted-by-massive-distillation-attack-to-clone-ai-logic/" },
+        { "date": "2026-06-24", "accuser": "Anthropic (letter to US Senate)", "accused": "Alibaba (Qwen)", "exchanges": 28800000, "accounts": 25000, "claim": "'the largest known distillation attack' on Anthropic; ~6 weeks (22 April - 5 June)", "outcome": "Alibaba banned Claude Code for staff from 2026-07-10", "_source": "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html" },
+        { "date": "2026-07-22", "accuser": "White House OSTP (Kratsios)", "accused": "Moonshot AI", "exchanges": null, "accounts": null, "claim": "Distilled Anthropic's Fable model to build Kimi K3 ('first open 2.8 trillion parameter model') using an internal platform and GB300 servers", "outcome": "Moonshot did not respond", "_source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/" }
+      ],
+      "notes": "Exchange counts are the accusers' figures and have not been independently verified. The Google figure comes from secondary reporting of a Google threat report that could not be fetched directly.",
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0",
+        "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+      ]
+    },
+    {
+      "id": "efficiency-claims",
+      "title": "Distillation efficiency claims made in company reports",
+      "description": "Quantified benefits each company attributes to distillation, taken from its own technical report or announcement.",
+      "columns": [
+        { "key": "company", "label": "Company", "type": "text" },
+        { "key": "model", "label": "Model", "type": "text" },
+        { "key": "metric", "label": "Metric", "type": "text" },
+        { "key": "distilled", "label": "Distilled", "type": "number" },
+        { "key": "baseline", "label": "Baseline", "type": "number" },
+        { "key": "unit", "label": "Unit", "type": "text" }
+      ],
+      "rows": [
+        { "company": "Alibaba", "model": "Qwen3-8B", "metric": "GPU hours (on-policy distillation vs RL)", "distilled": 1800, "baseline": 17920, "unit": "GPU hours", "_source": "https://arxiv.org/html/2505.09388v1" },
+        { "company": "Alibaba", "model": "Qwen3-8B", "metric": "AIME'24 (on-policy distillation vs RL)", "distilled": 74.4, "baseline": 67.6, "unit": "%", "_source": "https://arxiv.org/html/2505.09388v1" },
+        { "company": "Alibaba", "model": "Qwen3-8B", "metric": "LiveCodeBench (on-policy distillation vs RL)", "distilled": 60.3, "baseline": 52.9, "unit": "%", "_source": "https://arxiv.org/html/2505.09388v1" },
+        { "company": "NVIDIA", "model": "Llama-3.1-Minitron 4B", "metric": "Training tokens (student vs Llama 3.1 8B teacher)", "distilled": 94, "baseline": 15000, "unit": "B tokens", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+        { "company": "NVIDIA", "model": "Llama-3.1-Minitron 4B (width)", "metric": "MMLU (student vs 8B teacher)", "distilled": 60.5, "baseline": 65.3, "unit": "%", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+        { "company": "NVIDIA", "model": "Llama-3.1-Minitron 4B (depth)", "metric": "Throughput vs Llama 3.1 8B (TensorRT-LLM, H100)", "distilled": 2.7, "baseline": 1, "unit": "x", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+        { "company": "Mistral AI", "model": "Ministral 3 (3B-14B)", "metric": "Training tokens vs Qwen 3 / Llama 3 peers (low end)", "distilled": 1000, "baseline": 15000, "unit": "B tokens", "_source": "https://www.deeplearning.ai/the-batch/mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/" },
+        { "company": "Mistral AI", "model": "Ministral 3 14B reasoning", "metric": "AIME 2025 vs Qwen 3 14B Thinking", "distilled": 85, "baseline": 73.7, "unit": "%", "_source": "https://www.deeplearning.ai/the-batch/mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/" },
+        { "company": "Apple", "model": "On-device ~3B", "metric": "Teacher training cost reduction from new pipeline", "distilled": 90, "baseline": 0, "unit": "% saved", "_source": "https://arxiv.org/abs/2507.13575" },
+        { "company": "Amazon", "model": "Bedrock distilled students", "metric": "Latency improvement (up to)", "distilled": 500, "baseline": 100, "unit": "% of baseline speed", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+        { "company": "Amazon", "model": "Bedrock distilled students", "metric": "Cost reduction (up to), accuracy loss <2% for RAG", "distilled": 75, "baseline": 0, "unit": "% cheaper", "_source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+        { "company": "DeepSeek", "model": "R1-Distill-Qwen-32B vs OpenAI o1-mini", "metric": "AIME 2024", "distilled": 72.6, "baseline": 63.6, "unit": "%", "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1" },
+        { "company": "DeepSeek", "model": "R1-Distill-Llama-70B vs OpenAI o1-mini", "metric": "MATH-500", "distilled": 94.5, "baseline": 90.0, "unit": "%", "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1" },
+        { "company": "Hugging Face", "model": "OpenR1-Distill-7B vs DeepSeek-R1-Distill-Qwen-7B (reproduction)", "metric": "AIME 2024", "distilled": 52.7, "baseline": 55.5, "unit": "%", "_source": "https://github.com/huggingface/open-r1" },
+        { "company": "Google", "model": "Gemma 3 4B-IT vs Gemma 2 27B-IT", "metric": "Competitive per report (distillation-trained 4B matches prior 27B)", "distilled": 4, "baseline": 27, "unit": "B params for similar IT quality", "_source": "https://arxiv.org/html/2503.19786v1" },
+        { "company": "NVIDIA", "model": "Nemotron-Nano-9B-v2 vs Qwen3-8B", "metric": "Inference throughput in reasoning settings (up to)", "distilled": 6, "baseline": 1, "unit": "x", "_source": "https://arxiv.org/abs/2508.14444" }
+      ],
+      "notes": "DeepSeek-R1-Distill-Qwen-7B AIME baseline (55.5) is from the DeepSeek-R1 paper as cited by Open R1. Gemma 3 row is qualitative from the report's claim that Gemma3-4B-IT is competitive with Gemma2-27B-IT.",
+      "sources": [
+        "https://arxiv.org/html/2505.09388v1",
+        "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/",
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1"
+      ]
+    },
+    {
+      "id": "small-tier-pricing",
+      "title": "Flagship vs small-tier API pricing at companies that build small tiers by distillation (or undisclosed)",
+      "description": "Per-million-token prices as listed on vendor pricing pages, 2026-09. Distillation status per vendor disclosure.",
+      "columns": [
+        { "key": "vendor", "label": "Vendor", "type": "text" },
+        { "key": "model", "label": "Model", "type": "text" },
+        { "key": "tier", "label": "Tier", "type": "text" },
+        { "key": "input", "label": "Input $/1M", "type": "number", "unit": "USD" },
+        { "key": "output", "label": "Output $/1M", "type": "number", "unit": "USD" },
+        { "key": "distilled", "label": "Distilled?", "type": "text" }
+      ],
+      "rows": [
+        { "vendor": "OpenAI", "model": "GPT-5", "tier": "flagship", "input": 1.25, "output": 10.0, "distilled": "n/a", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-5 mini", "tier": "small", "input": 0.25, "output": 2.0, "distilled": "undisclosed", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-5 nano", "tier": "small", "input": 0.05, "output": 0.4, "distilled": "undisclosed", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-5.4 mini", "tier": "small", "input": 0.75, "output": 4.5, "distilled": "undisclosed", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-5.4 nano", "tier": "small", "input": 0.2, "output": 1.25, "distilled": "undisclosed", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-4o", "tier": "flagship (2024)", "input": 2.5, "output": 10.0, "distilled": "n/a (teacher in Distillation API)", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "GPT-4o mini", "tier": "small", "input": 0.15, "output": 0.6, "distilled": "undisclosed (student in Distillation API)", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "o4-mini", "tier": "small reasoning", "input": 1.1, "output": 4.4, "distilled": "undisclosed", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "OpenAI", "model": "o3", "tier": "flagship reasoning", "input": 2.0, "output": 8.0, "distilled": "n/a", "_source": "https://developers.openai.com/api/docs/pricing" },
+        { "vendor": "Anthropic", "model": "Claude Haiku 4.5", "tier": "small", "input": 1.0, "output": 5.0, "distilled": "undisclosed ('one-third the cost' of Sonnet 4)", "_source": "https://www.anthropic.com/news/claude-haiku-4-5" },
+        { "vendor": "xAI", "model": "Grok 4 Fast (<128k)", "tier": "small", "input": 0.2, "output": 0.5, "distilled": "No per xAI (RL; '98% reduction in price' vs Grok 4)", "_source": "https://x.ai/news/grok-4-fast" }
+      ],
+      "notes": "Google Gemini Flash prices are covered in the customer/financial perspectives; Google does confirm Flash tiers are distilled.",
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://www.anthropic.com/news/claude-haiku-4-5",
+        "https://x.ai/news/grok-4-fast"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "stance-donut",
+      "title": "18 companies by distillation stance",
+      "type": "donut",
+      "xLabel": "Stance",
+      "yLabel": "Companies",
+      "unit": "companies",
+      "series": [
+        {
+          "name": "Stance",
+          "data": [
+            { "x": "Restrictive (closed weights + ToS ban)", "y": 5 },
+            { "x": "Permissive (open weights, distillation allowed)", "y": 7 },
+            { "x": "Mixed", "y": 6 }
+          ]
+        }
+      ],
+      "notes": "Restrictive: OpenAI, Anthropic, Google, xAI, Cohere. Permissive: DeepSeek, Alibaba/Qwen, NVIDIA, Mistral, Hugging Face, Arcee, Zhipu. Mixed: Meta, Microsoft, Amazon, Moonshot, MiniMax, Apple. Classification from the company-matrix table.",
+      "sources": [
+        "https://ai.google.dev/gemini-api/terms",
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "https://developer.meta.com/ai/llama4/license/"
+      ]
+    },
+    {
+      "id": "distilled-releases-by-year",
+      "title": "Documented distilled model families released per company per year",
+      "type": "stackedBar",
+      "xLabel": "Year",
+      "yLabel": "Distilled model families",
+      "unit": "releases",
+      "series": [
+        { "name": "Google", "data": [ { "x": "2024", "y": 2 }, { "x": "2025", "y": 2 }, { "x": "2026", "y": 1 } ] },
+        { "name": "NVIDIA", "data": [ { "x": "2024", "y": 2 }, { "x": "2025", "y": 2 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Meta", "data": [ { "x": "2024", "y": 1 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Microsoft", "data": [ { "x": "2024", "y": 1 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Hugging Face", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 2 }, { "x": "2026", "y": 0 } ] },
+        { "name": "DeepSeek", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Alibaba (Qwen)", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Apple", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Mistral", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Amazon (service)", "data": [ { "x": "2024", "y": 0 }, { "x": "2025", "y": 1 }, { "x": "2026", "y": 0 } ] },
+        { "name": "OpenAI (service)", "data": [ { "x": "2024", "y": 1 }, { "x": "2025", "y": 0 }, { "x": "2026", "y": 0 } ] },
+        { "name": "Arcee", "data": [ { "x": "2024", "y": 1 }, { "x": "2025", "y": 0 }, { "x": "2026", "y": 0 } ] }
+      ],
+      "notes": "Counts are rows in the distilled-lineage table (one per teacher->student family, dated by release). 2026 is year-to-date through 3 September; Google's 2026 entry is the Vertex distillation service (Gemini 3.1 Pro -> 2.5 Flash). Only company-documented distillations are counted, so OpenAI/Anthropic/xAI small tiers (undisclosed method) are excluded.",
+      "sources": [
+        "https://arxiv.org/html/2507.06261v1/",
+        "https://arxiv.org/abs/2501.12948",
+        "https://arxiv.org/abs/2601.08584"
+      ]
+    },
+    {
+      "id": "product-launch-timeline",
+      "title": "Distillation product and toolkit launches (scatter by date)",
+      "type": "scatter",
+      "xLabel": "Launch date",
+      "yLabel": "Launch order",
+      "unit": "",
+      "series": [
+        {
+          "name": "Launches",
+          "data": [
+            { "x": "2024-08-01", "y": 1, "label": "Arcee DistillKit" },
+            { "x": "2024-08-14", "y": 2, "label": "NVIDIA Minitron / NeMo recipes" },
+            { "x": "2024-10-01", "y": 3, "label": "OpenAI Model Distillation" },
+            { "x": "2024-12-03", "y": 4, "label": "Amazon Bedrock Model Distillation (preview)" },
+            { "x": "2025-01-25", "y": 5, "label": "Hugging Face Open R1" },
+            { "x": "2025-05-01", "y": 6, "label": "Amazon Bedrock Model Distillation (GA)" },
+            { "x": "2026-07-23", "y": 7, "label": "Google Vertex Gemini distillation (pre-GA docs)" },
+            { "x": "2026-10-15", "y": 8, "label": "Azure stored completions retirement (scheduled)" }
+          ]
+        }
+      ],
+      "notes": "Open R1 launch dated to late January 2025 per the repository (month-level precision). Azure launch date not independently verified; its retirement date is from Microsoft Learn.",
+      "sources": [
+        "https://arcee.ai/blog/announcing-distillkit/",
+        "https://aws.amazon.com/blogs/aws/build-faster-more-cost-efficient-highly-accurate-models-with-amazon-bedrock-model-distillation-preview/",
+        "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions"
+      ]
+    },
+    {
+      "id": "attack-exchanges",
+      "title": "Exchanges attributed to each accused lab in Anthropic's reports",
+      "type": "bar",
+      "xLabel": "Accused lab",
+      "yLabel": "Exchanges (millions)",
+      "unit": "M exchanges",
+      "series": [
+        {
+          "name": "Exchanges with Claude",
+          "data": [
+            { "x": "DeepSeek (Feb 2026)", "y": 0.15 },
+            { "x": "Moonshot AI (Feb 2026)", "y": 3.4 },
+            { "x": "MiniMax (Feb 2026)", "y": 13.0 },
+            { "x": "Alibaba / Qwen (Jun 2026)", "y": 28.8 }
+          ]
+        }
+      ],
+      "notes": "Feb 2026 figures from Anthropic's 'Detecting and preventing distillation attacks'; Alibaba figure from Anthropic's June 2026 Senate letter as reported by CNBC and CyberScoop (25,000 accounts over ~6 weeks).",
+      "sources": [
+        "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks",
+        "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+      ]
+    },
+    {
+      "id": "qwen3-distill-vs-rl",
+      "title": "Qwen3-8B: on-policy distillation vs reinforcement learning (Qwen3 report Table 21)",
+      "type": "bar",
+      "xLabel": "Benchmark",
+      "yLabel": "Score",
+      "unit": "%",
+      "series": [
+        { "name": "Off-policy distillation only", "data": [ { "x": "AIME'24", "y": 55.0 }, { "x": "AIME'25", "y": 42.8 }, { "x": "MATH500", "y": 92.4 }, { "x": "LiveCodeBench", "y": 42.0 } ] },
+        { "name": "+ RL (17,920 GPU h)", "data": [ { "x": "AIME'24", "y": 67.6 }, { "x": "AIME'25", "y": 55.5 }, { "x": "MATH500", "y": 94.8 }, { "x": "LiveCodeBench", "y": 52.9 } ] },
+        { "name": "+ On-policy distillation (1,800 GPU h)", "data": [ { "x": "AIME'24", "y": 74.4 }, { "x": "AIME'25", "y": 65.5 }, { "x": "MATH500", "y": 97.0 }, { "x": "LiveCodeBench", "y": 60.3 } ] }
+      ],
+      "notes": "Alibaba's own ablation; teacher is Qwen3-32B / Qwen3-235B-A22B. The report concludes distillation needs 'approximately only 1/10 of the GPU hours'.",
+      "sources": [ "https://arxiv.org/html/2505.09388v1" ]
+    },
+    {
+      "id": "flagship-vs-small-output-price",
+      "title": "Output price: flagship vs small tier at OpenAI and Anthropic",
+      "type": "bar",
+      "xLabel": "Model",
+      "yLabel": "USD per 1M output tokens",
+      "unit": "USD",
+      "series": [
+        {
+          "name": "Output $/1M",
+          "data": [
+            { "x": "GPT-5", "y": 10.0 },
+            { "x": "GPT-5 mini", "y": 2.0 },
+            { "x": "GPT-5 nano", "y": 0.4 },
+            { "x": "GPT-4o", "y": 10.0 },
+            { "x": "GPT-4o mini", "y": 0.6 },
+            { "x": "o3", "y": 8.0 },
+            { "x": "o4-mini", "y": 4.4 },
+            { "x": "Claude Haiku 4.5", "y": 5.0 },
+            { "x": "Grok 4 Fast", "y": 0.5 }
+          ]
+        }
+      ],
+      "notes": "OpenAI and Anthropic do not disclose whether mini/nano/Haiku tiers are distilled; OpenAI's own Distillation API positions GPT-4o mini as the student of GPT-4o. xAI says Grok 4 Fast was built with RL rather than distillation.",
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://www.anthropic.com/news/claude-haiku-4-5",
+        "https://x.ai/news/grok-4-fast"
+      ]
+    },
+    {
+      "id": "training-tokens-student-vs-teacher",
+      "title": "Pre-training tokens: distilled student vs from-scratch teacher or peer",
+      "type": "bar",
+      "xLabel": "Model",
+      "yLabel": "Training tokens (trillions)",
+      "unit": "T tokens",
+      "series": [
+        { "name": "Distilled student", "data": [ { "x": "Llama-3.1-Minitron 4B", "y": 0.094 }, { "x": "Ministral 3 (low end)", "y": 1.0 }, { "x": "Ministral 3 (high end)", "y": 3.0 }, { "x": "Gemma 3 1B", "y": 2.0 }, { "x": "Gemma 3 4B", "y": 4.0 }, { "x": "Apple on-device 3B (distill phase)", "y": 1.4 } ] },
+        { "name": "Teacher / from-scratch peer", "data": [ { "x": "Llama-3.1-Minitron 4B", "y": 15.0 }, { "x": "Ministral 3 (low end)", "y": 15.0 }, { "x": "Ministral 3 (high end)", "y": 36.0 }, { "x": "Gemma 3 1B", "y": 14.0 }, { "x": "Gemma 3 4B", "y": 14.0 }, { "x": "Apple on-device 3B (distill phase)", "y": 14.0 } ] }
+      ],
+      "notes": "Gemma 3 comparison uses the 27B sibling's 14T tokens. Apple: dense model trained ~14T, then last 10% (~1.4T) retrained with distillation loss. Ministral peers are Qwen 3 / Llama 3 models of similar size per Mistral (15-36T).",
+      "sources": [
+        "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/",
+        "https://www.deeplearning.ai/the-batch/mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/",
+        "https://arxiv.org/html/2503.19786v1",
+        "https://arxiv.org/abs/2507.13575"
+      ]
+    }
+  ],
+  "timeline": [
+    { "date": "2024-05-14", "title": "Google says Gemini 1.5 Flash was distilled from 1.5 Pro", "detail": "Google I/O blog: Flash was 'trained by 1.5 Pro through a process called distillation'. First frontier lab to publicly label a production tier as distilled.", "category": "product", "source": "https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/" },
+    { "date": "2024-07-31", "title": "Gemma 2 2B/9B trained with knowledge distillation", "detail": "Gemma 2 report: 'We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction.'", "category": "research", "source": "https://arxiv.org/abs/2408.00118" },
+    { "date": "2024-08-01", "title": "Arcee AI open-sources DistillKit", "detail": "Logit-based and hidden-state distillation toolkit; 1.5B student taught by 7B Arcee-Agent.", "category": "product", "source": "https://arcee.ai/blog/announcing-distillkit/" },
+    { "date": "2024-08-14", "title": "NVIDIA publishes Minitron prune-and-distill recipe", "detail": "Llama-3.1-Minitron 4B from Llama 3.1 8B using 94B tokens; up to 40x fewer training tokens, 2.7x throughput with TensorRT-LLM.", "category": "research", "source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/" },
+    { "date": "2024-09-25", "title": "Meta releases Llama 3.2 1B/3B via pruning + logit distillation", "detail": "Logits from Llama 3.1 8B and 70B 'were used as token-level targets' after single-shot structured pruning of the 8B.", "category": "product", "source": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/" },
+    { "date": "2024-10-01", "title": "OpenAI launches Model Distillation in the API", "detail": "Stored Completions, Evals (beta) and fine-tuning to distill GPT-4o / o1-preview into GPT-4o mini; available to all developers.", "category": "product", "source": "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html" },
+    { "date": "2024-12-03", "title": "Amazon announces Bedrock Model Distillation (preview) alongside Nova", "detail": "Teacher-student pairs within Nova, Claude and Llama families; promises up to 5x faster, 75% cheaper, <2% accuracy loss.", "category": "product", "source": "https://aws.amazon.com/blogs/aws/build-faster-more-cost-efficient-highly-accurate-models-with-amazon-bedrock-model-distillation-preview/" },
+    { "date": "2024-12-12", "title": "Microsoft Phi-4 report: earlier Phi models 'largely distill' GPT-4", "detail": "14B model on synthetic data; 'phi-4 substantially surpasses its teacher model on STEM-focused QA'.", "category": "research", "source": "https://arxiv.org/abs/2412.08905" },
+    { "date": "2025-01-22", "title": "DeepSeek releases R1 plus six R1-Distill models under MIT", "detail": "~800K R1 samples SFT'd into Qwen 1.5B-32B and Llama 8B/70B; license expressly allows 'distillation for training other LLMs'.", "category": "product", "source": "https://arxiv.org/abs/2501.12948" },
+    { "date": "2025-01", "title": "OpenAI alleges DeepSeek distilled its models", "detail": "OpenAI says it has evidence DeepSeek queried its models at scale to train competitors in breach of ToS; Microsoft investigates API exfiltration.", "category": "legal", "source": "https://sites.law.berkeley.edu/thenetwork/2025/03/30/the-innovation-dilemma-ai-distillation-in-openai-v-deepseek/" },
+    { "date": "2025-01", "title": "Hugging Face launches Open R1", "detail": "Fully open reproduction of the R1 distillation pipeline; OpenR1-Math-220k released Feb 2025.", "category": "research", "source": "https://github.com/huggingface/open-r1" },
+    { "date": "2025-03-12", "title": "Gemma 3: all sizes trained with distillation", "detail": "256 sampled logits per token; 1B/4B/12B/27B on 2T/4T/12T/14T tokens; post-training distills from 'a large IT teacher'.", "category": "research", "source": "https://arxiv.org/html/2503.19786v1" },
+    { "date": "2025-04-05", "title": "Meta codistills Llama 4 Maverick from Behemoth; license requires 'Llama' naming", "detail": "Behemoth ~2T total / 288B active; 'novel distillation loss function that dynamically weights the soft and hard targets'.", "category": "product", "source": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/" },
+    { "date": "2025-04", "title": "House Select Committee report: DeepSeek 'highly likely' used unlawful distillation", "detail": "Committee report on DeepSeek cites OpenAI's account of DeepSeek employee accounts; R1 base model often self-identifies as ChatGPT.", "category": "policy", "source": "https://www.fdd.org/analysis/2026/02/13/openai-alleges-chinas-deepseek-stole-its-intellectual-property-to-train-its-own-models/" },
+    { "date": "2025-04-30", "title": "Phi-4-reasoning trained on o3-mini reasoning traces", "detail": "Microsoft's 14B reasoning model uses SFT on demonstrations generated by OpenAI's o3-mini.", "category": "research", "source": "https://arxiv.org/abs/2504.21318" },
+    { "date": "2025-05-01", "title": "Amazon Bedrock Model Distillation reaches GA", "detail": "Adds Nova Premier (teacher) -> Nova Pro, Claude 3.5 Sonnet v2 and Llama 3.3 70B teachers, Llama 3.2 1B/3B students.", "category": "product", "source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available" },
+    { "date": "2025-05-14", "title": "Qwen3 report formalises 'strong-to-weak distillation'", "detail": "Off-policy then on-policy distillation from Qwen3-235B-A22B/32B; beats RL with 1/10 the GPU hours.", "category": "research", "source": "https://arxiv.org/html/2505.09388v1" },
+    { "date": "2025-06-03", "title": "Researchers claim DeepSeek R1-0528 resembles Gemini 2.5 Pro", "detail": "Stylistic and trace similarities flagged by EQ-Bench and SpeechMap developers; not conclusive.", "category": "market", "source": "https://winbuzzer.com/2025/06/03/is-deepseek-training-its-ai-with-data-from-google-gemini-new-distillation-claims-emerge-xcxwbn/" },
+    { "date": "2025-06-17", "title": "Gemini 2.5 Flash / Flash-Lite ship; report confirms distillation", "detail": "'The smaller models in the Gemini 2.5 series — Flash size and below — use distillation' with a k-sparse teacher distribution.", "category": "product", "source": "https://arxiv.org/html/2507.06261v1/" },
+    { "date": "2025-07-08", "title": "Hugging Face SmolLM3 uses Qwen3-32B synthetic reasoning traces", "detail": "3B model, 11.2T tokens; reasoning SFT data generated by prompting Qwen3-32B.", "category": "product", "source": "https://huggingface.co/blog/smollm3" },
+    { "date": "2025-07", "title": "Apple reports distilling its on-device 3B model from a 64-expert MoE", "detail": "Last 10% of tokens (~1.4T) retrained with a distillation loss; teacher training cost cut 90%; no structural pruning needed.", "category": "research", "source": "https://arxiv.org/abs/2507.13575" },
+    { "date": "2025-08-20", "title": "NVIDIA Nemotron Nano 2: 12B pruned and distilled to 9B", "detail": "Minitron strategy on a 20T-token hybrid Mamba-Transformer; up to 6x throughput vs Qwen3-8B.", "category": "research", "source": "https://arxiv.org/abs/2508.14444" },
+    { "date": "2025-09-04", "title": "Anthropic bars Chinese-controlled entities, citing distillation risk", "detail": "Entities >50% owned by companies in unsupported regions blocked worldwide; 'could also potentially use our models to advance their own AI development through techniques like distillation'.", "category": "policy", "source": "https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions" },
+    { "date": "2025-09-19", "title": "xAI ships Grok 4 Fast, framed as RL not distillation", "detail": "$0.20/$0.50 per 1M tokens; '98% reduction in price' vs Grok 4; '40% fewer thinking tokens'.", "category": "product", "source": "https://x.ai/news/grok-4-fast" },
+    { "date": "2025-10-15", "title": "Anthropic releases Claude Haiku 4.5 at $1/$5", "detail": "'one-third the cost and more than twice the speed' of Sonnet 4; training method undisclosed.", "category": "product", "source": "https://www.anthropic.com/news/claude-haiku-4-5" },
+    { "date": "2025-12-02", "title": "Mistral 3: Ministral 3 built by cascade distillation from Mistral Small 3.1", "detail": "3B/8B/14B under Apache 2.0; 1-3T training tokens vs 15-36T for Qwen 3 / Llama 3 peers.", "category": "product", "source": "https://mistral.ai/news/mistral-3/" },
+    { "date": "2025-12-15", "title": "NVIDIA Nemotron 3 Nano lists DeepSeek-R1, GPT-OSS-120B and Qwen as synthetic-data teachers", "detail": "~3.5T of 10.6T pre-training tokens distilled from other labs' open models.", "category": "product", "source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16" },
+    { "date": "2026-02-12", "title": "OpenAI memo to House Select Committee on DeepSeek's 'obfuscated' distillation", "detail": "Alleges DeepSeek employee accounts used 'obfuscated third-party routers' and 'code to access US AI models and obtain outputs for distillation'; describes CoT-hiding and RL-grading classifiers.", "category": "policy", "source": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0" },
+    { "date": "2026-02-23", "title": "Anthropic: 24,000 fraudulent accounts, 16M+ exchanges by DeepSeek, Moonshot, MiniMax", "detail": "DeepSeek 150K+, Moonshot 3.4M+, MiniMax 13M+ exchanges; MiniMax pivoted half its traffic to a new Claude model within 24h.", "category": "legal", "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks" },
+    { "date": "2026-04-07", "title": "OpenAI, Anthropic and Google agree to share distillation threat intel via Frontier Model Forum", "detail": "Bloomberg reports US officials estimate unauthorised distillation costs labs 'billions of dollars' annually.", "category": "market", "source": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab" },
+    { "date": "2026-04-23", "title": "White House memorandum NSTM-4 on 'industrial-scale' distillation", "detail": "OSTP director Kratsios: foreign entities 'principally based in China' run 'deliberate, industrial-scale campaigns'; commits to intel sharing and accountability measures.", "category": "policy", "source": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/" },
+    { "date": "2026-04-24", "title": "DeepSeek V4 preview released despite allegations", "detail": "V4-Flash followed 2026-07-31 and V4-Pro 2026-08-13 (per Wikipedia summary; primary release notes not fetched).", "category": "product", "source": "https://en.wikipedia.org/wiki/DeepSeek" },
+    { "date": "2026-06-24", "title": "Anthropic tells US Senate Alibaba ran 'the largest known distillation attack'", "detail": "~25,000 fraudulent accounts and 28.8M interactions between 22 April and 5 June 2026 attributed to Alibaba's Qwen effort.", "category": "legal", "source": "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html" },
+    { "date": "2026-07-04", "title": "Anthropic admits Claude Code anti-distillation fingerprinting 'experiment'", "detail": "Engineer Thariq Shihipar: markers added in March 'to prevent account abuse from unauthorized resellers and protect against distillation'.", "category": "market", "source": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/" },
+    { "date": "2026-07-10", "title": "Alibaba bans employees from Claude Code", "detail": "Classified as high-risk software; staff told to uninstall Anthropic models and use Alibaba's Qoder.", "category": "market", "source": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/" },
+    { "date": "2026-07-22", "title": "White House accuses Moonshot of distilling Anthropic's Fable into Kimi K3", "detail": "Kratsios says Moonshot used 'a sophisticated internal platform to conduct large scale distillation' and GB300 servers; K3 billed as 'first open 2.8 trillion parameter model'.", "category": "policy", "source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/" },
+    { "date": "2026-07-23", "title": "Google Cloud documents Gemini 3.1 Pro -> 2.5 Flash distillation service (pre-GA)", "detail": "Allowlist-only, no production use, 30-day initial access; conflicting model IDs suggest not yet a shippable product.", "category": "product", "source": "https://runtimewire.com/article/google-cloud-page-describes-gemini-distillation-service-but-its-release-status-i" },
+    { "date": "2026-09-03", "title": "Anthropic: distillation fight moves to the dark web", "detail": "Head of threat intelligence Jacob Klein describes 'an entire illicit ecosystem' spinning up accounts at extreme scale to resell Claude access.", "category": "market", "source": "https://www.cnbc.com/2026/09/03/anthropic-distillation-battle-turns-to-dark-web-china-concerns-swell.html" },
+    { "date": "2026-10-15", "title": "Azure OpenAI stored completions (distillation input) scheduled to retire", "detail": "Microsoft Learn directs users to migrate to the Responses API and Agent Traces.", "category": "product", "source": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions" }
+  ],
+  "glossary": [
+    { "term": "Knowledge distillation (KD)", "definition": "Training a smaller student model to match a larger teacher's output distribution (soft targets / logits) rather than only ground-truth labels; introduced by Hinton et al. 2015 and cited by Gemma 2, Gemma 3 and Llama 3.2 reports." },
+    { "term": "Strong-to-weak distillation", "definition": "Qwen3's term for training its 0.6B-30B models from Qwen3-235B-A22B / Qwen3-32B teachers, first off-policy (on teacher outputs) then on-policy (student samples scored by teacher logits)." },
+    { "term": "On-policy distillation", "definition": "The student generates its own sequences and is corrected by the teacher's token-level distribution, fixing train/inference mismatch (Agarwal et al. GKD; implemented in Hugging Face TRL's GKDTrainer)." },
+    { "term": "Codistillation", "definition": "Meta's term for training Llama 4 Maverick and Scout concurrently with the Behemoth teacher, using a loss that dynamically weights soft and hard targets." },
+    { "term": "Cascade distillation", "definition": "Mistral's iterative loop of pruning a parent model (Mistral Small 3.1) and continuing training with a distillation loss to produce Ministral 3 3B/8B/14B." },
+    { "term": "Prune-and-distill (Minitron)", "definition": "NVIDIA's recipe: structured width/depth pruning of a trained model followed by KD to recover accuracy with far fewer tokens (e.g. 94B vs 15T)." },
+    { "term": "k-sparse teacher distribution", "definition": "Google's approximation in Gemini 2.5 that stores only the top-k teacher probabilities per token to make distillation storage tractable." },
+    { "term": "Stored completions", "definition": "OpenAI / Azure feature that logs production prompt-response pairs (store=true) so they can be filtered into a fine-tuning dataset for a smaller model." },
+    { "term": "Distillation attack", "definition": "Industry term (Anthropic, OpenAI, Google, White House) for unauthorised large-scale querying of a proprietary model, often via fraudulent accounts or proxies, to harvest outputs for training a competitor." },
+    { "term": "Chain-of-thought (CoT) extraction", "definition": "Eliciting a model's reasoning traces to use as training targets; OpenAI now trains models 'not to reveal reasoning traces' and Google summarises them to blunt this." },
+    { "term": "Anti-competing-model clause", "definition": "ToS language (OpenAI, Anthropic, Google, xAI, Cohere) forbidding use of outputs or services to build competing models; the primary legal basis for distillation disputes." },
+    { "term": "Modified MIT license", "definition": "Open-weight license used by Moonshot (Kimi K2) and MiniMax that keeps MIT permissions but adds an attribution requirement above 100M MAU or $20M monthly revenue." },
+    { "term": "Frontier Model Forum (FMF)", "definition": "Non-profit founded by OpenAI, Anthropic, Google and Microsoft in 2023, used from April 2026 to share distillation-attack intelligence." },
+    { "term": "NSTM-4", "definition": "April 2026 White House national security memorandum committing the US government to share intelligence on foreign distillation campaigns and explore accountability measures." }
+  ],
+  "sources": [
+    { "title": "Model Distillation in the API", "url": "https://openai.com/index/api-model-distillation/", "publisher": "OpenAI", "date": "2024-10-01", "type": "blog" },
+    { "title": "OpenAI updates API with model distillation, prompt caching abilities", "url": "https://www.infoworld.com/article/3544913/openai-updates-api-with-model-distillation-prompt-caching-abilities.html", "publisher": "InfoWorld", "date": "2024-10-03", "type": "news" },
+    { "title": "OpenAI Terms of Use (Rest of World)", "url": "https://openai.com/policies/row-terms-of-use/", "publisher": "OpenAI", "date": "2025", "type": "law" },
+    { "title": "Be Careful With OpenAI's Terms of Use", "url": "https://ospo.co/blog/be-careful-with-openais-terms-of-use/", "publisher": "OSPOCO", "date": "2024", "type": "blog" },
+    { "title": "OpenAI API pricing", "url": "https://developers.openai.com/api/docs/pricing", "publisher": "OpenAI", "date": "2026-09", "type": "pricing" },
+    { "title": "Supervised fine-tuning: distilling from a larger model", "url": "https://developers.openai.com/api/docs/guides/supervised-fine-tuning", "publisher": "OpenAI", "date": "2026", "type": "docs" },
+    { "title": "Memo to US House Select Committee: Updated Stakes for American-Led, Democratic AI", "url": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0", "publisher": "OpenAI (via Bloomberg)", "date": "2026-02-12", "type": "filing" },
+    { "title": "OpenAI Accuses China's DeepSeek of Distilling US AI Models to Gain an Edge", "url": "https://www.bloomberg.com/news/articles/2026-02-12/openai-accuses-deepseek-of-distilling-us-models-to-gain-an-edge", "publisher": "Bloomberg", "date": "2026-02-12", "type": "news" },
+    { "title": "OpenAI accuses DeepSeek of malpractice ahead of AI launch", "url": "https://restofworld.org/2026/openai-deepseek-distillation-dispute-us-china/", "publisher": "Rest of World", "date": "2026-02-12", "type": "news" },
+    { "title": "The Innovation Dilemma: AI Distillation in OpenAI v. DeepSeek", "url": "https://sites.law.berkeley.edu/thenetwork/2025/03/30/the-innovation-dilemma-ai-distillation-in-openai-v-deepseek/", "publisher": "Berkeley Law", "date": "2025-03-30", "type": "blog" },
+    { "title": "OpenAI Alleges China's DeepSeek Stole its IP to Train its Own Models", "url": "https://www.fdd.org/analysis/2026/02/13/openai-alleges-chinas-deepseek-stole-its-intellectual-property-to-train-its-own-models/", "publisher": "FDD", "date": "2026-02-13", "type": "news" },
+    { "title": "Detecting and preventing distillation attacks", "url": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks", "publisher": "Anthropic", "date": "2026-02-23", "type": "blog" },
+    { "title": "Anthropic accuses Chinese labs of trying to illicitly take Claude's capabilities", "url": "https://cyberscoop.com/anthropic-accuses-chinese-labs-ai-distillation-cyber-risk/", "publisher": "CyberScoop", "date": "2026-02-23", "type": "news" },
+    { "title": "Updating restrictions of sales to unsupported regions", "url": "https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions", "publisher": "Anthropic", "date": "2025-09-04", "type": "blog" },
+    { "title": "Anthropic tightens AI access rules, targeting Chinese-controlled entities", "url": "https://www.crnasia.com/news/2025/artificial-intelligence/anthropic-tightens-ai-access-rules", "publisher": "CRN Asia", "date": "2025-09-05", "type": "news" },
+    { "title": "Anthropic Commercial Terms of Service", "url": "https://www.anthropic.com/legal/commercial-terms", "publisher": "Anthropic", "date": "2025-06-17", "type": "law" },
+    { "title": "Anthropic Consumer Terms of Service", "url": "https://www.anthropic.com/legal/consumer-terms", "publisher": "Anthropic", "date": "2025-10-08", "type": "law" },
+    { "title": "Introducing Claude Haiku 4.5", "url": "https://www.anthropic.com/news/claude-haiku-4-5", "publisher": "Anthropic", "date": "2025-10-15", "type": "blog" },
+    { "title": "Anthropic accuses Alibaba of campaign to 'brazenly' and 'illicitly' distill Claude", "url": "https://www.cnbc.com/2026/06/24/anthropic-alibaba-distillation-campaign.html", "publisher": "CNBC", "date": "2026-06-24", "type": "news" },
+    { "title": "Alibaba reportedly bans employees from using Claude Code", "url": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/", "publisher": "TechCrunch", "date": "2026-07-04", "type": "news" },
+    { "title": "White House official accuses Chinese startup of distilling Anthropic's model", "url": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/", "publisher": "CyberScoop", "date": "2026-07-22", "type": "news" },
+    { "title": "Anthropic's distillation battle turns to the dark web as China concerns swell", "url": "https://www.cnbc.com/2026/09/03/anthropic-distillation-battle-turns-to-dark-web-china-concerns-swell.html", "publisher": "CNBC", "date": "2026-09-03", "type": "news" },
+    { "title": "White House accuses China of 'deliberate, industrial-scale' campaigns to steal US AI models", "url": "https://www.nextgov.com/artificial-intelligence/2026/04/white-house-accuses-china-deliberate-industrial-scale-campaigns-steal-us-ai-models/413083/", "publisher": "Nextgov", "date": "2026-04-23", "type": "news" },
+    { "title": "White House accuses China of industrial-scale theft of US AI frontier models", "url": "https://interestingengineering.com/ai-robotics/ai-war-white-house-accuses-china-of-industrial-scale-theft-of-us-ai-frontier-models", "publisher": "Interesting Engineering", "date": "2026-04-23", "type": "news" },
+    { "title": "OpenAI, Anthropic, Google join forces against China", "url": "https://www.techbrew.com/stories/openai-anthropic-google-distillation-collab", "publisher": "Tech Brew (citing Bloomberg)", "date": "2026-04-07", "type": "news" },
+    { "title": "Gemini 2.5: Pushing the Frontier with Advanced Reasoning", "url": "https://arxiv.org/html/2507.06261v1/", "publisher": "Google DeepMind", "date": "2025-07", "type": "paper" },
+    { "title": "Gemini 1.5 Flash announcement (Google I/O 2024)", "url": "https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "publisher": "Google", "date": "2024-05-14", "type": "blog" },
+    { "title": "Gemma 2: Improving Open Language Models at a Practical Size", "url": "https://arxiv.org/abs/2408.00118", "publisher": "Google DeepMind", "date": "2024-07-31", "type": "paper" },
+    { "title": "Gemma 3 Technical Report", "url": "https://arxiv.org/html/2503.19786v1", "publisher": "Google DeepMind", "date": "2025-03-12", "type": "paper" },
+    { "title": "Gemini API Additional Terms of Service", "url": "https://ai.google.dev/gemini-api/terms", "publisher": "Google", "date": "2026-04-28", "type": "law" },
+    { "title": "Google Cloud page describes Gemini distillation service, but its release status is unclear", "url": "https://runtimewire.com/article/google-cloud-page-describes-gemini-distillation-service-but-its-release-status-i", "publisher": "RuntimeWire", "date": "2026-07-28", "type": "news" },
+    { "title": "Google Gemini targeted by massive distillation attack to clone AI logic", "url": "https://techbriefly.com/2026/02/12/google-gemini-targeted-by-massive-distillation-attack-to-clone-ai-logic/", "publisher": "TechBriefly", "date": "2026-02-12", "type": "news" },
+    { "title": "Is DeepSeek Training its AI with Data from Google Gemini?", "url": "https://winbuzzer.com/2025/06/03/is-deepseek-training-its-ai-with-data-from-google-gemini-new-distillation-claims-emerge-xcxwbn/", "publisher": "WinBuzzer", "date": "2025-06-03", "type": "news" },
+    { "title": "Llama 3.2: Revolutionizing edge AI and vision with open, customizable models", "url": "https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/", "publisher": "Meta", "date": "2024-09-25", "type": "blog" },
+    { "title": "The Llama 4 herd: The beginning of a new era of natively multimodal AI innovation", "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/", "publisher": "Meta", "date": "2025-04-05", "type": "blog" },
+    { "title": "Llama 4 Community License Agreement", "url": "https://developer.meta.com/ai/llama4/license/", "publisher": "Meta", "date": "2025-04-05", "type": "law" },
+    { "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning", "url": "https://arxiv.org/abs/2501.12948", "publisher": "DeepSeek", "date": "2025-01-22", "type": "paper" },
+    { "title": "DeepSeek-R1 model card and license", "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1", "publisher": "DeepSeek / Hugging Face", "date": "2025-01", "type": "docs" },
+    { "title": "DeepSeek (Wikipedia) - V4 release dates", "url": "https://en.wikipedia.org/wiki/DeepSeek", "publisher": "Wikipedia", "date": "2026", "type": "docs" },
+    { "title": "Qwen3 Technical Report", "url": "https://arxiv.org/html/2505.09388v1", "publisher": "Alibaba Qwen Team", "date": "2025-05-14", "type": "paper" },
+    { "title": "Qwen3-235B-A22B model card", "url": "https://huggingface.co/Qwen/Qwen3-235B-A22B", "publisher": "Alibaba / Hugging Face", "date": "2025-05", "type": "docs" },
+    { "title": "Phi-4 Technical Report", "url": "https://arxiv.org/abs/2412.08905", "publisher": "Microsoft", "date": "2024-12-12", "type": "paper" },
+    { "title": "Phi-4-reasoning Technical Report", "url": "https://arxiv.org/abs/2504.21318", "publisher": "Microsoft", "date": "2025-04-30", "type": "paper" },
+    { "title": "Phi-4-mini-instruct model card", "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct", "publisher": "Microsoft / Hugging Face", "date": "2025-02", "type": "docs" },
+    { "title": "How to use Azure OpenAI stored completions & distillation", "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions", "publisher": "Microsoft Learn", "date": "2026-07-06", "type": "docs" },
+    { "title": "Introducing Model Distillation in Azure OpenAI Service", "url": "https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/introducing-model-distillation-in-azure-openai-service/4298627", "publisher": "Microsoft", "date": "2024", "type": "blog" },
+    { "title": "How to Prune and Distill Llama-3.1 8B to an NVIDIA Llama-3.1-Minitron 4B Model", "url": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/", "publisher": "NVIDIA", "date": "2024-08-14", "type": "blog" },
+    { "title": "LLM Pruning and Distillation in Practice: The Minitron Approach", "url": "https://arxiv.org/abs/2408.11796", "publisher": "NVIDIA", "date": "2024-08", "type": "paper" },
+    { "title": "NVIDIA Nemotron Nano 2", "url": "https://arxiv.org/abs/2508.14444", "publisher": "NVIDIA", "date": "2025-08-20", "type": "paper" },
+    { "title": "NVIDIA-Nemotron-3-Nano-30B-A3B model card", "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16", "publisher": "NVIDIA / Hugging Face", "date": "2025-12-15", "type": "docs" },
+    { "title": "Amazon Bedrock Model Distillation (preview)", "url": "https://aws.amazon.com/blogs/aws/build-faster-more-cost-efficient-highly-accurate-models-with-amazon-bedrock-model-distillation-preview/", "publisher": "AWS", "date": "2024-12-03", "type": "blog" },
+    { "title": "Amazon Bedrock Model Distillation is now generally available", "url": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available", "publisher": "AWS", "date": "2025-05-01", "type": "docs" },
+    { "title": "The Amazon Nova Family of Models: Technical Report and Model Card", "url": "https://www.amazon.science/publications/the-amazon-nova-family-of-models-technical-report-and-model-card", "publisher": "Amazon", "date": "2024-12-03", "type": "paper" },
+    { "title": "Introducing Mistral 3", "url": "https://mistral.ai/news/mistral-3/", "publisher": "Mistral AI", "date": "2025-12-02", "type": "blog" },
+    { "title": "Ministral 3 (paper)", "url": "https://arxiv.org/abs/2601.08584", "publisher": "Mistral AI", "date": "2026-01-13", "type": "paper" },
+    { "title": "Mistral Uses Cascade Distillation on Mistral 3 To Build Ministral Family", "url": "https://www.deeplearning.ai/the-batch/mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/", "publisher": "DeepLearning.AI The Batch", "date": "2026-02-06", "type": "news" },
+    { "title": "Generalized Knowledge Distillation Trainer", "url": "https://huggingface.co/docs/trl/gkd_trainer", "publisher": "Hugging Face", "date": "2026", "type": "docs" },
+    { "title": "Open R1: fully open reproduction of DeepSeek-R1", "url": "https://github.com/huggingface/open-r1", "publisher": "Hugging Face", "date": "2025-01", "type": "docs" },
+    { "title": "SmolLM3: smol, multilingual, long-context reasoner", "url": "https://huggingface.co/blog/smollm3", "publisher": "Hugging Face", "date": "2025-07-08", "type": "blog" },
+    { "title": "Announcing DistillKit", "url": "https://arcee.ai/blog/announcing-distillkit/", "publisher": "Arcee AI", "date": "2024-08-01", "type": "blog" },
+    { "title": "arcee-ai/DistillKit", "url": "https://github.com/arcee-ai/DistillKit", "publisher": "Arcee AI", "date": "2026", "type": "docs" },
+    { "title": "Grok 4 Fast", "url": "https://x.ai/news/grok-4-fast", "publisher": "xAI", "date": "2025-09-19", "type": "blog" },
+    { "title": "xAI Terms of Service - Consumer", "url": "https://x.ai/legal/terms-of-service", "publisher": "xAI", "date": "2026-09-01", "type": "law" },
+    { "title": "Kimi-K2-Instruct model card", "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct", "publisher": "Moonshot AI / Hugging Face", "date": "2025-07", "type": "docs" },
+    { "title": "Kimi K2 Modified MIT License", "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE", "publisher": "Moonshot AI", "date": "2025-07", "type": "law" },
+    { "title": "MiniMax-M2 model card", "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2", "publisher": "MiniMax / Hugging Face", "date": "2025", "type": "docs" },
+    { "title": "GLM-4.5: Agentic, Reasoning, and Coding (ARC) Foundation Models", "url": "https://arxiv.org/abs/2508.06471", "publisher": "Zhipu AI / Z.ai", "date": "2025-08-08", "type": "paper" },
+    { "title": "AINews: Anthropic accuses DeepSeek, Moonshot, and MiniMax", "url": "https://www.latent.space/p/ainews-anthropic-accuses-deepseek", "publisher": "Latent Space", "date": "2026-02-23", "type": "news" },
+    { "title": "Apple Intelligence Foundation Language Models: Tech Report 2025", "url": "https://arxiv.org/abs/2507.13575", "publisher": "Apple", "date": "2025-07", "type": "paper" },
+    { "title": "Command A: An Enterprise-Ready Large Language Model", "url": "https://arxiv.org/abs/2504.00698", "publisher": "Cohere", "date": "2025-04-01", "type": "paper" },
+    { "title": "Cohere Terms of Use", "url": "https://cohere.com/terms-of-use", "publisher": "Cohere", "date": "2022-09-07", "type": "law" },
+    { "title": "C4AI Command R7B model card", "url": "https://huggingface.co/CohereLabs/c4ai-command-r7b-12-2024", "publisher": "Cohere Labs / Hugging Face", "date": "2024-12", "type": "docs" }
+  ],
+  "extras": {
+    "companies": [
+      {
+        "name": "OpenAI",
+        "hq": "San Francisco, US",
+        "stance": "restrictive",
+        "distillationProducts": ["Model Distillation in the API (Stored Completions + Evals + Fine-tuning), launched 2024-10-01; docs now state fine-tuning platform is winding down for new users"],
+        "distilledModels": ["GPT-4o mini (student in OpenAI's own Distillation API; training method undisclosed)", "GPT-5 mini / GPT-5 nano / GPT-5.4 mini / nano (undisclosed)", "o1-mini / o3-mini / o4-mini (undisclosed)"],
+        "tosClause": "\"use Output to develop models that compete with OpenAI\" — Terms of Use, https://openai.com/policies/row-terms-of-use/",
+        "notableEvents": [
+          "2024-10-01: Launches Model Distillation with free training tokens promotion",
+          "2025-01: Alleges DeepSeek distilled its models; Microsoft probes API exfiltration",
+          "2025-03: Provides assessment of DeepSeek distillation to House Select Committee",
+          "2026-02-12: Memo to House Select Committee describing 'obfuscated third-party routers', reseller networks, RL-style grading classifiers and CoT-hiding defenses; states 'we do not allow our outputs to be used to create imitation frontier AI models'",
+          "2026-04-07: Joins Anthropic and Google in sharing distillation intel via Frontier Model Forum"
+        ],
+        "source": "https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0"
+      },
+      {
+        "name": "Anthropic",
+        "hq": "San Francisco, US",
+        "stance": "restrictive",
+        "distillationProducts": ["None first-party; Claude 3.5 Sonnet v2 is offered as a teacher inside Amazon Bedrock Model Distillation"],
+        "distilledModels": ["Claude Haiku lineage (Haiku 3 / 3.5 / 4.5) — training method undisclosed; Haiku 4.5 priced $1/$5 at 'one-third the cost' of Sonnet 4"],
+        "tosClause": "\"access the Services to build a competing product or service, including to train competing AI models\" — Commercial Terms D.4, https://www.anthropic.com/legal/commercial-terms",
+        "notableEvents": [
+          "2025-09-04: Bars entities >50% owned from unsupported regions, citing distillation risk",
+          "2026-02-23: Reports 24,000 fraudulent accounts and 16M+ exchanges by DeepSeek (150K), Moonshot (3.4M), MiniMax (13M)",
+          "2026-03: Runs Claude Code fingerprinting 'experiment' against resellers/distillation (disclosed July 2026)",
+          "2026-06-24: Letter to US Senate calls Alibaba's ~25,000-account, 28.8M-interaction campaign 'the largest known distillation attack'",
+          "2026-09-03: Threat-intel head Jacob Klein describes dark-web reseller ecosystem"
+        ],
+        "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks"
+      },
+      {
+        "name": "Google DeepMind",
+        "hq": "Mountain View / London",
+        "stance": "restrictive",
+        "distillationProducts": ["Vertex AI / Gemini Enterprise Agent Platform distillation: Gemini 3.1 Pro teacher -> Gemini 2.5 Flash student (pre-GA, allowlist, docs updated 2026-07-23)"],
+        "distilledModels": ["Gemini 1.5 Flash (distilled from 1.5 Pro)", "Gemini 2.5 Flash and Flash-Lite ('Flash size and below — use distillation')", "Gemma 2 2B/9B (KD instead of next-token prediction)", "Gemma 3 1B/4B/12B/27B (256 sampled logits per token; post-training from 'a large IT teacher')"],
+        "tosClause": "\"You may not use the Services to develop models that compete with the Services (e.g., Gemini API or Google AI Studio)\" — https://ai.google.dev/gemini-api/terms (updated 2026-04-28)",
+        "notableEvents": [
+          "2024-05-14: First lab to publicly call a production tier (1.5 Flash) distilled",
+          "2025-06-03: Third-party claims DeepSeek R1-0528 resembles Gemini 2.5 Pro; Google begins summarising reasoning traces",
+          "2026-02: Reports Gemini targeted by distillation/model-extraction campaigns (100,000+ queries) and classifies distillation as IP theft (secondary reporting)",
+          "2026-04-07: Joins FMF distillation intel sharing"
+        ],
+        "source": "https://arxiv.org/html/2507.06261v1/"
+      },
+      {
+        "name": "Meta",
+        "hq": "Menlo Park, US",
+        "stance": "mixed",
+        "distillationProducts": ["None first-party; Llama 3.1 405B / 3.3 70B offered as teachers on Amazon Bedrock"],
+        "distilledModels": ["Llama 3.2 1B/3B (pruned from Llama 3.1 8B; logits from 8B and 70B as token-level targets)", "Llama 4 Maverick 400B/17B-active and Scout (codistilled from Behemoth ~2T/288B-active)"],
+        "tosClause": "\"you shall also include 'Llama' at the beginning of any such AI model name\" — Llama 4 Community License, https://developer.meta.com/ai/llama4/license/ (700M MAU threshold requires separate license)",
+        "notableEvents": [
+          "2024-09-25: Llama 3.2 edge models via pruning + distillation",
+          "2025-04-05: Llama 4 codistillation with 'novel distillation loss function that dynamically weights the soft and hard targets'; Behemoth never released"
+        ],
+        "source": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+      },
+      {
+        "name": "DeepSeek",
+        "hq": "Hangzhou, China",
+        "stance": "permissive",
+        "distillationProducts": ["None; releases distillation datasets implicitly via open R1 outputs used by Open R1 and others"],
+        "distilledModels": ["DeepSeek-R1-Distill-Qwen-1.5B/7B/14B/32B", "DeepSeek-R1-Distill-Llama-8B/70B (SFT on ~800K R1 samples; 32B scores 72.6 AIME'24 vs o1-mini 63.6)"],
+        "tosClause": "\"allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs\" (MIT) — https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "notableEvents": [
+          "2025-01-22: R1 paper (later Nature 645:633-638) and six distills",
+          "2025-01: Accused by OpenAI; 2025-04 House Select Committee report calls distillation 'highly likely'",
+          "2025-06-03: R1-0528 Gemini-similarity claims",
+          "2025-12-01: V3.2 released",
+          "2026-02: OpenAI memo and Anthropic report (150K+ exchanges); no public response",
+          "2026-04-24 to 2026-08-13: V4 preview, V4-Flash, V4-Pro released"
+        ],
+        "source": "https://arxiv.org/abs/2501.12948"
+      },
+      {
+        "name": "Alibaba Cloud (Qwen)",
+        "hq": "Hangzhou, China",
+        "stance": "permissive",
+        "distillationProducts": ["None public; Qwen models are the most common open students/teachers in third-party distillation (DeepSeek R1-Distill, SmolLM3, Open R1)"],
+        "distilledModels": ["Qwen3-0.6B/1.7B/4B/8B/14B and Qwen3-30B-A3B via 'strong-to-weak distillation' from Qwen3-235B-A22B and Qwen3-32B"],
+        "tosClause": "Apache 2.0 (Qwen3) — https://huggingface.co/Qwen/Qwen3-235B-A22B",
+        "notableEvents": [
+          "2025-05-14: Qwen3 report shows distillation beats RL at 1/10 GPU hours (1,800 vs 17,920)",
+          "2026-02: Not named in Anthropic's February report",
+          "2026-06-24: Anthropic tells Senate Alibaba ran the 'largest known distillation attack' (25,000 accounts, 28.8M interactions, 22 Apr-5 Jun)",
+          "2026-07-10: Alibaba bans Claude Code for employees, mandates Qoder"
+        ],
+        "source": "https://arxiv.org/html/2505.09388v1"
+      },
+      {
+        "name": "Microsoft",
+        "hq": "Redmond, US",
+        "stance": "mixed",
+        "distillationProducts": ["Azure OpenAI / Foundry stored completions + Distill workflow (min 10 stored completions; retiring 2026-10-15)"],
+        "distilledModels": ["Phi-1/2/3 ('largely distill the capabilities of a teacher model (specifically GPT-4)')", "Phi-4 14B (synthetic data; surpasses teacher on STEM QA)", "Phi-4-reasoning 14B (SFT on o3-mini reasoning traces)", "Phi-4-mini 3.8B (MIT, synthetic 'textbook-like' data)", "Orca lineage (explanation tuning from GPT-4)"],
+        "tosClause": "Phi weights: MIT; Azure OpenAI outputs governed by OpenAI-style competing-model restrictions (not independently quoted)",
+        "notableEvents": [
+          "2024: Azure OpenAI distillation mirrors OpenAI's stored completions",
+          "2024-12-12: Phi-4 report",
+          "2025-04-30: Phi-4-reasoning distils o3-mini traces",
+          "2025-01: Microsoft security team probes DeepSeek-linked API exfiltration (reported)",
+          "2026-07-06: Docs schedule stored-completions retirement for 2026-10-15"
+        ],
+        "source": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions"
+      },
+      {
+        "name": "NVIDIA",
+        "hq": "Santa Clara, US",
+        "stance": "permissive",
+        "distillationProducts": ["NeMo pruning/distillation recipes (Minitron)", "TensorRT-LLM optimisation of distilled students", "NeMo-Aligner SFT"],
+        "distilledModels": ["Llama-3.1-Minitron 4B width/depth (from Llama 3.1 8B, 94B tokens)", "Mistral-NeMo-Minitron 8B (from Mistral NeMo 12B)", "Nemotron-Nano-9B-v2 (from 12B via Minitron)", "Nemotron 3 Nano 30B-A3B (~3.5T of 10.6T tokens synthesised from DeepSeek-R1, GPT-OSS-120B, Qwen)"],
+        "tosClause": "NVIDIA Nemotron Open Model License; CC-BY-4.0 for Nemotron Nano 2 — https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16",
+        "notableEvents": [
+          "2024-08-14: Minitron blog claims up to 40x fewer tokens and 1.8x compute saving",
+          "2025-08-20: Nemotron Nano 2, up to 6x throughput vs Qwen3-8B",
+          "2025-12-15: Nemotron 3 Nano openly lists other labs' models as teachers",
+          "2026-04: Named in White House NSTM-4 coverage as a collaborating US firm"
+        ],
+        "source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model/"
+      },
+      {
+        "name": "Amazon (AWS)",
+        "hq": "Seattle, US",
+        "stance": "mixed",
+        "distillationProducts": ["Amazon Bedrock Model Distillation (preview 2024-12-03, GA 2025-05-01): synthetic data generation from teacher + fine-tuning of student; teachers Nova Premier, Claude 3.5 Sonnet v2, Llama 3.3 70B, Llama 3.1 405B; students Nova Pro/Lite/Micro, Llama 3.2 1B/3B, Llama 3.1 70B/8B"],
+        "distilledModels": ["Nova Micro / Lite / Pro tiers (training method not disclosed in fetched material)"],
+        "tosClause": "undisclosed — AWS Service Terms not verified for a distillation clause",
+        "notableEvents": [
+          "2024-12-03: Nova family + distillation preview at re:Invent",
+          "2025-05-01: GA with 'up to 500% faster and 75% less expensive ... less than 2% accuracy loss'",
+          "2025: Function-calling distillation for Agents use cases"
+        ],
+        "source": "https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-bedrock-model-distillation-generally-available"
+      },
+      {
+        "name": "Mistral AI",
+        "hq": "Paris, France",
+        "stance": "permissive",
+        "distillationProducts": ["None"],
+        "distilledModels": ["Ministral 3 3B/8B/14B (base, instruct, reasoning) via cascade distillation from Mistral Small 3.1 24B; 1-3T tokens", "Mistral-NeMo-Minitron 8B (by NVIDIA from Mistral NeMo 12B)"],
+        "tosClause": "\"All models are released under the Apache 2.0 license\" — https://mistral.ai/news/mistral-3/",
+        "notableEvents": [
+          "2025-12-02: Mistral 3 release (Large 3 675B/41B-active; Ministral 3)",
+          "2026-01-13: Ministral 3 paper describes 'iterative pruning and continued training with distillation'",
+          "2026-02-06: Ministral 3 14B reasoning reported at 85% AIME 2025 vs Qwen 3 14B Thinking 73.7%"
+        ],
+        "source": "https://arxiv.org/abs/2601.08584"
+      },
+      {
+        "name": "Hugging Face",
+        "hq": "New York, US / Paris, France",
+        "stance": "permissive",
+        "distillationProducts": ["TRL GKDTrainer (on-policy generalized KD; lmbda / beta / seq_kd)", "TRL Distillation and MiniLLM trainers", "Open R1 training scripts and datasets (OpenR1-Math-220k, Mixture-of-Thoughts 350K)"],
+        "distilledModels": ["OpenR1-Distill-7B (52.7 AIME'24, 89.0 MATH-500)", "SmolLM3 3B (reasoning SFT data generated by Qwen3-32B; 11.2T tokens)"],
+        "tosClause": "Apache 2.0 (SmolLM3, TRL, Open R1) — https://huggingface.co/blog/smollm3",
+        "notableEvents": [
+          "2025-01: Open R1 launched days after DeepSeek-R1",
+          "2025-02: OpenR1-Math-220k released",
+          "2025-05: Mixture-of-Thoughts 350K verified traces",
+          "2025-07-08: SmolLM3"
+        ],
+        "source": "https://github.com/huggingface/open-r1"
+      },
+      {
+        "name": "Arcee AI",
+        "hq": "San Francisco, US",
+        "stance": "permissive",
+        "distillationProducts": ["DistillKit (Apache 2.0): logit-based and hidden-state distillation, online/offline modes, logit compression via polynomial approximation + error-diffusion quantization + bit packing"],
+        "distilledModels": ["1.5B-Distilled from 7B Arcee-Agent (DistillKit v0.1)", "AFM-4.5B (Kimi Delta Attention distilled in, per Arcee blog)", "LLama-405B-Logits dataset published for offline distillation"],
+        "tosClause": "Apache 2.0 — https://github.com/arcee-ai/DistillKit",
+        "notableEvents": [
+          "2024-08-01: DistillKit v0.1 announced",
+          "2025: DistillKit adds offline logit compression; Arcee publishes Llama-405B logits dataset"
+        ],
+        "source": "https://arcee.ai/blog/announcing-distillkit/"
+      },
+      {
+        "name": "xAI",
+        "hq": "Palo Alto, US",
+        "stance": "restrictive",
+        "distillationProducts": ["None"],
+        "distilledModels": ["Grok 3 mini / Grok 4 Fast tiers (xAI attributes Grok 4 Fast to 'large-scale reinforcement learning', not distillation; Grok 3 mini deprecated 2026-05-15)"],
+        "tosClause": "Prohibits \"distilling\" the Service and using \"the Service or Output to develop models or services that compete with xAI\" — https://x.ai/legal/terms-of-service (effective 2026-09-01; page not directly fetchable)",
+        "notableEvents": [
+          "2025-09-19: Grok 4 Fast at $0.20/$0.50 per 1M, '98% reduction in price' vs Grok 4",
+          "2026-05-15: Grok 3 family aliases redirect to Grok 4.3"
+        ],
+        "source": "https://x.ai/news/grok-4-fast"
+      },
+      {
+        "name": "Moonshot AI (Kimi)",
+        "hq": "Beijing, China",
+        "stance": "mixed",
+        "distillationProducts": ["None"],
+        "distilledModels": ["Undisclosed; Kimi K2 (1T/32B-active, 15.5T tokens) model card does not mention distillation", "Kimi K3 (alleged by White House to be distilled from Anthropic's Fable; '2.8 trillion parameter')"],
+        "tosClause": "Modified MIT: \"more than 100 million monthly active users, or more than 20 million US dollars ... in monthly revenue, you shall prominently display 'Kimi K2'\" — https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE",
+        "notableEvents": [
+          "2025-07: Kimi K2 open-weight release",
+          "2026-02-23: Anthropic attributes 3.4M+ exchanges targeting computer-use agents and vision",
+          "2026-07-22: OSTP director Kratsios says K3 was built by distilling Anthropic's Fable on GB300 servers; Moonshot did not respond"
+        ],
+        "source": "https://cyberscoop.com/white-house-accuses-moonshot-ai-anthropic-model-distillation/"
+      },
+      {
+        "name": "MiniMax",
+        "hq": "Shanghai, China",
+        "stance": "mixed",
+        "distillationProducts": ["None"],
+        "distilledModels": ["Undisclosed; MiniMax-M2 (230B/10B-active) model card gives no training-data provenance"],
+        "tosClause": "License: modified-mit — https://huggingface.co/MiniMaxAI/MiniMax-M2",
+        "notableEvents": [
+          "2026-02-23: Anthropic attributes 13M+ exchanges (largest of three labs) focused on agentic coding and tool orchestration; redirected nearly half its traffic to a new Claude model within 24 hours",
+          "2026-04-23: Named in White House NSTM-4 coverage"
+        ],
+        "source": "https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks"
+      },
+      {
+        "name": "Zhipu AI (Z.ai)",
+        "hq": "Beijing, China",
+        "stance": "permissive",
+        "distillationProducts": ["None"],
+        "distilledModels": ["GLM-4.5 355B/32B-active and GLM-4.5-Air 106B/12B-active built with 'expert model iteration and reinforcement learning' (report abstract); explicit self-distillation wording not verified"],
+        "tosClause": "MIT (GLM-4.5 family) — https://arxiv.org/abs/2508.06471",
+        "notableEvents": [
+          "2025-08-08: GLM-4.5 report",
+          "2026-02-23: Explicitly not among labs accused by Anthropic"
+        ],
+        "source": "https://www.latent.space/p/ainews-anthropic-accuses-deepseek"
+      },
+      {
+        "name": "Apple",
+        "hq": "Cupertino, US",
+        "stance": "mixed",
+        "distillationProducts": ["None (Foundation Models framework exposes on-device model to developers; no cloud API)"],
+        "distilledModels": ["On-device ~3B model: dense model trained ~14T tokens, sparse-upcycled into a 64-expert every-2-layer MoE on 1T tokens, then dense model 'retrained ... for the last 10% of tokens (about 1.4T) using a distillation loss from the MoE teacher'; teacher cost cut 90%"],
+        "tosClause": "N/A — no public API for Apple foundation models; Apple states it does not train on user data",
+        "notableEvents": [
+          "2025-07: 2025 tech report documents distillation pipeline and PT-MoE server model (13.4T tokens on 8,192 TPU v5p)"
+        ],
+        "source": "https://arxiv.org/abs/2507.13575"
+      },
+      {
+        "name": "Cohere",
+        "hq": "Toronto, Canada",
+        "stance": "restrictive",
+        "distillationProducts": ["None"],
+        "distilledModels": ["None publicly described; Command A (111B) uses 'self-refinement algorithms and model merging techniques'; Command R7B released under CC-BY-NC"],
+        "tosClause": "\"for the purpose of building a similar or competitive product or service\" — https://cohere.com/terms-of-use (last updated 2022-09-07)",
+        "notableEvents": [
+          "2024-12: Command R7B open weights (CC-BY-NC)",
+          "2025-04-01: Command A technical report"
+        ],
+        "source": "https://arxiv.org/abs/2504.00698"
+      }
+    ]
+  }
+}

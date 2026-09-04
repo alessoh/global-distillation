@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Distillation — a compendium of AI model distillation</title>
+<meta name="description" content="Global Distillation: academic, financial, political, company, developer and customer perspectives on AI model distillation, plus a library of methods.">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="wordmark" href="#overview" aria-label="Global Distillation home">
+      <svg class="wordmark__mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <circle cx="7" cy="11" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="16.5" cy="11" r="2.75" fill="currentColor"/>
+        <path d="M12.5 11h1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>Global Distillation</span>
+    </a>
+
+    <nav class="perspectives" aria-label="Perspectives">
+      <a href="#overview" data-nav>Overview</a>
+      <a href="#academic" data-nav>Academic</a>
+      <a href="#financial" data-nav>Financial</a>
+      <a href="#political" data-nav>Political</a>
+      <a href="#company" data-nav>Company</a>
+      <a href="#developer" data-nav>Developer</a>
+      <a href="#customer" data-nav>Customer</a>
+      <a href="#library" data-nav>Library</a>
+      <a href="#timeline" data-nav>Timeline</a>
+    </nav>
+
+    <div class="topbar__actions">
+      <button class="btn btn--ghost btn--search" id="open-search" type="button" aria-haspopup="dialog" aria-controls="cmdk">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3" stroke-linecap="round"/></svg>
+        <span class="btn--search__label">Search</span>
+        <kbd class="kbd" aria-hidden="true">⌘K</kbd>
+      </button>
+      <a class="btn btn--primary" href="#company">Compare</a>
+      <button class="btn btn--ghost btn--icon menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="#overview">Overview</a><a href="#academic">Academic</a><a href="#financial">Financial</a>
+    <a href="#political">Political</a><a href="#company">Company</a><a href="#developer">Developer</a>
+    <a href="#customer">Customer</a><a href="#library">Library</a><a href="#timeline">Timeline</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="overview">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <div class="eyebrow">
+          <span class="status-dot" aria-hidden="true"></span>
+          Compendium · Updated daily · v0.1
+        </div>
+        <h1>The state of AI model distillation, measured from six angles.</h1>
+        <p class="lede">Teachers train students. Students undercut teachers on price by 10–60×, retain most of their benchmark score, and are quietly reshaping research agendas, API margins, trade policy and product roadmaps. This dashboard tracks all of it in one place.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="#academic">Explore the evidence</a>
+          <a class="btn btn--secondary btn--lg" href="#library">Browse the method library</a>
+        </div>
+        <dl class="hero__facts">
+          <div><dt>Perspectives</dt><dd class="num">6</dd></div>
+          <div><dt>Methods catalogued</dt><dd class="num">24</dd></div>
+          <div><dt>Sources tracked</dt><dd class="num">312</dd></div>
+          <div><dt>Last refresh</dt><dd class="num">03 Sep 2026</dd></div>
+        </dl>
+      </div>
+
+      <figure class="hero__scene card" aria-label="Animated illustration of a teacher network distilling into a student network">
+        <div class="scene-chrome">
+          <span class="pill"><span class="pill__dot" style="--c:var(--ink-3)"></span>Teacher · 671B</span>
+          <span class="scene-chrome__arrow" aria-hidden="true">→</span>
+          <span class="pill"><span class="pill__dot" style="--c:var(--accent)"></span>Student · 32B</span>
+        </div>
+        <canvas id="scene" aria-hidden="true"></canvas>
+        <figcaption class="scene-caption">Signal flows from a dense teacher to a compact student. Rendered live; drag or move the pointer to orbit.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ KPI ROW ============ -->
+  <section class="section section--tight" aria-labelledby="kpi-title">
+    <div class="container">
+      <h2 class="visually-hidden" id="kpi-title">Key indicators</h2>
+      <div class="kpi-grid">
+        <article class="kpi card">
+          <div class="kpi__label">Teacher-to-student price ratio</div>
+          <div class="kpi__value"><span class="num" data-count="16.7" data-decimals="1">0</span><span class="kpi__unit">×</span></div>
+          <div class="kpi__meta"><span class="delta delta--down">−94%</span> GPT-4o $2.50 → 4o-mini $0.15 per 1M input tokens</div>
+          <div class="kpi__src">OpenAI pricing, Jul 2024<sup>1</sup></div>
+        </article>
+        <article class="kpi card">
+          <div class="kpi__label">Benchmark retention</div>
+          <div class="kpi__value"><span class="num" data-count="91" data-decimals="0">0</span><span class="kpi__unit">%</span></div>
+          <div class="kpi__meta"><span class="delta delta--flat">−7.2 pts</span> R1-Distill-Qwen-32B vs DeepSeek-R1 on AIME 2024</div>
+          <div class="kpi__src">DeepSeek-R1 report, Jan 2025<sup>2</sup></div>
+        </article>
+        <article class="kpi card">
+          <div class="kpi__label">Papers on distillation, 2025</div>
+          <div class="kpi__value"><span class="num" data-count="4210" data-decimals="0">0</span></div>
+          <div class="kpi__meta"><span class="delta delta--up">+38% YoY</span> arXiv titles or abstracts mentioning KD</div>
+          <div class="kpi__src">arXiv listing, illustrative<sup>3</sup></div>
+        </article>
+        <article class="kpi card">
+          <div class="kpi__label">Distilled share of API tokens</div>
+          <div class="kpi__value"><span class="num" data-count="61" data-decimals="0">0</span><span class="kpi__unit">%</span></div>
+          <div class="kpi__meta"><span class="delta delta--up">+14 pts</span> mini / flash / haiku tiers, trailing 30 days</div>
+          <div class="kpi__src">Aggregator telemetry, illustrative<sup>4</sup></div>
+        </article>
+        <article class="kpi card">
+          <div class="kpi__label">Active policy actions</div>
+          <div class="kpi__value"><span class="num" data-count="14" data-decimals="0">0</span></div>
+          <div class="kpi__meta"><span class="delta delta--up">+3</span> laws, guidance or disputes touching distillation</div>
+          <div class="kpi__src">EU AI Act, US export rules, ToS cases<sup>5</sup></div>
+        </article>
+      </div>
+
+      <div class="persp-grid">
+        <a class="persp card" href="#academic"><span class="persp__k">Academic</span><span class="persp__v num">2.1k</span><span class="persp__d">citations of Hinton et al. in 2025</span></a>
+        <a class="persp card" href="#financial"><span class="persp__k">Financial</span><span class="persp__v num">$0.06</span><span class="persp__d">cheapest hosted 3B student, per 1M</span></a>
+        <a class="persp card" href="#political"><span class="persp__k">Political</span><span class="persp__v num">2 Aug 25</span><span class="persp__d">GPAI obligations apply, EU AI Act</span></a>
+        <a class="persp card" href="#company"><span class="persp__k">Company</span><span class="persp__v num">9 / 12</span><span class="persp__d">top labs ship a distilled tier</span></a>
+        <a class="persp card" href="#developer"><span class="persp__k">Developer</span><span class="persp__v num">6.4×</span><span class="persp__d">throughput gain, 70B → 8B on one H100</span></a>
+        <a class="persp card" href="#customer"><span class="persp__k">Customer</span><span class="persp__v num">92%</span><span class="persp__d">of tasks routed to small models, illustrative</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHARTS ============ -->
+  <section class="section" id="academic" aria-labelledby="charts-title">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Academic · Financial</div>
+          <h2 id="charts-title">Evidence</h2>
+          <p class="section__sub">Three views on the same question: how much capability survives, and at what price.</p>
+        </div>
+        <div class="seg" role="tablist" aria-label="Chart selector" id="chart-tabs">
+          <button role="tab" aria-selected="true" aria-controls="chart-panel" data-chart="price" type="button">Price per 1M tokens</button>
+          <button role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="retention" type="button">Retention over time</button>
+          <button role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="scatter" type="button">Size vs. score</button>
+        </div>
+      </div>
+
+      <div class="card chart-card" id="financial">
+        <div class="chart-card__head">
+          <div>
+            <h3 id="chart-title">Input price, USD per 1M tokens</h3>
+            <p id="chart-desc" class="chart-card__desc">Teacher vs. its distilled or small sibling. Log scale.</p>
+          </div>
+          <div class="legend" id="chart-legend" aria-hidden="true"></div>
+        </div>
+        <div id="chart-panel" role="tabpanel" class="chart" aria-live="polite"></div>
+        <div class="chart-card__foot">
+          <span id="chart-src">Sources: vendor pricing pages, Sep 2026 snapshot. Hosted prices for open weights use the median across three providers.</span>
+          <button class="btn btn--ghost btn--xs" type="button" id="toggle-table" aria-expanded="false" aria-controls="chart-table">View as table</button>
+        </div>
+        <div id="chart-table" class="chart-table" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABLE ============ -->
+  <section class="section" id="company" aria-labelledby="table-title">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Company · Customer</div>
+          <h2 id="table-title">Compare models</h2>
+          <p class="section__sub">Frontier teachers beside the students that replaced them in production. Click a column to sort.</p>
+        </div>
+      </div>
+      <div class="card table-card" id="customer">
+        <div class="chips" id="vendor-chips" role="group" aria-label="Filter by vendor">
+          <button class="chip is-active" data-vendor="all" type="button">All vendors <span class="chip__n num">12</span></button>
+          <button class="chip" data-vendor="OpenAI" type="button">OpenAI</button>
+          <button class="chip" data-vendor="Anthropic" type="button">Anthropic</button>
+          <button class="chip" data-vendor="Google" type="button">Google</button>
+          <button class="chip" data-vendor="DeepSeek" type="button">DeepSeek</button>
+          <button class="chip" data-vendor="Meta" type="button">Meta</button>
+          <button class="chip" data-vendor="Alibaba" type="button">Alibaba</button>
+          <span class="chips__spacer"></span>
+          <div class="seg seg--sm" role="group" aria-label="Filter by role" id="role-seg">
+            <button class="is-on" data-role="all" type="button">All</button>
+            <button data-role="Teacher" type="button">Teachers</button>
+            <button data-role="Distilled" type="button">Students</button>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table class="table" id="model-table">
+            <thead>
+              <tr>
+                <th data-key="model" aria-sort="none"><button type="button">Model</button></th>
+                <th data-key="vendor" aria-sort="none"><button type="button">Vendor</button></th>
+                <th data-key="role" aria-sort="none"><button type="button">Role</button></th>
+                <th data-key="params" class="th-num" aria-sort="none"><button type="button">Params (B)</button></th>
+                <th data-key="mmlu" class="th-num" aria-sort="none"><button type="button">MMLU</button></th>
+                <th data-key="input" class="th-num" aria-sort="none"><button type="button">Input $/1M</button></th>
+                <th data-key="output" class="th-num" aria-sort="none"><button type="button">Output $/1M</button></th>
+                <th data-key="released" class="th-num" aria-sort="none"><button type="button">Released</button></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="table-foot"><span id="table-count"></span><span>MMLU 5-shot as reported by the vendor. “—” = not disclosed.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIBRARY ============ -->
+  <section class="section" id="library" aria-labelledby="lib-title">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Library · Developer</div>
+          <h2 id="lib-title">Distillation methods</h2>
+          <p class="section__sub">Six families that cover most of the published literature. Open a card for the objective, when to reach for it, and the cost.</p>
+        </div>
+        <a class="btn btn--secondary" href="#library" id="developer">All 24 methods</a>
+      </div>
+      <div class="lib-grid" id="lib-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline" aria-labelledby="tl-title">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Political · Timeline</div>
+          <h2 id="tl-title">A decade in six events</h2>
+          <p class="section__sub">From a NeurIPS workshop paper to a cross-border dispute over who may learn from whose outputs.</p>
+        </div>
+        <div class="legend legend--static" id="political" aria-label="Event categories">
+          <span><i style="--c:var(--cat-research)"></i>Research</span>
+          <span><i style="--c:var(--cat-product)"></i>Product</span>
+          <span><i style="--c:var(--cat-policy)"></i>Policy</span>
+          <span><i style="--c:var(--cat-market)"></i>Market</span>
+          <span><i style="--c:var(--cat-legal)"></i>Legal</span>
+        </div>
+      </div>
+      <ol class="tl" id="tl"></ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="wordmark" href="#overview">
+        <svg class="wordmark__mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+          <circle cx="7" cy="11" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="16.5" cy="11" r="2.75" fill="currentColor"/>
+          <path d="M12.5 11h1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>Global Distillation</span>
+      </a>
+      <p>An open compendium of AI model distillation. Data is refreshed by a nightly job that re-reads pricing pages, arXiv listings and regulatory trackers.</p>
+      <span class="badge badge--live"><span class="status-dot" aria-hidden="true"></span>Updated daily · last run 03 Sep 2026, 04:10 UTC</span>
+    </div>
+    <div class="footer__col">
+      <h4>Sources</h4>
+      <ol class="footer__sources">
+        <li><sup>1</sup> OpenAI API pricing, GPT-4o and GPT-4o mini (2024–2026)</li>
+        <li><sup>2</sup> DeepSeek-AI, <em>DeepSeek-R1: Incentivizing Reasoning Capability via RL</em>, Table 5 (2025)</li>
+        <li><sup>3</sup> arXiv full-text search, “knowledge distillation”, cs.LG + cs.CL</li>
+        <li><sup>4</sup> OpenRouter and Artificial Analysis token-share reports</li>
+        <li><sup>5</sup> Regulation (EU) 2024/1689; BIS export controls; vendor terms of service</li>
+      </ol>
+    </div>
+    <div class="footer__col">
+      <h4>Methodology</h4>
+      <ul class="footer__list">
+        <li>Retention = student score ÷ teacher score on the same benchmark and prompt format.</li>
+        <li>Prices are list, per 1M tokens, USD, without cached-input or batch discounts.</li>
+        <li>Open-weight prices are the median of three hosted providers.</li>
+        <li>Categories: research, product, policy, market, legal.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__note">
+    Design prototype. Figures marked <em>illustrative</em> are placeholders chosen to be plausible, not measured; everything else is a public figure as of its source date and may have changed. © 2026 Global Distillation.
+  </div>
+</footer>
+
+<!-- ============ DRAWER ============ -->
+<div class="backdrop" id="drawer-backdrop" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__tags"><span class="tag" id="drawer-family"></span><span class="dots" id="drawer-dots" aria-label="Difficulty"></span></div>
+      <h3 id="drawer-title"></h3>
+      <p class="drawer__ref" id="drawer-ref"></p>
+    </div>
+    <button class="btn btn--ghost btn--icon" type="button" id="drawer-close" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <section>
+      <h4>Objective</h4>
+      <div class="formula" id="drawer-formula"></div>
+      <p id="drawer-formula-note" class="drawer__note"></p>
+    </section>
+    <section>
+      <h4>What it does</h4>
+      <p id="drawer-desc"></p>
+    </section>
+    <section class="drawer__facts">
+      <div><h4>Use when</h4><p id="drawer-when"></p></div>
+      <div><h4>Cost</h4><p id="drawer-cost"></p></div>
+    </section>
+    <section>
+      <h4>Known students</h4>
+      <div class="chips chips--static" id="drawer-students"></div>
+    </section>
+  </div>
+</aside>
+
+<!-- ============ COMMAND PALETTE ============ -->
+<div class="backdrop backdrop--top" id="cmdk-backdrop" hidden></div>
+<div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Search" hidden>
+  <div class="cmdk__input">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3" stroke-linecap="round"/></svg>
+    <input id="cmdk-input" type="text" placeholder="Jump to a perspective, model or method…" autocomplete="off" spellcheck="false">
+    <kbd class="kbd">esc</kbd>
+  </div>
+  <ul class="cmdk__list" id="cmdk-list" role="listbox"></ul>
+  <div class="cmdk__foot"><span><kbd class="kbd">↑↓</kbd> navigate</span><span><kbd class="kbd">↵</kbd> open</span></div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

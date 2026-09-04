@@ -1,0 +1,14 @@
+{
+  "name": "global-distillation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A dashboard of the global utilization of AI distillation",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "update-data": "node scripts/update-data.mjs",
+    "shot": "node scripts/screenshot.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  }
+}

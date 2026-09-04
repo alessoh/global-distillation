@@ -1,0 +1,591 @@
+{
+  "updated": "2026-09-03T21:17:12.912Z",
+  "generatedBy": "scripts/update-data.mjs",
+  "arxiv": {
+    "totalKD": 5368,
+    "last30d": 80,
+    "perYear": [
+      {
+        "year": 2015,
+        "count": 2
+      },
+      {
+        "year": 2016,
+        "count": 6
+      },
+      {
+        "year": 2017,
+        "count": 20
+      },
+      {
+        "year": 2018,
+        "count": 54
+      },
+      {
+        "year": 2019,
+        "count": 163
+      },
+      {
+        "year": 2020,
+        "count": 342
+      },
+      {
+        "year": 2021,
+        "count": 467
+      },
+      {
+        "year": 2022,
+        "count": 641
+      },
+      {
+        "year": 2023,
+        "count": 807
+      },
+      {
+        "year": 2024,
+        "count": 1016
+      },
+      {
+        "year": 2025,
+        "count": 1122
+      },
+      {
+        "year": 2026,
+        "count": 727
+      }
+    ],
+    "recent": [
+      {
+        "title": "Convergence Theory of Knowledge Distillation in Asynchronous P2P Gossip Learning Network",
+        "url": "http://arxiv.org/abs/2609.01952v1",
+        "published": "2026-09-01T23:52:01Z",
+        "authors": [
+          "Lucas Qingyang Fang",
+          "Tiyao Liu",
+          "Jinhao Jing"
+        ]
+      },
+      {
+        "title": "Knowledge Distillation During Mid-Training Favors Reasoning over Factual Recall",
+        "url": "http://arxiv.org/abs/2609.01532v1",
+        "published": "2026-09-01T17:00:30Z",
+        "authors": [
+          "Jacqueline He",
+          "Howard Yen",
+          "Shuyue Stella Li"
+        ]
+      },
+      {
+        "title": "Position Matters: Feature Inversion Attacks in ViT Split Inference with Token Reduction and Shuffling",
+        "url": "http://arxiv.org/abs/2609.01232v1",
+        "published": "2026-09-01T13:32:30Z",
+        "authors": [
+          "Stefano Leggio",
+          "Giulio Rossolini",
+          "Alessandro Biondi"
+        ]
+      },
+      {
+        "title": "Freshness-Aware Constrained Sensing-Aided Beam Prediction with Knowledge Distillation",
+        "url": "http://arxiv.org/abs/2609.01225v1",
+        "published": "2026-09-01T13:27:03Z",
+        "authors": [
+          "Abolfazl Zakeri",
+          "Nhan Thanh Nguyen",
+          "Ahmed Alkhateeb"
+        ]
+      },
+      {
+        "title": "A Frequency-Aware Dynamic Knowledge Distillation Framework: An Effective Tool for Bridging Low- and High-Frequency Seismic Information",
+        "url": "http://arxiv.org/abs/2609.00828v1",
+        "published": "2026-09-01T07:30:27Z",
+        "authors": [
+          "Jun Ma",
+          "Xinyang Wang",
+          "Xintong Dong"
+        ]
+      },
+      {
+        "title": "A Closed-Loop Evaluation of Capability Loss and Recovery in Compressed Driving Policies",
+        "url": "http://arxiv.org/abs/2609.00718v1",
+        "published": "2026-09-01T04:50:17Z",
+        "authors": [
+          "Ahmad Alfan Alfian Irfan",
+          "Nur Ahmad Khatim",
+          "Mansur Arief"
+        ]
+      },
+      {
+        "title": "CRAD: Class-wise Reliability-Aware Distillation for Decentralized Heterogeneous Federated Learning",
+        "url": "http://arxiv.org/abs/2609.00446v1",
+        "published": "2026-08-31T22:36:30Z",
+        "authors": [
+          "Baraa Bilbeisi",
+          "Mengchen Fan",
+          "Baocheng Geng"
+        ]
+      },
+      {
+        "title": "Uncertainty-Aware Trajectory Forecasting from Imperfect Tracking",
+        "url": "http://arxiv.org/abs/2608.30899v1",
+        "published": "2026-08-31T14:50:38Z",
+        "authors": [
+          "Stephane Da Silva Martins",
+          "Victor Petrovic",
+          "Emanuel Aldea"
+        ]
+      },
+      {
+        "title": "KDGen-BF: A Generative Site-Specific Multi-User Beamforming Approach",
+        "url": "http://arxiv.org/abs/2608.29838v1",
+        "published": "2026-08-30T15:10:19Z",
+        "authors": [
+          "Ruihang Jiang",
+          "Zhaolin Wang",
+          "Yuanwei Liu"
+        ]
+      },
+      {
+        "title": "DISTAL: Distillation and Self-Supervised Pretraining for Structure-Agnostic Materials Property Prediction",
+        "url": "http://arxiv.org/abs/2609.00059v1",
+        "published": "2026-08-30T14:00:55Z",
+        "authors": [
+          "Weiran Wang",
+          "Xintong Huo",
+          "Yueying Wang"
+        ]
+      },
+      {
+        "title": "ACTD: Anchor-Based Cross-Tokenizer Distillation with Residual Regularization",
+        "url": "http://arxiv.org/abs/2608.29662v1",
+        "published": "2026-08-30T08:54:48Z",
+        "authors": [
+          "Huiyi Zhang",
+          "Zijian Li",
+          "Xiaocheng Feng"
+        ]
+      },
+      {
+        "title": "Robust Decentralized Multi-Satellite Massive MIMO Transmission via Knowledge Distillation",
+        "url": "http://arxiv.org/abs/2608.29620v1",
+        "published": "2026-08-30T07:27:36Z",
+        "authors": [
+          "Wenjing Cao",
+          "Zheng Lin",
+          "Yafei Wang"
+        ]
+      }
+    ]
+  },
+  "huggingface": {
+    "distillModels": 16299,
+    "top": [
+      {
+        "id": "facebook/nllb-200-distilled-600M",
+        "downloads": 1437477,
+        "likes": 966,
+        "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "downloads": 548072,
+        "likes": 1607,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "id": "distil-whisper/distil-large-v3",
+        "downloads": 520162,
+        "likes": 379,
+        "url": "https://huggingface.co/distil-whisper/distil-large-v3"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "downloads": 453242,
+        "likes": 1571,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "downloads": 396595,
+        "likes": 675,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+      },
+      {
+        "id": "facebook/nllb-200-distilled-1.3B",
+        "downloads": 382859,
+        "likes": 185,
+        "url": "https://huggingface.co/facebook/nllb-200-distilled-1.3B"
+      },
+      {
+        "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
+        "downloads": 381703,
+        "likes": 94,
+        "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
+      },
+      {
+        "id": "empero-ai/Qwen3.8-2B-Distill-GGUF",
+        "downloads": 381655,
+        "likes": 124,
+        "url": "https://huggingface.co/empero-ai/Qwen3.8-2B-Distill-GGUF"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+        "downloads": 377151,
+        "likes": 875,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
+      },
+      {
+        "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
+        "downloads": 370746,
+        "likes": 206,
+        "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
+      },
+      {
+        "id": "Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF",
+        "downloads": 369464,
+        "likes": 156,
+        "url": "https://huggingface.co/Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "downloads": 364966,
+        "likes": 880,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+      },
+      {
+        "id": "hesamation/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-GGUF",
+        "downloads": 304449,
+        "likes": 292,
+        "url": "https://huggingface.co/hesamation/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
+      },
+      {
+        "id": "Jackrong/Qwen3.5-9B-GLM5.1-Distill-v1-GGUF",
+        "downloads": 301424,
+        "likes": 112,
+        "url": "https://huggingface.co/Jackrong/Qwen3.5-9B-GLM5.1-Distill-v1-GGUF"
+      },
+      {
+        "id": "mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-i1-GGUF",
+        "downloads": 293937,
+        "likes": 122,
+        "url": "https://huggingface.co/mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-i1-GGUF"
+      }
+    ],
+    "tracked": [
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "downloads": 548072,
+        "likes": 1607,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "downloads": 364966,
+        "likes": 880,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+        "downloads": 377151,
+        "likes": 875,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "downloads": 453242,
+        "likes": 1571,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+      },
+      {
+        "id": "distilbert/distilbert-base-uncased",
+        "downloads": 6761868,
+        "likes": 1081,
+        "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
+      },
+      {
+        "id": "Qwen/Qwen3-8B",
+        "downloads": 12826795,
+        "likes": 1341,
+        "url": "https://huggingface.co/Qwen/Qwen3-8B"
+      },
+      {
+        "id": "google/gemma-3-4b-it",
+        "downloads": 1542803,
+        "likes": 1471,
+        "url": "https://huggingface.co/google/gemma-3-4b-it"
+      },
+      {
+        "id": "meta-llama/Llama-3.2-3B-Instruct",
+        "downloads": 1385210,
+        "likes": 2502,
+        "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
+      },
+      {
+        "id": "microsoft/Phi-4-mini-instruct",
+        "downloads": 440794,
+        "likes": 829,
+        "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct"
+      },
+      {
+        "id": "HuggingFaceTB/SmolLM3-3B",
+        "downloads": 564000,
+        "likes": 1020,
+        "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
+      }
+    ]
+  },
+  "github": {
+    "repos": [
+      {
+        "repo": "huggingface/trl",
+        "stars": 19213,
+        "forks": 2953,
+        "pushedAt": "2026-09-03T20:39:52Z",
+        "url": "https://github.com/huggingface/trl"
+      },
+      {
+        "repo": "arcee-ai/DistillKit",
+        "stars": 1052,
+        "forks": 141,
+        "pushedAt": "2026-05-12T20:10:14Z",
+        "url": "https://github.com/arcee-ai/DistillKit"
+      },
+      {
+        "repo": "pytorch/torchtune",
+        "stars": 5802,
+        "forks": 752,
+        "pushedAt": "2026-09-03T11:38:56Z",
+        "url": "https://github.com/meta-pytorch/torchtune"
+      },
+      {
+        "repo": "NVIDIA/NeMo",
+        "stars": 18381,
+        "forks": 3603,
+        "pushedAt": "2026-09-03T20:47:12Z",
+        "url": "https://github.com/NVIDIA-NeMo/Speech"
+      },
+      {
+        "repo": "axolotl-ai-cloud/axolotl",
+        "stars": 12436,
+        "forks": 1421,
+        "pushedAt": "2026-09-03T20:29:13Z",
+        "url": "https://github.com/axolotl-ai-cloud/axolotl"
+      },
+      {
+        "repo": "unslothai/unsloth",
+        "stars": 75562,
+        "forks": 6863,
+        "pushedAt": "2026-09-03T21:11:15Z",
+        "url": "https://github.com/unslothai/unsloth"
+      },
+      {
+        "repo": "hiyouga/LLaMA-Factory",
+        "stars": 74555,
+        "forks": 9136,
+        "pushedAt": "2026-09-02T07:52:23Z",
+        "url": "https://github.com/hiyouga/LlamaFactory"
+      },
+      {
+        "repo": "vllm-project/vllm",
+        "stars": 90906,
+        "forks": 21666,
+        "pushedAt": "2026-09-03T21:07:30Z",
+        "url": "https://github.com/vllm-project/vllm"
+      },
+      {
+        "repo": "sgl-project/sglang",
+        "stars": 34065,
+        "forks": 8523,
+        "pushedAt": "2026-09-03T21:16:07Z",
+        "url": "https://github.com/sgl-project/sglang"
+      },
+      {
+        "repo": "huggingface/open-r1",
+        "stars": 26448,
+        "forks": 2448,
+        "pushedAt": "2026-04-02T14:03:15Z",
+        "url": "https://github.com/huggingface/open-r1"
+      },
+      {
+        "repo": "open-thoughts/open-thoughts",
+        "stars": 2330,
+        "forks": 194,
+        "pushedAt": "2025-12-02T21:57:07Z",
+        "url": "https://github.com/open-thoughts/open-thoughts"
+      },
+      {
+        "repo": "EleutherAI/lm-evaluation-harness",
+        "stars": 13881,
+        "forks": 3537,
+        "pushedAt": "2026-09-01T13:51:29Z",
+        "url": "https://github.com/EleutherAI/lm-evaluation-harness"
+      },
+      {
+        "repo": "SafeAILab/EAGLE",
+        "stars": 2524,
+        "forks": 295,
+        "pushedAt": "2026-02-20T02:53:29Z",
+        "url": "https://github.com/SafeAILab/EAGLE"
+      },
+      {
+        "repo": "NovaSky-AI/SkyThought",
+        "stars": 3399,
+        "forks": 344,
+        "pushedAt": "2025-07-12T03:05:27Z",
+        "url": "https://github.com/NovaSky-AI/SkyThought"
+      },
+      {
+        "repo": "simplescaling/s1",
+        "stars": 6667,
+        "forks": 756,
+        "pushedAt": "2025-06-25T18:59:18Z",
+        "url": "https://github.com/simplescaling/s1"
+      }
+    ]
+  },
+  "news": {
+    "items": [
+      {
+        "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
+        "url": "https://www.ctgt.ai/research/distillation-censorship-transfer",
+        "source": "ctgt.ai",
+        "points": 170,
+        "date": "2026-07-30T18:13:06Z"
+      },
+      {
+        "title": "The tech world is suddenly obsessed with one concept in AI: Distillation",
+        "url": "https://www.cnbc.com/2026/07/25/hat-is-distillation-and-why-is-everyone-so-obsessed-with-it-this-week.html",
+        "source": "cnbc.com",
+        "points": 3,
+        "date": "2026-07-25T14:58:39Z"
+      },
+      {
+        "title": "Top White House official escalating the fight over Moonshot AI's Kimi K3 model",
+        "url": "https://www.businessinsider.com/white-house-kimi-k3-moonshot-ai-distillation-2026-7",
+        "source": "businessinsider.com",
+        "points": 7,
+        "date": "2026-07-22T19:02:59Z"
+      },
+      {
+        "title": "Updating IP Regulations for AI Distillation",
+        "url": "https://www.marble.onl/posts/copyright_vs_ai.html",
+        "source": "marble.onl",
+        "points": 2,
+        "date": "2026-07-19T00:14:11Z"
+      },
+      {
+        "title": "Responding to AI Distillation Without Panic",
+        "url": "https://www.lawfaremedia.org/article/responding-to-ai-distillation-without-panic",
+        "source": "lawfaremedia.org",
+        "points": 2,
+        "date": "2026-07-16T21:08:25Z"
+      },
+      {
+        "title": "A brief history of distillation in AI",
+        "url": "https://twitter.com/SergioPaniego/status/2073066275819991472",
+        "source": "twitter.com",
+        "points": 2,
+        "date": "2026-07-13T18:50:32Z"
+      },
+      {
+        "title": "American A.I. Companies Say Chinese Copycats Are Quickly Catching Up",
+        "url": "https://www.nytimes.com/2026/07/06/technology/ai-distillation-china.html",
+        "source": "nytimes.com",
+        "points": 8,
+        "date": "2026-07-06T17:23:03Z"
+      },
+      {
+        "title": "Anthropic Accuses Alibaba of Largest AI Distillation Attack: 28.8M Fraudulent",
+        "url": "https://yipzap.com/anthropic-accuses-alibaba-of-largest-ai-distillation-attack-28-8m-fraudulent-exchanges/",
+        "source": "yipzap.com",
+        "points": 4,
+        "date": "2026-06-26T00:49:44Z"
+      },
+      {
+        "title": "96% Correct Next Token Prediction, with No DNN, No Training, Autodistilled Model",
+        "url": "https://mltechniques.com/2026/05/25/96-correct-next-token-prediction-with-no-dnn-no-training-auto-distilled-model/",
+        "source": "mltechniques.com",
+        "points": 3,
+        "date": "2026-05-25T06:21:31Z"
+      },
+      {
+        "title": "I over-engineered my simple AI backend: distillation, router, embedding etc.",
+        "url": "https://sisyphusconsulting.org/case-studies/2026/04/01/scaling-llms-at-the-edge/",
+        "source": "sisyphusconsulting.org",
+        "points": 2,
+        "date": "2026-04-30T14:25:53Z"
+      },
+      {
+        "title": "US accuses China of industrial-scale AI model distillation, will share Intel",
+        "url": "https://thenextweb.com/news/us-white-house-ai-model-distillation-china-theft",
+        "source": "thenextweb.com",
+        "points": 11,
+        "date": "2026-04-29T21:16:35Z"
+      },
+      {
+        "title": "When model distillation becomes a diplomatic incident",
+        "url": "https://underlines.news/2026/04/26/us-orders-global-diplomatic-warning-on-chinese-distillation-of-ai-models",
+        "source": "underlines.news",
+        "points": 1,
+        "date": "2026-04-28T09:22:28Z"
+      },
+      {
+        "title": "White House Memo on Adversarial Distillation of American AI Models [pdf]",
+        "url": "https://whitehouse.gov/wp-content/uploads/2026/04/NSTM-4.pdf",
+        "source": "whitehouse.gov",
+        "points": 7,
+        "date": "2026-04-25T00:53:13Z"
+      },
+      {
+        "title": "When Distillation Strips the Soul: Safety Comparison of a Claude-Distilled Model",
+        "url": "https://netrork.com/blog/when-distillation-strips-the-soul/",
+        "source": "netrork.com",
+        "points": 1,
+        "date": "2026-03-08T01:46:51Z"
+      },
+      {
+        "title": "Show HN: Aside – Local meeting capture with vault-native AI distillation",
+        "url": "https://github.com/jshph/aside/",
+        "source": "github.com",
+        "points": 1,
+        "date": "2026-03-03T15:27:35Z"
+      },
+      {
+        "title": "AI could eat itself: Competitors (..) steal their secrets and clone them",
+        "url": "https://www.theregister.com/2026/02/14/ai_risk_distillation_attacks/",
+        "source": "theregister.com",
+        "points": 12,
+        "date": "2026-02-14T11:59:12Z"
+      },
+      {
+        "title": "Google identifies over 100k prompts used in distillation attacks",
+        "url": "https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use",
+        "source": "cloud.google.com",
+        "points": 7,
+        "date": "2026-02-12T21:16:33Z"
+      },
+      {
+        "title": "Show HN: Feedstack – SerpAPI/OpenAI extract feature requests from Reddit/forums",
+        "url": "https://feedstack.app",
+        "source": "feedstack.app",
+        "points": 2,
+        "date": "2026-01-07T16:07:57Z"
+      },
+      {
+        "title": "Show HN: Reverse Jailbreaking a Psychopathic AI via Identity Injection",
+        "url": "https://github.com/DRawson5570/AI-Wisdom-Distillation",
+        "source": "github.com",
+        "points": 5,
+        "date": "2025-11-22T20:33:51Z"
+      },
+      {
+        "title": "Distillation makes AI models smaller and cheaper",
+        "url": "https://www.quantamagazine.org/how-distillation-makes-ai-models-smaller-and-cheaper-20250718/",
+        "source": "quantamagazine.org",
+        "points": 164,
+        "date": "2025-07-20T22:09:27Z"
+      }
+    ]
+  },
+  "errors": []
+}

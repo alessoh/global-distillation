@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Global Distillation — a compendium of AI model distillation</title>
+  <meta name="description" content="Academic, financial, political, company, developer and customer perspectives on AI model distillation, plus a library of methods.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="wordmark" href="#overview" aria-label="Global Distillation home">
+      <svg class="wordmark__mark" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <circle cx="8" cy="11" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="16" cy="11" r="3" fill="currentColor"/>
+        <path d="M14.5 11H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>Global Distillation</span>
+      <span class="wordmark__sub">Compendium v0.3</span>
+    </a>
+    <nav class="nav" aria-label="Perspectives">
+      <a href="#overview">Overview</a>
+      <a href="#academic">Academic</a>
+      <a href="#financial">Financial</a>
+      <a href="#political">Political</a>
+      <a href="#company">Company</a>
+      <a href="#developer">Developer</a>
+      <a href="#customer">Customer</a>
+      <a href="#library">Library</a>
+      <a href="#timeline">Timeline</a>
+    </nav>
+    <div class="topbar__spacer"></div>
+    <button class="cmd" id="cmd-open" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="cmd__label">Search models, methods, events</span>
+      <span class="kbd">Ctrl K</span>
+    </button>
+    <button class="icon-btn" id="cmd-open-mobile" type="button" aria-label="Search">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <a class="btn btn--primary btn--compare" href="#compare" aria-label="Compare models">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 4h6M2.5 8h11M2.5 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11.5 2.5l2 1.5-2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Compare</span>
+    </a>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail" aria-label="Section index">
+    <div class="rail__group">
+      <div class="rail__title eyebrow">Perspectives</div>
+      <a href="#overview" data-rail="overview"><span class="idx">00</span><span>Overview<span class="sub">Key figures, one page</span></span></a>
+      <a href="#academic" data-rail="academic"><span class="idx">01</span><span>Academic<span class="sub">Papers, benchmarks, retention</span></span></a>
+      <a href="#financial" data-rail="financial"><span class="idx">02</span><span>Financial<span class="sub">Token prices, training cost</span></span></a>
+      <a href="#political" data-rail="political"><span class="idx">03</span><span>Political<span class="sub">Regulation, export controls</span></span></a>
+      <a href="#company" data-rail="company"><span class="idx">04</span><span>Company<span class="sub">Terms of service, disputes</span></span></a>
+      <a href="#developer" data-rail="developer"><span class="idx">05</span><span>Developer<span class="sub">Tooling, recipes</span></span></a>
+      <a href="#customer" data-rail="customer"><span class="idx">06</span><span>Customer<span class="sub">What to buy, at what price</span></span></a>
+    </div>
+    <div class="rail__group">
+      <div class="rail__title eyebrow">Reference</div>
+      <a href="#library" data-rail="library"><span class="idx">07</span><span>Library<span class="sub">Six method families</span></span></a>
+      <a href="#timeline" data-rail="timeline"><span class="idx">08</span><span>Timeline<span class="sub">2015 → 2025</span></span></a>
+    </div>
+    <div class="rail__foot"><span class="dot"></span>Data refreshed 2026-09-03<br>06:00 UTC · 142 sources</div>
+  </aside>
+
+  <main class="main">
+    <nav class="mobile-rail" aria-label="Perspectives (mobile)">
+      <a class="chip" href="#overview">Overview</a><a class="chip" href="#academic">Academic</a><a class="chip" href="#financial">Financial</a><a class="chip" href="#political">Political</a><a class="chip" href="#company">Company</a><a class="chip" href="#developer">Developer</a><a class="chip" href="#customer">Customer</a><a class="chip" href="#library">Library</a><a class="chip" href="#timeline">Timeline</a>
+    </nav>
+
+    <!-- ============ OVERVIEW / HERO ============ -->
+    <section class="section" id="overview">
+      <div class="hero">
+        <div class="hero__copy">
+          <div class="eyebrow eyebrow--accent">A public compendium <span class="sep"></span> Updated daily</div>
+          <h1 class="h-display">How frontier intelligence is compressed, priced, and contested.</h1>
+          <p class="lede">Global Distillation tracks the transfer of capability from large teacher models to small student models — across the research literature, token prices, regulation, corporate terms and what customers actually buy.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#financial">Explore the figures</a>
+            <a class="btn btn--secondary btn--lg" href="#library">Browse the method library</a>
+          </div>
+          <div class="hero__facts">
+            <div><strong class="num">6</strong><span>Perspectives</span></div>
+            <div><strong class="num">38</strong><span>Models tracked</span></div>
+            <div><strong class="num">142</strong><span>Primary sources</span></div>
+            <div><strong class="num">2015 – 2025</strong><span>Coverage</span></div>
+          </div>
+        </div>
+        <figure class="figure hero__figure" id="hero-figure">
+          <div class="figure__grid"></div>
+          <div id="hero-canvas"></div>
+          <div class="figure__tag"><span class="eyebrow">Fig. 0</span><span class="eyebrow" style="color:var(--ink-4)">Knowledge transfer, schematic</span></div>
+          <div class="figure__legend">
+            <span><i style="background:#7f9bc4"></i>Teacher</span>
+            <span><i style="background:#2563c9"></i>Student</span>
+            <span><i style="background:#d9622b"></i>Signal</span>
+          </div>
+          <svg class="hero__fallback" viewBox="0 0 400 300" aria-hidden="true">
+            <g fill="#7f9bc4" opacity=".8"><circle cx="120" cy="150" r="70" fill="none" stroke="#7f9bc4" stroke-width="1"/><circle cx="120" cy="150" r="46" fill="none" stroke="#7f9bc4" stroke-width="1"/></g>
+            <g fill="#2563c9"><circle cx="300" cy="150" r="30" fill="none" stroke="#2563c9" stroke-width="1"/></g>
+            <path d="M190 150 C 230 110, 250 190, 270 150" stroke="#d9622b" fill="none" stroke-width="1.5"/>
+          </svg>
+          <figcaption class="figure__caption"><span>A dense teacher network (left) supervises a sparse student (right) through soft targets, features or generated data.</span><span class="num">1 : 8 params</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+      <p class="footnote">Figures on this prototype are illustrative placeholders assembled from public pricing pages, model reports and press coverage; they are not a live feed. See methodology in the footer.<sup>†</sup></p>
+    </section>
+
+    <!-- ============ PERSPECTIVE BRIEFS ============ -->
+    <section class="section" id="perspectives">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Six perspectives</div>
+          <h2 class="h-section">The same phenomenon, read six ways</h2>
+          <p class="section__desc">Each perspective is a separate data file with its own statistics, tables, charts and sources. The headline finding from each is summarised here.</p>
+        </div>
+      </div>
+      <div class="briefs">
+        <article class="brief" id="academic">
+          <div class="brief__head"><span class="eyebrow">Academic</span><span class="idx">01</span></div>
+          <h3>Distilled reasoners keep ~90% of teacher accuracy at 1/20 the parameters.</h3>
+          <p>DeepSeek-R1-Distill-Qwen-32B scores 72.6 on AIME 2024 against the 671B-parameter teacher's 79.8 — evidence that reasoning traces transfer as supervised data alone.</p>
+          <div class="brief__stat"><b class="num">91%</b><span>AIME 2024 retention, 32B student vs. R1 teacher</span></div>
+        </article>
+        <article class="brief" id="financial">
+          <div class="brief__head"><span class="eyebrow">Financial</span><span class="idx">02</span></div>
+          <h3>Small tiers are priced 15–20× below their frontier parent within a quarter.</h3>
+          <p>GPT-4o output tokens list at $10.00 per million; GPT-4o mini at $0.60. The gap is the business model of distillation, and it compounds as frontier prices fall.</p>
+          <div class="brief__stat"><b class="num">16.7×</b><span>GPT-4o : GPT-4o mini output price</span></div>
+        </article>
+        <article class="brief" id="political">
+          <div class="brief__head"><span class="eyebrow">Political</span><span class="idx">03</span></div>
+          <h3>Regulators treat distillation as both a compliance path and a leakage risk.</h3>
+          <p>The EU AI Act's general-purpose model obligations (in force 2 Aug 2025) reach downstream fine-tuners; US export-control debate frames distillation as capability transfer.</p>
+          <div class="brief__stat"><b class="num">7</b><span>jurisdictions with relevant provisions</span></div>
+        </article>
+        <article class="brief" id="company">
+          <div class="brief__head"><span class="eyebrow">Company</span><span class="idx">04</span></div>
+          <h3>Terms of service now name distillation explicitly — and enforcement is starting.</h3>
+          <p>OpenAI alleged in January 2025 that DeepSeek used its outputs to train competing models, citing usage terms that prohibit using outputs "to develop models that compete".</p>
+          <div class="brief__stat"><b class="num">5 / 6</b><span>major labs restrict output-based training</span></div>
+        </article>
+        <article class="brief" id="developer">
+          <div class="brief__head"><span class="eyebrow">Developer</span><span class="idx">05</span></div>
+          <h3>Managed distillation is a product: upload prompts, pick a student, pay per token.</h3>
+          <p>OpenAI, Google and open-source stacks (TRL, DistilKit, Unsloth) turn a research technique into a form; the median recipe costs under $500 in teacher tokens.</p>
+          <div class="brief__stat"><b class="num">$420</b><span>median teacher-token cost per recipe</span></div>
+        </article>
+        <article class="brief" id="customer">
+          <div class="brief__head"><span class="eyebrow">Customer</span><span class="idx">06</span></div>
+          <h3>For most production workloads the distilled tier is the rational default.</h3>
+          <p>Latency, price and retention line up: the compendium's decision guide recommends a distilled or small-tier model for 9 of 12 canonical use cases.</p>
+          <div class="brief__stat"><b class="num">9 / 12</b><span>use cases where a distilled model is recommended</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ CHART PANEL ============ -->
+    <section class="section" id="figures">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Figure 1</div>
+          <h2 class="h-section">Price, retention and the frontier gap</h2>
+          <p class="section__desc">Three views of the same 38-model dataset. Toggle log and linear scales; filter by vendor. Colour follows the vendor everywhere on this page.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel__toolbar">
+          <div class="seg" role="tablist" aria-label="Chart type" id="chart-tabs">
+            <button role="tab" data-chart="bar" aria-pressed="true"><svg viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="1" y="6" width="3" height="7"/><rect x="5.5" y="2" width="3" height="11"/><rect x="10" y="8" width="3" height="5"/></svg>Teacher vs. student price</button>
+            <button role="tab" data-chart="line" aria-pressed="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 11l4-5 3 3 5-7"/></svg>Small-tier price over time</button>
+            <button role="tab" data-chart="scatter" aria-pressed="false"><svg viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><circle cx="3" cy="10" r="1.6"/><circle cx="7" cy="5" r="1.6"/><circle cx="11" cy="8" r="1.6"/><circle cx="10" cy="2.5" r="1.6"/></svg>Price vs. capability</button>
+          </div>
+          <div class="seg seg--small" role="group" aria-label="Scale" id="scale-toggle">
+            <button data-scale="log" aria-pressed="true">Log</button>
+            <button data-scale="linear" aria-pressed="false">Linear</button>
+          </div>
+          <div class="spacer"></div>
+          <div class="chips" id="vendor-chips" aria-label="Vendor filter"></div>
+        </div>
+        <div class="panel__body">
+          <div class="chart-title"><h3 id="chart-heading">Output price, frontier model vs. its distilled or small tier</h3><span class="unit" id="chart-unit">USD per 1M output tokens</span></div>
+          <div class="chart" id="chart"></div>
+        </div>
+        <div class="panel__notes">
+          <div class="note" id="chart-note"></div>
+          <div class="note" id="chart-sources"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPARISON TABLE ============ -->
+    <section class="section" id="compare">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Table 1</div>
+          <h2 class="h-section">Frontier models and their distilled counterparts</h2>
+          <p class="section__desc">Click a column heading to sort. Retention is the student's GPQA Diamond score as a share of its teacher's; open-weight prices are the median hosted rate.</p>
+        </div>
+        <div class="section__tools">
+          <button class="btn btn--secondary" id="toggle-distilled" aria-pressed="false">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Distilled only
+          </button>
+        </div>
+      </div>
+      <div class="table-tools">
+        <div class="chips" id="table-chips" aria-label="Vendor filter for table"></div>
+        <span class="count" id="table-count"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table id="cmp-table">
+            <thead><tr id="cmp-head"></tr></thead>
+            <tbody id="cmp-body"></tbody>
+          </table>
+        </div>
+        <div class="table-foot">
+          <span>Prices are list prices at 2026-09-01 for ≤128k context; open-weight rates are medians across three hosts. Benchmarks as self-reported unless noted.</span>
+          <span class="num">Illustrative data<sup>†</sup></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIBRARY ============ -->
+    <section class="section" id="library">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Library</div>
+          <h2 class="h-section">Six families of distillation</h2>
+          <p class="section__desc">Each card opens a method note with the canonical objective, what access to the teacher it needs, and when to reach for it.</p>
+        </div>
+      </div>
+      <div class="library" id="library-grid"></div>
+    </section>
+
+    <!-- ============ TIMELINE ============ -->
+    <section class="section" id="timeline">
+      <div class="section__head">
+        <div>
+          <div class="eyebrow">Timeline</div>
+          <h2 class="h-section">From a 2015 workshop paper to a market event</h2>
+          <p class="section__desc">Six inflection points. Colour marks the category; the full timeline holds 48 events from 2006 onward.</p>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tl__axis"></div>
+        <div class="tl__items" id="tl-items"></div>
+        <div class="tl__legend" id="tl-legend"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__grid">
+      <div>
+        <h4>Methodology</h4>
+        <p>Every numeric claim carries a primary source: pricing pages, model cards, technical reports, statutes or filings. Retention is computed as student ÷ teacher on the same benchmark and prompt setting. Prices are list prices in USD per million tokens, snapshotted daily at 06:00 UTC.</p>
+        <span class="badge"><i></i>Updated daily · 2026-09-03 06:00 UTC</span>
+      </div>
+      <div>
+        <h4>Sources</h4>
+        <ul>
+          <li><a href="https://openai.com/api/pricing/" rel="noopener">OpenAI API pricing</a></li>
+          <li><a href="https://github.com/deepseek-ai/DeepSeek-R1" rel="noopener">DeepSeek-R1 technical report</a></li>
+          <li><a href="https://ai.google.dev/pricing" rel="noopener">Google Gemini API pricing</a></li>
+          <li><a href="https://arxiv.org/abs/1503.02531" rel="noopener">Hinton, Vinyals &amp; Dean (2015)</a></li>
+          <li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">Regulation (EU) 2024/1689</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Perspectives</h4>
+        <ul>
+          <li><a href="#academic">Academic</a></li><li><a href="#financial">Financial</a></li><li><a href="#political">Political</a></li>
+          <li><a href="#company">Company</a></li><li><a href="#developer">Developer</a></li><li><a href="#customer">Customer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Data</h4>
+        <ul>
+          <li><a href="#">Download all perspectives (JSON)</a></li>
+          <li><a href="#">Schema reference</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Report an error</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>Global Distillation · An open compendium. Text CC BY 4.0; data CC0 where sources permit.</span>
+      <span><sup>†</sup> Placeholder figures in this design prototype are illustrative and will be replaced by the daily data feed.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Method drawer -->
+<dialog class="drawer" id="drawer" aria-labelledby="drawer-title">
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="eyebrow" id="drawer-eyebrow">Method note</span>
+      <button class="close" id="drawer-close" type="button" aria-label="Close"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button>
+    </div>
+    <div class="drawer__body" id="drawer-body"></div>
+  </div>
+</dialog>
+
+<!-- Command palette -->
+<dialog class="palette" id="palette" aria-label="Search">
+  <div class="palette__panel">
+    <div class="palette__input">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input id="palette-input" type="text" placeholder="Jump to a perspective, model or method…" autocomplete="off">
+      <span class="kbd">Esc</span>
+    </div>
+    <ul class="palette__list" id="palette-list"></ul>
+  </div>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

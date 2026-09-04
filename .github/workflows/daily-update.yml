@@ -1,0 +1,48 @@
+# Daily refresh of data/live.json (arXiv, Hugging Face, GitHub, Hacker News signals).
+#
+# Deployment note: this workflow never talks to Vercel. The site is deployed through
+# Vercel's Git integration, which watches the `main` branch of this repo. Pushing the
+# refreshed data/live.json to main is enough to trigger a new production deployment,
+# so no VERCEL_TOKEN or deploy step is needed here.
+name: Daily data refresh
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # daily at 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch live signals
+        run: node scripts/update-data.mjs
+        env:
+          # Raises the GitHub API rate limit for the repo-stats source; optional.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push if data/live.json changed
+        run: |
+          git add data/live.json
+          if git diff --cached --quiet; then
+            echo "data/live.json unchanged; nothing to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(data): daily refresh $(date -u +%Y-%m-%d)"
+          # Pushing to main triggers Vercel's Git integration to redeploy the site.
+          git push origin HEAD:main
