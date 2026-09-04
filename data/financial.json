@@ -1,0 +1,3633 @@
+{
+  "perspective": "financial",
+  "title": "The economics of AI distillation: prices, training costs, and the market shocks",
+  "updated": "2026-09-03",
+  "summary": "Distillation is, at bottom, an arbitrage: the capability embedded in a $40M-$500M frontier training run can be harvested through an API for a four- or five-figure query bill and re-trained into a small model for hundreds of dollars. That asymmetry is now visible in published price lists, where the gap between a vendor's flagship and its small tier runs 10x to 42x on output tokens, and in the research record, where Sky-T1-32B was distilled for under $450 and s1-32B for a reported ~$50. It became a macro event on 27 January 2025, when DeepSeek-R1 and its six open-weight distilled students wiped $589B off Nvidia's market capitalisation in a single session - the largest one-day loss in stock-market history - and it became a policy event in February 2026 when OpenAI told the House Select Committee on China that DeepSeek was running obfuscated distillation pipelines against its models. The counter-trend matters too: Epoch AI measures inference prices for a fixed capability level falling 9x-900x per year, which compresses the payback on self-hosting a distilled model to the point where, on our own TCO model, a single-GPU deployment only beats Claude Haiku 4.5 above ~658M output tokens a month and never beats the cheapest serverless open-model endpoints. And in August 2026 DeepSeek reversed the race to zero, raising V4 API prices by as much as 1,100% and introducing peak/off-peak rates - the first major signal that ultra-cheap distilled inference was being priced against capacity, not against marginal cost.",
+  "stats": [
+    {
+      "label": "Nvidia single-day market-cap loss",
+      "value": 589,
+      "unit": "USD billions",
+      "delta": "-17% in one session",
+      "note": "27 Jan 2025, after DeepSeek-R1 and its distilled students shipped. Largest one-day loss in US market history.",
+      "source": "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html"
+    },
+    {
+      "label": "Cost to train Sky-T1-32B by distillation",
+      "value": 450,
+      "unit": "USD",
+      "delta": "8x H100 for 19 hours",
+      "note": "Matches o1-preview on Math500 and AIME24; teacher was QwQ-32B-Preview, base was Qwen2.5-32B-Instruct.",
+      "source": "https://novasky-ai.github.io/posts/sky-t1/"
+    },
+    {
+      "label": "DeepSeek-R1 reinforcement-learning training cost",
+      "value": 294000,
+      "unit": "USD",
+      "delta": "512 H800s x 80 hours",
+      "note": "Disclosed in the peer-reviewed Nature paper, Sept 2025. Excludes the ~$5.6M base-model run and all R&D, data and infrastructure.",
+      "source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+    },
+    {
+      "label": "Frontier-vs-small output price spread, OpenAI",
+      "value": 42,
+      "unit": "x",
+      "delta": "$50 vs $1.20 per MTok",
+      "note": "gpt-6-astra output $50/MTok against gpt-5.6-luna at $1.20/MTok on the same list.",
+      "source": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "label": "Inference price decline for fixed capability",
+      "value": 900,
+      "unit": "x per year (upper bound)",
+      "delta": "range 9x-900x",
+      "note": "Epoch AI, measuring the cheapest model clearing a fixed benchmark threshold. GPT-4-level fell from $37.50/MTok (Mar 2023) to $0.18/MTok (Feb 2025).",
+      "source": "https://epoch.ai/data-insights/llm-inference-price-trends"
+    },
+    {
+      "label": "Frontier training-run cost growth",
+      "value": 2.4,
+      "unit": "x per year",
+      "delta": "95% CI 2.0x-3.1x, since 2016",
+      "note": "Epoch AI, amortised hardware + energy across 45 frontier models; cloud-rental method gives 2.6x/yr.",
+      "source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+    },
+    {
+      "label": "Teacher-query bill to rebuild an 800k-trace reasoning corpus",
+      "value": 40000,
+      "unit": "USD (upper end)",
+      "delta": "$1,920 at the cheap end",
+      "note": "Author calculation: 800k traces x 2,000 output tokens = 1.6B output tokens, priced at 2026 list rates from Claude Opus 5 ($25/MTok) down to gpt-5.6-luna ($1.20/MTok).",
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+    },
+    {
+      "label": "DeepSeek V4 API price increase",
+      "value": 1100,
+      "unit": "% (maximum)",
+      "delta": "effective 16 Aug 2026",
+      "note": "Cache-hit input tokens rose up to 1,100%; output tokens 127%-371%. Peak/off-peak schedule introduced for the first time.",
+      "source": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+    }
+  ],
+  "keyFindings": [
+    {
+      "title": "The distillation arbitrage is a five-order-of-magnitude gap, and it is widening",
+      "detail": "Epoch AI puts the final training run of GPT-4 at roughly $40M on an amortised-hardware basis (the Stanford AI Index puts it at $78M on cloud-rental accounting), and frontier run costs have grown 2.4x per year since 2016. Against that, Sky-T1-32B was distilled for under $450 of GPU time and TinyZero reproduced R1-Zero-style behaviour for under $30. Even the teacher-query cost is small: at 2026 list prices, regenerating an 800k-trace reasoning corpus like the one behind DeepSeek's R1-Distill family costs $1,920 (gpt-5.6-luna) to $40,000 (Claude Opus 5). The ratio between building the capability and copying it is roughly 1,000:1 to 100,000:1.",
+      "audience": [
+        "customer",
+        "developer",
+        "political"
+      ],
+      "sources": [
+        "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://developers.openai.com/api/docs/pricing"
+      ]
+    },
+    {
+      "title": "Every major vendor now sells its own distillation discount as a product tier",
+      "detail": "The frontier-to-small spread on output tokens is 10x at Anthropic (Claude Fable 5.1 at $50/MTok vs Haiku 4.5 at $5/MTok), 42x at OpenAI (gpt-6-astra $50 vs gpt-5.6-luna $1.20), 30x at Google (Gemini 3.1 Pro $12 vs Gemini 2.5 Flash-Lite $0.40) and 75x at Mistral (Medium 3.5 at $7.50 vs Ministral 3 3B at $0.10). Vendors capture the distillation margin internally rather than losing it to third parties. The commercial logic is that a customer who would otherwise self-distill can be retained at a price point the vendor still profits at.",
+      "audience": [
+        "customer",
+        "company"
+      ],
+      "sources": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://mistral.ai/pricing/api"
+      ]
+    },
+    {
+      "title": "Self-hosting a distilled model is now the expensive option for most buyers",
+      "detail": "On our TCO model (1x H100 SXM at $2.40/GPU-hour on demand, 24/7, plus 0.25 FTE of MLOps at $200k/yr fully loaded = $5,919/month), a self-hosted distilled model only undercuts Claude Opus 5 above ~132M output tokens a month, Claude Sonnet 5 above ~329M, and Claude Haiku 4.5 above ~658M. It never undercuts gpt-5.6-luna or DeepSeek V4-Flash within the throughput capacity of a single GPU. Serverless open-model endpoints have eaten the economic case for owning inference except at genuine scale or where data residency forces it.",
+      "audience": [
+        "customer",
+        "developer"
+      ],
+      "sources": [
+        "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/"
+      ]
+    },
+    {
+      "title": "The January 2025 shock repriced compute, not software",
+      "detail": "DeepSeek-R1 shipped on 20 January 2025 with six open-weight distilled students under MIT licence. Seven days later Nvidia fell 17% and lost $589B of market capitalisation, the Nasdaq 100 fell 3%, and the semiconductor index had its worst day since March 2020. The market read distillation as a claim that frontier capability could be reproduced without frontier capital expenditure. It was wrong on the timescale: Nvidia crossed $5T in October 2025 - the first company ever to do so - and stood at roughly $5.43T on 2 September 2026.",
+      "audience": [
+        "customer",
+        "political",
+        "company"
+      ],
+      "sources": [
+        "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html",
+        "https://www.thenationalnews.com/future/technology/2026/04/25/will-deepseeks-new-ai-model-crash-nvidias-5tn-party/",
+        "https://stockanalysis.com/stocks/nvda/market-cap/"
+      ]
+    },
+    {
+      "title": "DeepSeek's $5.6M figure was a marginal-cost number, and the dispute is about accounting",
+      "detail": "The DeepSeek-V3 technical report states 2.788M H800 GPU-hours for full training; the widely circulated $5.576M is that figure multiplied by an assumed $2/GPU-hour rental rate. SemiAnalysis countered on 31 January 2025 that DeepSeek's server capex is around $1.6B across roughly 50,000 Hopper GPUs with about $944M of operating cost, and that the published number excludes R&D, data, failed runs and hardware total cost of ownership. The Nature paper on R1 (Sept 2025) is narrower still: $294,000 covers only the reinforcement-learning stage on top of an already-trained base.",
+      "audience": [
+        "customer",
+        "political"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2412.19437",
+        "https://semianalysis.com/2025/01/31/deepseek-debates/",
+        "https://www.theregister.com/2025/09/19/deepseek_cost_train/"
+      ]
+    },
+    {
+      "title": "The race to zero reversed in August 2026",
+      "detail": "DeepSeek warned on 6 August 2026 of a significant price increase and implemented it on 16 August: V4-Flash output went from $0.28/MTok to $0.66 off-peak and $1.32 at peak; V4-Pro output from $0.87 to $1.98/$3.96. Cache-hit input tokens rose by as much as 1,100%. Seventeen of twenty-four hours remain at the half-price off-peak rate, and peak hours are set on Beijing business time, so the increase falls hardest on domestic users and lightest on Western buyers. The signal is that ultra-cheap distilled inference was capacity-constrained, not structurally free.",
+      "audience": [
+        "customer",
+        "developer"
+      ],
+      "sources": [
+        "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://www.caixinglobal.com/2026-08-14/tech-brief-aug-14-deepseek-launches-v4-pro-and-raises-api-prices-by-as-much-as-1100-102474222.html"
+      ]
+    },
+    {
+      "title": "Cloud vendors monetise distillation through fine-tuning and provisioned throughput, not through the distillation itself",
+      "detail": "OpenAI's Model Distillation ships Stored Completions free and charges standard fine-tuning rates ($25/MTok training for gpt-4.1, $1.50/MTok for gpt-4.1-nano). Amazon Bedrock Model Distillation (GA 1 May 2025) charges for the teacher inference calls used to synthesise data, then bills the resulting custom model at $1.95/month storage plus Provisioned Throughput - there is no on-demand tier for a distilled model on Bedrock at any volume. AWS markets distilled models as up to 500% faster and up to 75% cheaper to run with under 2% accuracy loss on RAG. The workflow is free; the lock-in is in where the student runs.",
+      "audience": [
+        "customer",
+        "developer",
+        "company"
+      ],
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html",
+        "https://press.aboutamazon.com/2024/12/aws-strengthens-amazon-bedrock-with-industry-first-ai-safeguard-new-agent-capability-and-model-customization"
+      ]
+    },
+    {
+      "title": "Distillation allegations moved from a commercial dispute to a congressional one",
+      "detail": "Microsoft security researchers observed large-scale data exfiltration through OpenAI developer accounts they linked to DeepSeek in late 2024; the probe became public on 29 January 2025. The House Select Committee on the CCP concluded in its April 2025 report that it is highly likely DeepSeek used unlawful model distillation techniques. In February 2026 OpenAI submitted a memo to the same committee describing sophisticated, multi-stage distillation pipelines using obfuscated third-party routers to conceal origin. The financial stake is that a distillation attack converts a multi-hundred-million-dollar capital asset into a commodity a competitor can rent.",
+      "audience": [
+        "political",
+        "company"
+      ],
+      "sources": [
+        "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data",
+        "https://www.techpolicy.press/us-house-select-committee-report-accuses-deepseek-of-spying-and-circumventing-export-controls-on-chips/",
+        "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf"
+      ]
+    },
+    {
+      "title": "Model extraction is cheap enough to be an operating expense, not a capital project",
+      "detail": "Carlini et al. recovered the exact hidden dimension of gpt-3.5-turbo and estimated the full embedding-projection matrix could be extracted for under $2,000 in API queries; a limited version of the attack cost under $200, and ada and babbage were fully extracted for under $20. Combined with the corpus-generation figures above, the total cash cost of a serious behavioural-cloning effort against a frontier model sits in the $10^3-$10^5 range against a $10^8 asset. No defensive spend scales down to that.",
+      "audience": [
+        "political",
+        "company",
+        "developer"
+      ],
+      "sources": [
+        "https://arxiv.org/pdf/2403.06634",
+        "https://proceedings.mlr.press/v235/carlini24a.html"
+      ]
+    },
+    {
+      "title": "Capital followed the small-model thesis, but the exits were modest",
+      "detail": "Arcee AI raised a $24M Series A led by Emergence Capital for domain-specific small language models. Predibase, which sold fine-tuning tooling for small open models, raised over $28M and was acquired by Rubrik in June 2025 for a reported $100M-$500M. Together AI, the largest pure-play open-model inference platform, raised $305M at $3.3B in February 2025 and $800M at $8.3B in July 2026. Mistral raised a EUR 1.7B Series C at EUR 11.7B in September 2025 with ASML taking 11%. The value accrued to inference capacity and to European sovereignty plays, not to distillation tooling as a standalone category.",
+      "audience": [
+        "customer",
+        "company"
+      ],
+      "sources": [
+        "https://www.arcee.ai/blog/arcee-ai-secures-24m-series-a-to-transform-the-landscape-of-small-language-models",
+        "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/",
+        "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/",
+        "https://mistral.ai/news/mistral-ai-raises-1-7-b-to-accelerate-technological-progress-with-ai/"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "price-matrix-frontier-vs-small",
+      "title": "Frontier vs small-tier list prices, September 2026",
+      "description": "Each vendor's flagship compared with its cheapest general-purpose tier, on the same published price list. Prices are USD per million tokens, standard (non-batch, non-cached) rates.",
+      "columns": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "type": "text"
+        },
+        {
+          "key": "frontier",
+          "label": "Frontier model",
+          "type": "text"
+        },
+        {
+          "key": "f_in",
+          "label": "Frontier in",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "f_out",
+          "label": "Frontier out",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "small",
+          "label": "Small / distilled tier",
+          "type": "text"
+        },
+        {
+          "key": "s_in",
+          "label": "Small in",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "s_out",
+          "label": "Small out",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "ratio_out",
+          "label": "Output price ratio",
+          "type": "number",
+          "unit": "x"
+        }
+      ],
+      "rows": [
+        {
+          "vendor": "OpenAI",
+          "frontier": "gpt-6-astra",
+          "f_in": 10,
+          "f_out": 50,
+          "small": "gpt-5.6-luna",
+          "s_in": 0.2,
+          "s_out": 1.2,
+          "ratio_out": 41.7,
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "vendor": "OpenAI",
+          "frontier": "gpt-5.6-sol",
+          "f_in": 4,
+          "f_out": 20,
+          "small": "gpt-5.4-nano",
+          "s_in": 0.2,
+          "s_out": 1.25,
+          "ratio_out": 16,
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "vendor": "Anthropic",
+          "frontier": "Claude Fable 5.1",
+          "f_in": 10,
+          "f_out": 50,
+          "small": "Claude Haiku 4.5",
+          "s_in": 1,
+          "s_out": 5,
+          "ratio_out": 10,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "vendor": "Anthropic",
+          "frontier": "Claude Opus 5",
+          "f_in": 5,
+          "f_out": 25,
+          "small": "Claude Haiku 4.5",
+          "s_in": 1,
+          "s_out": 5,
+          "ratio_out": 5,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "vendor": "Google",
+          "frontier": "Gemini 3.1 Pro Preview",
+          "f_in": 2,
+          "f_out": 12,
+          "small": "Gemini 2.5 Flash-Lite",
+          "s_in": 0.1,
+          "s_out": 0.4,
+          "ratio_out": 30,
+          "_source": "https://ai.google.dev/gemini-api/docs/pricing"
+        },
+        {
+          "vendor": "xAI",
+          "frontier": "grok-4.6 (<200k)",
+          "f_in": 2,
+          "f_out": 6,
+          "small": "grok-build-0.1",
+          "s_in": 1,
+          "s_out": 2,
+          "ratio_out": 3,
+          "_source": "https://docs.x.ai/docs/models"
+        },
+        {
+          "vendor": "DeepSeek",
+          "frontier": "deepseek-v4-pro (peak)",
+          "f_in": 1.32,
+          "f_out": 3.96,
+          "small": "deepseek-v4-flash (off-peak)",
+          "s_in": 0.22,
+          "s_out": 0.66,
+          "ratio_out": 6,
+          "_source": "https://api-docs.deepseek.com/quick_start/pricing/"
+        },
+        {
+          "vendor": "Mistral",
+          "frontier": "Mistral Medium 3.5",
+          "f_in": 1.5,
+          "f_out": 7.5,
+          "small": "Ministral 3 (3B)",
+          "s_in": 0.1,
+          "s_out": 0.1,
+          "ratio_out": 75,
+          "_source": "https://mistral.ai/pricing/api"
+        },
+        {
+          "vendor": "Alibaba (Qwen)",
+          "frontier": "qwen3.8-max",
+          "f_in": 2,
+          "f_out": 6,
+          "small": "qwen-turbo",
+          "s_in": 0.05,
+          "s_out": 0.2,
+          "ratio_out": 30,
+          "_source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+        },
+        {
+          "vendor": "Meta (via Together AI)",
+          "frontier": "Llama 3.3 70B",
+          "f_in": 1.04,
+          "f_out": 1.04,
+          "small": "Llama 3 8B Instruct Lite",
+          "s_in": 0.14,
+          "s_out": 0.14,
+          "ratio_out": 7.4,
+          "_source": "https://www.together.ai/pricing"
+        },
+        {
+          "vendor": "OpenAI open weights (via Groq)",
+          "frontier": "gpt-oss-120b",
+          "f_in": 0.15,
+          "f_out": 0.6,
+          "small": "gpt-oss-20b",
+          "s_in": 0.075,
+          "s_out": 0.3,
+          "ratio_out": 2,
+          "_source": "https://console.groq.com/docs/models"
+        }
+      ],
+      "notes": "Ratios are output-token price ratios, computed from the listed figures. DeepSeek peak hours are 01:00-04:00 and 06:00-10:00 UTC Monday-Friday; the other 17 hours are half price. xAI and Anthropic rates shown are for prompts below the long-context threshold.",
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://docs.x.ai/docs/models",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://mistral.ai/pricing/api",
+        "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+        "https://www.together.ai/pricing",
+        "https://console.groq.com/docs/models"
+      ]
+    },
+    {
+      "id": "training-cost-ladder",
+      "title": "What it costs to build a model vs what it costs to copy one",
+      "description": "Disclosed and estimated training costs, ordered from frontier pre-training down to hobbyist distillation. Note that these figures are not accounted on a common basis - read the note column.",
+      "columns": [
+        {
+          "key": "name",
+          "label": "Model / run",
+          "type": "text"
+        },
+        {
+          "key": "org",
+          "label": "Organisation",
+          "type": "text"
+        },
+        {
+          "key": "cost",
+          "label": "Reported cost",
+          "type": "number",
+          "unit": "USD"
+        },
+        {
+          "key": "compute",
+          "label": "Compute",
+          "type": "text"
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "text"
+        },
+        {
+          "key": "note",
+          "label": "What the number covers",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "name": "Gemini Ultra 1.0",
+          "org": "Google DeepMind",
+          "cost": 191000000,
+          "compute": "TPU v4, ~35 MW",
+          "date": "2023-12",
+          "note": "Stanford AI Index cloud-rental accounting; Epoch's amortised-hardware method gives ~$30M",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "name": "GPT-4",
+          "org": "OpenAI",
+          "cost": 78000000,
+          "compute": "A100 cluster",
+          "date": "2023-03",
+          "note": "Stanford AI Index cloud-rental accounting; Epoch amortised-hardware estimate ~$40M",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "name": "GPT-4 (amortised)",
+          "org": "OpenAI",
+          "cost": 40000000,
+          "compute": "A100 cluster",
+          "date": "2023-03",
+          "note": "Epoch AI: depreciated hardware + energy for the final run only",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "name": "DeepSeek infrastructure (all-in estimate)",
+          "org": "DeepSeek / High-Flyer",
+          "cost": 1600000000,
+          "compute": "~50,000 Hopper GPUs",
+          "date": "2025-01",
+          "note": "SemiAnalysis estimate of total server capex; ~$944M of operating cost on top",
+          "_source": "https://semianalysis.com/2025/01/31/deepseek-debates/"
+        },
+        {
+          "name": "DeepSeek-V3 (final run, claimed)",
+          "org": "DeepSeek",
+          "cost": 5576000,
+          "compute": "2.788M H800 GPU-hours",
+          "date": "2024-12",
+          "note": "GPU-hours are in the technical report; the dollar figure applies an assumed $2/GPU-hour rental rate",
+          "_source": "https://arxiv.org/abs/2412.19437"
+        },
+        {
+          "name": "DeepSeek-R1 (RL stage)",
+          "org": "DeepSeek",
+          "cost": 294000,
+          "compute": "512 H800s x 80 hours (~41k GPU-hours)",
+          "date": "2025-09",
+          "note": "Disclosed in the Nature paper; excludes the V3 base model, data, energy, infrastructure and staff",
+          "_source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+        },
+        {
+          "name": "DeepSeek-R1-Distill-Qwen-32B",
+          "org": "DeepSeek",
+          "cost": null,
+          "compute": "SFT on 800k R1-generated samples",
+          "date": "2025-01",
+          "note": "Cost undisclosed; the 800k-sample corpus is the expensive input, not the fine-tune",
+          "_source": "https://arxiv.org/html/2501.12948v1"
+        },
+        {
+          "name": "Bespoke-Stratos-32B",
+          "org": "Bespoke Labs",
+          "cost": null,
+          "compute": "8x H100 for 27 hours (216 GPU-hours)",
+          "date": "2025-01",
+          "note": "Cost undisclosed. 17k traces distilled from DeepSeek-R1 in 1.5 hours of teacher inference; 47x fewer examples than R1-Distill-Qwen-32B",
+          "_source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation"
+        },
+        {
+          "name": "Sky-T1-32B-Preview",
+          "org": "NovaSky, UC Berkeley",
+          "cost": 450,
+          "compute": "8x H100 for 19 hours (152 GPU-hours)",
+          "date": "2025-01",
+          "note": "Full disclosed cost of the fine-tune; 17k traces from QwQ-32B-Preview reformatted with GPT-4o-mini",
+          "_source": "https://novasky-ai.github.io/posts/sky-t1/"
+        },
+        {
+          "name": "s1-32B",
+          "org": "Stanford / University of Washington",
+          "cost": 50,
+          "compute": "16x H100 for 26 minutes (~6.9 GPU-hours)",
+          "date": "2025-02",
+          "note": "GPU time is stated in the paper; the ~$50 figure comes from press coverage, not the paper itself. 1,000 traces distilled from Gemini Thinking Experimental",
+          "_source": "https://arxiv.org/html/2501.19393v2"
+        },
+        {
+          "name": "TinyZero",
+          "org": "UC Berkeley (Jiayi Pan et al.)",
+          "cost": 30,
+          "compute": "3B Qwen base, RL on Countdown task",
+          "date": "2025-01",
+          "note": "Server cost for the experiments only; reproduces R1-Zero-style self-verification on a narrow task",
+          "_source": "https://www.dailycal.org/news/campus/research-and-ideas/campus-researchers-replicate-disruptive-chinese-ai-for-30/article_a1cc5cd0-dee4-11ef-b8ca-171526dfb895.html"
+        }
+      ],
+      "notes": "The costs in this table are NOT comparable on a like-for-like basis. Frontier rows are whole pre-training runs; distillation rows are fine-tunes that assume a free base model and a paid-for teacher. The honest comparison is the ratio between the top of the table and the bottom, which is roughly 10^5 to 10^6.",
+      "sources": [
+        "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "https://semianalysis.com/2025/01/31/deepseek-debates/",
+        "https://arxiv.org/abs/2412.19437",
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://arxiv.org/html/2501.19393v2"
+      ]
+    },
+    {
+      "id": "distillation-corpus-cost",
+      "title": "What it costs to buy a teacher's reasoning traces at 2026 list prices",
+      "description": "Author calculation. Assumes an average reasoning trace of 2,000 output tokens and ignores input-token cost (prompts are short relative to reasoning traces). Two corpus sizes: the 17k traces used by Sky-T1 and Bespoke-Stratos, and the 800k samples DeepSeek used for its R1-Distill family.",
+      "columns": [
+        {
+          "key": "teacher",
+          "label": "Teacher model",
+          "type": "text"
+        },
+        {
+          "key": "out_price",
+          "label": "Output price",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "cost_17k",
+          "label": "17k traces (34M out-tok)",
+          "type": "number",
+          "unit": "USD"
+        },
+        {
+          "key": "cost_800k",
+          "label": "800k traces (1.6B out-tok)",
+          "type": "number",
+          "unit": "USD"
+        }
+      ],
+      "rows": [
+        {
+          "teacher": "Claude Opus 5",
+          "out_price": 25,
+          "cost_17k": 850,
+          "cost_800k": 40000,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "teacher": "gpt-5.6-sol",
+          "out_price": 20,
+          "cost_17k": 680,
+          "cost_800k": 32000,
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "teacher": "Gemini 3.5 Flash",
+          "out_price": 9,
+          "cost_17k": 306,
+          "cost_800k": 14400,
+          "_source": "https://ai.google.dev/gemini-api/docs/pricing"
+        },
+        {
+          "teacher": "grok-4.6",
+          "out_price": 6,
+          "cost_17k": 204,
+          "cost_800k": 9600,
+          "_source": "https://docs.x.ai/docs/models"
+        },
+        {
+          "teacher": "deepseek-v4-pro (off-peak)",
+          "out_price": 1.98,
+          "cost_17k": 67,
+          "cost_800k": 3168,
+          "_source": "https://api-docs.deepseek.com/quick_start/pricing/"
+        },
+        {
+          "teacher": "gpt-5.6-luna",
+          "out_price": 1.2,
+          "cost_17k": 41,
+          "cost_800k": 1920,
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "teacher": "gpt-oss-120b (via Groq)",
+          "out_price": 0.6,
+          "cost_17k": 20,
+          "cost_800k": 960,
+          "_source": "https://console.groq.com/docs/models"
+        }
+      ],
+      "notes": "Applying the Batch API discount (50% at Anthropic and OpenAI) halves every figure again. These are list prices for legitimate API use; a distillation programme that violates terms of service would face the same compute bill plus the cost of evading detection, which OpenAI's February 2026 memo to Congress describes as obfuscated third-party routers.",
+      "sources": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/"
+      ]
+    },
+    {
+      "id": "tco-scenarios",
+      "title": "TCO: teacher API vs distilled API vs self-hosted, by monthly volume",
+      "description": "Author-computed model. Assumptions: 4 input tokens per output token (typical RAG-style workload); monthly cost = output_MTok x (4 x input_price + output_price). Self-hosted row = 1x H100 SXM rented on demand at $2.40/GPU-hour for 730 hours ($1,752/mo) plus 0.25 FTE of MLOps at $200,000/yr fully loaded ($4,167/mo) = $5,919/mo flat, with capacity of ~1,051M output tokens/month at a sustained 400 output tok/s.",
+      "columns": [
+        {
+          "key": "volume",
+          "label": "Output tokens/month",
+          "type": "number",
+          "unit": "millions"
+        },
+        {
+          "key": "opus5",
+          "label": "Claude Opus 5 ($5/$25)",
+          "type": "number",
+          "unit": "USD/mo"
+        },
+        {
+          "key": "sonnet5",
+          "label": "Claude Sonnet 5 ($2/$10)",
+          "type": "number",
+          "unit": "USD/mo"
+        },
+        {
+          "key": "haiku45",
+          "label": "Claude Haiku 4.5 ($1/$5)",
+          "type": "number",
+          "unit": "USD/mo"
+        },
+        {
+          "key": "luna",
+          "label": "gpt-5.6-luna ($0.20/$1.20)",
+          "type": "number",
+          "unit": "USD/mo"
+        },
+        {
+          "key": "v4flash",
+          "label": "DeepSeek V4-Flash off-peak ($0.22/$0.66)",
+          "type": "number",
+          "unit": "USD/mo"
+        },
+        {
+          "key": "selfhost",
+          "label": "Self-hosted distilled 8B, 1x H100",
+          "type": "number",
+          "unit": "USD/mo"
+        }
+      ],
+      "rows": [
+        {
+          "volume": 1,
+          "opus5": 45,
+          "sonnet5": 18,
+          "haiku45": 9,
+          "luna": 2,
+          "v4flash": 2,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 10,
+          "opus5": 450,
+          "sonnet5": 180,
+          "haiku45": 90,
+          "luna": 20,
+          "v4flash": 15,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 50,
+          "opus5": 2250,
+          "sonnet5": 900,
+          "haiku45": 450,
+          "luna": 100,
+          "v4flash": 77,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 100,
+          "opus5": 4500,
+          "sonnet5": 1800,
+          "haiku45": 900,
+          "luna": 200,
+          "v4flash": 154,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 200,
+          "opus5": 9000,
+          "sonnet5": 3600,
+          "haiku45": 1800,
+          "luna": 400,
+          "v4flash": 308,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 500,
+          "opus5": 22500,
+          "sonnet5": 9000,
+          "haiku45": 4500,
+          "luna": 1000,
+          "v4flash": 770,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "volume": 1000,
+          "opus5": 45000,
+          "sonnet5": 18000,
+          "haiku45": 9000,
+          "luna": 2000,
+          "v4flash": 1540,
+          "selfhost": 5919,
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        }
+      ],
+      "notes": "Breakevens for the self-hosted option: 132M output tokens/month vs Opus 5, 329M vs Sonnet 5, 658M vs Haiku 4.5, 2,959M vs gpt-5.6-luna and 3,843M vs DeepSeek V4-Flash off-peak. The last two exceed single-GPU capacity, so at these prices a one-GPU deployment never pays back against the cheapest hosted endpoints. Excludes the one-off distillation cost ($450-$40,000, see other tables), redundancy, and the fact that measured self-hosted cost per output MTok on identical H100 hardware spans $0.21 to $15.25 depending purely on request concurrency.",
+      "sources": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis",
+        "https://arxiv.org/html/2606.11690v1"
+      ]
+    },
+    {
+      "id": "vendor-distillation-products",
+      "title": "Cloud vendor distillation products and how they charge",
+      "description": "Managed distillation workflows offered by the major platforms, with the actual revenue mechanism.",
+      "columns": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "type": "text"
+        },
+        {
+          "key": "product",
+          "label": "Product",
+          "type": "text"
+        },
+        {
+          "key": "launched",
+          "label": "Launched",
+          "type": "text"
+        },
+        {
+          "key": "charging",
+          "label": "How it charges",
+          "type": "text"
+        },
+        {
+          "key": "claim",
+          "label": "Stated benefit",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "vendor": "OpenAI",
+          "product": "Model Distillation (Stored Completions + Evals)",
+          "launched": "2024-10",
+          "charging": "Stored Completions free; standard fine-tuning rates apply ($25/MTok training for gpt-4.1, $5 for gpt-4.1-mini, $1.50 for gpt-4.1-nano, $100/hr for o4-mini)",
+          "claim": "Train smaller cost-efficient models on frontier outputs for a specific task",
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "vendor": "Amazon Web Services",
+          "product": "Amazon Bedrock Model Distillation",
+          "launched": "2024-12 preview, GA 2025-05-01",
+          "charging": "Teacher inference charged at on-demand rates when Bedrock synthesises data; custom model storage $1.95/model/month; inference only via Provisioned Throughput",
+          "claim": "Up to 500% faster and up to 75% less expensive to run, with under 2% accuracy loss on RAG",
+          "_source": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html"
+        },
+        {
+          "vendor": "Google Cloud",
+          "product": "Vertex AI supervised tuning / distillation",
+          "launched": "2024",
+          "charging": "Per training token; tuned model endpoints billed at 1.5x the base model rate",
+          "claim": "Task-specific tuned Gemini Flash and Flash-Lite students",
+          "_source": "https://cloud.google.com/vertex-ai/pricing"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Azure OpenAI / Microsoft Foundry stored completions and distillation",
+          "launched": "2024-10",
+          "charging": "Standard Azure fine-tuning and inference rates; distillation requires a minimum of 10 stored completions",
+          "claim": "Turn production traffic against a large model into a fine-tuning set for a small one",
+          "_source": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions?view=foundry-classic"
+        },
+        {
+          "vendor": "Anthropic",
+          "product": "No first-party distillation product",
+          "launched": "n/a",
+          "charging": "Tiered model line (Fable/Opus/Sonnet/Haiku) plus Batch API 50% discount and prompt caching down to 0.025x input price",
+          "claim": "Vendor captures the cost-reduction margin internally rather than selling a distillation pipeline",
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "vendor": "Together AI",
+          "product": "Serverless open-model inference and fine-tuning",
+          "launched": "2023",
+          "charging": "Per token for serverless; dedicated H100 at $3.99/hr promotional ($5.49 regular), B200 at $8.99/hr",
+          "claim": "Host the distilled student without owning hardware",
+          "_source": "https://www.together.ai/pricing"
+        },
+        {
+          "vendor": "Fireworks AI",
+          "product": "Serverless and on-demand GPU deployments",
+          "launched": "2023",
+          "charging": "H100 80GB and H200 141GB at $8.00/hr from 1 Sep 2026 (previously $7.00); B200 $13.00/hr; GB300 $20.00/hr; 1.5x premium for region-restricted deployments",
+          "claim": "Dedicated capacity for custom and distilled models",
+          "_source": "https://fireworks.ai/pricing"
+        }
+      ],
+      "notes": "Bedrock's constraint is the commercially interesting one: a distilled model cannot be served on demand, so the customer trades a per-token bill for an hourly Provisioned Throughput commitment, which reverses the economics for low-volume users.",
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html",
+        "https://aws.amazon.com/bedrock/pricing/",
+        "https://www.together.ai/pricing",
+        "https://fireworks.ai/pricing"
+      ]
+    },
+    {
+      "id": "inference-price-decline",
+      "title": "Price of a fixed capability level over time",
+      "description": "Measured price of the cheapest model clearing a fixed benchmark threshold, from Epoch AI and a16z. This is the deflation that distillation both causes and competes with.",
+      "columns": [
+        {
+          "key": "capability",
+          "label": "Capability level",
+          "type": "text"
+        },
+        {
+          "key": "start_date",
+          "label": "First available",
+          "type": "text"
+        },
+        {
+          "key": "start_price",
+          "label": "Price then",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "end_date",
+          "label": "Cheapest as of",
+          "type": "text"
+        },
+        {
+          "key": "end_price",
+          "label": "Price then",
+          "type": "number",
+          "unit": "USD/MTok"
+        },
+        {
+          "key": "decline",
+          "label": "Decline",
+          "type": "number",
+          "unit": "x"
+        }
+      ],
+      "rows": [
+        {
+          "capability": "GPT-3 level (MMLU 42)",
+          "start_date": "2021-11",
+          "start_price": 60,
+          "end_date": "2024-11",
+          "end_price": 0.06,
+          "decline": 1000,
+          "_source": "https://a16z.com/llmflation-llm-inference-cost/"
+        },
+        {
+          "capability": "GPT-3.5 level (MMLU >= 64.8)",
+          "start_date": "2022-11",
+          "start_price": 20,
+          "end_date": "2024-10",
+          "end_price": 0.07,
+          "decline": 286,
+          "_source": "https://epoch.ai/data-insights/llm-inference-price-trends"
+        },
+        {
+          "capability": "GPT-4 level (MMLU >= 86.0)",
+          "start_date": "2023-03",
+          "start_price": 37.5,
+          "end_date": "2025-02",
+          "end_price": 0.18,
+          "decline": 208,
+          "_source": "https://epoch.ai/data-insights/llm-inference-price-trends"
+        },
+        {
+          "capability": "PhD-level science (GPQA Diamond >= 50)",
+          "start_date": "2023-11",
+          "start_price": 15,
+          "end_date": "2024-12",
+          "end_price": 0.12,
+          "decline": 125,
+          "_source": "https://epoch.ai/data-insights/llm-inference-price-trends"
+        },
+        {
+          "capability": "MMLU 83 (GPT-4 launch level)",
+          "start_date": "2023-03",
+          "start_price": 30,
+          "end_date": "2024-11",
+          "end_price": 0.48,
+          "decline": 62,
+          "_source": "https://a16z.com/llmflation-llm-inference-cost/"
+        }
+      ],
+      "notes": "Epoch's headline range across six benchmarks is a 9x-900x annual decline, with a median around 50x and roughly 200x for models released since 2024. a16z's 'LLMflation' framing is a 10x decline per year and 1,000x over three years. The MMLU 83 start price is a16z's stated ~62x reduction applied to the GPT-4 launch price; treat it as derived rather than directly quoted.",
+      "sources": [
+        "https://epoch.ai/data-insights/llm-inference-price-trends",
+        "https://a16z.com/llmflation-llm-inference-cost/"
+      ]
+    },
+    {
+      "id": "vc-funding-small-models",
+      "title": "Capital raised against the small-model / distillation thesis",
+      "description": "Funding rounds and exits for companies whose pitch is small, distilled or open models.",
+      "columns": [
+        {
+          "key": "company",
+          "label": "Company",
+          "type": "text"
+        },
+        {
+          "key": "event",
+          "label": "Event",
+          "type": "text"
+        },
+        {
+          "key": "amount",
+          "label": "Amount",
+          "type": "number",
+          "unit": "USD millions"
+        },
+        {
+          "key": "valuation",
+          "label": "Valuation",
+          "type": "text"
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "text"
+        },
+        {
+          "key": "thesis",
+          "label": "Thesis",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "company": "Arcee AI",
+          "event": "Seed",
+          "amount": 5.5,
+          "valuation": "undisclosed",
+          "date": "2023-12",
+          "thesis": "Domain-specific small language models",
+          "_source": "https://www.arcee.ai/blog/arcee-ai-secures-24m-series-a-to-transform-the-landscape-of-small-language-models"
+        },
+        {
+          "company": "Arcee AI",
+          "event": "Series A (Emergence Capital)",
+          "amount": 24,
+          "valuation": "undisclosed",
+          "date": "2024-07",
+          "thesis": "Model merging and Spectrum training to cut SLM training cost",
+          "_source": "https://venturebeat.com/ai/small-language-models-rising-as-arcee-ai-lands-24m-series-a"
+        },
+        {
+          "company": "Predibase",
+          "event": "Total VC raised before exit",
+          "amount": 28,
+          "valuation": "undisclosed",
+          "date": "2024",
+          "thesis": "Fine-tuning tooling for small open models (Llama, Mistral)",
+          "_source": "https://www.techtarget.com/searchdatabackup/news/366626870/Rubrik-pivots-to-generative-AI-with-Predibase-acquisition"
+        },
+        {
+          "company": "Predibase",
+          "event": "Acquired by Rubrik",
+          "amount": 300,
+          "valuation": "reported $100M-$500M range",
+          "date": "2025-06-25",
+          "thesis": "Agentic AI needs cheap task-specific models",
+          "_source": "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/"
+        },
+        {
+          "company": "Together AI",
+          "event": "Series B (General Catalyst, Prosperity7)",
+          "amount": 305,
+          "valuation": "$3.3B",
+          "date": "2025-02-20",
+          "thesis": "End-to-end platform for building with 200+ open-source models",
+          "_source": "https://siliconangle.com/2025/02/20/together-ai-raises-305m-ai-optimized-public-cloud/"
+        },
+        {
+          "company": "Together AI",
+          "event": "Series C",
+          "amount": 800,
+          "valuation": "$8.3B",
+          "date": "2026-07-01",
+          "thesis": "Neocloud inference capacity for open and distilled models",
+          "_source": "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/"
+        },
+        {
+          "company": "Mistral AI",
+          "event": "Series C (ASML lead, EUR 1.3B of EUR 1.7B)",
+          "amount": 1900,
+          "valuation": "EUR 11.7B post-money (~$14B)",
+          "date": "2025-09-09",
+          "thesis": "European open-weight model family from 3B Ministral up to Large",
+          "_source": "https://mistral.ai/news/mistral-ai-raises-1-7-b-to-accelerate-technological-progress-with-ai/"
+        },
+        {
+          "company": "Mistral AI",
+          "event": "Reported raise in progress",
+          "amount": 3200,
+          "valuation": "reported EUR 20B target",
+          "date": "2026-06",
+          "thesis": "Rumoured EUR 3B round; unconfirmed",
+          "_source": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/"
+        }
+      ],
+      "notes": "Amounts converted to USD millions where the original is in euros, at approximately 1.13 USD/EUR for the September 2025 round (CNBC reported the valuation as ~$14B). The Predibase acquisition amount is the midpoint of a reported $100M-$500M range and should be treated as an estimate, not a disclosed figure. The Mistral 2026 round is rumoured and unconfirmed.",
+      "sources": [
+        "https://www.arcee.ai/blog/arcee-ai-secures-24m-series-a-to-transform-the-landscape-of-small-language-models",
+        "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/",
+        "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/",
+        "https://www.cnbc.com/2025/09/09/ai-firm-mistral-valued-at-14-billion-as-chip-giant-asml-takes-major-stake.html"
+      ]
+    },
+    {
+      "id": "cost-of-theft-asymmetry",
+      "title": "The cost-of-theft asymmetry, line by line",
+      "description": "Every published figure that bears on the question: what does it cost to build frontier capability, and what does it cost to take it?",
+      "columns": [
+        {
+          "key": "item",
+          "label": "Line item",
+          "type": "text"
+        },
+        {
+          "key": "side",
+          "label": "Side",
+          "type": "text"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "type": "number",
+          "unit": "USD"
+        },
+        {
+          "key": "basis",
+          "label": "Basis",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "item": "Gemini Ultra 1.0 final training run",
+          "side": "Build",
+          "cost": 191000000,
+          "basis": "Stanford AI Index cloud-rental accounting",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "item": "GPT-4 final training run",
+          "side": "Build",
+          "cost": 78000000,
+          "basis": "Stanford AI Index cloud-rental accounting",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "item": "GPT-4 final training run (amortised)",
+          "side": "Build",
+          "cost": 40000000,
+          "basis": "Epoch AI hardware depreciation + energy",
+          "_source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models"
+        },
+        {
+          "item": "DeepSeek-V3 pre-training (claimed)",
+          "side": "Build",
+          "cost": 5576000,
+          "basis": "2.788M H800 GPU-hours at an assumed $2/hr",
+          "_source": "https://arxiv.org/abs/2412.19437"
+        },
+        {
+          "item": "DeepSeek-R1 RL stage",
+          "side": "Build",
+          "cost": 294000,
+          "basis": "Nature paper: 512 H800s x 80 hours",
+          "_source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+        },
+        {
+          "item": "800k-trace reasoning corpus from Claude Opus 5",
+          "side": "Copy",
+          "cost": 40000,
+          "basis": "Author calculation at $25/MTok output, 2,000 tokens/trace",
+          "_source": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "item": "800k-trace reasoning corpus from gpt-5.6-luna",
+          "side": "Copy",
+          "cost": 1920,
+          "basis": "Author calculation at $1.20/MTok output",
+          "_source": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "item": "Full projection-matrix extraction of gpt-3.5-turbo (estimated)",
+          "side": "Copy",
+          "cost": 2000,
+          "basis": "Carlini et al., estimated query cost",
+          "_source": "https://arxiv.org/pdf/2403.06634"
+        },
+        {
+          "item": "Partial model-stealing attack on gpt-3.5",
+          "side": "Copy",
+          "cost": 200,
+          "basis": "Carlini et al., executed attack",
+          "_source": "https://arxiv.org/pdf/2403.06634"
+        },
+        {
+          "item": "Bespoke-Stratos 17k-trace corpus generation",
+          "side": "Copy",
+          "cost": null,
+          "basis": "1.5 hours of DeepSeek-R1 inference; dollar cost undisclosed",
+          "_source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation"
+        },
+        {
+          "item": "Sky-T1-32B student fine-tune",
+          "side": "Copy",
+          "cost": 450,
+          "basis": "8x H100 for 19 hours",
+          "_source": "https://novasky-ai.github.io/posts/sky-t1/"
+        },
+        {
+          "item": "s1-32B student fine-tune",
+          "side": "Copy",
+          "cost": 50,
+          "basis": "16x H100 for 26 minutes; dollar figure from press coverage",
+          "_source": "https://arxiv.org/html/2501.19393v2"
+        },
+        {
+          "item": "Full projection-matrix extraction of ada and babbage",
+          "side": "Copy",
+          "cost": 20,
+          "basis": "Carlini et al., executed attack",
+          "_source": "https://arxiv.org/pdf/2403.06634"
+        },
+        {
+          "item": "TinyZero R1-Zero-style reproduction",
+          "side": "Copy",
+          "cost": 30,
+          "basis": "Server cost for the experiments, narrow task only",
+          "_source": "https://www.dailycal.org/news/campus/research-and-ideas/campus-researchers-replicate-disruptive-chinese-ai-for-30/article_a1cc5cd0-dee4-11ef-b8ca-171526dfb895.html"
+        }
+      ],
+      "notes": "The build side and copy side are not substitutes: a distilled student inherits behaviour on the distribution it was distilled over, not the teacher's full capability surface. But for the specific task a buyer cares about, the copy side is 3-6 orders of magnitude cheaper, and no legal or technical defence currently scales down to that price point.",
+      "sources": [
+        "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "https://arxiv.org/pdf/2403.06634",
+        "https://novasky-ai.github.io/posts/sky-t1/"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "price-per-mtok-frontier-vs-small",
+      "title": "Output price per million tokens: frontier tier vs small tier",
+      "type": "bar",
+      "xLabel": "Vendor",
+      "yLabel": "USD per million output tokens",
+      "unit": "USD/MTok",
+      "series": [
+        {
+          "name": "Frontier tier",
+          "data": [
+            {
+              "x": "OpenAI (gpt-6-astra)",
+              "y": 50
+            },
+            {
+              "x": "Anthropic (Fable 5.1)",
+              "y": 50
+            },
+            {
+              "x": "Anthropic (Opus 5)",
+              "y": 25
+            },
+            {
+              "x": "Google (Gemini 3.1 Pro)",
+              "y": 12
+            },
+            {
+              "x": "Mistral (Medium 3.5)",
+              "y": 7.5
+            },
+            {
+              "x": "xAI (grok-4.6)",
+              "y": 6
+            },
+            {
+              "x": "Alibaba (qwen3.8-max)",
+              "y": 6
+            },
+            {
+              "x": "DeepSeek (V4-Pro peak)",
+              "y": 3.96
+            },
+            {
+              "x": "Meta (Llama 3.3 70B)",
+              "y": 1.04
+            }
+          ]
+        },
+        {
+          "name": "Small / distilled tier",
+          "data": [
+            {
+              "x": "OpenAI (gpt-5.6-luna)",
+              "y": 1.2
+            },
+            {
+              "x": "Anthropic (Haiku 4.5)",
+              "y": 5
+            },
+            {
+              "x": "Anthropic (Haiku 4.5)",
+              "y": 5
+            },
+            {
+              "x": "Google (Gemini 2.5 Flash-Lite)",
+              "y": 0.4
+            },
+            {
+              "x": "Mistral (Ministral 3 3B)",
+              "y": 0.1
+            },
+            {
+              "x": "xAI (grok-build-0.1)",
+              "y": 2
+            },
+            {
+              "x": "Alibaba (qwen-turbo)",
+              "y": 0.2
+            },
+            {
+              "x": "DeepSeek (V4-Flash off-peak)",
+              "y": 0.66
+            },
+            {
+              "x": "Meta (Llama 3 8B Lite)",
+              "y": 0.14
+            }
+          ]
+        }
+      ],
+      "notes": "Standard list prices as of 3 September 2026. Anthropic appears twice because Opus 5 and Fable 5.1 sit at different points on the same line. Meta prices are Together AI's serverless rates, since Meta does not sell a first-party API for these models.",
+      "sources": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://mistral.ai/pricing/api",
+        "https://docs.x.ai/docs/models",
+        "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://www.together.ai/pricing"
+      ]
+    },
+    {
+      "id": "capability-price-decline",
+      "title": "Price of a fixed capability level, 2021-2026",
+      "type": "line",
+      "xLabel": "Date",
+      "yLabel": "USD per million tokens (log scale)",
+      "unit": "USD/MTok",
+      "series": [
+        {
+          "name": "GPT-3 level (MMLU 42) - a16z",
+          "data": [
+            {
+              "x": "2021-11",
+              "y": 60
+            },
+            {
+              "x": "2024-11",
+              "y": 0.06
+            }
+          ]
+        },
+        {
+          "name": "GPT-3.5 level (MMLU >= 64.8) - Epoch",
+          "data": [
+            {
+              "x": "2022-11",
+              "y": 20
+            },
+            {
+              "x": "2024-10",
+              "y": 0.07
+            }
+          ]
+        },
+        {
+          "name": "GPT-4 level (MMLU >= 86) - Epoch",
+          "data": [
+            {
+              "x": "2023-03",
+              "y": 37.5
+            },
+            {
+              "x": "2025-02",
+              "y": 0.18
+            }
+          ]
+        },
+        {
+          "name": "GPQA Diamond >= 50 - Epoch",
+          "data": [
+            {
+              "x": "2023-11",
+              "y": 15
+            },
+            {
+              "x": "2024-12",
+              "y": 0.12
+            }
+          ]
+        }
+      ],
+      "notes": "Plot on a log y-axis. Each series has only the two endpoints published by the source; the intermediate path was not disclosed as a series. Epoch's aggregate finding across six benchmarks is a 9x-900x annual decline with a median near 50x.",
+      "sources": [
+        "https://epoch.ai/data-insights/llm-inference-price-trends",
+        "https://a16z.com/llmflation-llm-inference-cost/"
+      ]
+    },
+    {
+      "id": "tco-breakeven",
+      "title": "Monthly bill vs monthly volume: when does self-hosting a distilled model win?",
+      "type": "line",
+      "xLabel": "Output tokens per month (millions)",
+      "yLabel": "Monthly cost (USD)",
+      "unit": "USD",
+      "series": [
+        {
+          "name": "Claude Opus 5 (teacher)",
+          "data": [
+            {
+              "x": 1,
+              "y": 45
+            },
+            {
+              "x": 10,
+              "y": 450
+            },
+            {
+              "x": 50,
+              "y": 2250
+            },
+            {
+              "x": 100,
+              "y": 4500
+            },
+            {
+              "x": 200,
+              "y": 9000
+            },
+            {
+              "x": 500,
+              "y": 22500
+            },
+            {
+              "x": 1000,
+              "y": 45000
+            }
+          ]
+        },
+        {
+          "name": "Claude Sonnet 5",
+          "data": [
+            {
+              "x": 1,
+              "y": 18
+            },
+            {
+              "x": 10,
+              "y": 180
+            },
+            {
+              "x": 50,
+              "y": 900
+            },
+            {
+              "x": 100,
+              "y": 1800
+            },
+            {
+              "x": 200,
+              "y": 3600
+            },
+            {
+              "x": 500,
+              "y": 9000
+            },
+            {
+              "x": 1000,
+              "y": 18000
+            }
+          ]
+        },
+        {
+          "name": "Claude Haiku 4.5 (vendor small tier)",
+          "data": [
+            {
+              "x": 1,
+              "y": 9
+            },
+            {
+              "x": 10,
+              "y": 90
+            },
+            {
+              "x": 50,
+              "y": 450
+            },
+            {
+              "x": 100,
+              "y": 900
+            },
+            {
+              "x": 200,
+              "y": 1800
+            },
+            {
+              "x": 500,
+              "y": 4500
+            },
+            {
+              "x": 1000,
+              "y": 9000
+            }
+          ]
+        },
+        {
+          "name": "gpt-5.6-luna (vendor nano tier)",
+          "data": [
+            {
+              "x": 1,
+              "y": 2
+            },
+            {
+              "x": 10,
+              "y": 20
+            },
+            {
+              "x": 50,
+              "y": 100
+            },
+            {
+              "x": 100,
+              "y": 200
+            },
+            {
+              "x": 200,
+              "y": 400
+            },
+            {
+              "x": 500,
+              "y": 1000
+            },
+            {
+              "x": 1000,
+              "y": 2000
+            }
+          ]
+        },
+        {
+          "name": "DeepSeek V4-Flash off-peak",
+          "data": [
+            {
+              "x": 1,
+              "y": 2
+            },
+            {
+              "x": 10,
+              "y": 15
+            },
+            {
+              "x": 50,
+              "y": 77
+            },
+            {
+              "x": 100,
+              "y": 154
+            },
+            {
+              "x": 200,
+              "y": 308
+            },
+            {
+              "x": 500,
+              "y": 770
+            },
+            {
+              "x": 1000,
+              "y": 1540
+            }
+          ]
+        },
+        {
+          "name": "Self-hosted distilled 8B, 1x H100 + 0.25 FTE",
+          "data": [
+            {
+              "x": 1,
+              "y": 5919
+            },
+            {
+              "x": 10,
+              "y": 5919
+            },
+            {
+              "x": 50,
+              "y": 5919
+            },
+            {
+              "x": 100,
+              "y": 5919
+            },
+            {
+              "x": 200,
+              "y": 5919
+            },
+            {
+              "x": 500,
+              "y": 5919
+            },
+            {
+              "x": 1000,
+              "y": 5919
+            }
+          ]
+        }
+      ],
+      "notes": "Author-computed. Assumes 4 input tokens per output token. Self-hosted line is flat at $5,919/month ($1,752 GPU + $4,167 staffing) up to ~1,051M output tokens/month capacity. Crossings: 132M vs Opus 5, 329M vs Sonnet 5, 658M vs Haiku 4.5. The gpt-5.6-luna and DeepSeek lines never cross within capacity.",
+      "sources": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis"
+      ]
+    },
+    {
+      "id": "training-cost-ladder-chart",
+      "title": "Training cost: frontier runs vs distilled students",
+      "type": "bar",
+      "xLabel": "Model / run",
+      "yLabel": "USD (log scale)",
+      "unit": "USD",
+      "series": [
+        {
+          "name": "Reported training cost",
+          "data": [
+            {
+              "x": "DeepSeek infrastructure (SemiAnalysis est.)",
+              "y": 1600000000
+            },
+            {
+              "x": "Gemini Ultra 1.0 (AI Index)",
+              "y": 191000000
+            },
+            {
+              "x": "GPT-4 (AI Index)",
+              "y": 78000000
+            },
+            {
+              "x": "GPT-4 (Epoch amortised)",
+              "y": 40000000
+            },
+            {
+              "x": "DeepSeek-V3 final run (claimed)",
+              "y": 5576000
+            },
+            {
+              "x": "DeepSeek-R1 RL stage (Nature)",
+              "y": 294000
+            },
+            {
+              "x": "Sky-T1-32B",
+              "y": 450
+            },
+            {
+              "x": "s1-32B",
+              "y": 50
+            },
+            {
+              "x": "TinyZero",
+              "y": 30
+            }
+          ]
+        }
+      ],
+      "notes": "Log scale spans eight orders of magnitude. The bars are not accounted on a common basis - see the training-cost table notes. The point of the chart is the shape of the ladder, not a like-for-like comparison.",
+      "sources": [
+        "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "https://semianalysis.com/2025/01/31/deepseek-debates/",
+        "https://arxiv.org/abs/2412.19437",
+        "https://novasky-ai.github.io/posts/sky-t1/",
+        "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+      ]
+    },
+    {
+      "id": "corpus-cost-by-teacher",
+      "title": "Teacher-query bill to assemble a distillation corpus, 2026 list prices",
+      "type": "bar",
+      "xLabel": "Teacher model",
+      "yLabel": "USD (log scale)",
+      "unit": "USD",
+      "series": [
+        {
+          "name": "17k traces (Sky-T1 / Bespoke-Stratos scale)",
+          "data": [
+            {
+              "x": "Claude Opus 5",
+              "y": 850
+            },
+            {
+              "x": "gpt-5.6-sol",
+              "y": 680
+            },
+            {
+              "x": "Gemini 3.5 Flash",
+              "y": 306
+            },
+            {
+              "x": "grok-4.6",
+              "y": 204
+            },
+            {
+              "x": "deepseek-v4-pro (off-peak)",
+              "y": 67
+            },
+            {
+              "x": "gpt-5.6-luna",
+              "y": 41
+            },
+            {
+              "x": "gpt-oss-120b (Groq)",
+              "y": 20
+            }
+          ]
+        },
+        {
+          "name": "800k traces (DeepSeek R1-Distill scale)",
+          "data": [
+            {
+              "x": "Claude Opus 5",
+              "y": 40000
+            },
+            {
+              "x": "gpt-5.6-sol",
+              "y": 32000
+            },
+            {
+              "x": "Gemini 3.5 Flash",
+              "y": 14400
+            },
+            {
+              "x": "grok-4.6",
+              "y": 9600
+            },
+            {
+              "x": "deepseek-v4-pro (off-peak)",
+              "y": 3168
+            },
+            {
+              "x": "gpt-5.6-luna",
+              "y": 1920
+            },
+            {
+              "x": "gpt-oss-120b (Groq)",
+              "y": 960
+            }
+          ]
+        }
+      ],
+      "notes": "Author calculation: 2,000 output tokens per trace, input cost ignored. Halve every bar again if the Batch API 50% discount applies.",
+      "sources": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://console.groq.com/docs/models"
+      ]
+    },
+    {
+      "id": "nvidia-market-cap-impact",
+      "title": "Nvidia market capitalisation around the distillation shocks",
+      "type": "bar",
+      "xLabel": "Event",
+      "yLabel": "USD billions",
+      "unit": "USD billions",
+      "series": [
+        {
+          "name": "Market-cap change",
+          "data": [
+            {
+              "x": "27 Jan 2025: DeepSeek-R1 shock (one session)",
+              "y": -589
+            },
+            {
+              "x": "14 May - 8 Jul 2026: drawdown from peak",
+              "y": -1000
+            }
+          ]
+        },
+        {
+          "name": "Market-cap level",
+          "data": [
+            {
+              "x": "Oct 2025: first $5T company",
+              "y": 5060
+            },
+            {
+              "x": "2 Sep 2026",
+              "y": 5430
+            }
+          ]
+        }
+      ],
+      "notes": "The 27 January 2025 move was a 17% single-session fall and the largest one-day market-cap loss in US stock-market history; the Nasdaq 100 fell 3% and the S&P 500 1.5% the same day. The 2026 drawdown was attributed to rotation into memory and storage semiconductors rather than to distillation news.",
+      "sources": [
+        "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html",
+        "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-valuation-falls-pre-132505643.html",
+        "https://stockanalysis.com/stocks/nvda/market-cap/"
+      ]
+    },
+    {
+      "id": "deepseek-price-reversal",
+      "title": "DeepSeek V4 pricing before and after 16 August 2026",
+      "type": "bar",
+      "xLabel": "Model and token type",
+      "yLabel": "USD per million tokens",
+      "unit": "USD/MTok",
+      "series": [
+        {
+          "name": "Before 16 Aug 2026",
+          "data": [
+            {
+              "x": "V4-Flash input (cache miss)",
+              "y": 0.14
+            },
+            {
+              "x": "V4-Flash output",
+              "y": 0.28
+            },
+            {
+              "x": "V4-Pro input (cache miss)",
+              "y": 0.435
+            },
+            {
+              "x": "V4-Pro output",
+              "y": 0.87
+            }
+          ]
+        },
+        {
+          "name": "After, off-peak",
+          "data": [
+            {
+              "x": "V4-Flash input (cache miss)",
+              "y": 0.22
+            },
+            {
+              "x": "V4-Flash output",
+              "y": 0.66
+            },
+            {
+              "x": "V4-Pro input (cache miss)",
+              "y": 0.66
+            },
+            {
+              "x": "V4-Pro output",
+              "y": 1.98
+            }
+          ]
+        },
+        {
+          "name": "After, peak",
+          "data": [
+            {
+              "x": "V4-Flash input (cache miss)",
+              "y": 0.44
+            },
+            {
+              "x": "V4-Flash output",
+              "y": 1.32
+            },
+            {
+              "x": "V4-Pro input (cache miss)",
+              "y": 1.32
+            },
+            {
+              "x": "V4-Pro output",
+              "y": 3.96
+            }
+          ]
+        }
+      ],
+      "notes": "Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday to Friday - Beijing business hours - so 17 of 24 hours stay at the off-peak rate and Western buyers are largely insulated. Cache-hit input tokens, not shown here, rose by as much as 1,100%.",
+      "sources": [
+        "https://api-docs.deepseek.com/quick_start/pricing/",
+        "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2024-10-01",
+      "title": "OpenAI ships Model Distillation in the API",
+      "detail": "Stored Completions (free) plus Evals give developers a managed pipeline to capture frontier outputs and fine-tune a smaller student. Distillation becomes a supported product rather than a research technique.",
+      "category": "product",
+      "source": "https://openai.com/index/api-model-distillation/"
+    },
+    {
+      "date": "2024-11",
+      "title": "a16z publishes 'LLMflation'",
+      "detail": "Argues inference cost for a fixed capability falls ~10x per year and has fallen 1,000x in three years, from $60/MTok for GPT-3 in Nov 2021 to $0.06/MTok for Llama 3.2 3B on Together.ai.",
+      "category": "market",
+      "source": "https://a16z.com/llmflation-llm-inference-cost/"
+    },
+    {
+      "date": "2024-12-03",
+      "title": "AWS announces Amazon Bedrock Model Distillation at re:Invent",
+      "detail": "Claims distilled models can be up to 500% faster and up to 75% less expensive to run, with under 2% accuracy loss for RAG use cases.",
+      "category": "product",
+      "source": "https://press.aboutamazon.com/2024/12/aws-strengthens-amazon-bedrock-with-industry-first-ai-safeguard-new-agent-capability-and-model-customization"
+    },
+    {
+      "date": "2024-12-26",
+      "title": "DeepSeek-V3 technical report discloses 2.788M H800 GPU-hours",
+      "detail": "The report gives GPU-hours, not dollars; the widely quoted $5.576M figure is that number multiplied by an assumed $2/GPU-hour rental rate.",
+      "category": "research",
+      "source": "https://arxiv.org/abs/2412.19437"
+    },
+    {
+      "date": "2025-01-10",
+      "title": "Sky-T1-32B-Preview trained for under $450",
+      "detail": "NovaSky at UC Berkeley distils QwQ-32B-Preview traces into Qwen2.5-32B-Instruct using 17k examples and 19 hours on 8 H100s, matching o1-preview on Math500 (82.4 vs 81.4) and AIME24 (43.3 vs 40.0).",
+      "category": "research",
+      "source": "https://novasky-ai.github.io/posts/sky-t1/"
+    },
+    {
+      "date": "2025-01-20",
+      "title": "DeepSeek releases R1 plus six open-weight distilled students under MIT licence",
+      "detail": "R1-Distill-Qwen-32B scores 72.6 on AIME 2024 and 94.3 on MATH-500; R1-Distill-Llama-70B scores 86.7 on AIME 2024. Frontier-class reasoning becomes free to download.",
+      "category": "product",
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
+    },
+    {
+      "date": "2025-01-22",
+      "title": "Bespoke-Stratos-32B distilled from DeepSeek-R1 on 17k traces",
+      "detail": "Trained on 8xH100 for 27 hours using 47x fewer examples than R1-Distill-Qwen-32B; the R1 traces took 1.5 hours to generate. GPT-4o-mini filtering raised retained-correct-solution rate from 25% to 73%.",
+      "category": "research",
+      "source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation"
+    },
+    {
+      "date": "2025-01-24",
+      "title": "TinyZero reproduces R1-Zero-style behaviour for under $30",
+      "detail": "UC Berkeley graduate researchers use RL on a 3B Qwen base for Countdown and multiplication tasks; the $30 is server cost for the experiments.",
+      "category": "research",
+      "source": "https://www.dailycal.org/news/campus/research-and-ideas/campus-researchers-replicate-disruptive-chinese-ai-for-30/article_a1cc5cd0-dee4-11ef-b8ca-171526dfb895.html"
+    },
+    {
+      "date": "2025-01-27",
+      "title": "Nvidia loses $589B of market cap in one session",
+      "detail": "Shares fall ~17% from an open of $142.02 to close at $118.50. Largest single-day market-cap loss in US stock-market history. Nasdaq 100 -3%, S&P 500 -1.5%, semiconductor index worst day since March 2020.",
+      "category": "market",
+      "source": "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html"
+    },
+    {
+      "date": "2025-01-29",
+      "title": "Microsoft and OpenAI investigate DeepSeek-linked accounts",
+      "detail": "Microsoft security researchers had observed large-scale data exfiltration through OpenAI developer accounts in late 2024. White House AI adviser David Sacks says there is substantial evidence DeepSeek used OpenAI model outputs.",
+      "category": "legal",
+      "source": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data"
+    },
+    {
+      "date": "2025-01-31",
+      "title": "SemiAnalysis disputes the $5.6M figure",
+      "detail": "Estimates DeepSeek's server capex at ~$1.6B across roughly 50,000 Hopper GPUs with ~$944M of operating cost, arguing the published figure covers only GPU time for the pre-training run.",
+      "category": "market",
+      "source": "https://semianalysis.com/2025/01/31/deepseek-debates/"
+    },
+    {
+      "date": "2025-02-01",
+      "title": "s1-32B: 1,000 traces, 26 minutes, reported ~$50",
+      "detail": "Distilled from Gemini Thinking Experimental into Qwen2.5-32B-Instruct on 16 H100s. Exceeds o1-preview on competition maths by up to 27% with budget forcing at inference time.",
+      "category": "research",
+      "source": "https://arxiv.org/html/2501.19393v2"
+    },
+    {
+      "date": "2025-02-20",
+      "title": "Together AI raises $305M Series B at $3.3B",
+      "detail": "General Catalyst and Prosperity7 lead; Nvidia, Salesforce Ventures, Kleiner Perkins participate. The capital funds Blackwell capacity for serving open and distilled models.",
+      "category": "market",
+      "source": "https://siliconangle.com/2025/02/20/together-ai-raises-305m-ai-optimized-public-cloud/"
+    },
+    {
+      "date": "2025-04-16",
+      "title": "House Select Committee publishes 'DeepSeek Unmasked'",
+      "detail": "Concludes it is highly likely DeepSeek used unlawful model distillation techniques against US models, and that the scale was such that V3 often self-identifies as ChatGPT.",
+      "category": "policy",
+      "source": "https://www.techpolicy.press/us-house-select-committee-report-accuses-deepseek-of-spying-and-circumventing-export-controls-on-chips/"
+    },
+    {
+      "date": "2025-05-01",
+      "title": "Amazon Bedrock Model Distillation reaches general availability",
+      "detail": "Distilled models can only be served on Provisioned Throughput, not on demand, which changes the economics for low-volume buyers.",
+      "category": "product",
+      "source": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html"
+    },
+    {
+      "date": "2025-06-10",
+      "title": "OpenAI cuts o3 pricing by ~80%",
+      "detail": "From $10/$40 to $2/$8 per million input/output tokens, attributed to inference-stack optimisation on the same model. o3-pro launches alongside.",
+      "category": "market",
+      "source": "https://venturebeat.com/ai/openai-announces-80-price-drop-for-o3-its-most-powerful-reasoning-model"
+    },
+    {
+      "date": "2025-06-25",
+      "title": "Rubrik acquires Predibase",
+      "detail": "Reported at $100M-$500M. Predibase sold fine-tuning tooling for small open models and had raised over $28M from Felicis, Greylock and Sancus Ventures.",
+      "category": "market",
+      "source": "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/"
+    },
+    {
+      "date": "2025-08-05",
+      "title": "OpenAI releases gpt-oss-120b and gpt-oss-20b under Apache 2.0",
+      "detail": "First open-weight OpenAI models since GPT-2. gpt-oss-120b has 116.8B total / 5.1B active parameters and matches or exceeds o4-mini on competition coding. Now served at $0.15/$0.60 and $0.075/$0.30 per MTok on Groq.",
+      "category": "product",
+      "source": "https://openai.com/index/gpt-oss-model-card/"
+    },
+    {
+      "date": "2025-09-09",
+      "title": "Mistral raises EUR 1.7B Series C at EUR 11.7B, ASML leads",
+      "detail": "ASML puts in EUR 1.3B for ~11% fully diluted. Valuation roughly doubles from EUR 5.8B. Mistral's line spans Ministral 3B at $0.10/$0.10 up to Medium 3.5 at $1.50/$7.50.",
+      "category": "market",
+      "source": "https://mistral.ai/news/mistral-ai-raises-1-7-b-to-accelerate-technological-progress-with-ai/"
+    },
+    {
+      "date": "2025-09-17",
+      "title": "Nature publishes the DeepSeek-R1 paper with a $294,000 cost figure",
+      "detail": "512 H800s for 80 hours for the reinforcement-learning stage. The figure excludes the ~$6M base model, data, energy, infrastructure and staff; commentators including The Register noted the number is not a total cost.",
+      "category": "research",
+      "source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+    },
+    {
+      "date": "2025-10-29",
+      "title": "Nvidia becomes the first $5 trillion company",
+      "detail": "Closes at a $5.06T market capitalisation. DeepSeek launches V4-Pro the same day; Nvidia's valuation is unaffected.",
+      "category": "market",
+      "source": "https://www.thenationalnews.com/future/technology/2026/04/25/will-deepseeks-new-ai-model-crash-nvidias-5tn-party/"
+    },
+    {
+      "date": "2026-01-06",
+      "title": "One year on, DeepSeek no longer moves markets",
+      "detail": "CNBC reports that the companies hit by the January 2025 selloff have not just recovered but grown, and that subsequent DeepSeek releases produced no comparable investor reaction.",
+      "category": "market",
+      "source": "https://www.cnbc.com/2026/01/06/why-deepseek-didnt-cause-an-investor-frenzy-again-in-2025.html"
+    },
+    {
+      "date": "2026-02-12",
+      "title": "OpenAI memo to the House Select Committee on China",
+      "detail": "Accuses DeepSeek of sophisticated multi-stage distillation pipelines using obfuscated third-party routers and unauthorised resellers to conceal origin and evade access restrictions.",
+      "category": "policy",
+      "source": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf"
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Frontier Model Forum publishes an issue brief on adversarial distillation",
+      "detail": "Frames the risk in terms of how many teacher outputs an attacker can obtain and how much compute they have, but publishes no cost figures.",
+      "category": "policy",
+      "source": "https://www.frontiermodelforum.org/issue-briefs/issue-brief-adversarial-distillation/"
+    },
+    {
+      "date": "2026-07-01",
+      "title": "Together AI raises $800M at $8.3B",
+      "detail": "The largest pure-play open-model inference platform roughly 2.5x its valuation in 17 months, on demand for serving open-weight and distilled models.",
+      "category": "market",
+      "source": "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/"
+    },
+    {
+      "date": "2026-07-08",
+      "title": "Nvidia sheds roughly $1T from its 14 May 2026 peak",
+      "detail": "Down ~16% from the peak on rotation into memory and storage semiconductors, not on distillation news. Nvidia still holds ~97% of the server GPU market and trades at 18x forward earnings.",
+      "category": "market",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-valuation-falls-pre-132505643.html"
+    },
+    {
+      "date": "2026-07-31",
+      "title": "DeepSeek V4-Flash launches at $0.14/$0.28 per MTok",
+      "detail": "Described in the press as accelerating the AI industry's race to zero. The price lasts sixteen days.",
+      "category": "product",
+      "source": "https://www.axios.com/2026/08/01/deepseek-model-cheap-ai-price-war"
+    },
+    {
+      "date": "2026-08-06",
+      "title": "DeepSeek warns of a significant API price increase",
+      "detail": "Bloomberg and SCMP report the warning ahead of the change, citing surging demand for low-cost models and strained capacity.",
+      "category": "market",
+      "source": "https://www.scmp.com/tech/tech-trends/article/3363129/deepseek-signals-significant-price-hike-amid-surge-demand-low-cost-ai-models"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "DeepSeek raises V4 prices by up to 1,100% and introduces peak/off-peak rates",
+      "detail": "V4-Flash output goes from $0.28 to $0.66 off-peak / $1.32 peak; V4-Pro output from $0.87 to $1.98/$3.96. Cache-hit input tokens rise most. Peak hours are 01:00-04:00 and 06:00-10:00 UTC.",
+      "category": "market",
+      "source": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+    },
+    {
+      "date": "2026-09-02",
+      "title": "Nvidia market capitalisation stands at ~$5.43T",
+      "detail": "Up ~28% year on year, and about 9x the value erased on 27 January 2025. The distillation shock repriced sentiment, not the compute build-out.",
+      "category": "market",
+      "source": "https://stockanalysis.com/stocks/nvda/market-cap/"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "MTok",
+      "definition": "One million tokens. The standard unit for LLM API pricing. Input and output tokens are billed at different rates, with output typically 4-5x more expensive."
+    },
+    {
+      "term": "Blended cost per MTok",
+      "definition": "A single price figure for a workload with a known input:output ratio. For a 4:1 ratio, blended cost per million output tokens = 4 x input price + output price. Used throughout the TCO tables here."
+    },
+    {
+      "term": "Teacher API cost",
+      "definition": "The money paid to a frontier vendor for the inference calls that generate a distillation corpus. Usually the dominant cash cost of a distillation project, larger than the student fine-tune itself."
+    },
+    {
+      "term": "Amortised training cost",
+      "definition": "Epoch AI's accounting method: hardware depreciation plus energy over the final training run. Produces figures roughly half those of cloud-rental accounting, which charges the full market rate for every chip-hour."
+    },
+    {
+      "term": "Cloud-rental accounting",
+      "definition": "Costing a training run at the price of renting equivalent GPUs on the open market. Used by the Stanford AI Index. Gives $78M for GPT-4 where Epoch's amortised method gives ~$40M."
+    },
+    {
+      "term": "Marginal training cost",
+      "definition": "The GPU-hour bill for a single successful run, excluding R&D, failed runs, data acquisition, staff and infrastructure. DeepSeek's $5.6M and $294,000 figures are both marginal costs."
+    },
+    {
+      "term": "Provisioned Throughput",
+      "definition": "AWS Bedrock's committed-capacity billing mode, charged hourly per Model Unit. Custom and distilled models on Bedrock can only be served this way, which imposes a fixed monthly floor regardless of volume."
+    },
+    {
+      "term": "Prompt caching",
+      "definition": "Charging a reduced rate for repeated prompt prefixes. Anthropic charges 1.25x base input to write a 5-minute cache and 0.1x to read it (0.025x on Fable 5.1 and Mythos 5.1), which can cut effective input cost by up to 90%."
+    },
+    {
+      "term": "Batch API discount",
+      "definition": "A 50% reduction on both input and output tokens for asynchronous processing, offered by both OpenAI and Anthropic. Applies to distillation-corpus generation, halving the teacher-query bill."
+    },
+    {
+      "term": "Peak/off-peak pricing",
+      "definition": "Time-of-day API pricing, introduced by DeepSeek on 16 August 2026. Peak hours (01:00-04:00 and 06:00-10:00 UTC) cost double the off-peak rate; 17 of 24 hours remain off-peak."
+    },
+    {
+      "term": "LLMflation",
+      "definition": "a16z's term for the ~10x-per-year fall in inference cost at a fixed capability level. Epoch AI measures the same phenomenon at 9x-900x per year across six benchmarks, median near 50x."
+    },
+    {
+      "term": "Breakeven volume",
+      "definition": "The monthly token volume at which a fixed-cost self-hosted deployment becomes cheaper than a per-token API. Rises as API prices fall, which is why the case for owning inference has weakened even as distillation has got easier."
+    },
+    {
+      "term": "Cost-of-theft asymmetry",
+      "definition": "The gap between what it costs to create a capability and what it costs to copy it. For frontier LLMs the ratio is roughly 10^3 to 10^5, because behavioural cloning requires only API access and modest fine-tuning compute."
+    },
+    {
+      "term": "Model extraction attack",
+      "definition": "Recovering structural parameters of a black-box model through API queries alone. Carlini et al. recovered the full projection matrix of ada and babbage for under $20 and estimated under $2,000 for gpt-3.5-turbo."
+    },
+    {
+      "term": "Neocloud",
+      "definition": "A GPU-specialist cloud provider (Together AI, Fireworks, CoreWeave, RunPod, Vast.ai) that undercuts hyperscalers on GPU-hour pricing. H100 on-demand rates run ~$1.73-$4.00/hr at neoclouds vs $4.00-$8.00 at AWS, GCP and Azure."
+    },
+    {
+      "term": "Student / teacher",
+      "definition": "In distillation, the small model being trained (student) and the large model whose outputs it learns from (teacher). Financially: the student is the asset you own, the teacher is the line item on your API bill."
+    }
+  ],
+  "sources": [
+    {
+      "title": "OpenAI API Pricing",
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "publisher": "OpenAI",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Anthropic Claude Pricing",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "publisher": "Anthropic",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Gemini API Pricing",
+      "url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "publisher": "Google",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "DeepSeek API Pricing",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "publisher": "DeepSeek",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Mistral API Pricing",
+      "url": "https://mistral.ai/pricing/api",
+      "publisher": "Mistral AI",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "xAI Models and Pricing",
+      "url": "https://docs.x.ai/docs/models",
+      "publisher": "xAI",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Alibaba Cloud Model Studio model pricing",
+      "url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+      "publisher": "Alibaba Cloud",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Together AI Pricing",
+      "url": "https://www.together.ai/pricing",
+      "publisher": "Together AI",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Fireworks AI Pricing",
+      "url": "https://fireworks.ai/pricing",
+      "publisher": "Fireworks AI",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Groq supported models",
+      "url": "https://console.groq.com/docs/models",
+      "publisher": "Groq",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Amazon Bedrock Pricing",
+      "url": "https://aws.amazon.com/bedrock/pricing/",
+      "publisher": "Amazon Web Services",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Customize a model with distillation in Amazon Bedrock",
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html",
+      "publisher": "Amazon Web Services",
+      "date": "2026",
+      "type": "docs"
+    },
+    {
+      "title": "AWS Strengthens Amazon Bedrock with Industry-First AI Safeguard, New Agent Capability and Model Customization",
+      "url": "https://press.aboutamazon.com/2024/12/aws-strengthens-amazon-bedrock-with-industry-first-ai-safeguard-new-agent-capability-and-model-customization",
+      "publisher": "Amazon",
+      "date": "2024-12-03",
+      "type": "news"
+    },
+    {
+      "title": "Model Distillation in the API",
+      "url": "https://openai.com/index/api-model-distillation/",
+      "publisher": "OpenAI",
+      "date": "2024-10-01",
+      "type": "blog"
+    },
+    {
+      "title": "How to use stored completions and distillation in Azure OpenAI",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/stored-completions?view=foundry-classic",
+      "publisher": "Microsoft",
+      "date": "2026",
+      "type": "docs"
+    },
+    {
+      "title": "Vertex AI pricing",
+      "url": "https://cloud.google.com/vertex-ai/pricing",
+      "publisher": "Google Cloud",
+      "date": "2026",
+      "type": "pricing"
+    },
+    {
+      "title": "Sky-T1: Train your own O1 preview model within $450",
+      "url": "https://novasky-ai.github.io/posts/sky-t1/",
+      "publisher": "NovaSky, UC Berkeley",
+      "date": "2025-01-10",
+      "type": "blog"
+    },
+    {
+      "title": "Researchers open source Sky-T1, a reasoning AI model that can be trained for less than $450",
+      "url": "https://techcrunch.com/2025/01/11/researchers-open-source-sky-t1-a-reasoning-ai-model-that-can-be-trained-for-less-than-450/",
+      "publisher": "TechCrunch",
+      "date": "2025-01-11",
+      "type": "news"
+    },
+    {
+      "title": "s1: Simple test-time scaling",
+      "url": "https://arxiv.org/html/2501.19393v2",
+      "publisher": "arXiv (Muennighoff et al.)",
+      "date": "2025-02-01",
+      "type": "paper"
+    },
+    {
+      "title": "Bespoke-Stratos: The unreasonable effectiveness of reasoning distillation",
+      "url": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation",
+      "publisher": "Bespoke Labs",
+      "date": "2025-01-22",
+      "type": "blog"
+    },
+    {
+      "title": "Campus researchers replicate disruptive Chinese AI for $30",
+      "url": "https://www.dailycal.org/news/campus/research-and-ideas/campus-researchers-replicate-disruptive-chinese-ai-for-30/article_a1cc5cd0-dee4-11ef-b8ca-171526dfb895.html",
+      "publisher": "The Daily Californian",
+      "date": "2025-01-31",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek-V3 Technical Report",
+      "url": "https://arxiv.org/abs/2412.19437",
+      "publisher": "arXiv (DeepSeek-AI)",
+      "date": "2024-12-26",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "publisher": "arXiv (DeepSeek-AI)",
+      "date": "2025-01-22",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-R1-Distill-Llama-70B model card",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+      "publisher": "Hugging Face",
+      "date": "2025-01-20",
+      "type": "docs"
+    },
+    {
+      "title": "China's DeepSeek shook the tech world. Its developer just revealed the cost",
+      "url": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl",
+      "publisher": "CNN",
+      "date": "2025-09-19",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek didn't really train its flagship model for $294,000",
+      "url": "https://www.theregister.com/2025/09/19/deepseek_cost_train/",
+      "publisher": "The Register",
+      "date": "2025-09-19",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek Debates: Chinese Leadership On Cost, True Training Cost",
+      "url": "https://semianalysis.com/2025/01/31/deepseek-debates/",
+      "publisher": "SemiAnalysis",
+      "date": "2025-01-31",
+      "type": "blog"
+    },
+    {
+      "title": "Nvidia sheds almost $600 billion in market cap, biggest drop ever",
+      "url": "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html",
+      "publisher": "CNBC",
+      "date": "2025-01-27",
+      "type": "news"
+    },
+    {
+      "title": "Nvidia stock plummets, loses record $589 billion as DeepSeek prompts questions over AI spending",
+      "url": "https://finance.yahoo.com/news/nvidia-stock-plummets-loses-record-589-billion-as-deepseek-prompts-questions-over-ai-spending-135105824.html",
+      "publisher": "Yahoo Finance",
+      "date": "2025-01-27",
+      "type": "news"
+    },
+    {
+      "title": "Nvidia market cap falls by $1 trillion as stock swoons",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-valuation-falls-pre-132505643.html",
+      "publisher": "Yahoo Finance",
+      "date": "2026-07-08",
+      "type": "news"
+    },
+    {
+      "title": "NVIDIA (NVDA) Market Cap & Net Worth",
+      "url": "https://stockanalysis.com/stocks/nvda/market-cap/",
+      "publisher": "StockAnalysis",
+      "date": "2026-09-02",
+      "type": "filing"
+    },
+    {
+      "title": "Will DeepSeek's new AI model crash Nvidia's $5tn party?",
+      "url": "https://www.thenationalnews.com/future/technology/2026/04/25/will-deepseeks-new-ai-model-crash-nvidias-5tn-party/",
+      "publisher": "The National",
+      "date": "2026-04-25",
+      "type": "news"
+    },
+    {
+      "title": "Why DeepSeek didn't cause an investor frenzy again in 2025",
+      "url": "https://www.cnbc.com/2026/01/06/why-deepseek-didnt-cause-an-investor-frenzy-again-in-2025.html",
+      "publisher": "CNBC",
+      "date": "2026-01-06",
+      "type": "news"
+    },
+    {
+      "title": "Microsoft Probing If DeepSeek-Linked Group Improperly Obtained OpenAI Data",
+      "url": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data",
+      "publisher": "Bloomberg",
+      "date": "2025-01-29",
+      "type": "news"
+    },
+    {
+      "title": "US House Select Committee Report Accuses DeepSeek of Spying and Circumventing Export Controls on Chips",
+      "url": "https://www.techpolicy.press/us-house-select-committee-report-accuses-deepseek-of-spying-and-circumventing-export-controls-on-chips/",
+      "publisher": "Tech Policy Press",
+      "date": "2025-04-17",
+      "type": "news"
+    },
+    {
+      "title": "OpenAI update to the US House Select Committee on the CCP",
+      "url": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf",
+      "publisher": "OpenAI",
+      "date": "2026-02-12",
+      "type": "filing"
+    },
+    {
+      "title": "Issue Brief: Adversarial Distillation",
+      "url": "https://www.frontiermodelforum.org/issue-briefs/issue-brief-adversarial-distillation/",
+      "publisher": "Frontier Model Forum",
+      "date": "2026-02-23",
+      "type": "blog"
+    },
+    {
+      "title": "LLM inference prices have fallen rapidly but unequally across tasks",
+      "url": "https://epoch.ai/data-insights/llm-inference-price-trends",
+      "publisher": "Epoch AI",
+      "date": "2025",
+      "type": "blog"
+    },
+    {
+      "title": "How much does it cost to train frontier AI models?",
+      "url": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+      "publisher": "Epoch AI",
+      "date": "2024-06",
+      "type": "paper"
+    },
+    {
+      "title": "Welcome to LLMflation - LLM inference cost is going down fast",
+      "url": "https://a16z.com/llmflation-llm-inference-cost/",
+      "publisher": "Andreessen Horowitz",
+      "date": "2024-11",
+      "type": "blog"
+    },
+    {
+      "title": "Stealing Part of a Production Language Model",
+      "url": "https://arxiv.org/pdf/2403.06634",
+      "publisher": "arXiv (Carlini et al.)",
+      "date": "2024-03-11",
+      "type": "paper"
+    },
+    {
+      "title": "Stealing part of a production language model (ICML 2024)",
+      "url": "https://proceedings.mlr.press/v235/carlini24a.html",
+      "publisher": "PMLR",
+      "date": "2024",
+      "type": "paper"
+    },
+    {
+      "title": "OpenAI announces 80% price drop for o3",
+      "url": "https://venturebeat.com/ai/openai-announces-80-price-drop-for-o3-its-most-powerful-reasoning-model",
+      "publisher": "VentureBeat",
+      "date": "2025-06-10",
+      "type": "news"
+    },
+    {
+      "title": "gpt-oss-120b & gpt-oss-20b Model Card",
+      "url": "https://openai.com/index/gpt-oss-model-card/",
+      "publisher": "OpenAI",
+      "date": "2025-08-05",
+      "type": "docs"
+    },
+    {
+      "title": "DeepSeek raises some V4 prices by more than 10x as AI demand strains capacity",
+      "url": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html",
+      "publisher": "InfoWorld",
+      "date": "2026-08-14",
+      "type": "news"
+    },
+    {
+      "title": "Tech Brief: DeepSeek Launches V4-Pro and Raises API Prices by as Much as 1,100%",
+      "url": "https://www.caixinglobal.com/2026-08-14/tech-brief-aug-14-deepseek-launches-v4-pro-and-raises-api-prices-by-as-much-as-1100-102474222.html",
+      "publisher": "Caixin Global",
+      "date": "2026-08-14",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek signals significant price hike amid surge in demand for low-cost AI models",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3363129/deepseek-signals-significant-price-hike-amid-surge-demand-low-cost-ai-models",
+      "publisher": "South China Morning Post",
+      "date": "2026-08-06",
+      "type": "news"
+    },
+    {
+      "title": "DeepSeek's new bargain model accelerates AI's race to zero",
+      "url": "https://www.axios.com/2026/08/01/deepseek-model-cheap-ai-price-war",
+      "publisher": "Axios",
+      "date": "2026-08-01",
+      "type": "news"
+    },
+    {
+      "title": "Arcee AI secures $24M Series A to transform the landscape of small language models",
+      "url": "https://www.arcee.ai/blog/arcee-ai-secures-24m-series-a-to-transform-the-landscape-of-small-language-models",
+      "publisher": "Arcee AI",
+      "date": "2024-07",
+      "type": "blog"
+    },
+    {
+      "title": "Small language models rising as Arcee AI lands $24M Series A",
+      "url": "https://venturebeat.com/ai/small-language-models-rising-as-arcee-ai-lands-24m-series-a",
+      "publisher": "VentureBeat",
+      "date": "2024-07",
+      "type": "news"
+    },
+    {
+      "title": "Rubrik acquires Predibase to accelerate adoption of AI agents",
+      "url": "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/",
+      "publisher": "TechCrunch",
+      "date": "2025-06-25",
+      "type": "news"
+    },
+    {
+      "title": "Rubrik pivots to generative AI with Predibase acquisition",
+      "url": "https://www.techtarget.com/searchdatabackup/news/366626870/Rubrik-pivots-to-generative-AI-with-Predibase-acquisition",
+      "publisher": "TechTarget",
+      "date": "2025-06-26",
+      "type": "news"
+    },
+    {
+      "title": "Together AI raises $305M for its AI-optimized public cloud",
+      "url": "https://siliconangle.com/2025/02/20/together-ai-raises-305m-ai-optimized-public-cloud/",
+      "publisher": "SiliconANGLE",
+      "date": "2025-02-20",
+      "type": "news"
+    },
+    {
+      "title": "Neocloud Together AI raises $800M, leaps to $8.3B valuation",
+      "url": "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/",
+      "publisher": "TechCrunch",
+      "date": "2026-07-01",
+      "type": "news"
+    },
+    {
+      "title": "Mistral AI raises EUR 1.7B to accelerate technological progress with AI",
+      "url": "https://mistral.ai/news/mistral-ai-raises-1-7-b-to-accelerate-technological-progress-with-ai/",
+      "publisher": "Mistral AI",
+      "date": "2025-09-09",
+      "type": "blog"
+    },
+    {
+      "title": "AI firm Mistral valued at $14 billion as chip giant ASML takes major stake",
+      "url": "https://www.cnbc.com/2025/09/09/ai-firm-mistral-valued-at-14-billion-as-chip-giant-asml-takes-major-stake.html",
+      "publisher": "CNBC",
+      "date": "2025-09-09",
+      "type": "news"
+    },
+    {
+      "title": "Mistral is rumored to be raising EUR 3B at EUR 20B valuation",
+      "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "publisher": "TechCrunch",
+      "date": "2026-06-12",
+      "type": "news"
+    },
+    {
+      "title": "NVIDIA H100 GPU Pricing: 2026 Rent vs. Buy Cost Analysis",
+      "url": "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis",
+      "publisher": "GMI Cloud",
+      "date": "2026",
+      "type": "pricing"
+    },
+    {
+      "title": "H100 Cloud Pricing: Compare 53+ Providers (2026)",
+      "url": "https://getdeploying.com/gpus/nvidia-h100",
+      "publisher": "GetDeploying",
+      "date": "2026-09-03",
+      "type": "pricing"
+    },
+    {
+      "title": "Beyond Per-Token Pricing: A Concurrency-Aware Methodology for LLM Serving Cost",
+      "url": "https://arxiv.org/html/2606.11690v1",
+      "publisher": "arXiv",
+      "date": "2026-06",
+      "type": "paper"
+    },
+    {
+      "title": "State of AI: An Empirical 100 Trillion Token Study with OpenRouter",
+      "url": "https://arxiv.org/html/2601.10088v1",
+      "publisher": "arXiv / OpenRouter",
+      "date": "2026-01",
+      "type": "paper"
+    },
+    {
+      "title": "OpenRouter State of AI",
+      "url": "https://openrouter.ai/state-of-ai",
+      "publisher": "OpenRouter",
+      "date": "2026-01",
+      "type": "blog"
+    },
+    {
+      "title": "Small Language Model Market Report 2026",
+      "url": "https://www.researchandmarkets.com/reports/6076406/small-language-model-market-report",
+      "publisher": "Research and Markets",
+      "date": "2026",
+      "type": "news"
+    }
+  ],
+  "extras": {
+    "pricing": [
+      {
+        "model": "gpt-6-astra",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 10,
+        "output_per_mtok_usd": 50,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.6-sol",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 4,
+        "output_per_mtok_usd": 20,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 12,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.6-luna",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.2,
+        "output_per_mtok_usd": 1.2,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.5",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 5,
+        "output_per_mtok_usd": 30,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.5-pro",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 30,
+        "output_per_mtok_usd": 180,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.4",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2.5,
+        "output_per_mtok_usd": 15,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.75,
+        "output_per_mtok_usd": 4.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.2,
+        "output_per_mtok_usd": 1.25,
+        "params_b": null,
+        "release": null,
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 1.25,
+        "output_per_mtok_usd": 10,
+        "params_b": null,
+        "release": "2025-08",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5-mini",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.25,
+        "output_per_mtok_usd": 2,
+        "params_b": null,
+        "release": "2025-08",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-5-nano",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.05,
+        "output_per_mtok_usd": 0.4,
+        "params_b": null,
+        "release": "2025-08",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-4o",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2.5,
+        "output_per_mtok_usd": 10,
+        "params_b": null,
+        "release": "2024-05",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "gpt-4o-mini",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.6,
+        "params_b": null,
+        "release": "2024-07",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "o1",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 15,
+        "output_per_mtok_usd": 60,
+        "params_b": null,
+        "release": "2024-12",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "o3",
+        "vendor": "OpenAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 8,
+        "params_b": null,
+        "release": "2025-04",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "o4-mini",
+        "vendor": "OpenAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 1.1,
+        "output_per_mtok_usd": 4.4,
+        "params_b": null,
+        "release": "2025-04",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "model": "Claude Fable 5.1",
+        "vendor": "Anthropic",
+        "tier": "frontier",
+        "input_per_mtok_usd": 10,
+        "output_per_mtok_usd": 50,
+        "params_b": null,
+        "release": null,
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Opus 5",
+        "vendor": "Anthropic",
+        "tier": "frontier",
+        "input_per_mtok_usd": 5,
+        "output_per_mtok_usd": 25,
+        "params_b": null,
+        "release": null,
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Opus 4.1",
+        "vendor": "Anthropic",
+        "tier": "frontier",
+        "input_per_mtok_usd": 15,
+        "output_per_mtok_usd": 75,
+        "params_b": null,
+        "release": "2025-08",
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Sonnet 5",
+        "vendor": "Anthropic",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 10,
+        "params_b": null,
+        "release": null,
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Sonnet 4.6",
+        "vendor": "Anthropic",
+        "tier": "frontier",
+        "input_per_mtok_usd": 3,
+        "output_per_mtok_usd": 15,
+        "params_b": null,
+        "release": null,
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Haiku 4.5",
+        "vendor": "Anthropic",
+        "tier": "distilled",
+        "input_per_mtok_usd": 1,
+        "output_per_mtok_usd": 5,
+        "params_b": null,
+        "release": "2025-10",
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Claude Haiku 3.5",
+        "vendor": "Anthropic",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.8,
+        "output_per_mtok_usd": 4,
+        "params_b": null,
+        "release": "2024-11",
+        "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+      },
+      {
+        "model": "Gemini 3.1 Pro Preview",
+        "vendor": "Google",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 12,
+        "params_b": null,
+        "release": null,
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 3.8 Flash",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.75,
+        "output_per_mtok_usd": 3.75,
+        "params_b": null,
+        "release": null,
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 3.5 Flash",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 1.5,
+        "output_per_mtok_usd": 9,
+        "params_b": null,
+        "release": null,
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 3.5 Flash-Lite",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.3,
+        "output_per_mtok_usd": 2.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 3.1 Flash-Lite",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.25,
+        "output_per_mtok_usd": 1.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 2.5 Pro",
+        "vendor": "Google",
+        "tier": "frontier",
+        "input_per_mtok_usd": 1.25,
+        "output_per_mtok_usd": 10,
+        "params_b": null,
+        "release": "2025-03",
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 2.5 Flash",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.3,
+        "output_per_mtok_usd": 2.5,
+        "params_b": null,
+        "release": "2025-04",
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "Gemini 2.5 Flash-Lite",
+        "vendor": "Google",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.1,
+        "output_per_mtok_usd": 0.4,
+        "params_b": null,
+        "release": "2025-06",
+        "source": "https://ai.google.dev/gemini-api/docs/pricing"
+      },
+      {
+        "model": "deepseek-v4-pro (peak)",
+        "vendor": "DeepSeek",
+        "tier": "frontier",
+        "input_per_mtok_usd": 1.32,
+        "output_per_mtok_usd": 3.96,
+        "params_b": null,
+        "release": "2026-08",
+        "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+      },
+      {
+        "model": "deepseek-v4-pro (off-peak)",
+        "vendor": "DeepSeek",
+        "tier": "frontier",
+        "input_per_mtok_usd": 0.66,
+        "output_per_mtok_usd": 1.98,
+        "params_b": null,
+        "release": "2026-08",
+        "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+      },
+      {
+        "model": "deepseek-v4-flash (peak)",
+        "vendor": "DeepSeek",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.44,
+        "output_per_mtok_usd": 1.32,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+      },
+      {
+        "model": "deepseek-v4-flash (off-peak)",
+        "vendor": "DeepSeek",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.22,
+        "output_per_mtok_usd": 0.66,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+      },
+      {
+        "model": "deepseek-v4-flash (pre-16 Aug 2026)",
+        "vendor": "DeepSeek",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.14,
+        "output_per_mtok_usd": 0.28,
+        "params_b": null,
+        "release": "2026-07",
+        "source": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+      },
+      {
+        "model": "deepseek-v4-pro (pre-16 Aug 2026)",
+        "vendor": "DeepSeek",
+        "tier": "frontier",
+        "input_per_mtok_usd": 0.435,
+        "output_per_mtok_usd": 0.87,
+        "params_b": null,
+        "release": "2025-10",
+        "source": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+      },
+      {
+        "model": "Mistral Medium 3.5",
+        "vendor": "Mistral AI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 1.5,
+        "output_per_mtok_usd": 7.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Mistral Large 3",
+        "vendor": "Mistral AI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 0.5,
+        "output_per_mtok_usd": 1.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Mistral Small 4",
+        "vendor": "Mistral AI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.6,
+        "params_b": null,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Ministral 3 (3B)",
+        "vendor": "Mistral AI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.1,
+        "output_per_mtok_usd": 0.1,
+        "params_b": 3,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Ministral 3 (8B)",
+        "vendor": "Mistral AI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.15,
+        "params_b": 8,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Ministral 3 (14B)",
+        "vendor": "Mistral AI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.2,
+        "output_per_mtok_usd": 0.2,
+        "params_b": 14,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "Codestral",
+        "vendor": "Mistral AI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.3,
+        "output_per_mtok_usd": 0.9,
+        "params_b": null,
+        "release": null,
+        "source": "https://mistral.ai/pricing/api"
+      },
+      {
+        "model": "grok-4.6 (<200k)",
+        "vendor": "xAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 6,
+        "params_b": null,
+        "release": "2026-08",
+        "source": "https://docs.x.ai/docs/models"
+      },
+      {
+        "model": "grok-4.5 (<200k)",
+        "vendor": "xAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 6,
+        "params_b": null,
+        "release": null,
+        "source": "https://docs.x.ai/docs/models"
+      },
+      {
+        "model": "grok-4.3 (<200k)",
+        "vendor": "xAI",
+        "tier": "frontier",
+        "input_per_mtok_usd": 1.25,
+        "output_per_mtok_usd": 2.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://docs.x.ai/docs/models"
+      },
+      {
+        "model": "grok-build-0.1 (<200k)",
+        "vendor": "xAI",
+        "tier": "distilled",
+        "input_per_mtok_usd": 1,
+        "output_per_mtok_usd": 2,
+        "params_b": null,
+        "release": null,
+        "source": "https://docs.x.ai/docs/models"
+      },
+      {
+        "model": "qwen3.8-max",
+        "vendor": "Alibaba",
+        "tier": "frontier",
+        "input_per_mtok_usd": 2,
+        "output_per_mtok_usd": 6,
+        "params_b": null,
+        "release": null,
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "qwen3.7-plus",
+        "vendor": "Alibaba",
+        "tier": "frontier",
+        "input_per_mtok_usd": 0.4,
+        "output_per_mtok_usd": 1.6,
+        "params_b": null,
+        "release": null,
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "qwen3.8-flash",
+        "vendor": "Alibaba",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.47,
+        "params_b": null,
+        "release": null,
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "qwen-turbo",
+        "vendor": "Alibaba",
+        "tier": "distilled",
+        "input_per_mtok_usd": 0.05,
+        "output_per_mtok_usd": 0.2,
+        "params_b": null,
+        "release": null,
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "qwen3.8-27b",
+        "vendor": "Alibaba",
+        "tier": "open",
+        "input_per_mtok_usd": 0.5,
+        "output_per_mtok_usd": 3,
+        "params_b": 27,
+        "release": null,
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "qwen3-8b",
+        "vendor": "Alibaba",
+        "tier": "open",
+        "input_per_mtok_usd": 0.18,
+        "output_per_mtok_usd": 0.7,
+        "params_b": 8,
+        "release": "2025-04",
+        "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+      },
+      {
+        "model": "Llama 3.3 70B (Together AI)",
+        "vendor": "Meta / Together AI",
+        "tier": "open",
+        "input_per_mtok_usd": 1.04,
+        "output_per_mtok_usd": 1.04,
+        "params_b": 70,
+        "release": "2024-12",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "model": "Llama 3 8B Instruct Lite (Together AI)",
+        "vendor": "Meta / Together AI",
+        "tier": "open",
+        "input_per_mtok_usd": 0.14,
+        "output_per_mtok_usd": 0.14,
+        "params_b": 8,
+        "release": "2024-04",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "model": "Qwen2.5 7B Instruct Turbo (Together AI)",
+        "vendor": "Alibaba / Together AI",
+        "tier": "open",
+        "input_per_mtok_usd": 0.3,
+        "output_per_mtok_usd": 0.3,
+        "params_b": 7,
+        "release": "2024-09",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "model": "gpt-oss-120b (Together AI)",
+        "vendor": "OpenAI / Together AI",
+        "tier": "open",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.6,
+        "params_b": 116.8,
+        "release": "2025-08",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "model": "gpt-oss-120b (Groq)",
+        "vendor": "OpenAI / Groq",
+        "tier": "open",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.6,
+        "params_b": 116.8,
+        "release": "2025-08",
+        "source": "https://console.groq.com/docs/models"
+      },
+      {
+        "model": "gpt-oss-20b (Groq)",
+        "vendor": "OpenAI / Groq",
+        "tier": "open",
+        "input_per_mtok_usd": 0.075,
+        "output_per_mtok_usd": 0.3,
+        "params_b": 20.9,
+        "release": "2025-08",
+        "source": "https://console.groq.com/docs/models"
+      },
+      {
+        "model": "Qwen3.8-27B (Groq)",
+        "vendor": "Alibaba / Groq",
+        "tier": "open",
+        "input_per_mtok_usd": 0.8,
+        "output_per_mtok_usd": 4,
+        "params_b": 27,
+        "release": null,
+        "source": "https://console.groq.com/docs/models"
+      },
+      {
+        "model": "GLM-5.3-Flash (Together AI)",
+        "vendor": "Zhipu / Together AI",
+        "tier": "open",
+        "input_per_mtok_usd": 0.15,
+        "output_per_mtok_usd": 0.5,
+        "params_b": null,
+        "release": null,
+        "source": "https://www.together.ai/pricing"
+      }
+    ],
+    "trainingRuns": [
+      {
+        "name": "Gemini Ultra 1.0",
+        "org": "Google DeepMind",
+        "cost_usd": 191000000,
+        "gpu_hours": null,
+        "hardware": "TPU v4, ~35 MW",
+        "date": "2023-12",
+        "source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "note": "Stanford AI Index cloud-rental accounting. Epoch's amortised-hardware method gives ~$30M for the same run."
+      },
+      {
+        "name": "GPT-4",
+        "org": "OpenAI",
+        "cost_usd": 78000000,
+        "gpu_hours": null,
+        "hardware": "NVIDIA A100 cluster",
+        "date": "2023-03",
+        "source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "note": "Stanford AI Index cloud-rental figure; Epoch amortised estimate is ~$40M. Hardware is 47-67% of total development cost, R&D staff 29-49%, energy 2-6%."
+      },
+      {
+        "name": "DeepSeek total infrastructure",
+        "org": "DeepSeek / High-Flyer",
+        "cost_usd": 1600000000,
+        "gpu_hours": null,
+        "hardware": "~50,000 NVIDIA Hopper GPUs",
+        "date": "2025-01",
+        "source": "https://semianalysis.com/2025/01/31/deepseek-debates/",
+        "note": "SemiAnalysis estimate of server capex, plus ~$944M of operating cost. Disputes DeepSeek's $5.6M framing as marginal-cost-only."
+      },
+      {
+        "name": "DeepSeek-V3 (full training run)",
+        "org": "DeepSeek",
+        "cost_usd": 5576000,
+        "gpu_hours": 2788000,
+        "hardware": "NVIDIA H800",
+        "date": "2024-12",
+        "source": "https://arxiv.org/abs/2412.19437",
+        "note": "The technical report states 2.788M H800 GPU-hours. The dollar figure is that multiplied by an assumed $2/GPU-hour; the paper itself does not state a USD cost."
+      },
+      {
+        "name": "DeepSeek-R1 (reinforcement-learning stage)",
+        "org": "DeepSeek",
+        "cost_usd": 294000,
+        "gpu_hours": 40960,
+        "hardware": "512x NVIDIA H800 for 80 hours",
+        "date": "2025-09",
+        "source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl",
+        "note": "Disclosed in the peer-reviewed Nature paper. Covers GPU cost of the final RL run only; excludes the V3 base model, data, energy, infrastructure and staff."
+      },
+      {
+        "name": "DeepSeek-R1-Distill-Qwen-32B",
+        "org": "DeepSeek",
+        "cost_usd": null,
+        "gpu_hours": null,
+        "hardware": "undisclosed",
+        "date": "2025-01",
+        "source": "https://arxiv.org/html/2501.12948v1",
+        "note": "Supervised fine-tune of Qwen2.5-32B on 800k R1-generated samples. Cost undisclosed. Scores 72.6 AIME 2024, 94.3 MATH-500, 62.1 GPQA Diamond."
+      },
+      {
+        "name": "DeepSeek-R1-Distill-Llama-70B",
+        "org": "DeepSeek",
+        "cost_usd": null,
+        "gpu_hours": null,
+        "hardware": "undisclosed",
+        "date": "2025-01",
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "note": "Same 800k-sample corpus applied to Llama-3.3-70B. Scores 86.7 AIME 2024, 94.5 MATH-500. Released under MIT licence."
+      },
+      {
+        "name": "Bespoke-Stratos-32B",
+        "org": "Bespoke Labs",
+        "cost_usd": null,
+        "gpu_hours": 216,
+        "hardware": "8x NVIDIA H100 for 27 hours",
+        "date": "2025-01-22",
+        "source": "https://www.bespokelabs.ai/blog/bespoke-stratos-the-unreasonable-effectiveness-of-reasoning-distillation",
+        "note": "Distilled from DeepSeek-R1 on 17k traces (47x fewer than R1-Distill-Qwen-32B); traces generated in 1.5 hours of teacher inference. GPT-4o-mini filtering raised the retained-correct rate from 25% to 73%. Dollar cost not disclosed."
+      },
+      {
+        "name": "Sky-T1-32B-Preview",
+        "org": "NovaSky, UC Berkeley",
+        "cost_usd": 450,
+        "gpu_hours": 152,
+        "hardware": "8x NVIDIA H100 for 19 hours, DeepSpeed ZeRO-3 offload",
+        "date": "2025-01-10",
+        "source": "https://novasky-ai.github.io/posts/sky-t1/",
+        "note": "Base Qwen2.5-32B-Instruct, teacher QwQ-32B-Preview, 17k examples (10k math, 5k code, 1k science/puzzles). Math500 82.4 vs o1-preview 81.4; AIME24 43.3 vs 40.0."
+      },
+      {
+        "name": "s1-32B",
+        "org": "Stanford / University of Washington",
+        "cost_usd": 50,
+        "gpu_hours": 6.9,
+        "hardware": "16x NVIDIA H100 for 26 minutes, PyTorch FSDP",
+        "date": "2025-02-01",
+        "source": "https://arxiv.org/html/2501.19393v2",
+        "note": "1,000 traces (s1K) distilled from Gemini Thinking Experimental into Qwen2.5-32B-Instruct. Exceeds o1-preview on competition maths by up to 27% with budget forcing. The ~$50 figure comes from press coverage, not the paper."
+      },
+      {
+        "name": "TinyZero",
+        "org": "UC Berkeley (Jiayi Pan et al.)",
+        "cost_usd": 30,
+        "gpu_hours": null,
+        "hardware": "undisclosed",
+        "date": "2025-01-24",
+        "source": "https://www.dailycal.org/news/campus/research-and-ideas/campus-researchers-replicate-disruptive-chinese-ai-for-30/article_a1cc5cd0-dee4-11ef-b8ca-171526dfb895.html",
+        "note": "RL on a 3B Qwen base for Countdown and multiplication. Reproduces R1-Zero-style self-verification but only on very restricted task types. The $30 is server cost for the experiments."
+      },
+      {
+        "name": "gpt-oss-120b",
+        "org": "OpenAI",
+        "cost_usd": null,
+        "gpu_hours": null,
+        "hardware": "undisclosed",
+        "date": "2025-08-05",
+        "source": "https://openai.com/index/gpt-oss-model-card/",
+        "note": "116.8B total / 5.1B active parameters, Apache 2.0. Training cost undisclosed. Matches or exceeds o4-mini on competition coding; now the price floor for hosted open reasoning models at $0.15/$0.60 per MTok."
+      },
+      {
+        "name": "Frontier training run, 2026 class",
+        "org": "Multiple",
+        "cost_usd": null,
+        "gpu_hours": null,
+        "hardware": "1e26-1e27 FLOP class",
+        "date": "2026",
+        "source": "https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models",
+        "note": "Epoch AI projects that the largest training runs will exceed $1B by 2027, extrapolating from 2.4x/year growth since 2016 (95% CI 2.0x-3.1x). No verified 2026 per-model figure has been published by any lab."
+      }
+    ],
+    "marketEvents": [
+      {
+        "date": "2024-10-01",
+        "event": "OpenAI ships Model Distillation (Stored Completions + Evals) in the API",
+        "impact": "Distillation becomes a first-party product; Stored Completions free, fine-tuning at standard rates",
+        "figure": "$1.50-$25 per MTok training depending on student",
+        "source": "https://developers.openai.com/api/docs/pricing"
+      },
+      {
+        "date": "2024-12-03",
+        "event": "AWS announces Amazon Bedrock Model Distillation at re:Invent",
+        "impact": "Marketed as up to 500% faster and up to 75% cheaper with under 2% accuracy loss on RAG",
+        "figure": "75% cost reduction claim",
+        "source": "https://press.aboutamazon.com/2024/12/aws-strengthens-amazon-bedrock-with-industry-first-ai-safeguard-new-agent-capability-and-model-customization"
+      },
+      {
+        "date": "2025-01-20",
+        "event": "DeepSeek releases R1 plus six open-weight distilled students under MIT licence",
+        "impact": "Frontier-class reasoning becomes free to download and self-host",
+        "figure": "R1-Distill-Llama-70B: 86.7 AIME 2024",
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
+      },
+      {
+        "date": "2025-01-27",
+        "event": "Nvidia posts the largest single-day market-cap loss in US history",
+        "impact": "Nvidia -17%, Nasdaq 100 -3%, S&P 500 -1.5%, semiconductor index worst day since March 2020",
+        "figure": "-$589 billion",
+        "source": "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html"
+      },
+      {
+        "date": "2025-01-29",
+        "event": "Microsoft and OpenAI confirm an investigation into DeepSeek-linked accounts",
+        "impact": "Distillation reframed from a research technique into an IP-theft allegation with policy consequences",
+        "figure": "Large-scale API exfiltration observed in late 2024",
+        "source": "https://www.bloomberg.com/news/articles/2025-01-29/microsoft-probing-if-deepseek-linked-group-improperly-obtained-openai-data"
+      },
+      {
+        "date": "2025-01-31",
+        "event": "SemiAnalysis publishes 'DeepSeek Debates', disputing the $5.6M cost claim",
+        "impact": "Reframes the cheap-training narrative as a marginal-cost accounting artefact",
+        "figure": "$1.6B server capex, ~50,000 Hopper GPUs, ~$944M opex",
+        "source": "https://semianalysis.com/2025/01/31/deepseek-debates/"
+      },
+      {
+        "date": "2025-02-20",
+        "event": "Together AI raises $305M Series B",
+        "impact": "Capital flows into serving infrastructure for open and distilled models rather than into distillation tooling",
+        "figure": "$3.3B valuation",
+        "source": "https://siliconangle.com/2025/02/20/together-ai-raises-305m-ai-optimized-public-cloud/"
+      },
+      {
+        "date": "2025-04-16",
+        "event": "House Select Committee on the CCP publishes 'DeepSeek Unmasked'",
+        "impact": "Congressional finding that unlawful distillation was highly likely; feeds into export-control and procurement policy",
+        "figure": "85% of chatbot replies found filtered to CCP narratives",
+        "source": "https://www.techpolicy.press/us-house-select-committee-report-accuses-deepseek-of-spying-and-circumventing-export-controls-on-chips/"
+      },
+      {
+        "date": "2025-05-01",
+        "event": "Amazon Bedrock Model Distillation reaches general availability",
+        "impact": "Distilled models must run on Provisioned Throughput, imposing an hourly floor instead of per-token billing",
+        "figure": "$1.95/model/month storage plus PT hourly rates",
+        "source": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html"
+      },
+      {
+        "date": "2025-06-10",
+        "event": "OpenAI cuts o3 pricing by ~80%",
+        "impact": "Demonstrates that inference-stack optimisation, not distillation, can deliver an order-of-magnitude price move on an unchanged model",
+        "figure": "$10/$40 to $2/$8 per MTok",
+        "source": "https://venturebeat.com/ai/openai-announces-80-price-drop-for-o3-its-most-powerful-reasoning-model"
+      },
+      {
+        "date": "2025-06-25",
+        "event": "Rubrik acquires Predibase",
+        "impact": "The clearest exit for a small-model fine-tuning tooling company; modest relative to inference-infrastructure valuations",
+        "figure": "Reported $100M-$500M",
+        "source": "https://techcrunch.com/2025/06/25/rubrik-acquires-predibase-to-accelerate-adoption-of-ai-agents/"
+      },
+      {
+        "date": "2025-08-05",
+        "event": "OpenAI releases gpt-oss-120b and gpt-oss-20b under Apache 2.0",
+        "impact": "Sets a new floor price for hosted open reasoning models and removes much of the incentive to distill OpenAI models illicitly",
+        "figure": "$0.15/$0.60 and $0.075/$0.30 per MTok on Groq",
+        "source": "https://openai.com/index/gpt-oss-model-card/"
+      },
+      {
+        "date": "2025-09-09",
+        "event": "Mistral raises EUR 1.7B Series C with ASML leading",
+        "impact": "European sovereign-AI capital backs a full small-to-large open-weight model ladder",
+        "figure": "EUR 11.7B post-money, ASML ~11% fully diluted",
+        "source": "https://mistral.ai/news/mistral-ai-raises-1-7-b-to-accelerate-technological-progress-with-ai/"
+      },
+      {
+        "date": "2025-09-17",
+        "event": "Nature publishes DeepSeek-R1 with a $294,000 training-cost disclosure",
+        "impact": "First peer-reviewed cost figure for a frontier-class reasoning model; immediately contested as marginal-cost-only",
+        "figure": "$294,000, 512 H800s x 80 hours",
+        "source": "https://www.cnn.com/2025/09/19/business/deepseek-ai-training-cost-china-intl"
+      },
+      {
+        "date": "2025-10-29",
+        "event": "Nvidia becomes the first $5 trillion company; DeepSeek launches V4-Pro the same day",
+        "impact": "The distillation-driven efficiency narrative fails to dent the compute build-out",
+        "figure": "$5.06 trillion close",
+        "source": "https://www.thenationalnews.com/future/technology/2026/04/25/will-deepseeks-new-ai-model-crash-nvidias-5tn-party/"
+      },
+      {
+        "date": "2026-02-12",
+        "event": "OpenAI submits a memo on DeepSeek distillation to the House Select Committee on China",
+        "impact": "Escalates distillation from a civil-IP question to a national-security one; describes obfuscated routers and unauthorised resellers",
+        "figure": "n/a",
+        "source": "https://cdn.openai.com/pdf/045aa967-ee96-4a09-94ee-3098ddf6db2c/OpenAI-US-House-Select-Cmte-Update-%5B021226%5D.pdf"
+      },
+      {
+        "date": "2026-07-01",
+        "event": "Together AI raises $800M at an $8.3B valuation",
+        "impact": "Confirms that the value in the open/distilled model stack accrues to inference capacity",
+        "figure": "2.5x valuation increase in 17 months",
+        "source": "https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/"
+      },
+      {
+        "date": "2026-07-08",
+        "event": "Nvidia has shed roughly $1 trillion from its 14 May 2026 peak",
+        "impact": "Attributed to rotation into memory and storage semiconductors, not to model-efficiency news",
+        "figure": "-16% from peak; ~97% server GPU share retained",
+        "source": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-valuation-falls-pre-132505643.html"
+      },
+      {
+        "date": "2026-07-31",
+        "event": "DeepSeek launches V4-Flash at $0.14/$0.28 per MTok",
+        "impact": "Described as accelerating the AI industry's race to zero; the price holds for sixteen days",
+        "figure": "$0.14 in / $0.28 out per MTok",
+        "source": "https://www.axios.com/2026/08/01/deepseek-model-cheap-ai-price-war"
+      },
+      {
+        "date": "2026-08-16",
+        "event": "DeepSeek raises V4 API prices by up to 1,100% and introduces peak/off-peak rates",
+        "impact": "The first major reversal of the cheap-inference trend; signals that ultra-low prices were capacity-constrained rather than structural",
+        "figure": "V4-Pro output $0.87 to $1.98 off-peak / $3.96 peak",
+        "source": "https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html"
+      },
+      {
+        "date": "2026-09-02",
+        "event": "Nvidia market capitalisation at ~$5.43 trillion, up ~28% year on year",
+        "impact": "About 9x the value erased on 27 January 2025 has since been added",
+        "figure": "$5.43 trillion",
+        "source": "https://stockanalysis.com/stocks/nvda/market-cap/"
+      }
+    ],
+    "tcoAssumptions": {
+      "description": "Every assumption behind the TCO scenario table and breakeven chart, stated so a reader can substitute their own.",
+      "workloadShape": "4 input tokens per output token, typical of RAG and summarisation. Costs are expressed per million OUTPUT tokens: blended = 4 x input_price + output_price.",
+      "gpuHourlyRate": 2.4,
+      "gpuHourlyRateNote": "NVIDIA H100 SXM on-demand at GMI Cloud. The market median across ~40 providers is $3.39/GPU-hour; the cheapest listed on-demand is Vast.ai at $1.73; AWS, GCP and Azure charge $4.00-$8.00.",
+      "hoursPerMonth": 730,
+      "monthlyGpuCost": 1752,
+      "staffingFte": 0.25,
+      "staffingAnnualFullyLoaded": 200000,
+      "monthlyStaffingCost": 4167,
+      "monthlyTotalSelfHosted": 5919,
+      "assumedThroughputTokensPerSec": 400,
+      "throughputNote": "400 output tok/s is the sourced anchor for a 7B-class dense model in FP8 on one H100 with vLLM continuous batching. Real cost per output MTok on identical H100 hardware has been measured spanning $0.21 to $15.25 depending purely on request concurrency, so this is the single largest source of error in the model.",
+      "monthlyCapacityMtokOut": 1051,
+      "breakevenMtokOutPerMonth": {
+        "vs_claude_opus_5": 132,
+        "vs_claude_sonnet_5": 329,
+        "vs_claude_haiku_4_5": 658,
+        "vs_gpt_5_6_luna": 2959,
+        "vs_deepseek_v4_flash_offpeak": 3843
+      },
+      "excluded": [
+        "One-off distillation cost ($450-$40,000 depending on corpus size and teacher)",
+        "Redundancy, autoscaling headroom and failover capacity",
+        "Data egress and storage",
+        "Batch API discounts (50% at OpenAI and Anthropic) which would push the breakevens further out",
+        "Prompt caching, which at Anthropic cuts cache-read input to 0.1x base (0.025x on Fable 5.1)",
+        "Quality loss from the distilled student relative to the teacher"
+      ],
+      "sources": [
+        "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis",
+        "https://getdeploying.com/gpus/nvidia-h100",
+        "https://arxiv.org/html/2606.11690v1",
+        "https://platform.claude.com/docs/en/about-claude/pricing"
+      ]
+    },
+    "gpuRentalRates": [
+      {
+        "gpu": "NVIDIA H100 80GB",
+        "provider": "Vast.ai",
+        "usd_per_hour": 1.73,
+        "type": "on-demand (cheapest listed)",
+        "source": "https://getdeploying.com/gpus/nvidia-h100"
+      },
+      {
+        "gpu": "NVIDIA H100 PCIe",
+        "provider": "RunPod",
+        "usd_per_hour": 1.99,
+        "type": "on-demand",
+        "source": "https://getdeploying.com/gpus/nvidia-h100"
+      },
+      {
+        "gpu": "NVIDIA H100 PCIe",
+        "provider": "GMI Cloud",
+        "usd_per_hour": 2,
+        "type": "on-demand",
+        "source": "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis"
+      },
+      {
+        "gpu": "NVIDIA H100 SXM",
+        "provider": "GMI Cloud",
+        "usd_per_hour": 2.4,
+        "type": "on-demand",
+        "source": "https://www.gmicloud.ai/en/blog/nvidia-h100-gpu-pricing-2026-rent-vs-buy-cost-analysis"
+      },
+      {
+        "gpu": "NVIDIA H100",
+        "provider": "Market median (~40 providers)",
+        "usd_per_hour": 3.39,
+        "type": "on-demand median, 3 Sep 2026",
+        "source": "https://getdeploying.com/gpus/nvidia-h100"
+      },
+      {
+        "gpu": "NVIDIA HGX H100",
+        "provider": "Together AI",
+        "usd_per_hour": 3.99,
+        "type": "dedicated, promotional (regular $5.49)",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "gpu": "NVIDIA H100 80GB",
+        "provider": "Fireworks AI",
+        "usd_per_hour": 8,
+        "type": "on-demand from 1 Sep 2026 (was $7.00)",
+        "source": "https://fireworks.ai/pricing"
+      },
+      {
+        "gpu": "NVIDIA HGX B200",
+        "provider": "Together AI",
+        "usd_per_hour": 8.99,
+        "type": "dedicated",
+        "source": "https://www.together.ai/pricing"
+      },
+      {
+        "gpu": "NVIDIA B200 180GB",
+        "provider": "Fireworks AI",
+        "usd_per_hour": 13,
+        "type": "on-demand from 1 Sep 2026 (was $10.00)",
+        "source": "https://fireworks.ai/pricing"
+      },
+      {
+        "gpu": "NVIDIA GB300 288GB",
+        "provider": "Fireworks AI",
+        "usd_per_hour": 20,
+        "type": "on-demand from 1 Sep 2026 (was $18.00)",
+        "source": "https://fireworks.ai/pricing"
+      },
+      {
+        "gpu": "NVIDIA H100 (8-GPU node)",
+        "provider": "AWS / GCP / Azure",
+        "usd_per_hour": 48,
+        "type": "on-demand midpoint of $32-$64/hr range",
+        "source": "https://getdeploying.com/gpus/nvidia-h100"
+      }
+    ],
+    "marketContext": {
+      "openrouterTokenShare": {
+        "note": "OpenRouter's 100-trillion-token study and follow-up reporting. Treat the mid-2026 figures as press-reported rather than peer-reviewed.",
+        "usModelShareJune2025_pct": 70,
+        "usModelShareMid2026_pct": 30,
+        "openWeightShareLate2025_pct": 33,
+        "openWeightShareMid2026": "majority (>50%)",
+        "chineseOpenWeightShareMay2026_pct": 61,
+        "priceElasticity": "A 10% price decrease corresponds to only ~0.5-0.7% more usage, implying demand is driven by capability rather than price.",
+        "smallModelTrend": "Models under 15B parameters are losing API share while 15B-70B models gain, though the study cautions that small models are disproportionately self-hosted and therefore under-counted.",
+        "sources": [
+          "https://arxiv.org/html/2601.10088v1",
+          "https://openrouter.ai/state-of-ai",
+          "https://fourweekmba.com/ai-openrouter-us-models-token-share-deepseek-volume-revenue-spl/"
+        ]
+      },
+      "smallLanguageModelMarket": {
+        "note": "Analyst-firm estimates, not primary data. Included for order of magnitude only; the figures diverge widely between firms.",
+        "size2025_usd_bn": 9.16,
+        "size2026_usd_bn": 10.99,
+        "size2030_usd_bn": 22.45,
+        "cagr_pct": 19.6,
+        "sources": [
+          "https://www.researchandmarkets.com/reports/6076406/small-language-model-market-report",
+          "https://www.marketsandmarkets.com/Market-Reports/small-language-model-market-4008452.html"
+        ]
+      }
+    }
+  }
+}

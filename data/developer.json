@@ -2,7 +2,7 @@
   "perspective": "developer",
   "title": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
   "updated": "2026-09-03",
-  "summary": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token fine-tuning APIs (Together, Fireworks, Databricks) fed by teacher-generated data. The field has converged on on-policy distillation where the student generates and the teacher grades every token; Qwen3 reports this needs roughly 1/10 of the GPU hours of RL for a better 8B model. Open reasoning datasets (OpenThoughts3-1.2M, OpenR1-Math-220k, Bespoke-Stratos-17k) plus cheap QLoRA mean a 7B reasoning student can be trained for well under $200 of GPU time, and DeepSeek's R1-Distill family alone has passed 97 million Hugging Face downloads. Managed options are in flux: OpenAI stops accepting new fine-tuning jobs on 2027-01-06, Azure retires stored completions on 2026-10-15, Bedrock currently lists no Anthropic teacher, and Vertex AI no longer documents a distillation product. Every number below carries a source URL; where a vendor no longer publishes a figure it is marked undisclosed.",
+  "summary": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token fine-tuning APIs (Together, Fireworks, Databricks) fed by teacher-generated data. The field has converged on on-policy distillation where the student generates and the teacher grades every token; Qwen3 reports this needs roughly 1/10 of the GPU hours of RL for a better 8B model. Open reasoning datasets (OpenThoughts3-1.2M, OpenR1-Math-220k, Bespoke-Stratos-17k) plus cheap QLoRA mean a 7B reasoning student can be trained for well under $200 of GPU time, and DeepSeek's R1-Distill family alone has passed 97 million Hugging Face downloads. Managed options are in flux: OpenAI stops accepting new fine-tuning jobs on 2027-01-06, Azure retires stored completions on 2026-10-15, Bedrock currently lists no Anthropic teacher, and Vertex AI documents distillation only for open-model tuning. Every number below carries a source URL; where a vendor no longer publishes a figure it is marked undisclosed.",
   "stats": [
     { "label": "DeepSeek-R1-Distill family, all-time HF downloads", "value": 97824225, "unit": "downloads", "delta": "2.23M in the last 30 days", "note": "Sum of the six official R1-Distill repos (1.5B, 7B, 8B, 14B, 32B, 70B) via the Hugging Face API on 2026-09-03", "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" },
     { "label": "vLLM GitHub stars", "value": 90892, "unit": "stars", "delta": "queried 2026-09-03", "note": "Default serving engine for distilled students and EAGLE-3 draft heads", "source": "https://github.com/vllm-project/vllm" },
@@ -11,7 +11,7 @@
     { "label": "Cheapest managed LoRA SFT (≤16B student)", "value": 0.48, "unit": "USD per 1M tokens", "delta": "Together AI; Fireworks $0.50", "note": "Full-parameter SFT is $1.00-$1.20/M tokens on the same tiers", "source": "https://www.together.ai/pricing" },
     { "label": "s1-32B reasoning distillation compute", "value": 7, "unit": "H100 GPU-hours", "delta": "26 min on 16 H100s, 1,000 samples", "note": "Traces from Gemini Flash Thinking; beat o1-preview on AIME24 (56.7 vs 44.6)", "source": "https://arxiv.org/abs/2501.19393" },
     { "label": "OpenThoughts3-1.2M rows", "value": 1200000, "unit": "rows", "delta": "850k math / 250k code / 100k science", "note": "Largest open reasoning-distillation set; teacher QwQ-32B; Apache-2.0", "source": "https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M" },
-    { "label": "OpenAI fine-tuning platform: last day for new jobs", "value": "2027-01-06", "unit": "date", "delta": "new orgs blocked since 2026-05-07", "note": "Inference on existing fine-tunes continues until base models are deprecated", "source": "https://developers.openai.com/api/docs/deprecations" }
+    { "label": "Days left to start a new OpenAI fine-tuning job", "value": 125, "unit": "days", "delta": "new orgs blocked since 2026-05-07", "note": "Last day for new jobs is 2027-01-06, counted from 2026-09-03; inference on existing fine-tunes continues until base models are deprecated", "source": "https://developers.openai.com/api/docs/deprecations" }
   ],
   "keyFindings": [
     {
@@ -22,15 +22,15 @@
     },
     {
       "title": "Distillation is roughly 10x cheaper than RL for small reasoning models",
-      "detail": "Qwen3's technical report (Table 21) reports Qwen3-8B reaching AIME'24 74.4 / AIME'25 65.5 with 1,800 GPU-hours of off-policy plus on-policy distillation from Qwen3-32B and Qwen3-235B-A22B teachers, versus 67.6 / 55.5 with 17,920 GPU-hours of RL alone. Independent open runs corroborate the cheapness: s1-32B used 7 H100-hours, Sky-T1-32B about $450 (152 H100-hours).",
+      "detail": "Qwen3's technical report (Table 21) reports Qwen3-8B reaching AIME'24 74.4 / AIME'25 65.5 with 1,800 GPU-hours of on-policy distillation from Qwen3-32B and Qwen3-235B-A22B teachers on top of an off-policy-distilled checkpoint (the same starting point as the RL run; that checkpoint’s cost is excluded from both figures), versus 67.6 / 55.5 with 17,920 GPU-hours of RL from that checkpoint. Independent open runs corroborate the cheapness: s1-32B used 7 H100-hours, Sky-T1-32B about $450 (152 H100-hours).",
       "audience": ["developer", "financial", "academic"],
       "sources": ["https://arxiv.org/abs/2505.09388", "https://arxiv.org/abs/2501.19393", "https://novasky-ai.github.io/posts/sky-t1/"]
     },
     {
       "title": "Managed distillation on the big clouds is shrinking, not growing",
-      "detail": "OpenAI is winding down its fine-tuning platform in phases (2026-05-07, 2026-07-02, 2027-01-06); Azure retires stored completions on 2026-10-15; Amazon Bedrock's supported-model table states distillation is not currently available for Anthropic models with no restoration timeline; Google's Vertex AI tuning docs list supervised, RL and preference tuning for Gemini but no distillation product. The action has moved to per-token fine-tuning APIs (Together, Fireworks, Databricks) and to open libraries.",
+      "detail": "OpenAI is winding down its fine-tuning platform in phases (2026-05-07, 2026-07-02, 2027-01-06); Azure retires stored completions on 2026-10-15; Amazon Bedrock's supported-model table states distillation is not currently available for Anthropic models with no restoration timeline; Google's Vertex AI still documents teacher-to-student distillation fine-tuning, but only for open models (Llama 3.1, Qwen) via the GenAI SDK, while Gemini tuning is limited to supervised, RL and preference tuning. The action has moved to per-token fine-tuning APIs (Together, Fireworks, Databricks) and to open libraries.",
       "audience": ["developer", "customer", "company"],
-      "sources": ["https://developers.openai.com/api/docs/deprecations", "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/stored-completions", "https://docs.aws.amazon.com/bedrock/latest/userguide/prequisites-model-distillation.html", "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/tune-models"]
+      "sources": ["https://developers.openai.com/api/docs/deprecations", "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/stored-completions", "https://docs.aws.amazon.com/bedrock/latest/userguide/prequisites-model-distillation.html", "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning"]
     },
     {
       "title": "A 7B reasoning student fits on one consumer GPU with QLoRA",
@@ -52,13 +52,13 @@
     },
     {
       "title": "Speculative-decoding draft heads are a second, cheaper kind of distillation",
-      "detail": "EAGLE-3 trains a one-layer draft head on the target model's hidden features; vLLM reports up to 2.5x speedups and the May 2026 EAGLE 3.1 release reports 2.03x per-user throughput on Kimi-K2.6 at concurrency 1. SGLang's SpecForge (1.1k stars) and TorchSpec train these heads, and they are served with a single --speculative-config flag, so a distilled student can itself be paired with an even smaller draft.",
+      "detail": "EAGLE-3 trains a one-layer draft head on the target model's hidden features; Red Hat/vLLM report an up to 2.5x headline speedup, with measured latency gains of 1.6x-2.1x, and the May 2026 EAGLE 3.1 release reports 2.03x per-user throughput on Kimi-K2.6 at concurrency 1. SGLang's SpecForge (1.1k stars) and TorchSpec train these heads, and they are served with a single --speculative-config flag, so a distilled student can itself be paired with an even smaller draft.",
       "audience": ["developer", "customer"],
-      "sources": ["https://vllm.ai/blog/2026-05-26-eagle-3-1", "https://github.com/sgl-project/SpecForge"]
+      "sources": ["https://vllm.ai/blog/2026-05-26-eagle-3-1", "https://developers.redhat.com/articles/2025/07/01/fly-eagle3-fly-faster-inference-vllm-speculative-decoding", "https://github.com/sgl-project/SpecForge"]
     },
     {
       "title": "Pruning plus distillation is the enterprise path to a model family",
-      "detail": "NVIDIA's Minitron recipe (teacher correction on 94B tokens, depth or width pruning of Llama-3.1-8B, then distillation on 1.4T-3T tokens) claims up to 40x fewer training tokens per additional model and 1.8x compute savings for a full family, with the depth-pruned 4B running about 2.7x the throughput of the 8B on H100 under TensorRT-LLM. The same pipeline is exposed through NeMo Framework and Model Optimizer (3.7k stars).",
+      "detail": "NVIDIA's Minitron recipe (teacher correction on 94B tokens, depth or width pruning of Llama-3.1-8B, then distillation on 94B (width) or 1.4T (depth) tokens) is reported alongside NVIDIA’s earlier Nemotron prune-and-distill work, from which the up to 40x fewer training tokens per additional model and 1.8x compute savings for a full family are taken, with the depth-pruned 4B running about 2.7x the throughput of the 8B on H100 under TensorRT-LLM. The same pipeline is exposed through NeMo Framework and Model Optimizer (3.7k stars).",
       "audience": ["developer", "company"],
       "sources": ["https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model", "https://docs.nvidia.com/nemo-framework/user-guide/latest/model-optimization/distillation/distillation.html"]
     }
@@ -80,16 +80,16 @@
         { "platform": "OpenAI", "product": "Stored completions -> Evals -> fine-tune (dashboard 'Distill')", "teachers": "Any OpenAI model called with store=true", "students": "gpt-4.1, gpt-4.1-mini, gpt-4.1-nano (SFT/DPO); o4-mini (RFT)", "price": "$25 / $5 / $1.50 per 1M training tokens (4.1 / mini / nano); o4-mini RFT $100/hour", "status": "Winding down: no new orgs since 2026-05-07; no new jobs after 2027-01-06", "_source": "https://developers.openai.com/api/docs/pricing" },
         { "platform": "Amazon Bedrock", "product": "Model Distillation (synthetic data + student fine-tune, one job)", "teachers": "Nova Pro, Nova Premier, Llama 3.1 405B, Llama 3.1 70B, Llama 3.3 70B", "students": "Nova Micro/Lite/Pro; Llama 3.1 8B/70B, 3.2 1B/3B, 3.3 70B", "price": "Teacher calls at on-demand rate (synthesis up to 15k pairs) + student at customization rate (per-model rates not on public page excerpt)", "status": "GA; Anthropic teachers 'not currently available', no timeline", "_source": "https://docs.aws.amazon.com/bedrock/latest/userguide/prequisites-model-distillation.html" },
         { "platform": "Azure / Microsoft Foundry", "product": "Stored completions -> Distill -> Azure OpenAI fine-tune (classic portal)", "teachers": "Any Azure OpenAI model with store=true", "students": "Azure OpenAI fine-tunable models", "price": "Azure OpenAI fine-tuning rates (not on this page)", "status": "Stored completions retire 2026-10-15; min 10 completions", "_source": "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/stored-completions" },
-        { "platform": "Google Vertex AI", "product": "No distillation product listed; supervised, RL and preference tuning for Gemini", "teachers": "n/a", "students": "Gemini 2.5 Flash / Flash-Lite / Pro, Gemini 3.5 Flash-Lite (tuning)", "price": "undisclosed on tuning overview page", "status": "Legacy text-model distillation page returns 404", "_source": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/tune-models" },
+        { "platform": "Google Vertex AI", "product": "Distillation fine-tuning for open models (teacher -> student via GenAI SDK); supervised, RL and preference tuning for Gemini", "teachers": "Any supported open/Gemini model used as teacher for open-model distillation", "students": "Llama 3.1, Qwen open models (distillation); Gemini 2.5/3.5 Flash-Lite/Pro (SFT/RL/preference)", "price": "undisclosed on tuning overview page", "status": "GA; legacy text-model distillation page returns 404", "_source": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning" },
         { "platform": "Together AI", "product": "Per-token SFT/DPO API (bring teacher-generated data)", "teachers": "Any (you generate data)", "students": "Open models up to 100B+ (DeepSeek-V4 Flash, GLM-5, Qwen 3.5 priced separately)", "price": "LoRA SFT $0.48/M (<=16B), $1.50 (17-69B), $2.90 (70-100B); full SFT $1.20/$3.75/$7.25; $4 minimum", "status": "GA", "_source": "https://www.together.ai/pricing" },
-        { "platform": "Fireworks AI", "product": "Per-token SFT/DPO, RFT per GPU-hour", "teachers": "Any (you generate data)", "students": "Open models up to >300B", "price": "LoRA SFT $0.50/M (<=16B), $3 (16-80B), $6 (80-300B), $10 (>300B); full 2x; RFT = GPU rate ($8/h H100 from 2026-09-01)", "status": "GA; dataset 3 to 3M examples", "_source": "https://fireworks.ai/pricing" },
+        { "platform": "Fireworks AI", "product": "Per-token SFT/DPO, RFT per GPU-hour", "teachers": "Any (you generate data)", "students": "Open models up to >300B", "price": "LoRA SFT $0.50/M (<=16B), $3 (16-80B), $6 (80-300B), $10 (>300B); full 2x; RFT = GPU rate ($8/h H100 from 2026-09-01)", "status": "GA; dataset 3 to 3M examples (per fine-tuning docs)", "_source": "https://fireworks.ai/pricing" },
         { "platform": "Predibase", "product": "SFT/Turbo LoRA/RFT fine-tuning", "teachers": "Any (you generate data)", "students": "Open models", "price": "undisclosed (predibase.com and docs now redirect to Rubrik)", "status": "Folded into Rubrik Agent Cloud", "_source": "https://predibase.com/pricing" },
         { "platform": "Databricks Mosaic AI", "product": "Foundation Model Fine-tuning (DBU-priced)", "teachers": "Any (you generate data)", "students": "Llama 3.x family and others", "price": "$0.65/DBU; e.g. Llama 3.1 8B ~100 DBU (~$65) per 10M words, Llama 3.3 70B ~225 DBU (~$146)", "status": "GA", "_source": "https://www.databricks.com/product/pricing/mosaic-foundation-model-training" },
         { "platform": "Modal", "product": "Serverless GPUs (run TRL/Unsloth yourself)", "teachers": "Any", "students": "Any", "price": "H100 $3.95/h, A100-80GB $2.50/h, L40S $1.95/h, per-second billing, $30/month free", "status": "GA", "_source": "https://modal.com/pricing" },
         { "platform": "Anyscale", "product": "Ray-based post-training (LLaMA-Factory, SkyRL, Ray Train)", "teachers": "Any", "students": "Any", "price": "undisclosed on docs page", "status": "GA", "_source": "https://docs.anyscale.com/llm/fine-tuning" }
       ],
       "notes": "Bedrock student-training rates for Nova and Llama 3.x are set at 'model customization' rates but the public pricing page excerpt only shows Llama 2 ($1.49/M tokens, 13B) and gpt-oss-20b ($80/training hour). Together and Fireworks size buckets differ slightly (17-69B vs 16.1-80B).",
-      "sources": ["https://developers.openai.com/api/docs/deprecations", "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html", "https://aws.amazon.com/bedrock/pricing/", "https://www.together.ai/pricing", "https://fireworks.ai/pricing", "https://modal.com/pricing"]
+      "sources": ["https://developers.openai.com/api/docs/deprecations", "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html", "https://aws.amazon.com/bedrock/pricing/", "https://www.together.ai/pricing", "https://fireworks.ai/pricing", "https://docs.fireworks.ai/fine-tuning/fine-tuning-models", "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning", "https://modal.com/pricing"]
     },
     {
       "id": "library-feature-matrix",
@@ -108,7 +108,7 @@
       ],
       "rows": [
         { "library": "Hugging Face TRL", "stars": 19210, "license": "Apache-2.0", "logitKD": "Yes (GKD, DistillationTrainer, MiniLLM)", "onPolicy": "Yes (vLLM colocate/server)", "crossTok": "Yes (GOLD/ULD, experimental)", "pruning": "No", "peft": "Yes", "notes": "Tool-calling and VLM distillation supported", "_source": "https://huggingface.co/docs/trl/distillation_trainer" },
-        { "library": "Arcee DistillKit", "stars": 1052, "license": "Apache-2.0", "logitKD": "Yes (KL, JSD, TVD, ranking, hidden-state MSE/cosine)", "onPolicy": "Online teacher inference", "crossTok": "No (same vocab)", "pruning": "No", "peft": "Yes", "notes": "Offline logit capture compressed to ~300 bytes/token", "_source": "https://github.com/arcee-ai/DistillKit" },
+        { "library": "Arcee DistillKit", "stars": 1052, "license": "Apache-2.0", "logitKD": "Yes (KL, JSD, TVD, ranking, hidden-state MSE/cosine)", "onPolicy": "Online teacher inference", "crossTok": "Yes (via mergekit-tokensurgeon embedding surgery)", "pruning": "No", "peft": "Yes", "notes": "Offline logit capture compressed to ~300 bytes/token", "_source": "https://github.com/arcee-ai/DistillKit" },
         { "library": "torchtune", "stars": 5802, "license": "BSD-3-Clause", "logitKD": "Yes (forward KL + CE, kd_ratio)", "onPolicy": "No", "crossTok": "No", "pruning": "No", "peft": "Yes (LoRA recipes)", "notes": "knowledge_distillation_single_device / _distributed recipes", "_source": "https://pytorch.org/blog/llama-into-torchtune/" },
         { "library": "NVIDIA NeMo + Model Optimizer", "stars": 3724, "license": "Apache-2.0", "logitKD": "Yes (logit_layers, intermediate_layer_pairs cosine)", "onPolicy": "No", "crossTok": "No", "pruning": "Yes (depth/width, Minitron)", "peft": "Via NeMo", "notes": "NeMo 2.0 GPT checkpoints only; stars are for NVIDIA/Model-Optimizer", "_source": "https://docs.nvidia.com/nemo-framework/user-guide/latest/model-optimization/distillation/distillation.html" },
         { "library": "Axolotl", "stars": 12436, "license": "Apache-2.0", "logitKD": "Yes (KD plugin; top-k teacher logprobs in dataset)", "onPolicy": "No", "crossTok": "No", "pruning": "No", "peft": "Yes", "notes": "kd_ce_alpha / kd_alpha / kd_temperature; not in main docs index", "_source": "https://github.com/axolotl-ai-cloud/axolotl/tree/main/src/axolotl/integrations/kd" },
@@ -140,16 +140,16 @@
         { "dataset": "open-thoughts/OpenThoughts-114k", "rows": "114k", "teacher": "DeepSeek-R1", "domain": "Math, code, science, puzzles", "license": "Apache-2.0", "dlMonth": 109485, "dlAll": 1477621, "_source": "https://huggingface.co/datasets/open-thoughts/OpenThoughts-114k" },
         { "dataset": "bespokelabs/Bespoke-Stratos-17k", "rows": "16,710", "teacher": "DeepSeek-R1 (via Curator)", "domain": "5k code, 10k math, 1k science/puzzle", "license": "Apache-2.0", "dlMonth": 19434, "dlAll": 321082, "_source": "https://huggingface.co/datasets/bespokelabs/Bespoke-Stratos-17k" },
         { "dataset": "open-r1/OpenR1-Math-220k", "rows": "220k problems (94k 'default' split), 2-4 traces each", "teacher": "DeepSeek-R1", "domain": "Math (NuminaMath-1.5 problems)", "license": "Apache-2.0", "dlMonth": 105083, "dlAll": 572723, "_source": "https://huggingface.co/datasets/open-r1/OpenR1-Math-220k" },
-        { "dataset": "open-r1/Mixture-of-Thoughts", "rows": "350k verified traces", "teacher": "DeepSeek-R1", "domain": "Math, code, science", "license": "Apache-2.0", "dlMonth": 10735, "dlAll": 131591, "_source": "https://huggingface.co/datasets/open-r1/Mixture-of-Thoughts" },
+        { "dataset": "open-r1/Mixture-of-Thoughts", "rows": "350k verified traces", "teacher": "DeepSeek-R1", "domain": "Math, code, science", "license": "not declared on card (science split derives from CC-BY-4.0 Llama-Nemotron)", "dlMonth": 10735, "dlAll": 131591, "_source": "https://huggingface.co/datasets/open-r1/Mixture-of-Thoughts" },
         { "dataset": "AI-MO/NuminaMath-1.5", "rows": "~900k problems", "teacher": "Human/CoT (base for R1 traces)", "domain": "Competition math", "license": "see card", "dlMonth": 33515, "dlAll": 106494, "_source": "https://huggingface.co/datasets/AI-MO/NuminaMath-1.5" },
         { "dataset": "nvidia/OpenMathReasoning", "rows": "see card", "teacher": "DeepSeek-R1 / QwQ", "domain": "Math (CoT + tool-integrated)", "license": "CC-BY-4.0", "dlMonth": 69484, "dlAll": 335233, "_source": "https://huggingface.co/datasets/nvidia/OpenMathReasoning" },
         { "dataset": "nvidia/Llama-Nemotron-Post-Training-Dataset", "rows": "see card", "teacher": "DeepSeek-R1, Qwen, Llama", "domain": "Reasoning + chat + safety", "license": "CC-BY-4.0", "dlMonth": 7531, "dlAll": 106953, "_source": "https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset" },
-        { "dataset": "simplescaling/s1K-1.1", "rows": "1,000", "teacher": "DeepSeek-R1 (1.1); Gemini Flash Thinking (1.0)", "domain": "Hard math/science questions", "license": "Apache-2.0", "dlMonth": 7133, "dlAll": 78174, "_source": "https://huggingface.co/datasets/simplescaling/s1K-1.1" },
-        { "dataset": "a-m-team/AM-DeepSeek-R1-Distilled-1.4M", "rows": "1.4M", "teacher": "DeepSeek-R1", "domain": "General reasoning", "license": "see card", "dlMonth": 1793, "dlAll": 51544, "_source": "https://huggingface.co/datasets/a-m-team/AM-DeepSeek-R1-Distilled-1.4M" },
+        { "dataset": "simplescaling/s1K-1.1", "rows": "1,000", "teacher": "DeepSeek-R1 (1.1); Gemini Flash Thinking (1.0)", "domain": "Hard math/science questions", "license": "MIT", "dlMonth": 7133, "dlAll": 78174, "_source": "https://huggingface.co/datasets/simplescaling/s1K-1.1" },
+        { "dataset": "a-m-team/AM-DeepSeek-R1-Distilled-1.4M", "rows": "1.4M", "teacher": "DeepSeek-R1", "domain": "General reasoning", "license": "CC-BY-NC-4.0 (non-commercial)", "dlMonth": 1793, "dlAll": 51544, "_source": "https://huggingface.co/datasets/a-m-team/AM-DeepSeek-R1-Distilled-1.4M" },
         { "dataset": "Magpie-Align/Magpie-Pro-300K-Filtered", "rows": "300k", "teacher": "Llama-3-70B-Instruct (self-synthesized prompts)", "domain": "General instruction/chat", "license": "Llama 3", "dlMonth": 3349, "dlAll": 27342, "_source": "https://huggingface.co/datasets/Magpie-Align/Magpie-Pro-300K-Filtered" },
         { "dataset": "BAAI/Infinity-Instruct", "rows": "7M+ foundational + chat subsets", "teacher": "Compiled + synthesized", "domain": "General instruction", "license": "CC-BY-SA-4.0", "dlMonth": 3929, "dlAll": 119827, "_source": "https://huggingface.co/datasets/BAAI/Infinity-Instruct" }
       ],
-      "notes": "Row counts and licenses for NuminaMath-1.5, OpenMathReasoning, Nemotron and AM-1.4M are taken from dataset names/cards as listed; verify the card before commercial use. The R1-derived sets inherit DeepSeek's MIT model license for the traces.",
+      "notes": "Row counts and licenses for NuminaMath-1.5, OpenMathReasoning, Nemotron and AM-1.4M are taken from dataset names/cards as listed; verify the card before commercial use. R1-derived traces come from a model released under DeepSeek's MIT licence, but each dataset card sets its own terms: AM-DeepSeek-R1-Distilled-1.4M is CC-BY-NC-4.0 (non-commercial) and Mixture-of-Thoughts declares no licence at all.",
       "sources": ["https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M", "https://huggingface.co/datasets/bespokelabs/Bespoke-Stratos-17k", "https://huggingface.co/datasets/open-r1/OpenR1-Math-220k", "https://arxiv.org/abs/2406.08464", "https://arxiv.org/html/2506.11116"]
     },
     {
@@ -201,7 +201,7 @@
         { "run": "OpenR1-Distill-7B (Qwen2.5-Math-7B-RoPE-300k)", "teacher": "DeepSeek-R1 (Mixture-of-Thoughts)", "samples": "350k", "compute": "8x H100 80GB node; duration undisclosed", "cost": "undisclosed", "result": "AIME24 52.7; MATH-500 89.0; GPQA-D 52.8; LCB v5 39.4", "_source": "https://github.com/huggingface/open-r1" },
         { "run": "DeepSeek-R1-Distill-Qwen-7B", "teacher": "DeepSeek-R1", "samples": "800k curated", "compute": "undisclosed", "cost": "undisclosed", "result": "AIME24 55.5; MATH-500 92.8; GPQA-D 49.1; LCB 37.6", "_source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" },
         { "run": "Qwen3-8B (strong-to-weak distillation)", "teacher": "Qwen3-32B and Qwen3-235B-A22B, off- then on-policy", "samples": "undisclosed", "compute": "1,800 GPU-hours (vs 17,920 RL-only)", "cost": "undisclosed", "result": "AIME24 74.4 / AIME25 65.5 (RL-only: 67.6 / 55.5)", "_source": "https://arxiv.org/abs/2505.09388" },
-        { "run": "Llama-3.1-Minitron-4B (pruned from 8B)", "teacher": "Llama-3.1-8B (teacher-corrected on 94B tokens)", "samples": "1.4T (depth) / 3T (width) tokens", "compute": "undisclosed GPU-hours; 40x fewer tokens than from scratch", "cost": "undisclosed (1.8x family savings claimed)", "result": "MMLU 60.53 (width); ~2.7x 8B throughput (depth) on H100", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model" },
+        { "run": "Llama-3.1-Minitron-4B (pruned from 8B)", "teacher": "Llama-3.1-8B (teacher-corrected on 94B tokens)", "samples": "94B tokens (width-pruned) / 1.4T tokens (depth-pruned)", "compute": "undisclosed GPU-hours; 40x fewer tokens than from scratch", "cost": "undisclosed (1.8x family savings claimed)", "result": "MMLU 60.53 (width); ~2.7x 8B throughput (depth) on H100", "_source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model" },
         { "run": "Llama-3.2-1B KD (torchtune case study)", "teacher": "LoRA-tuned Llama-3.1-8B", "samples": "alpaca_cleaned", "compute": "1x A100 80GB; duration undisclosed", "cost": "undisclosed", "result": "commonsense_qa 0.5717 (kd_ratio 1.0) vs 0.5536 base", "_source": "https://pytorch.org/blog/llama-into-torchtune/" },
         { "run": "gpt-4o-mini distilled from gpt-4o (OpenAI cookbook)", "teacher": "gpt-4o stored completions", "samples": "500 wine reviews", "compute": "OpenAI managed", "cost": "undisclosed (gpt-4o-mini training was $3/M tokens)", "result": "Validation accuracy 79.33% vs 64.67% base, 79.67% teacher", "_source": "https://developers.openai.com/cookbook/examples/leveraging_model_distillation_to_fine-tune_a_model" }
       ],
@@ -294,12 +294,12 @@
       "yLabel": "USD per 1M tokens",
       "unit": "USD",
       "series": [
-        { "name": "Together LoRA SFT", "data": [ { "x": "<=16B", "y": 0.48 }, { "x": "17-80B", "y": 1.50 }, { "x": "70-100B / 80-300B", "y": 2.90 } ] },
-        { "name": "Together full SFT", "data": [ { "x": "<=16B", "y": 1.20 }, { "x": "17-80B", "y": 3.75 }, { "x": "70-100B / 80-300B", "y": 7.25 } ] },
-        { "name": "Fireworks LoRA SFT", "data": [ { "x": "<=16B", "y": 0.50 }, { "x": "17-80B", "y": 3.00 }, { "x": "70-100B / 80-300B", "y": 6.00 } ] },
-        { "name": "Fireworks full SFT", "data": [ { "x": "<=16B", "y": 1.00 }, { "x": "17-80B", "y": 6.00 }, { "x": "70-100B / 80-300B", "y": 12.00 } ] }
+        { "name": "Together LoRA SFT", "data": [ { "x": "<=16B", "y": 0.48 }, { "x": "17-69B (T) / 16.1-80B (F)", "y": 1.50 }, { "x": "70-100B (T) / 80-300B (F)", "y": 2.90 } ] },
+        { "name": "Together full SFT", "data": [ { "x": "<=16B", "y": 1.20 }, { "x": "17-69B (T) / 16.1-80B (F)", "y": 3.75 }, { "x": "70-100B (T) / 80-300B (F)", "y": 7.25 } ] },
+        { "name": "Fireworks LoRA SFT", "data": [ { "x": "<=16B", "y": 0.50 }, { "x": "17-69B (T) / 16.1-80B (F)", "y": 3.00 }, { "x": "70-100B (T) / 80-300B (F)", "y": 6.00 } ] },
+        { "name": "Fireworks full SFT", "data": [ { "x": "<=16B", "y": 1.00 }, { "x": "17-69B (T) / 16.1-80B (F)", "y": 6.00 }, { "x": "70-100B (T) / 80-300B (F)", "y": 12.00 } ] }
       ],
-      "notes": "Together buckets are <=16B / 17-69B / 70-100B; Fireworks buckets are <=16B / 16.1-80B / 80-300B (plus $10 LoRA / $20 full above 300B). For comparison OpenAI charges $1.50 (gpt-4.1-nano), $5 (gpt-4.1-mini) and $25 (gpt-4.1) per 1M training tokens while its platform winds down.",
+      "notes": "The vendors’ size buckets do not line up, so categories 2 and 3 pair different ranges and are labelled with both: Together (T) buckets are <=16B / 17-69B / 70-100B; Fireworks (F) buckets are <=16B / 16.1-80B / 80-300B (plus $10 LoRA / $20 full above 300B). Bars within those categories are therefore adjacent, not equivalent. For comparison OpenAI charges $1.50 (gpt-4.1-nano), $5 (gpt-4.1-mini) and $25 (gpt-4.1) per 1M training tokens while its platform winds down.",
       "sources": ["https://www.together.ai/pricing", "https://fireworks.ai/pricing", "https://developers.openai.com/api/docs/pricing"]
     },
     {
@@ -413,10 +413,10 @@
   ],
   "timeline": [
     { "date": "2024-08", "title": "Arcee releases DistillKit v0.1", "detail": "Open-source logit- and hidden-state distillation toolkit; later powers Virtuoso, SuperNova-Medius and Arcee-Blitz.", "category": "product", "source": "https://blog.arcee.ai/distillkit-v0-1-by-arcee-ai" },
-    { "date": "2024-08", "title": "NVIDIA publishes the Llama-3.1-Minitron prune-and-distill recipe", "detail": "Teacher correction on 94B tokens, 50% depth or width pruning, distillation on 1.4T-3T tokens; 40x fewer tokens per extra model.", "category": "research", "source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model" },
+    { "date": "2024-08", "title": "NVIDIA publishes the Llama-3.1-Minitron prune-and-distill recipe", "detail": "Teacher correction on 94B tokens, 50% depth or width pruning, distillation on 94B tokens (width-pruned) or 1.4T tokens (depth-pruned); 40x fewer tokens per extra model.", "category": "research", "source": "https://developer.nvidia.com/blog/how-to-prune-and-distill-llama-3-1-8b-to-an-nvidia-llama-3-1-minitron-4b-model" },
     { "date": "2024-10-01", "title": "OpenAI launches Model Distillation in the API", "detail": "Stored completions, Evals and fine-tuning integrated so gpt-4o outputs can train gpt-4o-mini from the dashboard.", "category": "product", "source": "https://openai.com/index/api-model-distillation/" },
     { "date": "2024-12", "title": "Amazon Bedrock Model Distillation announced (preview)", "detail": "One job generates teacher synthetic data (up to 15k pairs) and fine-tunes a smaller student; teacher calls billed at on-demand rates.", "category": "product", "source": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html" },
-    { "date": "2025-01-11", "title": "Sky-T1-32B-Preview: an o1-preview-class model for ~$450", "detail": "17k QwQ-32B traces, 19 h on 8 H100 with LLaMA-Factory; AIME24 43.3 vs o1-preview 40.0.", "category": "research", "source": "https://novasky-ai.github.io/posts/sky-t1/" },
+    { "date": "2025-01-10", "title": "Sky-T1-32B-Preview: an o1-preview-class model for ~$450", "detail": "17k QwQ-32B traces, 19 h on 8 H100 with LLaMA-Factory; AIME24 43.3 vs o1-preview 40.0.", "category": "research", "source": "https://novasky-ai.github.io/posts/sky-t1/" },
     { "date": "2025-01-20", "title": "DeepSeek-R1 ships six distilled students (1.5B-70B, MIT)", "detail": "Fine-tuned on 800k R1-curated samples; the family now exceeds 97M Hugging Face downloads.", "category": "product", "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" },
     { "date": "2025-01-22", "title": "Bespoke-Stratos-17k released", "detail": "Sky-T1 pipeline re-run with DeepSeek-R1 as teacher through Bespoke Curator: ~1.5 h and ~$800 of API calls; Stratos-32B reaches AIME24 63.3.", "category": "research", "source": "https://huggingface.co/datasets/bespokelabs/Bespoke-Stratos-17k" },
     { "date": "2025-01-31", "title": "s1: 1,000 samples and 26 minutes on 16 H100s beat o1-preview on AIME24", "detail": "Gemini Flash Thinking traces distilled into Qwen2.5-32B-Instruct; introduces budget forcing.", "category": "research", "source": "https://arxiv.org/abs/2501.19393" },
@@ -477,6 +477,7 @@
     { "title": "Stored completions and distillation (Foundry classic)", "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/stored-completions", "publisher": "Microsoft", "date": "2026-07-06", "type": "docs" },
     { "title": "Distillation in Azure AI Foundry (blog)", "url": "https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/distillation-turning-smaller-models-into-high-performance-cost-effective-solutio/4355029", "publisher": "Microsoft", "date": "2024-12", "type": "blog" },
     { "title": "Vertex AI: tune Gemini models (overview)", "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/tune-models", "publisher": "Google Cloud", "date": "2026", "type": "docs" },
+    { "title": "Supervised and distillation fine-tuning for open models", "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning", "publisher": "Google Cloud", "date": "2026-09-03", "type": "docs" },
     { "title": "Together AI pricing", "url": "https://www.together.ai/pricing", "publisher": "Together AI", "date": "2026", "type": "pricing" },
     { "title": "Fireworks AI pricing", "url": "https://fireworks.ai/pricing", "publisher": "Fireworks AI", "date": "2026-09", "type": "pricing" },
     { "title": "Fireworks fine-tuning docs", "url": "https://docs.fireworks.ai/fine-tuning/fine-tuning-models", "publisher": "Fireworks AI", "date": "2026", "type": "docs" },
@@ -530,13 +531,13 @@
         "type": "library",
         "url": "https://github.com/arcee-ai/DistillKit",
         "teachersSupported": ["Any HF causal LM, online (live inference) or offline (captured, compressed logits)", "Examples: Llama-3.1-70B, Qwen3-8B"],
-        "studentsSupported": ["Same-vocabulary HF causal LMs", "LoRA or full fine-tuning"],
+        "studentsSupported": ["HF causal LMs, including cross-tokenizer/cross-architecture students after mergekit-tokensurgeon embedding surgery", "LoRA or full fine-tuning"],
         "techniques": ["Logit KD with KL, JSD, TVD", "Ranking losses (hinge, logistic)", "Hidden-state alignment (MSE, cosine)", "Logit compression (~300 bytes/token)"],
         "pricing": "Free, Apache-2.0",
         "openSource": true,
         "oneLiner": "Production toolkit behind Arcee's Virtuoso, SuperNova-Medius and Blitz models, notable for compressed offline logit capture.",
         "pros": ["Composable loss menu", "Offline mode decouples teacher inference from training", "Battle-tested on real product models"],
-        "cons": ["1.1k stars, small community", "No cross-tokenizer support", "No on-policy student sampling"]
+        "cons": ["1.1k stars, small community", "Cross-tokenizer distillation needs a separate mergekit-tokensurgeon pre-step, not an in-trainer loss", "No on-policy student sampling"]
       },
       {
         "name": "torchtune knowledge_distillation recipes",
@@ -630,7 +631,7 @@
         "teachersSupported": ["Nova Pro", "Nova Premier", "Llama 3.1 405B", "Llama 3.1 70B", "Llama 3.3 70B", "Anthropic Claude: not currently available"],
         "studentsSupported": ["Nova Micro, Nova Lite, Nova Pro", "Llama 3.1 8B, Llama 3.1 70B, Llama 3.2 1B, Llama 3.2 3B, Llama 3.3 70B"],
         "techniques": ["Teacher synthetic-data generation with proprietary augmentation (max 15k pairs)", "Reuse of production invocation logs", "Student fine-tuning"],
-        "pricing": "Teacher inference at on-demand rates; student fine-tuning at model-customization rates; custom model storage $1.95/month (per pricing page); Llama 2 and gpt-oss-20b rates published, Nova/Llama 3.x rates not shown on public page excerpt",
+        "pricing": "Teacher inference at on-demand rates; student fine-tuning at model-customization rates; custom model storage $1.95/month per Custom Model Unit (per pricing page); Llama 2 and gpt-oss-20b rates published, Nova/Llama 3.x rates not shown on public page excerpt",
         "openSource": false,
         "oneLiner": "One-job managed pipeline that generates teacher data and trains a Nova or Llama student, run in us-east-1 (Nova) or us-west-2 (Llama).",
         "pros": ["Can distill straight from CloudWatch invocation logs with metadata filters", "Data never used to train AWS models", "AWS cites up to 75% cost reduction with <2% accuracy loss for RAG"],
@@ -651,18 +652,18 @@
         "cons": ["Stored completions retire 2026-10-15; migrate to Responses API traces", "Training files cannot be exported", "Classic portal only"]
       },
       {
-        "name": "Google Vertex AI tuning (Gemini)",
+        "name": "Google Vertex AI tuning (Gemini and open models)",
         "vendor": "Google Cloud",
         "type": "platform",
-        "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/tune-models",
-        "teachersSupported": ["None as a distillation product; you can generate data with Gemini and tune a smaller Gemini"],
-        "studentsSupported": ["Gemini 2.5 Flash, 2.5 Flash-Lite, 3.5 Flash-Lite, Pro models (SFT, RL, preference tuning)", "Open models via LoRA/QLoRA recipes"],
-        "techniques": ["Supervised fine-tuning", "Reinforcement learning fine-tuning", "Preference tuning"],
+        "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning",
+        "teachersSupported": ["Any supported model named as teacher for open-model distillation fine-tuning; its responses tune the smaller student via the GenAI SDK", "Gemini for data generation when tuning a smaller Gemini"],
+        "studentsSupported": ["Llama 3.1 and Qwen open models (distillation fine-tuning)", "Gemini 2.5 Flash, 2.5 Flash-Lite, 3.5 Flash-Lite, Pro models (SFT, RL, preference tuning)", "Open models via LoRA/QLoRA recipes"],
+        "techniques": ["Distillation fine-tuning for open models (teacher -> student)", "Supervised fine-tuning", "Reinforcement learning fine-tuning", "Preference tuning"],
         "pricing": "undisclosed on tuning overview page",
         "openSource": false,
-        "oneLiner": "Vertex no longer documents a distillation feature; the legacy text-model distillation page returns 404.",
-        "pros": ["Multimodal tuning of Gemini Flash-class students", "RL and preference tuning available"],
-        "cons": ["No teacher-to-student workflow", "Gemini ToS constraints on using outputs to train competing models apply", "Legacy distillation docs removed"]
+        "oneLiner": "Vertex documents teacher-to-student distillation fine-tuning for open models via the GenAI SDK; the legacy text-model distillation page returns 404.",
+        "pros": ["Teacher-to-student distillation fine-tuning for Llama 3.1 / Qwen students", "Multimodal tuning of Gemini Flash-class students", "RL and preference tuning available"],
+        "cons": ["Distillation covers supported open models only, not Gemini students", "Gemini ToS constraints on using outputs to train competing models apply", "Legacy distillation docs removed"]
       },
       {
         "name": "Together AI Fine-tuning",
@@ -686,7 +687,7 @@
         "teachersSupported": ["Any (you supply data); RFT graders"],
         "studentsSupported": ["Open models up to >300B; vision-language models"],
         "techniques": ["LoRA and full SFT", "DPO", "Reinforcement fine-tuning (GPU-hour billed)"],
-        "pricing": "LoRA SFT $0.50/M (<=16B), $3 (16.1-80B), $6 (80-300B), $10 (>300B); full 2x; RFT at $8/h H100/H200, $13/h B200 from 2026-09-01; datasets 3 to 3M examples",
+        "pricing": "LoRA SFT $0.50/M (<=16B), $3 (16.1-80B), $6 (80-300B), $10 (>300B); full 2x; RFT at $8/h H100/H200, $13/h B200 from 2026-09-01; datasets 3 to 3M examples (from the fine-tuning docs, not the pricing page)",
         "openSource": false,
         "oneLiner": "Per-token SFT with free serverless deployment of the resulting LoRA and RFT for reasoning students.",
         "pros": ["Free serverless deployment of fine-tunes", "RFT available", "Large dataset ceiling (3M)"],
@@ -894,16 +895,17 @@
         "title": "Distill a frontier API teacher into Llama-3.1-8B for classification (black-box SeqKD)",
         "steps": [
           "Collect 5k-20k representative unlabeled inputs from production logs; hold out 500 for evaluation.",
-          "Label them with the teacher (e.g. deepseek-v4-pro at $0.66-$1.32/M input and $1.98-$3.96/M output, or an OpenAI gpt-5.6 model at $0.20-$4.00 input / $1.20-$20 output) using a strict JSON schema; 20k inputs x ~600 tokens is ~12M input tokens, roughly $8-$16 of teacher calls at DeepSeek's V4-Pro rates plus <$5 of output. Check the teacher's terms of service on training competing models first.",
+          "Label them with the teacher (e.g. deepseek-v4-pro at $0.66-$1.32/M input and $1.98-$3.96/M output, or an OpenAI gpt-5.6 model at the rates on OpenAI’s published pricing page) using a strict JSON schema; 20k inputs x ~600 tokens is ~12M input tokens, roughly $8-$16 of teacher calls at DeepSeek's V4-Pro rates plus <$5 of output. Check the teacher's terms of service on training competing models first.",
           "Filter: drop malformed labels and, where a rubric exists, self-consistency-check by sampling twice and keeping agreements (rejection sampling).",
           "Train Llama-3.1-8B-Instruct with QLoRA in Unsloth or TRL SFTTrainer (6 GB VRAM minimum; an L4 or A100 on Modal) for 2-3 epochs, or upload JSONL to Together (LoRA SFT $0.48/M tokens, $4 minimum) or Fireworks ($0.50/M).",
           "Evaluate with lm-evaluation-harness or a custom accuracy script on the 500 held-out teacher labels; target >95% agreement with the teacher.",
           "Merge the adapter, quantize to GGUF or AWQ, serve with vLLM (or llama.cpp at the edge) and compare per-request cost against the teacher API."
         ],
         "tool": "Unsloth / TRL SFTTrainer or Together AI fine-tuning",
-        "estCost": "$25-$60 total: ~$10-$20 teacher labels (DeepSeek V4-Pro rates) + ~$10-$20 training (Together: 20k x 650 tokens x 3 epochs = 39M tokens x $0.48 = ~$19; or ~2-4 h on a $2.50/h A100)",
+        "estCost": "$20-$40 total: ~$10-$20 teacher labels (DeepSeek V4-Pro rates) + ~$10-$20 training (Together: 20k x 650 tokens x 3 epochs = 39M tokens x $0.48 = ~$19; or ~2-4 h on a $2.50/h A100)",
         "estTime": "Half a day: 1-2 h teacher labeling, 2-4 h training, 1 h evaluation (author estimate from listed prices)",
-        "source": "https://www.together.ai/pricing"
+        "source": "https://www.together.ai/pricing",
+        "sources": ["https://www.together.ai/pricing", "https://api-docs.deepseek.com/quick_start/pricing", "https://developers.openai.com/api/docs/pricing"]
       },
       {
         "title": "Reasoning distillation of a 7B model from DeepSeek-R1 traces on one GPU",
@@ -926,12 +928,12 @@
           "In us-west-2, create an IAM service role with S3 access to your training bucket and permission to invoke the teacher (and its cross-region inference profile if you choose one).",
           "Prepare prompts as JSONL (Converse-format messages); optionally add a few golden prompt-response pairs that Bedrock uses to steer the teacher. Alternatively enable CloudWatch invocation logging and tag production calls with requestMetadata so the job can reuse real teacher responses.",
           "Create the distillation job in the console or CreateModelCustomizationJob API with teacher meta.llama3-3-70b-instruct-v1:0 and student meta.llama3-2-3b-instruct-v1:0:128k; Bedrock generates and augments responses (up to 15k pairs), splits train/validation, and fine-tunes.",
-          "Expect two charges: teacher inference at on-demand rates for every synthesized response, and student training at Llama customization rates; the pricing page shows $1.95/month storage per custom model.",
+          "Expect two charges: teacher inference at on-demand rates for every synthesized response, and student training at Llama customization rates; the pricing page shows $1.95/month storage per Custom Model Unit, and a model can need more than one unit.",
           "When the job finishes, buy provisioned throughput in us-west-2 or copy the model to another region, then evaluate with Bedrock Evaluations or your own harness.",
           "Note that Claude teachers are not currently offered and there is no announced restoration date; use Nova Premier -> Nova Pro/Lite/Micro (us-east-1) if you need an Amazon teacher."
         ],
         "tool": "Amazon Bedrock Model Distillation",
-        "estCost": "Teacher synthesis: up to 15k prompts x ~1k tokens = ~15M tokens at Llama 3.3 70B on-demand rates, plus student training at Llama customization rates (Llama 3.x per-token training rates are not shown on the public pricing page excerpt; Llama 2 13B is $1.49/M tokens) plus $1.95/month storage; provisioned throughput billed hourly for serving",
+        "estCost": "Teacher synthesis: up to 15k prompts x ~1k tokens = ~15M tokens at Llama 3.3 70B on-demand rates, plus student training at Llama customization rates (Llama 3.x per-token training rates are not shown on the public pricing page excerpt; Llama 2 13B is $1.49/M tokens) plus $1.95/month storage per Custom Model Unit; provisioned throughput billed hourly for serving",
         "estTime": "Hours per job (job runtime undisclosed); data prep 1-2 h",
         "source": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-distillation.html"
       },
@@ -942,7 +944,7 @@
           "Use DistillationTrainer(model='Qwen/Qwen3-1.7B', teacher_model='Qwen/Qwen3-8B') with DistillationConfig(use_vllm=True, vllm_mode='colocate', vllm_gpu_memory_utilization=0.3, max_completion_length=512, beta=1.0 for reverse KL or 0.5 for JSD, learning_rate=1e-6, bf16=True). For the classic GKD knobs use trl.experimental.gkd.GKDTrainer with lmbda=0.5 (half on-policy), beta=0.5, temperature=0.9, seq_kd=False.",
           "Launch with `accelerate launch train_distillation.py` or the CLI: `trl distillation --model_name_or_path ... --teacher_model_name_or_path ... --use_peft --lora_r 64` for a LoRA student.",
           "Watch completions/mean_length, clipped_ratio and entropy; if the student's completions are truncated raise max_completion_length. Enable use_liger_kernel=True for the fused JSD unless the model uses logit soft-capping (Gemma).",
-          "For a teacher that does not fit alongside the student, run `vllm serve <teacher> --logprobs-mode processed_logprobs --max-logprobs -1` on separate GPUs and use AsyncDistillationTrainer / vllm_mode='server'.",
+          "vllm_mode='server' moves the student's generation to a separate vLLM server (`vllm serve <student>`), not the teacher's. For a teacher that does not fit alongside the student, use AsyncDistillationTrainer, which scores against a teacher served over HTTP: run `vllm serve <teacher> --logprobs-mode processed_logprobs --max-logprobs -1` on separate GPUs.",
           "Evaluate against the teacher on lighteval tasks; Qwen3's report saw distilled 8B students beat RL-only training at ~1/10 of the GPU hours."
         ],
         "tool": "Hugging Face TRL DistillationTrainer / GKDTrainer",
@@ -970,9 +972,9 @@
         "steps": [
           "Convert Llama-3.1-8B to a NeMo 2.0 checkpoint and run teacher correction: continue-train the 8B on your distillation corpus (NVIDIA used 94B tokens) so the teacher's distribution matches the data.",
           "Estimate importance with ~1,024 calibration samples, then prune: depth (drop 16 of 32 layers, e.g. layers 16-31) for maximum speed, or width (hidden 4096 -> 3072, MLP 14336 -> 9216) for maximum accuracy.",
-          "Distill with NeMo/Model Optimizer using logit KD (logit_layers) plus optional intermediate-layer cosine losses; NVIDIA used 1.4T tokens for the depth-pruned and 3T for the width-pruned student.",
+          "Distill with NeMo/Model Optimizer using logit KD (logit_layers) plus optional intermediate-layer cosine losses; NVIDIA used 94B tokens for the width-pruned and 1.4T for the depth-pruned student.",
           "Evaluate: the width-pruned 4B reached MMLU 60.53 and HellaSwag 76.06; the depth-pruned variant runs ~2.7x the 8B's throughput under TensorRT-LLM on H100 (~1.8x for width), with FP8 adding ~1.3x.",
-          "Export to TensorRT-LLM or vLLM; repeat pruning from the same corrected teacher to build a family (NVIDIA claims 40x fewer tokens per additional model and 1.8x total compute savings)."
+          "Export to TensorRT-LLM or vLLM; repeat pruning from the same corrected teacher to build a family (NVIDIA reports 40x fewer tokens per additional model and 1.8x total compute savings from its earlier Nemotron family work)."
         ],
         "tool": "NVIDIA NeMo Framework + Model Optimizer",
         "estCost": "undisclosed by NVIDIA; trillion-token retraining implies a multi-node H100 cluster, i.e. tens of thousands of GPU-hours",
