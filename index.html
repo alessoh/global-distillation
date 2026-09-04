@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Distillation — a compendium of AI model distillation</title>
+<meta name="description" content="How frontier intelligence is compressed, priced and contested. AI model distillation examined from academic, financial, political, company, developer and customer perspectives, with a library of methods.">
+<meta name="color-scheme" content="light">
+<meta property="og:title" content="Global Distillation">
+<meta property="og:description" content="How frontier intelligence is compressed, priced and contested.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="vendor/katex.min.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a class="nav__brand" href="#/overview">
+      <svg class="nav__mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <circle cx="11" cy="11" r="9.25" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="11" cy="11" r="3.4" fill="currentColor"/>
+        <path d="M11 1.75 A9.25 9.25 0 0 1 11 20.25" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".35"/>
+      </svg>
+      <span class="nav__word">Global <em>Distillation</em></span>
+    </a>
+    <nav class="nav__links" id="nav-links" aria-label="Perspectives"></nav>
+    <div class="nav__actions">
+      <button class="nav__search" id="open-palette" type="button" aria-label="Search models, methods and events">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.2 9.2 12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Search</span><kbd class="nav__kbd" id="kbd-hint">⌘K</kbd>
+      </button>
+      <a class="btn btn--primary" href="#/compare">Compare</a>
+      <button class="nav__menu" id="open-rail" type="button" aria-label="Open section menu" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- ============================ RAIL ============================ -->
+  <aside class="rail" id="rail" aria-label="Sections">
+    <p class="rail__heading">Perspectives</p>
+    <ul class="rail__list" id="rail-list"></ul>
+    <p class="rail__heading rail__heading--ref">Reference</p>
+    <ul class="rail__list" id="rail-list-ref"></ul>
+    <div class="rail__foot" id="rail-foot"></div>
+  </aside>
+  <div class="rail__scrim" id="rail-scrim" hidden></div>
+
+  <!-- ============================ MAIN ============================ -->
+  <main class="main" id="main" tabindex="-1">
+
+    <!-- HERO (overview only) -->
+    <section class="hero" id="hero" data-route="overview">
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="eyebrow__dot"></span><span id="hero-eyebrow">A public compendium · updated daily</span></p>
+        <h1 class="hero__title">How frontier intelligence is <em>compressed, priced,</em> and <em>contested.</em></h1>
+        <p class="hero__standfirst">Distillation moves capability from a large teacher model into a small, cheap student. It is the quiet engine behind most models people actually pay for, the subject of an open dispute between the largest labs, and a live regulatory question in three jurisdictions. This compendium tracks all of it.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#/library">Browse the method library</a>
+          <a class="btn btn--link" href="#/methodology">Read the methodology</a>
+        </div>
+        <dl class="hero__facts" id="hero-facts"></dl>
+      </div>
+      <figure class="hero__figure">
+        <div class="hero__canvas" id="hero-canvas" role="img" aria-label="A dense teacher network on the left transferring soft targets along curved paths into a smaller student network on the right."></div>
+        <figcaption class="hero__legend" id="hero-legend"></figcaption>
+      </figure>
+    </section>
+
+    <!-- Rendered sections mount here -->
+    <div id="view" class="view" aria-live="polite"></div>
+
+    <footer class="foot">
+      <div class="foot__grid">
+        <div>
+          <p class="foot__word">Global <em>Distillation</em></p>
+          <p class="foot__note" id="foot-updated"></p>
+        </div>
+        <div class="foot__col">
+          <p class="foot__head">Method</p>
+          <p class="foot__note">Every figure links to a primary source: papers, model cards, official pricing pages, filings and public statements. Figures that could not be verified are marked undisclosed rather than estimated.</p>
+        </div>
+        <div class="foot__col">
+          <p class="foot__head">Live data</p>
+          <p class="foot__note" id="foot-live">Paper counts, model downloads, repository stars and news are refreshed daily at 06:17 UTC.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- ============================ DRAWER ============================ -->
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <button class="drawer__close" type="button" data-close-drawer aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="drawer__body" id="drawer-body"><h2 id="drawer-title"></h2></div>
+  </div>
+</div>
+
+<!-- ============================ PALETTE ============================ -->
+<div class="palette" id="palette" hidden>
+  <div class="palette__scrim" data-close-palette></div>
+  <div class="palette__panel" role="dialog" aria-modal="true" aria-label="Search">
+    <input class="palette__input" id="palette-input" type="text" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list" placeholder="Search models, methods, events, companies…" autocomplete="off" spellcheck="false">
+    <ul class="palette__list" id="palette-list" role="listbox"></ul>
+    <p class="palette__hint"><kbd>↑</kbd><kbd>↓</kbd> to navigate · <kbd>↵</kbd> to open · <kbd>esc</kbd> to close</p>
+  </div>
+</div>
+
+<script src="vendor/echarts.min.js"></script>
+<script src="vendor/katex.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
