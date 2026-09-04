@@ -1,9 +1,9 @@
 {
-  "updated": "2026-09-03T21:17:12.912Z",
+  "updated": "2026-09-04T06:38:54.997Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
-    "totalKD": 5368,
-    "last30d": 80,
+    "totalKD": 5372,
+    "last30d": 78,
     "perYear": [
       {
         "year": 2015,
@@ -51,10 +51,50 @@
       },
       {
         "year": 2026,
-        "count": 727
+        "count": 731
       }
     ],
     "recent": [
+      {
+        "title": "Computationally Efficient Pathology Segmentation using Knowledge Distillation from Foundation Models",
+        "url": "http://arxiv.org/abs/2609.03947v1",
+        "published": "2026-09-03T14:52:00Z",
+        "authors": [
+          "Jiaqi Lv",
+          "Yijie Zhu",
+          "Saki Okada"
+        ]
+      },
+      {
+        "title": "Closing the Semantic-Edge Gap: Tiny Language Models for 6G Wireless Intelligence",
+        "url": "http://arxiv.org/abs/2609.03747v1",
+        "published": "2026-09-03T12:18:09Z",
+        "authors": [
+          "Srikanth Kamath",
+          "Arnav Mathur",
+          "Joslyn Sajan George"
+        ]
+      },
+      {
+        "title": "ALRA: Adaptive Local Relational Alignment for Logit-Based Pre-training Distillation of Autoregressive Language Models",
+        "url": "http://arxiv.org/abs/2609.03355v1",
+        "published": "2026-09-03T04:26:39Z",
+        "authors": [
+          "Quang Hoang Trung",
+          "Quang Huu Hieu",
+          "Nguyen Van Hoang Phuc"
+        ]
+      },
+      {
+        "title": "ProgResViT: Progressive Resolution and Width for Adaptive Vision Transformers",
+        "url": "http://arxiv.org/abs/2609.03216v1",
+        "published": "2026-09-02T23:10:56Z",
+        "authors": [
+          "Ali Hojjat",
+          "Janek Haberer",
+          "Olaf Landsiedel"
+        ]
+      },
       {
         "title": "Convergence Theory of Knowledge Distillation in Asynchronous P2P Gossip Learning Network",
         "url": "http://arxiv.org/abs/2609.01952v1",
@@ -134,51 +174,11 @@
           "Victor Petrovic",
           "Emanuel Aldea"
         ]
-      },
-      {
-        "title": "KDGen-BF: A Generative Site-Specific Multi-User Beamforming Approach",
-        "url": "http://arxiv.org/abs/2608.29838v1",
-        "published": "2026-08-30T15:10:19Z",
-        "authors": [
-          "Ruihang Jiang",
-          "Zhaolin Wang",
-          "Yuanwei Liu"
-        ]
-      },
-      {
-        "title": "DISTAL: Distillation and Self-Supervised Pretraining for Structure-Agnostic Materials Property Prediction",
-        "url": "http://arxiv.org/abs/2609.00059v1",
-        "published": "2026-08-30T14:00:55Z",
-        "authors": [
-          "Weiran Wang",
-          "Xintong Huo",
-          "Yueying Wang"
-        ]
-      },
-      {
-        "title": "ACTD: Anchor-Based Cross-Tokenizer Distillation with Residual Regularization",
-        "url": "http://arxiv.org/abs/2608.29662v1",
-        "published": "2026-08-30T08:54:48Z",
-        "authors": [
-          "Huiyi Zhang",
-          "Zijian Li",
-          "Xiaocheng Feng"
-        ]
-      },
-      {
-        "title": "Robust Decentralized Multi-Satellite Massive MIMO Transmission via Knowledge Distillation",
-        "url": "http://arxiv.org/abs/2608.29620v1",
-        "published": "2026-08-30T07:27:36Z",
-        "authors": [
-          "Wenjing Cao",
-          "Zheng Lin",
-          "Yafei Wang"
-        ]
       }
     ]
   },
   "huggingface": {
-    "distillModels": 16299,
+    "distillModels": 16298,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
@@ -237,19 +237,19 @@
       {
         "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
         "downloads": 370746,
-        "likes": 206,
+        "likes": 208,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
       },
       {
         "id": "Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF",
         "downloads": 369464,
-        "likes": 156,
+        "likes": 157,
         "url": "https://huggingface.co/Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 364966,
-        "likes": 880,
+        "likes": 881,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -281,7 +281,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 364966,
-        "likes": 880,
+        "likes": 881,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -299,25 +299,25 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 6761868,
-        "likes": 1081,
+        "likes": 1094,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
         "downloads": 12826795,
-        "likes": 1341,
+        "likes": 1342,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
         "downloads": 1542803,
-        "likes": 1471,
+        "likes": 1470,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
         "downloads": 1385210,
-        "likes": 2502,
+        "likes": 2504,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
@@ -329,7 +329,7 @@
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
         "downloads": 564000,
-        "likes": 1020,
+        "likes": 1021,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
     ]
@@ -338,9 +338,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19213,
-        "forks": 2953,
-        "pushedAt": "2026-09-03T20:39:52Z",
+        "stars": 19215,
+        "forks": 2954,
+        "pushedAt": "2026-09-04T06:06:23Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -352,56 +352,56 @@
       },
       {
         "repo": "pytorch/torchtune",
-        "stars": 5802,
+        "stars": 5804,
         "forks": 752,
         "pushedAt": "2026-09-03T11:38:56Z",
         "url": "https://github.com/meta-pytorch/torchtune"
       },
       {
         "repo": "NVIDIA/NeMo",
-        "stars": 18381,
+        "stars": 18385,
         "forks": 3603,
-        "pushedAt": "2026-09-03T20:47:12Z",
+        "pushedAt": "2026-09-04T02:05:27Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
         "repo": "axolotl-ai-cloud/axolotl",
         "stars": 12436,
-        "forks": 1421,
-        "pushedAt": "2026-09-03T20:29:13Z",
+        "forks": 1420,
+        "pushedAt": "2026-09-04T04:20:43Z",
         "url": "https://github.com/axolotl-ai-cloud/axolotl"
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 75562,
-        "forks": 6863,
-        "pushedAt": "2026-09-03T21:11:15Z",
+        "stars": 75583,
+        "forks": 6864,
+        "pushedAt": "2026-09-04T06:35:26Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 74555,
-        "forks": 9136,
+        "stars": 74567,
+        "forks": 9137,
         "pushedAt": "2026-09-02T07:52:23Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 90906,
-        "forks": 21666,
-        "pushedAt": "2026-09-03T21:07:30Z",
+        "stars": 90937,
+        "forks": 21680,
+        "pushedAt": "2026-09-04T06:35:38Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 34065,
-        "forks": 8523,
-        "pushedAt": "2026-09-03T21:16:07Z",
+        "stars": 34213,
+        "forks": 8532,
+        "pushedAt": "2026-09-04T06:35:13Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
         "repo": "huggingface/open-r1",
-        "stars": 26448,
+        "stars": 26450,
         "forks": 2448,
         "pushedAt": "2026-04-02T14:03:15Z",
         "url": "https://github.com/huggingface/open-r1"
@@ -415,7 +415,7 @@
       },
       {
         "repo": "EleutherAI/lm-evaluation-harness",
-        "stars": 13881,
+        "stars": 13884,
         "forks": 3537,
         "pushedAt": "2026-09-01T13:51:29Z",
         "url": "https://github.com/EleutherAI/lm-evaluation-harness"
@@ -436,7 +436,7 @@
       },
       {
         "repo": "simplescaling/s1",
-        "stars": 6667,
+        "stars": 6666,
         "forks": 756,
         "pushedAt": "2025-06-25T18:59:18Z",
         "url": "https://github.com/simplescaling/s1"
