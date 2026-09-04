@@ -5,6 +5,7 @@
 // results, full keyboard control. Never throws on missing or partial data.
 
 import { closeDrawer, loadPerspective, ROUTES, data as appData } from './app.js';
+import { openCompany } from './sections-b.js';
 
 const MAX_RESULTS = 40;
 const PER_GROUP_MAX = 10;
@@ -96,7 +97,12 @@ function scoreToken(lower, token, fuzzy) {
     // word starts or contiguous runs.
     const span = positions[positions.length - 1] - positions[0] + 1;
     if (span > token.length * 4 + 8) return null;
-    if (strong / token.length < 0.5) return null;
+    // The longer the query, the less a scattered match can be a coincidence
+    // worth showing: "price" found its letters inside "Code of Practice" and
+    // ranked it second. Past four characters a subsequence has to be a near-run
+    // — a typo or a dropped letter — not a set of letters that happen to be
+    // there in order.
+    if (strong / token.length < (token.length >= 5 ? 0.85 : 0.5)) return null;
     out = { score: Math.max(score, 1), positions };
   }
 
@@ -175,7 +181,7 @@ const CANDIDATE_QUERIES = [
   'terms of service', 'on-policy', 'vLLM', 'Gemma', 'export controls', 'token price',
 ];
 
-function makeEntry(type, title, subtitle, hash, extraHay, methodId) {
+function makeEntry(type, title, subtitle, hash, extraHay, methodId, companyId) {
   const displayTitle = shortTitle(title);
   if (!displayTitle) return null;
   return {
@@ -186,6 +192,7 @@ function makeEntry(type, title, subtitle, hash, extraHay, methodId) {
     badge: BADGE[type] || type,
     hash: hash || '#/overview',
     methodId: methodId || null,
+    companyId: companyId || null,
     weight: WEIGHT[type] || 0,
     hay: (displayTitle + ' ' + (title !== displayTitle ? title + ' ' : '') +
       (subtitle || '') + ' ' + (extraHay || '') + ' ' + (BADGE[type] || '')).toLowerCase(),
@@ -268,7 +275,10 @@ export function buildIndex(ctx) {
         c.hq, c.stance ? c.stance + ' stance' : null,
         models.length ? models.length + ' distilled model' + (models.length === 1 ? '' : 's') : null,
       ]);
-      push(makeEntry('company', c.name, sub, hashFor('company'), models.join(' ') + ' ' + (c.tosClause || '')));
+      // A company result opens that company's dossier drawer; without this it
+      // navigates to a route the reader is often already on and does nothing.
+      push(makeEntry('company', c.name, sub, hashFor('company'),
+        models.join(' ') + ' ' + (c.tosClause || ''), null, c.name));
     });
   });
 
@@ -499,6 +509,15 @@ function activate(entry) {
   const same = location.hash === target || (!location.hash && target === '#/overview');
   if (!same) location.hash = target;
   if (entry.methodId && same) openMethodById(entry.methodId);
+  // The dossiers register when the company section renders, so a result opened
+  // from another route waits for that render before it can show one.
+  if (entry.companyId) {
+    const tryOpen = (left) => {
+      if (openCompany(entry.companyId)) return;
+      if (left > 0) setTimeout(() => tryOpen(left - 1), 120);
+    };
+    tryOpen(same ? 0 : 14);
+  }
 
   const main = document.getElementById('main');
   if (main && typeof main.focus === 'function') main.focus({ preventScroll: true });

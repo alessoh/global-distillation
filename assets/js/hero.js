@@ -16,7 +16,7 @@ import { data, live, loadPerspective, ROUTES } from './app.js';
 /* ------------------------------------------------------------------ */
 const RGB = (hex) => [((hex >> 16) & 255) / 255, ((hex >> 8) & 255) / 255, (hex & 255) / 255];
 
-const INK_3 = 0x837c71;   // --ink-3
+const INK_3 = 0x6b655c;   // --ink-3
 const INK_4 = 0xb2aa9d;   // --ink-4
 const ACCENT = 0xb5451b;  // --accent
 const CAT_2 = 0x1f6a99;   // --cat-2
@@ -76,7 +76,12 @@ function factCandidates() {
   const perYear = live && live.arxiv && Array.isArray(live.arxiv.perYear) ? live.arxiv.perYear : null;
   if (perYear && perYear.length) {
     const y = perYear[perYear.length - 1];
-    if (y && typeof y.count === 'number') out.push(['Preprints, ' + y.year + ' to date', fmtInt(y.count)]);
+    // The academic section reports 709 for the same year: that count is an
+    // abstract-only query, this one is a full-text query, and two numbers that
+    // differ by 3% have to say why on a site about verifiable figures.
+    if (y && typeof y.count === 'number') {
+      out.push(['Preprints, ' + y.year + ' to date (full text)', fmtInt(y.count)]);
+    }
   }
 
   const hf = live && live.huggingface && live.huggingface.distillModels;

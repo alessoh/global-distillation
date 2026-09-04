@@ -68,7 +68,7 @@
   /* Ink */
   --ink:        #1A1814;   /* headlines, table figures */
   --ink-2:      #4C4740;   /* body */
-  --ink-3:      #837C71;   /* labels, captions, axis text */
+  --ink-3:      #6B655C;   /* labels, captions, axis text: 5.6:1 on surface, 5.3:1 on paper */
   --ink-4:      #B2AA9D;   /* disabled, gridline labels */
 
   /* Accent — burnt sienna, used sparingly */
@@ -2147,6 +2147,7 @@ a.card:hover, button.card:hover {
 .palette__label small { display: block; font-size: var(--fs-micro); color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Matched characters inside a result label. */
 .palette__hit { background: none; color: var(--accent-ink); font-weight: 600; }
+/* see section 24: the match highlight is a tint, not a colour shift */
 .palette__count { margin-left: auto; font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .palette__type {
   flex: none;
@@ -2487,3 +2488,1350 @@ a.card:hover, button.card:hover {
   .kpi, .panel, .card, .method-card, .empty { border: 1px solid CanvasText; }
   .chip[aria-pressed="true"], .seg__btn[aria-selected="true"] { forced-color-adjust: none; }
 }
+
+/* ==========================================================================
+   22. Cross-cutting fixes: cited-source highlight, chart data tables
+   Additive block. Nothing above is modified.
+   ========================================================================== */
+
+/* A footnote scrolls its source row into view rather than writing to the hash
+   (which the router owns), so the row itself has to say "this one". */
+.source.is-cited {
+  background: var(--accent-soft);
+  box-shadow: inset 2px 0 0 var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding-left: var(--s-2);
+  transition: background var(--dur-slow) var(--ease);
+}
+.source.is-cited::before { color: var(--accent); }
+.source:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.footnote a { text-decoration: none; }
+
+/* The text alternative under every chart (DESIGN §8: no fact is vision-only). */
+.chart-data { margin-top: var(--s-4); border-top: 1px solid var(--rule); }
+.chart-data__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s-3);
+  padding: 3px 0;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+}
+.chart-data__toggle::-webkit-details-marker { display: none; }
+.chart-data__toggle::before {
+  content: "";
+  width: 0; height: 0;
+  border-left: 5px solid var(--ink-4);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.chart-data[open] > .chart-data__toggle::before { transform: rotate(90deg); }
+.chart-data__toggle:hover { color: var(--ink); }
+.chart-data__toggle:hover::before { border-left-color: var(--accent); }
+.chart-data__cap {
+  font-size: var(--fs-micro);
+  line-height: 1.45;
+  color: var(--ink-3);
+  margin: var(--s-2) 0 var(--s-2);
+}
+.chart-data .table-wrap { max-height: 320px; border: 1px solid var(--rule); border-radius: var(--r-md); }
+.table--data { font-size: 12.5px; }
+.table--data th[scope="row"] { font-weight: 500; color: var(--ink); }
+.table--data th:first-child, .table--data td:first-child { min-width: 0; padding-left: var(--s-3); }
+.table--data td:last-child, .table--data th:last-child { padding-right: var(--s-3); }
+
+/* ==========================================================================
+   23. Company, developer and customer perspectives
+   Components rendered by assets/js/sections-b.js: company dossiers, costed
+   recipes, tool profiles, the buyer's decision guide and its checklist, plus
+   the table affordances those three routes need. Additive; nothing above is
+   modified.
+   ========================================================================== */
+
+/* --- Tables: no nested scroller, a pinned identity column, an export ------ */
+
+/* A 660px inner scroller inside a 20,000px page hides rows behind a wheel that
+   scrolls the page instead. Tables run their full length; only a long one is
+   capped, and it says how many rows are behind the cap. */
+[data-perspective="company"] .table-wrap,
+[data-perspective="developer"] .table-wrap,
+[data-perspective="customer"] .table-wrap { max-height: none; }
+[data-perspective="company"] .chart-data .table-wrap,
+[data-perspective="developer"] .chart-data .table-wrap,
+[data-perspective="customer"] .chart-data .table-wrap { max-height: 320px; }
+
+.table-wrap.is-capped { max-height: 620px; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.table__more {
+  display: block;
+  width: calc(100% - var(--s-5) * 2);
+  margin: var(--s-3) var(--s-5) 0;
+  font-size: var(--fs-small);
+}
+
+.table__csv {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.table__csv:hover { color: var(--accent-ink); border-color: var(--accent); }
+.panel__unit + .table__csv { margin-left: var(--s-3); }
+
+/* The row label has to survive horizontal scrolling, or the numbers belong to
+   nobody. */
+.table--pin1 tbody th:first-child,
+.table--pin1 tbody td:first-child,
+.table--pin1 thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--surface);
+  box-shadow: 1px 0 0 var(--rule);
+}
+.table--pin1 thead th:first-child { z-index: 3; }
+.table--zebra.table--pin1 tbody tr:nth-child(even) td:first-child { background: #F7F4EE; }
+
+.table--rowlink tbody tr { cursor: pointer; }
+.table--rowlink tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.table--rowlink tbody tr:hover td:first-child { color: var(--accent-ink); }
+
+/* A model chip in the decision guide points at its row in the master table. */
+.table tbody tr.is-cited td { background: var(--accent-soft); }
+.table tbody tr.is-cited td:first-child { box-shadow: inset 2px 0 0 var(--accent); }
+
+/* The header's count list is the page's natural in-page navigation. */
+.meta__jump {
+  font: inherit;
+  color: inherit;
+  border-bottom: 1px solid var(--rule-strong);
+  cursor: pointer;
+}
+.meta__jump:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+/* --- Company dossiers ---------------------------------------------------- */
+
+.dossiers { display: grid; gap: var(--s-6); }
+.dossiers__label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--s-3);
+}
+.dossiers__label .dim { text-transform: none; letter-spacing: 0; }
+
+.dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--s-3);
+}
+
+.dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-4);
+  text-align: left;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: box-shadow var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.dossier:hover { box-shadow: var(--shadow-pop); transform: translateY(-1px); }
+.dossier__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
+.dossier__name {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.dossier__hq { font-size: var(--fs-micro); color: var(--ink-3); }
+.dossier__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--s-3);
+  margin-top: auto;
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+}
+
+.badge--stance.is-restrictive { background: var(--bad-soft); color: var(--bad); }
+.badge--stance.is-permissive { background: var(--good-soft); color: var(--good); }
+.badge--stance.is-mixed { background: var(--warn-soft); color: var(--warn); }
+
+.dossier__events { display: grid; gap: var(--s-3); padding-left: 0; }
+.dossier__events .dossier__event {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+}
+.dossier__event time {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+}
+
+/* --- Developer: costed recipes ------------------------------------------- */
+
+.recipes { display: grid; gap: var(--s-5); }
+.recipe__head { align-items: flex-start; }
+.recipe__n {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--accent);
+  margin-right: var(--s-3);
+  vertical-align: 4px;
+}
+.recipe__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--s-3);
+  padding-bottom: var(--s-4);
+  margin-bottom: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+.recipe__stats dt {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.recipe__stats dd { font-size: var(--fs-small); line-height: 1.5; color: var(--ink); }
+.recipe__steps { display: grid; gap: var(--s-3); counter-reset: step; }
+.recipe__steps li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: var(--s-2);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.recipe__steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  padding-top: 4px;
+}
+
+/* --- Developer: tool profiles -------------------------------------------- */
+
+.tools { display: grid; gap: var(--s-6); }
+.tools__label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--s-2);
+}
+.tools__label .dim { text-transform: none; letter-spacing: 0; }
+
+.tool {
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-flat);
+  margin-bottom: var(--s-2);
+}
+.tool[open] { box-shadow: var(--shadow-card); }
+.tool__summary {
+  display: grid;
+  grid-template-columns: minmax(180px, 22%) minmax(0, 1fr);
+  gap: 2px var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  cursor: pointer;
+  list-style: none;
+}
+.tool__summary::-webkit-details-marker { display: none; }
+.tool__summary:hover .tool__name { color: var(--accent-ink); }
+.tool__name { font-weight: 600; font-size: var(--fs-small); color: var(--ink); }
+.tool__one { font-size: var(--fs-small); line-height: 1.5; color: var(--ink-2); }
+.tool__meta {
+  grid-column: 2;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+}
+.tool__detail { padding: 0 var(--s-4) var(--s-4); border-top: 1px solid var(--rule); }
+.tool__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--s-4);
+  margin-top: var(--s-3);
+}
+.tool__coltitle {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: var(--s-3) 0 var(--s-2);
+}
+.tool__col ul, .tool__list { display: grid; gap: 5px; }
+.tool__col li, .tool__list li {
+  position: relative;
+  padding-left: var(--s-4);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.tool__col li::before, .tool__list li::before {
+  content: "\2014";
+  position: absolute;
+  left: 0;
+  color: var(--ink-4);
+}
+.tool__col--pro li::before { content: "+"; color: var(--good); }
+.tool__col--con li::before { content: "\2212"; color: var(--bad); }
+.tool__chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.tool__chips .badge { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.tool__link { margin-top: var(--s-3); font-size: var(--fs-small); }
+
+/* --- Customer: decision guide and checklist ------------------------------ */
+
+.guide {
+  display: grid;
+  gap: 0;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.guide__row {
+  display: grid;
+  grid-template-columns: 34px minmax(220px, 30%) minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+.guide__row:last-child { border-bottom: 0; }
+.guide__row:nth-child(even) { background: color-mix(in srgb, var(--surface-2) 45%, var(--surface)); }
+.guide__n { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-4); padding-top: 5px; }
+.guide__title {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.guide__rec {
+  margin-top: 6px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+.guide__why p { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+.guide__models { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--s-3); }
+.chip--model { font-family: var(--mono); font-size: var(--fs-micro); }
+
+.checklist { display: grid; gap: var(--s-2); counter-reset: chk; }
+.checklist__item {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-flat);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.checklist__item::before {
+  counter-increment: chk;
+  content: counter(chk, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--accent);
+  padding-top: 4px;
+}
+
+@media (max-width: 767.98px) {
+  .guide__row { grid-template-columns: 26px minmax(0, 1fr); }
+  .guide__why { grid-column: 2; }
+  .tool__summary { grid-template-columns: minmax(0, 1fr); }
+  .tool__meta { grid-column: 1; }
+  .dossier__events .dossier__event { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+
+/* ==========================================================================
+   24. Legibility corrections
+   The muted token measured 3.89:1 on the paper ground at 11px, below the 4.5:1
+   AA floor, and it carries the page's caveats: method notes, table headers,
+   source lines and captions. DESIGN.md already specifies that the lightest
+   permitted text clears 4.6:1, so the token is corrected to meet its own rule
+   (5.96:1 on paper, 5.56:1 on the zebra fill) rather than the rule relaxed.
+   ========================================================================== */
+
+:root { --ink-3: #655F55; }
+
+/* Column-unit labels were 9.5px in the disabled tint. */
+.table th .th__unit,
+.table th small { font-size: 10.5px; color: var(--ink-3); }
+
+/* A footnote marker is a link: it needs a readable size and a hit area. */
+.footnote { font-size: 11px; vertical-align: 4px; }
+.footnote a { display: inline-block; padding: 2px 3px; margin: -2px 0; }
+
+/* The live row count sat in monospace in the middle of a serif sentence. */
+.table__caption .table__count { font-family: var(--sans); letter-spacing: 0; }
+
+/* Eight figures wrap 6 + 2 on a six-column grid, leaving four empty cells; at
+   four across they fill two clean rows. */
+@media (min-width: 1440px) {
+  .kpi-row[data-n="7"],
+  .kpi-row[data-n="8"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* An arrow reads as a change indicator. Only a signed or directional delta
+   gets one; a specification ("512 H800s x 80 hours") is neutral. */
+.kpi__delta--flat::before { content: none; }
+
+/* ==========================================================================
+   24. Overview shell fixes
+   Additive block for the front page, the global chrome and the event lists.
+   Nothing above is modified.
+   ========================================================================== */
+
+/* --- Front-page figure row ------------------------------------------------
+   Six tiles across 1440 gave each 152px against a 430px height, so every label
+   wrapped to three or four lines and the source hostnames broke mid-token.
+   Three across two rows gives each tile about 310px, which is a two-line label
+   and an unbroken attribution. */
+@media (min-width: 1024px) {
+  .kpi-row--lede { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  /* One reserved label block, so all six numerals sit on one baseline. */
+  .kpi-row--lede .kpi__label { min-height: 2.7em; }
+}
+/* Attribution lines are publisher names here, but a long one must still wrap
+   between words rather than through the middle of a domain. */
+.kpi-row--lede .kpi__source { overflow-wrap: break-word; word-break: normal; }
+/* WCAG 2.2 Target Size (Minimum): a 15px-tall link in a stack of them is not a
+   target. Padding rather than font size, so the rhythm of the tile is intact. */
+.kpi__source a,
+.timeline__source,
+.timeline__from {
+  display: inline-block;
+  padding-block: 5px;
+  min-height: 24px;
+}
+
+/* --- Latest events -------------------------------------------------------
+   The text column wrapped at ~640px inside a 972px column, leaving a third of
+   the width empty down the whole list. The right of each row now carries the
+   provenance: who reported it, and which section holds the full account. */
+@media (min-width: 900px) {
+  .timeline--wide .timeline__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 172px;
+    column-gap: var(--s-6);
+    align-items: start;
+  }
+  .timeline--wide .timeline__detail { max-width: none; }
+}
+.timeline__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding-top: 2px;
+}
+.timeline__from {
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule);
+}
+.timeline__from:hover { color: var(--accent-ink); border-color: var(--accent); }
+/* An announced-but-not-yet-in-force date is drawn hollow, so it never reads as
+   something that has already happened. */
+.timeline__item--ahead .timeline__dot {
+  background: var(--paper);
+  box-shadow: 0 0 0 2px var(--cat, var(--ink-3)), 0 0 0 5px var(--paper);
+}
+
+/* --- Segmented control at narrow widths ----------------------------------
+   The strip scrolls, but nothing said so: the third tab was invisible with no
+   affordance. A right-edge fade appears only while there is more to scroll to. */
+@media (max-width: 767.98px) {
+  .panel__tools .seg:has(> :nth-child(3)) {
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent 100%);
+  }
+  .panel__tools .seg__btn { scroll-snap-align: start; }
+}
+
+/* ==========================================================================
+   25. Academic, financial and political perspectives
+   Additive block: the in-page index, the figure row's unit slot, the tables
+   that stopped clipping, the tick matrix, the row-detail drawer, and the
+   panels built for the datasets those three files carry. Nothing above is
+   modified.
+   ========================================================================== */
+
+/* --- In-page index -------------------------------------------------------- */
+/* The left rail moves between routes. A 20,000px route needs a way to move
+   inside itself, which is the bar OWID puts under its own title. */
+
+.pagenav {
+  position: sticky;
+  top: calc(var(--nav-h) + 0px);
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-6);
+  padding: var(--s-3) var(--s-4);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.pagenav__label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pagenav__link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+  border-bottom: 1px solid transparent;
+}
+.pagenav__link:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
+.pagenav__n {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.subhead:focus-visible,
+.section [id^="sec-"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* --- Figure row ----------------------------------------------------------- */
+/* Every tile carries its unit in the same slot beneath the numeral, so a bare
+   "900" cannot read as a different kind of quantity from "42 x". */
+
+.kpi__unit-line {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  color: var(--ink-3);
+  min-height: 1.3em;
+  margin-top: -2px;
+}
+.kpi__delta {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0;
+  white-space: normal;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+/* Tint means a signed change and nothing else. A hardware specification in a
+   green pill reads as a favourable result, which it is not. */
+.kpi__delta--flat { background: var(--surface-2); color: var(--ink-2); }
+.kpi__delta--up   { background: var(--good-soft); color: var(--good); }
+.kpi__delta--down { background: var(--bad-soft);  color: var(--bad); }
+.kpi__source { word-break: break-word; }
+
+/* --- Tables --------------------------------------------------------------- */
+/* The height cap sliced the last visible row through its glyphs, with no fade,
+   no scrollbar and no "5 more rows" hint: it read as broken rather than as
+   scrollable. These tables are 6 to 63 rows on a page that is already long. */
+
+.table-wrap { max-height: none; }
+.chart-data .table-wrap { max-height: 320px; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.table-wrap--sticky { scrollbar-gutter: stable; }
+
+/* Row identity survives a sideways scroll. */
+@media (min-width: 600px) {
+  .table--matrix th[scope="row"],
+  .table-wrap--sticky .table > tbody > tr > td:first-child,
+  .table-wrap--sticky .table > thead > tr > th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--surface);
+  }
+  .table-wrap--sticky .table > thead > tr > th:first-child { z-index: 3; }
+  .table--zebra > tbody > tr:nth-child(even) > td:first-child { background: var(--surface-2); }
+  .table-wrap--sticky .table > tbody > tr > td:first-child::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: -1px;
+    width: 6px;
+    background: linear-gradient(to right, rgba(26,24,20,.07), rgba(26,24,20,0));
+    pointer-events: none;
+  }
+}
+
+/* A reference marker inside a right-aligned numeric cell pushed the digits off
+   the column's alignment: 25,899¹ and 3,209⁵⁴ ended at different x. */
+.cell-ref {
+  display: inline-block;
+  width: 2.4ch;
+  text-align: left;
+  margin-right: -2.4ch;
+  position: relative;
+  left: 4px;
+}
+.cell-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: var(--fs-micro);
+  line-height: 1.4;
+  color: var(--ink-3);
+  max-width: 46ch;
+}
+
+.row--open { cursor: pointer; }
+.row--open:hover > td { background: var(--surface-2); }
+.row--open:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* --- Tick matrix ---------------------------------------------------------- */
+/* Four independent yes/no instruments read across a row and down a column.
+   They are never summed: a jurisdiction with three of them does not have
+   three times anything, and an empty row is a finding, not missing data. */
+
+.table--matrix th { white-space: normal; vertical-align: bottom; }
+.table--matrix thead th:not(:first-child) .table__sort { max-width: 15ch; text-align: left; }
+.table--matrix td:not(:first-child) { white-space: nowrap; }
+.tick {
+  display: inline-block;
+  width: 11px; height: 11px;
+  margin-right: 7px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+.tick--on  { background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.tick--off { background: transparent; box-shadow: inset 0 0 0 1.5px var(--rule-strong); }
+
+/* --- Sources -------------------------------------------------------------- */
+/* A hundred identical rows in one column ran to a fifth of the page. Grouped by
+   kind, set in columns, and opened rather than scrolled past — a citation still
+   opens the disclosure before it scrolls, so nothing is ever unreachable. */
+
+.sources-wrap { margin-top: calc(var(--s-4) * -1); }
+.sources__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: var(--s-2) 0;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+}
+.sources__toggle::-webkit-details-marker { display: none; }
+.sources__toggle::before {
+  content: "";
+  width: 0; height: 0;
+  border-left: 5px solid var(--ink-3);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.sources-wrap[open] > .sources__toggle::before { transform: rotate(90deg); }
+.sources__toggle:hover { color: var(--accent-ink); }
+.sources__cols { margin-top: var(--s-4); display: grid; gap: var(--s-6); }
+@media (min-width: 1024px) { .sources__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1440px) { .sources__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sources__group { min-width: 0; break-inside: avoid; }
+.sources__kind {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--ink);
+  padding-bottom: var(--s-2);
+  margin-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* --- Assumptions panel ---------------------------------------------------- */
+
+.assumptions { display: grid; gap: var(--s-3); }
+.assumptions > div {
+  display: grid;
+  grid-template-columns: minmax(0, 13em) minmax(0, 1fr);
+  gap: var(--s-2) var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+}
+.assumptions dt { font-size: var(--fs-small); color: var(--ink); font-weight: 500; }
+.assumptions dd { font-size: var(--fs-small); line-height: var(--lh-body); color: var(--ink-2); }
+.assumptions__head {
+  margin: var(--s-5) 0 var(--s-3);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.ticklist { display: grid; gap: var(--s-2); }
+.ticklist li {
+  position: relative;
+  padding-left: var(--s-4);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--ink-2);
+}
+.ticklist li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .55em;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--rule-strong);
+}
+@media (max-width: 599.98px) {
+  .assumptions > div { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Quotes and signals in a panel body ----------------------------------- */
+
+.panel__body > .quote + .quote { margin-top: var(--s-4); }
+.panel__body > .quote cite {
+  display: block;
+  margin-top: var(--s-3);
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: var(--fs-micro);
+  letter-spacing: .04em;
+  color: var(--ink-3);
+}
+.signal__note {
+  margin-top: var(--s-2);
+  font-size: var(--fs-micro);
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+/* --- Row-detail drawer ---------------------------------------------------- */
+
+.detail__meta {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  margin-bottom: var(--s-2);
+}
+.detail__title {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  color: var(--ink);
+  margin-bottom: var(--s-5);
+}
+.detail__block + .detail__block { margin-top: var(--s-5); }
+.detail__block h4 {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--s-2);
+}
+.detail__block p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
+.detail__source {
+  margin-top: var(--s-6);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+  font-size: var(--fs-small);
+}
+.detail__source a { color: var(--accent-ink); border-bottom: 1px solid var(--accent); }
+
+/* --- Narrow widths -------------------------------------------------------- */
+
+@media (max-width: 767.98px) {
+  .pagenav {
+    position: static;
+    gap: var(--s-2) var(--s-3);
+    padding: var(--s-3) 0;
+  }
+  .pagenav__label { flex: 0 0 100%; }
+  /* A phone cannot show a row label and its value at the same time on a
+     seven-column table; the first column is pinned so it can. */
+  .table-wrap--sticky .table > tbody > tr > td:first-child,
+  .table-wrap--sticky .table > thead > tr > th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--surface);
+    max-width: 40vw;
+  }
+  .table-wrap--sticky .table > thead > tr > th:first-child { z-index: 3; }
+  .table-wrap--sticky .table > tbody > tr > td:first-child {
+    box-shadow: 6px 0 6px -6px rgba(26,24,20,.22);
+  }
+  .cell-sub { display: none; }
+}
+
+/* ==========================================================================
+   25. Library, timeline record and comparison builder
+   Additive block. Nothing above is modified; every rule here is either a new
+   component or an intentional override of an earlier one, noted where it is.
+   ========================================================================== */
+
+/* --- Family hues ----------------------------------------------------------
+   Eleven families, eleven hues. The old five-hue regex map painted
+   attention-based, feature-based and compression-composed the same blue, so
+   the key asserted a kinship the page's own copy denies. The family name is
+   always printed beside its dot, so colour supports the label and never
+   carries the fact alone. */
+.fam--1  { --fam: #B5451B; }
+.fam--2  { --fam: #1F6A99; }
+.fam--3  { --fam: #2E7D53; }
+.fam--4  { --fam: #9A6C10; }
+.fam--5  { --fam: #6B4FA8; }
+.fam--6  { --fam: #A8324E; }
+.fam--7  { --fam: #3F6470; }
+.fam--8  { --fam: #7A6A57; }
+.fam--9  { --fam: #0F6B63; }
+.fam--10 { --fam: #8E3A6B; }
+.fam--11 { --fam: #556B0F; }
+.lib-chips .chip__dot { background: var(--fam, var(--ink-4)); }
+
+/* --- Method cards ---------------------------------------------------------
+   The card is an <article> with a real <h3>, so the library can be navigated
+   by heading; the name is the button and its hit area covers the whole card. */
+.method-grid { align-items: start; gap: var(--s-5); }
+.method-card { position: relative; min-height: 0; }
+.method-card__name { margin: 0; }
+.method-card__open {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.method-card__open::after { content: ""; position: absolute; inset: 0; border-radius: var(--r-lg); }
+.method-card:has(.method-card__open:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.method-card__open:focus-visible { outline: none; }
+/* Three lines for every card, so a row of cards is one height and the grid
+   keeps its rhythm. The full description is in the drawer. */
+.method-card__desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.method-card__foot { margin-top: auto; }
+
+/* --- Library controls ---------------------------------------------------- */
+.lib-controls__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+.lib-controls__top .field { flex: 1 1 260px; max-width: 420px; }
+.field--sm { flex: 0 0 auto; }
+.field--sm .field__input { min-width: 190px; }
+.lib-controls__top .seg { margin-left: auto; }
+.lib-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-4);
+}
+.lib-bar .lib-count { margin: 0; }
+
+/* --- Table view ---------------------------------------------------------- */
+.table--lib { font-size: 13.5px; }
+.table--lib th[scope="row"] { font-weight: 500; }
+.table--lib .lib-row {
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.table--lib .lib-row:hover { color: var(--accent-ink); border-color: var(--accent); }
+.table--lib .method-card__family { letter-spacing: .06em; }
+.table--lib tbody tr { cursor: pointer; }
+
+/* --- Attribute badges -----------------------------------------------------
+   Teacher access is a constraint, not a grade: green for white-box and amber
+   for black-box asserted a preference the page explicitly contradicts. One
+   hue family, three tints, all above 4.5:1. */
+.badge--attr { background: var(--surface-2); color: var(--ink-2); }
+.badge--attr.attr--white-box  { background: #EEEBE3; }
+.badge--attr.attr--black-box  { background: #E4DFD5; }
+.badge--attr.attr--teacherless { background: #F3F0EA; }
+/* An audience badge names another section of the compendium, so it is made
+   the link to it. */
+.badge--route { background: var(--surface-2); color: var(--ink-2); border-bottom: 0; }
+.badge--route:hover { background: var(--accent-soft); color: var(--accent-ink); }
+
+/* --- Method drawer --------------------------------------------------------
+   Section labels moved from h4 to h3 so the drawer runs h2 to h3 to h4 with no
+   skipped level; these rules keep their mono-label appearance. */
+.drawer__body .drawer__section {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: var(--s-6) 0 var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+.proscons__col h4 {
+  font-family: var(--sans);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin: 0 0 var(--s-2);
+  padding: 0;
+  border: 0;
+}
+.proscons__col--pro h4 { color: var(--good); }
+.proscons__col--con h4 { color: var(--bad); }
+.drawer__body .mth__prose .mth-h { border: 0; padding: 0; }
+
+/* A long objective scrolls sideways. It used to do so silently: no scrollbar,
+   no fade, nothing to drag. Now the scrollbar is always drawn, the fade marks
+   the cut, and a line of copy says which way to go. */
+.formula {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+  overscroll-behavior-x: contain;
+}
+.formula::-webkit-scrollbar { height: 8px; }
+.formula::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 4px; }
+.mth__formula-wrap.is-scrollable .formula { padding-bottom: var(--s-3); }
+.mth__formula-hint {
+  font-size: var(--fs-micro) !important;
+  line-height: 1.45;
+  color: var(--ink-3) !important;
+  margin-top: var(--s-2);
+}
+.drawer__eyebrow .method-card__family { color: var(--ink-3); }
+
+/* --- The record: years as groups -----------------------------------------
+   A hundred and thirty rows of one weight have no structure a reader can
+   hold. Each year is a group whose heading stays on screen while its events
+   pass, and Compact folds the detail line away for scanning. */
+.timeline__group { display: block; margin-bottom: var(--s-5); }
+.timeline__group[hidden] { display: none; }
+.timeline__yearhead {
+  position: sticky;
+  top: calc(var(--nav-h) + 2px);
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: 6px 0 7px;
+  margin-bottom: var(--s-4);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.timeline__yearn { font-size: var(--fs-micro); color: var(--ink-3); letter-spacing: .04em; }
+.timeline__events { display: block; }
+/* Scoped to the grouped record, so the flat event list on the front page
+   keeps the layout it was built for. */
+.timeline__group .timeline__item {
+  grid-template-columns: 20px minmax(0, 1fr);
+  padding-bottom: var(--s-5);
+}
+.timeline__group .timeline__dot  { grid-column: 1; }
+.timeline__group .timeline__body { grid-column: 2; }
+.timeline__group .timeline__item::before { left: 9px; }
+.timeline__meta { display: flex; align-items: baseline; gap: var(--s-3); flex-wrap: wrap; }
+.timeline__meta .timeline__cat { margin-left: 0; }
+.timeline__group .timeline__item:hover .timeline__title { color: var(--accent-ink); }
+.tl-wrap.is-compact .timeline__detail { display: none; }
+.tl-wrap.is-compact .timeline__title { font-size: 16px; margin-top: 2px; }
+.tl-wrap.is-compact .timeline__item { padding-bottom: var(--s-4); }
+.tl-tools__right { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+
+/* An active category chip is filled in its own category colour, not in the
+   global accent: three colours on one 100px control read as a fault. */
+.chip[data-tl-filter] .chip__dot { background: var(--cat, var(--ink-4)); }
+.chip[data-tl-filter][aria-pressed="true"] {
+  background: color-mix(in srgb, var(--cat, var(--accent)) 12%, var(--surface));
+  border-color: var(--cat, var(--accent));
+  color: var(--ink);
+}
+
+/* --- Comparison builder --------------------------------------------------- */
+.cmp-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-4);
+  margin: var(--s-4) 0;
+}
+.cmp-controls .field { flex: 0 1 300px; }
+.chips--sm .chip { font-size: 12.5px; }
+.cmp-presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  padding: var(--s-3) 0 0;
+}
+.cmp-presets__label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cmp-presets .chips { margin: 0; }
+.cmp-chips { display: grid; gap: var(--s-3); }
+.cmp-chips.is-capped {
+  max-height: 232px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+}
+.cmp-group { display: grid; gap: 6px; }
+.cmp-group__head {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cmp-group .chips { margin: 0; }
+.cmp-more { margin-top: var(--s-3); }
+.cmp-status {
+  min-height: 1.4em;
+  margin: var(--s-3) 0 0;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+/* The cap on four models used to be enforced with the disabled attribute,
+   which removed seventy chips from the tab order and looked identical to an
+   enabled one. The chip stays focusable and says what it is. */
+.chip.is-disabled { opacity: .45; }
+.chip.is-disabled:hover { background: var(--surface); }
+.btn--sm { padding: 5px 11px; font-size: var(--fs-small); }
+
+/* Four columns have to fit: the license string used to force one column to
+   425px and push two of the four models off the right edge. */
+.table--compare { table-layout: fixed; width: 100%; }
+.table--compare th:first-child,
+.table--compare td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  width: 190px;
+  min-width: 190px;
+  background: var(--surface);
+}
+.table--compare thead th:first-child { z-index: 4; }
+.table--compare th, .table--compare td { white-space: normal; overflow-wrap: break-word; }
+.table--compare thead th { vertical-align: top; }
+.table--compare tbody tr.is-empty th,
+.table--compare tbody tr.is-empty td { color: var(--ink-4); }
+.table--compare tbody tr.is-derived td.num { color: var(--ink); }
+.table--compare tbody tr.is-derived { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+/* The first column is sticky, so it paints its own background and would leave
+   the derived rows striped. */
+.table--compare tbody tr.is-derived th:first-child {
+  background: color-mix(in srgb, var(--surface-2) 45%, var(--surface));
+}
+.cell__sub--warn { color: var(--warn) !important; }
+/* 9.5px at 2.3:1 was the least legible text on the site. */
+.table th small { font-size: 11px; color: var(--ink-3); }
+
+/* --- Narrow widths -------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  /* WCAG 2.5.8: a 30px pill is not a touch target. */
+  .lib-chips .chip, .chips .chip { min-height: 40px; padding-block: 9px; }
+  .lib-controls__top { gap: var(--s-3); }
+  .lib-controls__top .seg { margin-left: 0; }
+  .lib-filter { gap: var(--s-2); }
+  .lib-filter__label { flex-basis: 100%; padding-top: 0; }
+  /* The count and the reset stay reachable while the grid scrolls past. */
+  .lib-bar {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 4;
+    padding: var(--s-2) 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .timeline__yearhead { top: var(--nav-h); }
+  .cmp-controls .field { flex: 1 1 100%; }
+  .table--compare th:first-child,
+  .table--compare td:first-child { width: 132px; min-width: 132px; }
+}
+
+/* The comparison table scrolls sideways and is reachable from the keyboard. */
+.table-wrap { scrollbar-width: thin; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* A footnote or an in-page jump must not land under the fixed header. */
+html { scroll-padding-top: 76px; }
+
+/* Column widths are shared out by content length (sections-b.js); the header
+   labels wrap rather than clip once the layout is fixed. */
+.table--balanced thead th,
+.table--balanced .table__sort { white-space: normal; }
+.table--balanced .table__sort { text-align: left; }
+.table--balanced th.num .table__sort,
+.table--balanced th[data-type="number"] .table__sort { text-align: right; }
+
+/* --- Command palette -----------------------------------------------------
+   A dark-red colour shift on body text was very hard to pick out of a list.
+   A tint reads as a highlighter at a glance, which is what it is for. */
+.palette__hit {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 600;
+  border-radius: 2px;
+  padding: 0 1px;
+  margin: 0 -1px;
+}
+
+/* The standfirst continuation carries six citable claims and is the first
+   body text on the page; it belongs at body contrast, not in the muted tier
+   reserved for captions. */
+.section__standfirst--rest { color: var(--ink-2); font-size: 15px; }
+.section__standfirst--rest + .section__standfirst--rest { margin-top: var(--s-3); }
+
+/* A row header is a label, not a heading in the middle of a table: left, at
+   body weight, on the same rhythm as the cells beside it. */
+.table tbody th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 11px var(--s-3);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  line-height: 1.45;
+}
+.table tbody th[scope="row"]:first-child { padding-left: var(--s-5); }
+.table tbody tr:last-child th[scope="row"] { border-bottom: 0; }
+.table td.is-zero { color: var(--ink-4); }
+
+/* A wrapping signal label pushed its figure down out of the row's baseline. */
+.signal__label { min-height: 2.6em; }
+
+/* The pinned first cell paints its own background, so it has to carry the
+   zebra fill too or the row splits in two down the pin. */
+.table--zebra > tbody > tr:nth-child(even) > td:first-child,
+.table-wrap--sticky .table--zebra > tbody > tr:nth-child(even) > td:first-child {
+  background: var(--surface-2);
+}
+
+/* Source attributions sit in stacks of a dozen on a phone; a 15px line is not
+   a target (WCAG 2.2 Target Size, Minimum). Padding, not type size, so the
+   typographic rhythm of the panel foot is unchanged. */
+.panel__sources a,
+.hero .btn--link {
+  display: inline-block;
+  padding-block: 5px;
+  min-height: 24px;
+}
+.newslist a { padding-block: 4px; }
+.nav__brand { min-height: 24px; }
+
+/* One tablist per panel, above the panes rather than repeated inside each. */
+.panel__tabs {
+  display: flex;
+  padding: var(--s-3) var(--s-5) 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.panel__tabs::-webkit-scrollbar { display: none; }
+.panel__tabs .seg { flex: 0 0 auto; }
+.panel__tabs + .panel__pane > .panel__head { border-top: 0; }
+
+/* --- Key findings: a way in ----------------------------------------------- */
+/* Ten cards of identical weight are a wall. The list is numbered and the two
+   findings the file leads with take the full measure. */
+
+.finding { position: relative; }
+.finding__n {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: .08em;
+  color: var(--ink-4);
+  margin-bottom: var(--s-2);
+}
+@media (min-width: 1024px) {
+  .finding--lead { grid-column: 1 / -1; }
+  .finding--lead .finding__title { font-size: 25px; line-height: 1.2; max-width: 34ch; }
+  .finding--lead .finding__detail { font-size: var(--fs-body); max-width: 78ch; }
+  .finding--lead .finding__n { color: var(--accent); }
+}
+
+/* A four-position ordinal, stated as a meter beside the wording it reads. */
+.meter { display: inline-flex; gap: 2px; margin-right: 7px; vertical-align: 1px; }
+.meter__seg {
+  width: 5px; height: 11px;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.meter__seg.is-on { background: var(--accent); box-shadow: none; }
+
+.chart-data__csv { margin-left: var(--s-3); font-size: var(--fs-micro); }
+
+/* The palette scrolls; the cut edge now reads as one. */
+.palette__list { box-shadow: inset 0 -14px 12px -12px rgba(26, 24, 20, .10); }
+
+/* Tabular figures inside a sentence open a gap after every full stop
+   ("9. 4x the 38 seen in all of 2025"); the pill is prose, not a column. */
+.kpi__delta { font-variant-numeric: normal; }
+
+/* A wide evidence table on a phone: the year column stays put, so a figure is
+   never read against the wrong row. Scoped to the two reference routes rather
+   than applied to every table on the site. */
+@media (max-width: 767.98px) {
+  [data-perspective="timeline"] .table thead th:first-child,
+  [data-perspective="library"]  .table thead th:first-child,
+  [data-perspective="timeline"] .table tbody td:first-child,
+  [data-perspective="library"]  .table tbody td:first-child,
+  [data-perspective="timeline"] .table tbody th[scope="row"]:first-child,
+  [data-perspective="library"]  .table tbody th[scope="row"]:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--surface);
+    box-shadow: 1px 0 0 var(--rule);
+  }
+  [data-perspective="timeline"] .table thead th:first-child,
+  [data-perspective="library"]  .table thead th:first-child { z-index: 3; }
+  [data-perspective="timeline"] .table--zebra tbody tr:nth-child(even) td:first-child,
+  [data-perspective="library"]  .table--zebra tbody tr:nth-child(even) td:first-child {
+    background: var(--zebra);
+  }
+}
+
+/* Direction of merit, at body size beside the row label. */
+.dirmark { color: var(--ink-3); margin-right: 5px; font-family: var(--mono); }
+
+/* A jump target has to clear the fixed nav and the sticky index above it. */
+.section [id^="sec-"],
+.section .subhead[id] { scroll-margin-top: calc(var(--nav-h) + 68px); }
+@media (max-width: 767.98px) {
+  .section [id^="sec-"],
+  .section .subhead[id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
+}
+
+/* The number beside a source is its footnote number, which is set per row
+   (counter-set above), so the counter must not also be incremented. */
+.sources__cols .source::before { counter-increment: none; }
+
+/* A source line was carrying two link treatments side by side: the domain
+   underlined in grey and the reference marker underlined in rust. The marker
+   is a superscript numeral, not a second link to the same place. */
+.footnote a.footnote__ref { border-bottom: 0; text-decoration: none; }
+.footnote a.footnote__ref:hover { color: var(--accent); text-decoration: underline; }
+
+/* ---------------------------------------------------------------------------
+   26. Integration pass
+   Fixes that only surfaced once every route's components sat on one stylesheet.
+   Nothing above this line is modified.
+   --------------------------------------------------------------------------- */
+
+/* A technique chip can carry a whole sentence ("Standardized benchmarks (MMLU,
+   HellaSwag, ...)"), which at 390px ran 450px wide and was clipped by an
+   ancestor rather than wrapped. A chip is a label, not a line. */
+.tool__chips .badge,
+.dossier__facts .badge {
+  white-space: normal;
+  max-width: 100%;
+  text-align: left;
+}
+
+/* Tap targets. WCAG 2.5.8 wants 24px on a pointer-coarse screen; these controls
+   are all set in micro type, so they measured 17-22px tall. Inline links inside
+   running prose are exempt (they are inline text) and are left alone. */
+@media (max-width: 767px) {
+  .pagenav__link,
+  .meta__jump,
+  .chart-data__toggle,
+  .chart-data__csv,
+  .table__csv,
+  .table__sort,
+  .sources__toggle,
+  .lib-bar .btn--link,
+  a.badge--route {
+    min-height: 24px;
+  }
+  .table__sort,
+  .chart-data__toggle,
+  .sources__toggle,
+  .pagenav__link,
+  a.badge--route {
+    display: inline-flex;
+    align-items: center;
+  }
+  .chart-data__csv,
+  .table__csv,
+  .meta__jump,
+  .lib-bar .btn--link {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* DESIGN.md calls the badges a "footer row"; align-items:start let each card
+   stop at its own text, so a row of three cards ended at three heights and the
+   badges never lined up. The card is already a column flexbox with a growing
+   description, so stretching the row is all the footer needs. */
+.method-grid { align-items: stretch; }

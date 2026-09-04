@@ -35,7 +35,7 @@ generic indigo-SaaS default.
   /* Ink */
   --ink:        #1A1814;   /* headlines, table figures */
   --ink-2:      #4C4740;   /* body */
-  --ink-3:      #837C71;   /* labels, captions, axis text */
+  --ink-3:      #6B655C;   /* labels, captions, axis text */
   --ink-4:      #B2AA9D;   /* disabled, gridline labels */
 
   /* Accent — burnt sienna, used sparingly */
@@ -179,13 +179,13 @@ Register as `gd` and apply to every chart:
   "categoryAxis": {
     "axisLine": { "lineStyle": { "color": "#CEC6B6" } },
     "axisTick": { "show": false },
-    "axisLabel": { "color": "#837C71", "fontSize": 11 },
+    "axisLabel": { "color": "#6B655C", "fontSize": 11 },
     "splitLine": { "show": false }
   },
   "valueAxis": {
     "axisLine": { "show": false },
     "axisTick": { "show": false },
-    "axisLabel": { "color": "#837C71", "fontSize": 11 },
+    "axisLabel": { "color": "#6B655C", "fontSize": 11 },
     "splitLine": { "lineStyle": { "color": "#E4DED2", "type": "solid" } }
   },
   "legend": { "show": false },
@@ -239,8 +239,8 @@ written out (3 September 2026) in prose and ISO in data.
 
 ## 8. Accessibility
 
-- Text contrast ≥ 4.5:1, UI and graphical objects ≥ 3:1. `--ink-3` on `--paper` is 4.6:1 and is
-  the lightest text permitted.
+- Text contrast ≥ 4.5:1, UI and graphical objects ≥ 3:1. `--ink-3` on `--paper` is 5.3:1 and is
+  the lightest text permitted. (It was #837C71, which measured 3.96:1 and failed AA.)
 - Visible `:focus-visible` ring, 2px `--accent`, 2px offset, on every interactive element.
 - Tabs, drawers, the palette and sortable headers carry correct roles and keyboard behaviour;
   the drawer traps focus and restores it on close.
