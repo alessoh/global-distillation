@@ -936,7 +936,7 @@
   "charts": [
     {
       "id": "radar-six-methods",
-      "title": "Six representative methods, six axes",
+      "title": "Six representative methods, six dimensions",
       "type": "radar",
       "xLabel": "Dimension",
       "yLabel": "Score (1-5, higher is better)",
@@ -1210,24 +1210,24 @@
               "y": 28.9
             },
             {
-              "x": "Llama-8B",
-              "y": 50.4
-            },
-            {
               "x": "Qwen-7B",
               "y": 55.5
+            },
+            {
+              "x": "Llama-8B",
+              "y": 50.4
             },
             {
               "x": "Qwen-14B",
               "y": 69.7
             },
             {
-              "x": "Llama-70B",
-              "y": 70
-            },
-            {
               "x": "Qwen-32B",
               "y": 72.6
+            },
+            {
+              "x": "Llama-70B",
+              "y": 70
             }
           ]
         },
@@ -1239,29 +1239,29 @@
               "y": 83.9
             },
             {
-              "x": "Llama-8B",
-              "y": 89.1
-            },
-            {
               "x": "Qwen-7B",
               "y": 92.8
+            },
+            {
+              "x": "Llama-8B",
+              "y": 89.1
             },
             {
               "x": "Qwen-14B",
               "y": 93.9
             },
             {
-              "x": "Llama-70B",
-              "y": 94.5
-            },
-            {
               "x": "Qwen-32B",
               "y": 94.3
+            },
+            {
+              "x": "Llama-70B",
+              "y": 94.5
             }
           ]
         }
       ],
-      "notes": "All students are plain supervised fine-tunes on 800k reasoning samples curated with DeepSeek-R1 — no reinforcement-learning stage. Figures from the official model card.",
+      "notes": "All students are plain supervised fine-tunes on 800k reasoning samples curated with DeepSeek-R1 — no reinforcement-learning stage. Figures from the official model card. The axis runs by parameter count, not by score, so the two places where a smaller student beats a larger one stay visible: Qwen-7B over Llama-8B, and Qwen-32B over Llama-70B on AIME.",
       "sources": [
         "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       ]

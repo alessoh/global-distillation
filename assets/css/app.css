@@ -3696,15 +3696,18 @@ html { scroll-padding-top: 76px; }
 .newslist a { padding-block: 4px; }
 .nav__brand { min-height: 24px; }
 
-/* One tablist per panel, above the panes rather than repeated inside each. */
+/* One tablist per panel, above the panes rather than repeated inside each.
+   The strip itself is the scroller (see `.seg[data-x]` below), so this row
+   stays visible-overflow and keeps a 16px gutter on the right for the
+   more-tabs arrow. A strip that fits never reaches that gutter. */
 .panel__tabs {
+  --tabpad: var(--s-5);
+  position: relative;
   display: flex;
-  padding: var(--s-3) var(--s-5) 0;
-  overflow-x: auto;
-  scrollbar-width: none;
+  padding: var(--s-3) calc(var(--tabpad) + 16px) 0 var(--tabpad);
+  overflow: visible;
 }
-.panel__tabs::-webkit-scrollbar { display: none; }
-.panel__tabs .seg { flex: 0 0 auto; }
+.panel__tabs .seg { flex: 0 1 auto; }
 .panel__tabs + .panel__pane > .panel__head { border-top: 0; }
 
 /* --- Key findings: a way in ----------------------------------------------- */
@@ -3852,23 +3855,48 @@ html { scroll-padding-top: 76px; }
 
 /* The chart-view tablist is a scroller, but at 390px it was hard-clipped at
    the card edge — "Frontier vs small | Fixed capability | DeepSee" — so the
-   third view read as unavailable. The strip now shrinks inside its own border
-   and fades at the right while there is more than two tabs to reach, which is
-   the same affordance the filter segs already use. */
+   third view read as unavailable. Tying the fade to a tab count guessed wrong:
+   three tabs overflowed by 11px and got nothing. The strip now carries the
+   same measured data-x contract as the data tables — render.js sets it from
+   scrollWidth — so the fade and the arrow appear exactly when a tab is out of
+   sight, at any width, and a strip that fits stays clean. */
 @media (max-width: 767.98px) {
-  .panel__tabs .seg { flex: 0 1 auto; }
-  .panel__tabs .seg:has(> :nth-child(4)) {
-    scroll-snap-type: x proximity;
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
-    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
-  }
   .panel__tabs .seg__btn { scroll-snap-align: start; }
 }
+.seg[data-x="start"] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+}
+.seg[data-x="end"] {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent 100%);
+}
+.seg[data-x="both"] {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+}
+/* The arrow sits in the row's right gutter, clear of the strip's own border,
+   so it never lands on a faded tab label. */
+.panel__tabs::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: var(--tabpad);
+  transform: translateY(-20%);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--ink-3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.panel__tabs:has(.seg[data-x="start"])::after,
+.panel__tabs:has(.seg[data-x="both"])::after { opacity: 1; }
 
 /* On a 390px screen three chart views fit outright once the tabs stop being
    sized for a mouse; a strip that does not overflow needs no affordance. */
 @media (max-width: 479.98px) {
-  .panel__tabs { padding-inline: var(--s-4); }
+  .panel__tabs { --tabpad: var(--s-4); }
   .panel__tabs .seg__btn { padding: 6px 8px; font-size: 11.5px; }
 }
 
@@ -4164,4 +4192,368 @@ html { scroll-padding-top: 76px; }
   .totop { padding: 10px; right: var(--s-3); bottom: var(--s-3); font-size: 13px; }
   .totop__t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .kpi > .kpi__note { min-height: 0; }
+}
+
+/* --- Score matrix --------------------------------------------------------
+   Six editorial 1-5 scores per method were drawn as six overlapping radar
+   polygons, which made area the dominant read while area on a radar means
+   nothing, and left four of the six axis names clipped by the card edge at
+   390px. The same numbers as a dot matrix put every value on its own line and
+   print every dimension name in full. The layout switches on the panel's own
+   width, not the viewport's, because the chart column is 972px at 1440 and
+   ~660px at 1024. */
+.scorematrix { container-type: inline-size; }
+.scorematrix__scale {
+  margin: 0 0 var(--s-4);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.scorematrix__t { width: 100%; border-collapse: collapse; }
+.scorematrix__t th,
+.scorematrix__t td { text-align: left; }
+.scorematrix__name { font: 500 var(--fs-small)/1.35 var(--sans); color: var(--ink); }
+.scorematrix__key {
+  display: inline-block;
+  width: 8px; height: 8px;
+  margin-right: var(--s-2);
+  border-radius: 50%;
+  background: var(--sm-hue, var(--ink));
+}
+.scorematrix__dots { display: inline-flex; gap: 3px; align-items: center; }
+.scorematrix__d {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.scorematrix__d.is-on { background: var(--sm-hue, var(--ink)); box-shadow: none; }
+.scorematrix__n {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+.scorematrix__n--none { color: var(--ink-4); }
+
+/* Wide: one row per method, one column per dimension. */
+@container (min-width: 720px) {
+  .scorematrix__t thead th {
+    padding: 0 var(--s-3) var(--s-2);
+    border-bottom: 1px solid var(--rule-strong);
+    font: 500 var(--fs-micro)/1.3 var(--sans);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    vertical-align: bottom;
+  }
+  .scorematrix__t tbody th,
+  .scorematrix__t tbody td {
+    padding: var(--s-3);
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .scorematrix__t th:first-child,
+  .scorematrix__t td:first-child { padding-left: 0; }
+  .scorematrix__t tbody th { white-space: normal; }
+  .scorematrix__t tbody tr:last-child th,
+  .scorematrix__t tbody tr:last-child td { border-bottom: 0; }
+  .scorematrix__n { margin-left: var(--s-2); }
+}
+
+/* Narrow: one block per method, the dimension named on every line. */
+@container (max-width: 719.98px) {
+  .scorematrix__t,
+  .scorematrix__t tbody,
+  .scorematrix__t tr,
+  .scorematrix__t tbody th,
+  .scorematrix__t td { display: block; }
+  .scorematrix__t thead {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .scorematrix__t tr + tr { margin-top: var(--s-5); }
+  .scorematrix__name {
+    padding-bottom: var(--s-2);
+    border-bottom: 1px solid var(--rule-strong);
+    font-size: var(--fs-body);
+  }
+  .scorematrix__t td {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-2) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .scorematrix__t tr td:last-child { border-bottom: 0; }
+  .scorematrix__t td::before {
+    content: attr(data-label);
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    color: var(--ink-2);
+  }
+  .scorematrix__dots { flex: 0 0 auto; }
+  .scorematrix__n { flex: 0 0 auto; min-width: 1.2em; text-align: right; }
+}
+
+/* --- Numbered point key --------------------------------------------------
+   A model name is wider than a 390px plot, so below 640px a named scatter
+   point keeps a numeral and its name moves here. Dropping the names outright
+   left an unlabelled cloud under a caption still promising five of them. */
+.ptkey {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px var(--s-4);
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ptkey__i {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--fs-micro);
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.ptkey__n {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: var(--ink);
+}
+@media (max-width: 479.98px) {
+  .ptkey { grid-template-columns: 1fr; }
+}
+.scorematrix__foot {
+  margin: var(--s-4) 0 0;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+/* ==========================================================================
+   R3 — page chrome, masthead, findings and tables
+   ========================================================================== */
+
+/* --- One primary navigation, not two -------------------------------------
+   At 1024px and up the nine perspectives were printed twice on one screen:
+   the full list across the top bar and the same full list, with descriptors,
+   down the rail. Two competing primary navigations for one set of
+   destinations. The rail is the navigation; the bar keeps identity, says
+   which perspective you are standing in, and holds Search and Compare. */
+@media (min-width: 1024px) {
+  .nav__links {
+    flex: 0 0 auto;
+    gap: 0;
+    overflow: visible;
+    mask-image: none;
+  }
+  .nav__link { display: none; }
+  .nav__link[aria-current="page"] {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 0 8px 12px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .nav__link[aria-current="page"]::before {
+    content: "/";
+    margin-right: 12px;
+    color: var(--ink-4);
+    font-weight: 400;
+  }
+  .nav__link[aria-current="page"]::after { display: none; }
+  .nav__link[aria-current="page"]:hover { background: none; }
+}
+
+/* --- Masthead: figures on the first screen -------------------------------
+   Six paragraphs stood between the title and the first number, in a 68ch
+   column with roughly 450px of empty card beside it, so three routes opened
+   on a screen carrying no data at all. The opening sentence stays as the
+   standfirst; the rest of the summary runs the full measure, in two columns,
+   below the figure row. A dashboard argues from its numbers, so the numbers
+   come first and the prose that reads them follows. */
+.section__rest {
+  grid-column: 1 / -1;
+  margin: var(--s-6) 0 0;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+.section__rest > .section__standfirst--rest { max-width: none; }
+.section__rest > .section__standfirst--rest:first-child { margin-top: 0; }
+
+@media (min-width: 1024px) {
+  .section__rest {
+    columns: 2;
+    column-gap: var(--s-8);
+    column-rule: 1px solid var(--rule);
+  }
+  .section__rest > .section__standfirst--rest { break-inside: avoid-column; }
+  .section__head { column-gap: var(--s-8); }
+}
+
+/* --- Findings read in their own order ------------------------------------
+   A numbered list is a promise of sequence. A two-column masonry runs
+   column-major, so 03 sat beside 07 and 06 beside 10, and the left column
+   ended ~90px above the right with no balancing pass. The entries now run in
+   one column in their published order; the number and the title hold fixed
+   tracks on the left so the detail still reads at a comfortable measure and
+   the full width of the card is used. */
+.findings { grid-template-columns: minmax(0, 1fr); }
+
+@media (min-width: 900px) {
+  .findings {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    columns: auto;
+  }
+  .finding {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(18ch, 26ch) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: var(--s-6);
+    align-items: start;
+    margin-bottom: 0;
+    padding-top: var(--s-4);
+  }
+  .finding__n { grid-column: 1; grid-row: 1; margin-bottom: 0; padding-top: 5px; }
+  .finding__title { grid-column: 2; grid-row: 1 / span 2; }
+  .finding__detail { grid-column: 3; grid-row: 1; margin-top: 0; }
+  .finding__meta { grid-column: 3; grid-row: 2; }
+
+  /* The two the file leads with keep the full measure and a larger title. */
+  .finding--lead { display: block; }
+  .finding--lead .finding__n { padding-top: 0; margin-bottom: var(--s-2); }
+  .finding--lead .finding__detail { margin-top: var(--s-2); }
+}
+
+/* --- A sort control has to look like one ---------------------------------
+   The caret only appeared on hover, so a reader was told in prose that every
+   column was sortable and shown nothing that read as a control. It now sits
+   at rest on every sortable heading and strengthens into the accent when that
+   column is the one the table is ordered by. */
+.table__sort::after,
+.table th button::after { opacity: .45; }
+.table th:hover button::after { opacity: .8; }
+.table__sort:focus-visible::after { opacity: 1; }
+
+/* --- A two-column table is a label and its figure -------------------------
+   Stretched across a 950px card, "Claude Opus 5" and "132" sat 800px apart.
+   The table sizes to its content and the unit is stated once in the caption
+   instead of stacking four lines under the heading. */
+.table--narrow { width: max-content; min-width: 0; max-width: 100%; }
+.table--narrow th:first-child,
+.table--narrow td:first-child { min-width: 0; }
+.table--narrow th.num,
+.table--narrow td.num { padding-right: var(--s-5); }
+
+/* --- A citation is not an exponent ---------------------------------------
+   "1 2", "10 2", "1,000 2" in a column of output volumes is a genuine
+   misreading. In a numeric cell the row's source marker sits on the baseline,
+   in brackets, in the gutter beside the figure. */
+.cell-ref--flat {
+  width: 4ch;
+  margin-right: -4ch;
+  white-space: nowrap;
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+}
+.cell-ref--flat .footnote {
+  vertical-align: baseline;
+  line-height: inherit;
+  font-size: var(--fs-micro);
+  margin-left: 0;
+}
+.cell-ref--flat::before { content: "["; }
+.cell-ref--flat::after  { content: "]"; }
+
+/* --- Prose tables on a phone ---------------------------------------------
+   A table row is as tall as its tallest cell, including the cells scrolled
+   out of the window: the licence table's "OpenAI GPT-5.x" row stood ~250px
+   tall carrying four short cells, because a 100-character buyer note sat off
+   screen. Below 640px a table with a prose column stops being a grid and
+   becomes one block per row, each value under its own column name — nothing
+   is hidden, nothing is off screen, and the row is as tall as its contents. */
+@media (max-width: 639.98px) {
+  .table--stack,
+  .table--stack thead,
+  .table--stack tbody,
+  .table--stack tr,
+  .table--stack td { display: block; width: auto; }
+  .table--stack { table-layout: auto; min-width: 0; }
+  .table--stack colgroup { display: none; }
+  .table--stack thead {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .table--stack tbody tr {
+    padding: var(--s-4) var(--s-4) var(--s-5);
+    border-bottom: 1px solid var(--rule-strong);
+    background: none;
+  }
+  /* Rows are blocks now, divided by a rule; a zebra tint on top of that reads
+     as two different kinds of row. */
+  .table--stack.table--zebra tbody tr:nth-child(even) td,
+  .table--stack.table--zebra tbody tr:nth-child(even):hover td,
+  .table--stack.table--zebra.table--pin1 tbody tr:nth-child(even) td:first-child,
+  .table-wrap--sticky .table--stack.table--zebra > tbody > tr:nth-child(even) > td:first-child,
+  .table--stack tbody tr:hover td { background: none; }
+  .table--stack td {
+    padding: var(--s-2) 0 0;
+    border-bottom: 0;
+    text-align: left;
+    white-space: normal;
+  }
+  .table--stack td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 2px;
+  }
+  /* The first cell is the row's name, so it is its heading, not a field. */
+  .table--stack td:first-child {
+    padding: 0 0 var(--s-2);
+    margin-bottom: var(--s-2);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.25;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .table--stack td:first-child::before { display: none; }
+  .table--stack td.num { font-size: var(--fs-small); }
+  /* Nothing overflows sideways any more, so nothing may be pinned to an edge
+     or capped at 40vw. Matched at the same weight as the pinning rules, which
+     name .table-wrap--sticky and four elements. */
+  .table-wrap--sticky .table--stack > tbody > tr > td:first-child,
+  .table-wrap--sticky .table--stack > thead > tr > th:first-child,
+  .table--stack.table--pin1 th:first-child,
+  .table--stack.table--pin1 td:first-child {
+    position: static;
+    max-width: none;
+    min-width: 0;
+    box-shadow: none;
+    background: none;
+  }
+  .table-wrap--sticky .table--stack > tbody > tr > td:first-child::after { display: none; }
+  .table--stack .cell-ref,
+  .table--stack .cell-ref--flat { width: auto; margin-right: 0; }
+  .table--stack .cell-val { white-space: normal; }
 }

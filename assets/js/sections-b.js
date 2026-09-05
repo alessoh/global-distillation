@@ -682,16 +682,23 @@ function balanceColumns(table) {
 function capTable(wrap, table) {
   const body = table.tBodies[0];
   const rows = body ? body.rows.length : 0;
-  if (rows <= 14) return;
+  // A stacked mobile row is a whole block of labelled fields rather than a
+  // line: fourteen of them is 6,000px of table. Those cap from the fourth row,
+  // and show three rather than six above the control, so the reader can see
+  // what a row contains and then ask for the rest.
+  const stacked = () => table.classList.contains('table--stack') &&
+    body && body.rows[0] && body.rows[0].getBoundingClientRect().height > 140;
+  if (rows <= (stacked() ? 3 : 14)) return;
   const measure = () => {
     if (!wrap.isConnected) return;
     if (wrap.dataset.uncapped === '1') return;
     const headH = table.tHead ? table.tHead.getBoundingClientRect().height : 0;
+    const floor = stacked() ? 3 : 6;
     let used = 0;
     let shown = 0;
     for (const tr of body.rows) {
       const h = tr.getBoundingClientRect().height;
-      if (used + h > 560 && shown >= 6) break;
+      if (used + h > 560 && shown >= floor) break;
       used += h;
       shown += 1;
     }
@@ -827,6 +834,46 @@ function wireMatrixRows(root) {
   });
 }
 
+/**
+ * The masthead. Two things, on every route that renders one:
+ *
+ *  1. Six paragraphs of prose stood between the title and the first figure, in
+ *     a 68ch column with ~450px of empty card beside it, so /#/financial,
+ *     /#/library and /#/customer opened on a screen carrying no data at all.
+ *     The opening sentence stays as the standfirst; the rest of the summary is
+ *     lifted out of the head and set, full width and in two columns, below the
+ *     figure row. A dashboard argues from its numbers, so the numbers come
+ *     first and the prose that reads them follows.
+ *  2. The stamp is written out in full (DESIGN.md section 7). The library route
+ *     printed "Revised 2026-09-04" against the sidebar's own date format.
+ *
+ * Called for every rendered view, including the routes that build their own
+ * page, so a header behaves the same wherever it is written.
+ */
+export function enhanceHead(root) {
+  if (!root) return;
+  root.querySelectorAll('.section__head').forEach((head) => {
+    const meta = head.querySelector('.section__meta');
+    if (meta) {
+      const next = meta.innerHTML.replace(/(\d{4})-(\d{2})-(\d{2})/g, (s) => longDate(s));
+      if (next !== meta.innerHTML) meta.innerHTML = next;
+    }
+    const section = head.closest('.section') || head.parentNode;
+    if (!section || section.querySelector('.section__rest')) return;
+    const rest = [...head.querySelectorAll('.section__standfirst--rest')];
+    if (rest.length < 2) return;
+    const box = document.createElement('div');
+    box.className = 'section__rest';
+    rest.forEach((p) => box.appendChild(p));
+    // After the figures where there are figures; otherwise it stays in the
+    // head, which is still better than leaving a hole where a chart would go.
+    const kpi = section.querySelector('.kpi-row');
+    const anchor = kpi ? (kpi.closest('#sec-figures') || kpi) : null;
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    else head.appendChild(box);
+  });
+}
+
 /** Turn the header's count list into jumps: the in-page navigation it looked like. */
 function wireJumps(root) {
   const meta = root.querySelector('.section__meta');
@@ -929,6 +976,7 @@ export function afterRender(el, routeId) {
   el.querySelectorAll('.kpi-row').forEach((row) => {
     row.setAttribute('data-n', String(row.children.length));
   });
+  enhanceHead(el);
   wireJumps(el);
   enhanceTables(el);
   if (!ROUTES_B.includes(routeId)) return;

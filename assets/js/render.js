@@ -7,7 +7,7 @@
 // template has no slot for (company dossiers, costed recipes, tool profiles,
 // the buyer's decision guide) and a few chart shapes that need reworking before
 // they are drawn. Both live in sections-b.js so this file stays generic.
-import { tuneSection, sectionExtras, afterRender, enhanceTables } from './sections-b.js';
+import { tuneSection, sectionExtras, afterRender, enhanceTables, enhanceHead } from './sections-b.js';
 // The drawer is the shell's; a table row that carries more prose than a cell
 // can hold opens it rather than truncating the text (BUILD-CONTRACT.md).
 import { openDrawer } from './app.js';
@@ -413,10 +413,37 @@ function noteSourceCount(key, n) {
  */
 let PAGE_SOURCES = null;
 
+/**
+ * The shell stamps the live feed's date in ISO ("Live data refreshed
+ * 2026-09-04") a few centimetres from the page's own "Research updated 3
+ * September 2026". Two formats in one viewport, and two different dates with
+ * nothing to say they measure different things, made the page look as though
+ * it were contradicting itself about its own freshness. app.js is fixed by the
+ * build contract, so the stamp is rewritten here: one format everywhere
+ * (DESIGN.md section 7), and a subject — the live signals feed — that cannot be
+ * confused with the date this perspective's research was last revised.
+ */
+function normaliseFeedStamp() {
+  // innerHTML, not textContent: the rail stamp is two lines separated by a
+  // <br> and carries the source-count slot written just below.
+  const write = (node) => {
+    if (!node) return;
+    const html = node.innerHTML;
+    const next = html
+      .replace(/Live data refreshed/, 'Live signals refreshed')
+      .replace(/(\d{4})-(\d{2})-(\d{2})/, (s) => longDate(s));
+    if (next !== html) node.innerHTML = next;
+  };
+  const foot = document.getElementById('rail-foot');
+  if (foot) foot.querySelectorAll('span:not(.rail__pulse)').forEach(write);
+  write(document.getElementById('foot-updated'));
+}
+
 function syncRailSourceCount(n, label) {
   if (isNum(n)) PAGE_SOURCES = { n, label: label || 'sources on this page' };
   if (typeof requestAnimationFrame !== 'function') return;
   requestAnimationFrame(() => {
+    normaliseFeedStamp();
     const foot = document.getElementById('rail-foot');
     if (!foot) return;
     const scope = PAGE_SOURCES || { n: 0, label: 'sources catalogued' };
@@ -810,6 +837,14 @@ function buildOption(spec, opts) {
 
   const showBarLabels = series.length === 1 || (cats && series.length * cats.length <= 14);
   const isArea = type === 'area';
+  // An area fill encodes the region between the baseline and the curve. A log
+  // axis compresses that region unevenly, so the fill is proportional to
+  // nothing: the flat early years of a series spanning four orders of
+  // magnitude collect the most ink, and a doubling near the top is drawn
+  // thinner than a rounding error near the bottom. On a log axis the same
+  // series is drawn as a plain line; switch the panel to Linear and the fill
+  // comes back, because there it means something again.
+  const fillArea = isArea && !log;
   const stacked = type === 'stackedBar';
 
   // A single series has nothing to encode with colour: one ink for every mark,
@@ -851,7 +886,7 @@ function buildOption(spec, opts) {
         // by weight and by the label at each line's end.
         lineStyle: { width: s.lineWidth || 2, color, ...(s.dashed ? { type: 'dashed' } : {}) },
         itemStyle: { color },
-        ...(isArea ? { areaStyle: { color, opacity: s.dashed ? 0.05 : 0.12 } } : {}),
+        ...(fillArea ? { areaStyle: { color, opacity: s.dashed ? 0.05 : 0.12 } } : {}),
         ...((series.length <= 4 || o.endLabels === 'all') && !o.compact && s.endLabel !== false &&
           o.endLabels !== false && !isNarrow() ? {
           endLabel: {
@@ -948,12 +983,23 @@ function buildOption(spec, opts) {
  * plot is.
  */
 function crossMarks(marks, dateX) {
+  // At 390px the crossings sit where every line has converged, so there is no
+  // clear space left for a two-line caption: "329M vs Sonnet 5" printed over
+  // the gold, red and blue lines at once and neither the label nor the series
+  // could be read. Below 640px the ring keeps a numeral and the phrase moves
+  // to the key beneath the plot, the same device the named scatters use.
+  const narrow = isPhone();
   return {
     symbol: 'circle', symbolSize: 9, silent: true,
     itemStyle: { color: '#FFFFFF', borderColor: MARK_INK, borderWidth: 2 },
     data: marks.map((m, i) => ({
       coord: [dateX ? dateValue(m.x) : m.x, m.y],
-      label: {
+      label: narrow ? {
+        show: true, position: i % 2 ? 'bottom' : 'top', distance: 7,
+        color: INK, fontSize: 10, fontWeight: 600, align: 'center',
+        backgroundColor: 'rgba(250,248,244,.9)', padding: [1, 3], borderRadius: 2,
+        formatter: String(i + 1),
+      } : {
         show: true, position: m.position || (i % 2 ? 'bottom' : 'top'),
         distance: isNum(m.distance) ? m.distance : 8,
         color: INK, fontSize: 10.5, lineHeight: 13, align: m.align || 'center',
@@ -982,6 +1028,109 @@ function markMax(s, cats, unit, on, dateX) {
   };
 }
 
+/** Under 640px a point label is wider than the plot it sits in. */
+const isPhone = () => typeof window !== 'undefined' && window.innerWidth < 640;
+
+/**
+ * The points a scatter names, in plot order. At phone width the name moves to
+ * a numbered key beneath the chart and the mark keeps only its numeral, so the
+ * chart still names exactly the points its caption says it names.
+ */
+function namedPoints(spec) {
+  const out = [];
+  for (const s of seriesOf(spec)) for (const p of s.data) if (p.label) out.push(p);
+  // Numbered left to right, so the key reads in the order the eye crosses the
+  // plot rather than in the order the series happen to be filed.
+  if (out.every((p) => isNum(p.x))) out.sort((a, b) => a.x - b.x);
+  return out;
+}
+
+/**
+ * Two dozen named marks on one price-against-score plot is a knot: at 1440
+ * "GPT-5.6 Sol" printed across the Gemini 3.1 Pro marker, "GPT-5.4 nano" landed
+ * on a green one, and the whole top-right corner ran together. ECharts can hide
+ * whichever labels collide, but hiding is silent and arbitrary — the reader
+ * cannot tell a model that was not plotted from one whose name lost a race.
+ *
+ * The chart's own argument is the frontier: the cheapest model at each level of
+ * score, which is what "the upper-left corner is the whole story" means. Those
+ * marks keep their names, the dearest model on the plot keeps its as the other
+ * end of the trade, and every other name stays one tap away in the tooltip and
+ * printed in full in the table beneath. Labels alternate above and below the
+ * staircase so neighbours a few pixels apart never share a line.
+ */
+function frontierLabels(spec) {
+  if (!spec || String(spec.type) !== 'scatter') return spec;
+  const series = seriesOf(spec);
+  const pts = [];
+  for (const s of series) for (const p of s.data) if (p.label) pts.push(p);
+  if (pts.length <= 12) return spec;
+  // Only a cost axis has a cheap end, and only then is "cheapest at this score"
+  // the reading. Anywhere else the direction would be an assumption.
+  if (!/price|cost|usd|\$/i.test(String(spec.xLabel || ''))) return spec;
+  if (!pts.every((p) => isNum(p.x) && isNum(p.y))) return spec;
+  const keep = new Set(pts.filter((p) => !pts.some((q) =>
+    q !== p && q.x <= p.x && q.y >= p.y && (q.x < p.x || q.y > p.y))));
+  const dearest = pts.reduce((a, c) => (!a || c.x > a.x ? c : a), null);
+  if (dearest) keep.add(dearest);
+  const order = [...keep].sort((a, b) => a.x - b.x);
+  // Every mark up and to the left of a frontier point would dominate it, so
+  // that quadrant is empty by construction. A name set above its mark and
+  // anchored to end at it therefore runs into guaranteed clear space — which
+  // sending half of them below did not: "Gemini 3.1 Pro (Preview)" dropped
+  // straight onto the DeepSeek-V4-Pro marker. Two frontier points can still sit
+  // a point of score apart, so the height alternates instead of the side.
+  const xs = pts.map((p) => p.x).filter((v) => v > 0);
+  const ys = pts.map((p) => p.y);
+  const xlo = Math.log10(Math.min(...xs));
+  const xhi = Math.log10(Math.max(...xs));
+  const ylo = Math.min(...ys);
+  const yhi = Math.max(...ys);
+  const fx = (v) => (xhi > xlo ? (Math.log10(v) - xlo) / (xhi - xlo) : 0.5);
+  const fy = (v) => (yhi > ylo ? (v - ylo) / (yhi - ylo) : 0.5);
+  const align = new Map();
+  const dist = new Map();
+  order.forEach((p, i) => {
+    align.set(p, fx(p.x) < 0.22 ? 'left' : 'right');
+    // The highest-scoring marks have the plot's ceiling just above them and no
+    // room for the raised slot.
+    dist.set(p, fy(p.y) > 0.95 ? 8 : (i % 2 ? 34 : 8));
+  });
+  return {
+    ...spec,
+    series: series.map((s) => ({
+      ...s,
+      data: s.data.map((p) => {
+        if (!p.label) return p;
+        // The name is not lost, only moved: the tooltip and the data table
+        // both read `title` when there is no label.
+        if (!keep.has(p)) return { ...p, title: p.title || p.label, label: null };
+        return { ...p, labelPos: 'top', labelAlign: align.get(p), labelDist: dist.get(p) };
+      }),
+    })),
+    notes: (spec.notes ? spec.notes + ' ' : '') + keep.size + ' of the ' + pts.length +
+      ' marks are named on the plot: the price-and-score frontier, where no other model shown is ' +
+      'both cheaper and higher-scoring, plus the dearest model plotted. Tap or hover any other dot ' +
+      'for its name; all ' + pts.length + ' are listed in the data beneath.',
+  };
+}
+
+function pointKeyHtml(spec) {
+  if (!isPhone()) return '';
+  const items = [];
+  if (String(spec.type) === 'scatter') for (const p of namedPoints(spec)) items.push(String(p.label));
+  // Crossing annotations are numbered in the same way and in the same order
+  // the marks were built in, which is left to right along the axis.
+  for (const s of seriesOf(spec)) {
+    if (!Array.isArray(s.marks)) continue;
+    for (const m of s.marks) items.push(String(m.text || '').replace(/\s*\n\s*/g, ' '));
+  }
+  if (!items.length || items.length > 12) return '';
+  return '<ol class="ptkey">' + items.map((t, i) =>
+    '<li class="ptkey__i"><span class="ptkey__n">' + (i + 1) + '</span>' +
+    esc(t) + '</li>').join('') + '</ol>';
+}
+
 function scatterOption(spec, series, hue, unit, o) {
   const dateX = xIsDate(series);
   const log = !!o.log;
@@ -993,7 +1142,15 @@ function scatterOption(spec, series, hue, unit, o) {
   const logX = !dateX && !!o.logX && xs.length > 1 && xs.every((v) => v > 0);
   const connect = !!o.connect;
   const endLabelled = connect && series.length <= 4 && !isNarrow();
-  const narrow = typeof window !== 'undefined' && window.innerWidth < 640;
+  const narrow = isPhone();
+  // Below 640px a model name is wider than the plot, so the name moves to a
+  // numbered key beneath the chart and the mark carries its numeral. Dropping
+  // the labels outright left an unlabelled cloud under a caption still saying
+  // five points are named. The numbers are assigned over the unsorted series,
+  // which is the order pointKeyHtml() prints the key in, and travel on the
+  // data item so a connected scatter's x-sort cannot renumber them.
+  const nOf = new Map();
+  if (narrow) namedPoints(spec).forEach((p, i) => nOf.set(p, i + 1));
   // A point label anchored to the right of a mark in the right-hand cluster
   // ran outside the plot frame, where a 152px gutter stacked five of them into
   // a leaderless column no longer aligned with the dots they named. Labels on
@@ -1017,7 +1174,9 @@ function scatterOption(spec, series, hue, unit, o) {
       left: 8,
       right: endLabelled ? Math.min(160, Math.max(80, Math.max(...series.map((s) => String(s.name || '').length)) * 6.4))
         : 24,
-      top: 18, bottom: spec.xLabel ? 34 : 8, containLabel: true,
+      // A numeral sits above its mark, so the topmost named point needs a line
+      // of clearance the unnumbered version did not.
+      top: narrow && labelled ? 26 : 18, bottom: spec.xLabel ? 34 : 8, containLabel: true,
     },
     tooltip: {
       trigger: 'item', confine: true,
@@ -1058,18 +1217,33 @@ function scatterOption(spec, series, hue, unit, o) {
           const xv = dateX ? dateValue(p.x) : p.x;
           return {
             value: [xv, p.y], name: p.label || s.name, _raw: p,
-            ...(p.label && flip(xv) ? { label: { position: 'left' } } : {}),
+            ...(p.label && narrow ? { _n: nOf.get(p) } : {}),
+            ...(p.label && !narrow && p.labelPos
+              ? {
+                label: {
+                  position: p.labelPos,
+                  align: p.labelAlign || 'center',
+                  distance: isNum(p.labelDist) ? p.labelDist : 8,
+                },
+              }
+              : (p.label && !narrow && flip(xv) ? { label: { position: 'left' } } : {})),
           };
         }),
         label: {
-          // Point labels are wider than a phone, so below 640px the label text
-          // moves to the tooltip and the data table rather than off the card.
-          show: !narrow && !!s.data.some((p) => p.label), position: 'right', distance: 7,
-          color: INK2, fontSize: 11,
-          // Never truncated: "deepseek-v4-pro (pre-16…" cannot be resolved to a
-          // model, which is the one thing a point label is for. Charts that
-          // cannot fit every name label fewer points instead.
-          formatter: (p) => String(p.data._raw.label || ''),
+          show: !!s.data.some((p) => p.label),
+          ...(narrow
+            ? {
+              position: 'top', distance: 3, color: INK, fontSize: 10, fontWeight: 600,
+              backgroundColor: 'rgba(250,248,244,.9)', padding: [1, 3], borderRadius: 2,
+              formatter: (p) => String(p.data._n || ''),
+            }
+            : {
+              position: 'right', distance: 7, color: INK2, fontSize: 11,
+              // Never truncated: "deepseek-v4-pro (pre-16…" cannot be resolved
+              // to a model, which is the one thing a point label is for. Charts
+              // that cannot fit every name label fewer points instead.
+              formatter: (p) => String(p.data._raw.label || ''),
+            }),
         },
         labelLayout: { hideOverlap: true },
         ...(endLabelled ? {
@@ -1506,6 +1680,70 @@ function radarOption(spec, series, hue, unit) {
   };
 }
 
+/**
+ * A radar is only defensible for a handful of overlapping outlines. Six filled
+ * polygons on six axes make *area* the dominant read, and area on a radar is an
+ * artefact of the axis order, not a quantity: reorder the axes and the same six
+ * scores draw six different shapes. The axis names have nowhere to go either —
+ * at 390px four of the six were clipped by the card edge and a fifth ellipsised.
+ *
+ * Small integer ranks are drawn instead as a matrix of filled dots: one row per
+ * method, one column per dimension, every name printed in full, every value on
+ * its own line and legible at any width.
+ */
+const MATRIX_MAX_STEPS = 7;
+
+function isScoreMatrix(spec) {
+  if (String(spec && spec.type) !== 'radar') return false;
+  const series = seriesOf(spec);
+  if (series.length <= 4) return false;
+  const dims = categories(series);
+  if (dims.length < 3 || dims.length > 10) return false;
+  const vals = allValues(series);
+  if (!vals.length) return false;
+  return vals.every((v) => Number.isInteger(v) && v >= 0 && v <= MATRIX_MAX_STEPS);
+}
+
+function scoreMatrixHtml(spec, key) {
+  const series = seriesOf(spec);
+  const dims = categories(series);
+  const hue = hueFactory();
+  const steps = Math.max(5, ...allValues(series));
+  const dots = (v) => {
+    let out = '';
+    for (let k = 0; k < steps; k += 1) out += '<i class="scorematrix__d' + (k < v ? ' is-on' : '') + '"></i>';
+    return out;
+  };
+  const head = '<tr><th scope="col" class="scorematrix__corner">' +
+    esc(spec.seriesHeader || 'Method') + '</th>' +
+    dims.map((d) => '<th scope="col">' + esc(d) + '</th>').join('') + '</tr>';
+  const body = series.map((s, i) => {
+    const color = s.color || hue(s.name, i);
+    const byX = new Map(s.data.map((p) => [String(p.x), p.y]));
+    return '<tr style="--sm-hue:' + attr(color) + '">' +
+      '<th scope="row" class="scorematrix__name">' +
+      '<span class="scorematrix__key" aria-hidden="true"></span>' + esc(s.name) + '</th>' +
+      dims.map((d) => {
+        const v = byX.get(d);
+        return '<td data-label="' + attr(d) + '">' + (isNum(v)
+          ? '<span class="scorematrix__dots" aria-hidden="true">' + dots(v) + '</span>' +
+            '<span class="scorematrix__n">' + esc(v) + '<span class="sr-only"> of ' + steps + '</span></span>'
+          : '<span class="scorematrix__n scorematrix__n--none">—</span>') + '</td>';
+      }).join('') + '</tr>';
+  }).join('');
+  return '<div class="scorematrix">' +
+    (spec.yLabel ? '<p class="scorematrix__scale">' + esc(prose(spec.yLabel)) + '</p>' : '') +
+    '<table class="scorematrix__t">' +
+    '<caption class="sr-only">' + esc(spec.title || 'Scores') + '</caption>' +
+    '<thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
+    // No "Show data" disclosure: the matrix already prints every value with
+    // its full row and column name, so the table beneath would be the same
+    // numbers a second time. The download the disclosure carried stays.
+    (key ? '<p class="scorematrix__foot"><button type="button" class="btn--link chart-data__csv"' +
+      ' data-csv-chart="' + attr(key) + '">Download this data (CSV)</button></p>' : '') +
+    '</div>';
+}
+
 /* ============================================================================
    6. renderChart — mounts an ECharts instance on a node
    ========================================================================== */
@@ -1659,6 +1897,10 @@ function chartSurface(rawSpec, hint, opts) {
   // table never lists years the chart has drawn (or omits ones it has not).
   const spec = fillYearGaps(rawSpec);
   CHART_SPECS.set(key, { ...spec, opts: { ...(spec.opts || {}), ...(opts || {}) } });
+  // Drawn in HTML rather than on a canvas: the marks are text-sized, they wrap
+  // where a canvas would clip, and the CSV button beneath still resolves
+  // because the spec is registered under the same key.
+  if (isScoreMatrix(spec)) return scoreMatrixHtml(spec, key);
   const size = chartSizing(spec, hint);
   const unit = spec.unit || spec.yLabel || '';
   // A chart that knows its own finding says it; the rest fall back to the
@@ -1668,6 +1910,7 @@ function chartSurface(rawSpec, hint, opts) {
   return '<div class="' + size.cls + '" data-chart="' + key + '"' +
     (size.px ? ' style="height:' + size.px + 'px"' : '') +
     ' role="img" aria-label="' + attr(label) + '"></div>' +
+    pointKeyHtml(spec) +
     chartDataTable(spec, key + '-data');
 }
 
@@ -1874,6 +2117,30 @@ function markScrollers(root) {
       document.fonts.ready.then(() => requestAnimationFrame(sync)).catch(() => {});
     }
   });
+  // A chart's tab strip is the same problem one scale down. At 390px the third
+  // view of the price panel was hard-clipped at the card border — "Frontier vs
+  // small | Fixed capability | DeepSeek reversa" — with no fade and no arrow,
+  // so a whole chart read as unavailable. The strip carries the same data-x
+  // contract as the tables: the affordance shows only while there is something
+  // past the edge to reach, and a strip that fits stays clean.
+  root.querySelectorAll('.seg').forEach((seg) => {
+    const sync = () => {
+      const over = seg.scrollWidth - seg.clientWidth;
+      if (over <= 2) { seg.removeAttribute('data-x'); return; }
+      const l = seg.scrollLeft > 2;
+      const r = seg.scrollLeft < over - 2;
+      seg.dataset.x = l && r ? 'both' : (l ? 'end' : 'start');
+    };
+    if (!scrollWired.has(seg)) {
+      scrollWired.add(seg);
+      seg.addEventListener('scroll', sync, { passive: true });
+      if (typeof ResizeObserver === 'function') new ResizeObserver(sync).observe(seg);
+    }
+    sync();
+    if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => requestAnimationFrame(sync)).catch(() => {});
+    }
+  });
 }
 
 const SOURCE_TYPE_ORDER = ['paper', 'law', 'filing', 'docs', 'pricing', 'blog', 'news', 'data', 'other'];
@@ -1912,8 +2179,8 @@ function findingsHtml(findings, fn, id) {
     // Two entries run the full width and eight run in columns. Say why, or the
     // change of measure halfway down the list reads as a layout that ran out.
     findings.length > 2
-      ? 'In the order the section makes its case. The first two carry the argument and are set wide; ' +
-        'the rest follow in the order they were filed.'
+      ? 'In the order the section makes its case, and read top to bottom. The first two carry the ' +
+        'argument and are set large; the rest follow, numbered, in the order they were filed.'
       : null, id) +
     // Ten cards of identical weight give a reader no way in. The list is
     // numbered, and the first two — which the files order deliberately — run
@@ -2032,10 +2299,16 @@ function decimalsOf(v) {
  * number of decimals: 41.7 above 16 above 5 puts three decimal points at three
  * different x, and "999,000" above "5.4M" asks the reader to re-scale between
  * two adjacent rows. The precision is taken from the data — the most precise
- * value in the column sets it — so nothing is invented and nothing is lost.
+ * value in the pool sets it — so nothing is invented and nothing is lost.
+ *
+ * `keys` widens that pool to every column sharing one unit, because precision
+ * has to be governed per unit and not per column: a price row reading 10.00,
+ * 0.200 and 1.20 puts three precisions on one unit (USD/MTok) and makes the
+ * reader re-read to compare two figures of the same kind.
  */
-function columnFormatter(col, rows) {
-  const vals = rows.map((r) => r[col.key]).filter(isNum);
+function columnFormatter(col, rows, keys) {
+  const ks = keys && keys.length ? keys : [col.key];
+  const vals = ks.reduce((acc, k) => acc.concat(rows.map((r) => r[k])), []).filter(isNum);
   if (!vals.length || isYearColumn(col, vals[0])) return (v) => fmtCell(v, col);
   const abs = vals.map((v) => Math.abs(v)).filter((v) => v > 0);
   const maxAbs = abs.length ? Math.max(...abs) : 0;
@@ -2121,7 +2394,12 @@ export function renderTable(spec, opts) {
   const sharedUnit = unitCols.length >= 3 &&
     new Set(unitCols.map((c) => String(c.unit).toLowerCase())).size === 1
     ? unitCols[0].unit : '';
-  const showColUnit = (c) => unitAdds(c.label, c.unit) && !sharedUnit;
+  // A two- or three-column table is a label and its figure. Stretched to a
+  // 950px card it leaves 800px of white between them, and a four-line stacked
+  // unit under the heading inflates the header block to match; the unit is
+  // stated once in the caption instead and the table sizes to its content.
+  const narrow = cols.length <= 3;
+  const showColUnit = (c) => unitAdds(c.label, c.unit) && !sharedUnit && !narrow;
   const units = sharedUnit
     ? ['All figures in ' + sharedUnit]
     : unitCols.map((c) => c.label + ' in ' + c.unit);
@@ -2150,8 +2428,32 @@ export function renderTable(spec, opts) {
       esc(c.label) + (sub ? ' <small>' + esc(sub) + '</small>' : '') + '</button></th>';
   }).join('') + '</tr>';
 
-  // One formatter per numeric column, chosen once from that column's own values.
-  const colFmt = cols.map((c) => (c.type === 'number' ? columnFormatter(c, rows) : null));
+  // One formatter per unit, not per column: numeric columns carrying the same
+  // unit are formatted from their pooled values so USD/MTok is written to the
+  // same number of decimals wherever it appears in the row.
+  const unitKey = (c) => String(c.unit || '').toLowerCase().replace(/[^a-z0-9/%$]+/g, '');
+  const unitGroups = new Map();
+  for (const c of cols) {
+    if (c.type !== 'number' || !c.unit) continue;
+    const k = unitKey(c);
+    if (!unitGroups.has(k)) unitGroups.set(k, []);
+    unitGroups.get(k).push(c.key);
+  }
+  const colFmt = cols.map((c) => {
+    if (c.type !== 'number') return null;
+    const g = c.unit ? unitGroups.get(unitKey(c)) : null;
+    return columnFormatter(c, rows, g && g.length > 1 ? g : null);
+  });
+
+  // Below 640px a table's rows are as tall as their tallest cell, including the
+  // cells scrolled out of the window: a four-word row of the licence table
+  // stood 250px tall because a 100-character buyer note sat off screen. A table
+  // carrying a prose column therefore stacks into one block per row at that
+  // width, with each value under its own column name. Registers of short
+  // figures keep the horizontal scroller, which reads better for them.
+  const avgLen = (c) => rows.reduce((n, r) =>
+    n + String(r[c.key] == null ? '' : r[c.key]).length, 0) / rows.length;
+  const stacks = cols.length >= 5 && cols.some((c) => c.type !== 'number' && avgLen(c) > 45);
 
   const body = rows.map((r, ri) => {
     const key = filterCol >= 0 ? String(r[cols[filterCol].key] == null ? '' : r[cols[filterCol].key]).trim() : '';
@@ -2184,11 +2486,16 @@ export function renderTable(spec, opts) {
       // A value and its reference marker are one token. Left to break, the
       // marker dropped to a line of its own and made that row 20px taller
       // than its neighbours.
+      // A superscript numeral set immediately after a bare figure reads as an
+      // exponent — the TCO volume column printed 1², 10², 1,000² — so in a
+      // numeric column the row's citation is set on the baseline in brackets,
+      // where it can only be a reference.
       const value = ref
-        ? '<span class="cell-val">' + cell + (numeric ? '<span class="cell-ref">' + ref + '</span>' : ref) + '</span>'
+        ? '<span class="cell-val">' + cell +
+          (numeric ? '<span class="cell-ref cell-ref--flat">' + ref + '</span>' : ref) + '</span>'
         : cell;
       return '<td class="' + (numeric ? 'num' : 'txt') + dim + zero + '"' + (numeric ? ' data-type="number"' : '') +
-        ' data-v="' + attr(sortV) + '">' + mark + value + after + '</td>';
+        ' data-label="' + attr(c.label) + '" data-v="' + attr(sortV) + '">' + mark + value + after + '</td>';
     }).join('') + '</tr>';
   }).join('');
 
@@ -2241,7 +2548,8 @@ export function renderTable(spec, opts) {
     '<div class="table-wrap table-wrap--sticky" tabindex="0" role="region" aria-label="' +
     attr(title + ', scrollable table') + '">' +
     '<table class="table' + (rows.length > 12 ? ' table--zebra' : '') +
-    (o.matrix ? ' table--matrix' : '') + '"' +
+    (o.matrix ? ' table--matrix' : '') + (narrow ? ' table--narrow' : '') +
+    (stacks ? ' table--stack' : '') + '"' +
     (caption ? ' aria-labelledby="' + tid + '-cap"' : '') + '>' +
     '<caption class="sr-only">' + esc(title) + ' — ' + rows.length + ' rows' +
     (caption ? '. ' + esc(caption) : '') + '</caption>' +
@@ -2256,7 +2564,7 @@ export function renderTable(spec, opts) {
 
 function panelHtml(charts, fn, opts) {
   const o = opts || {};
-  const group = charts.filter(Boolean);
+  const group = charts.filter(Boolean).map(frontierLabels);
   if (!group.length) return '';
   const pid = nid('panel');
   const multi = group.length > 1;
@@ -2353,6 +2661,8 @@ function legendHtml(spec) {
   const type = spec.type;
   // A chart whose groups are already named on an axis does not also need a key.
   if (spec.noLegend) return '';
+  // A score matrix names every method at the head of its own row.
+  if (isScoreMatrix(spec)) return '';
   // A donut carries one series whose categories are the encoding, so its key
   // is the list of slices; without it the panel loses the colour legend the
   // tab beside it establishes.
@@ -3179,8 +3489,10 @@ function pricingPanel(d, fn) {
       priceSpan + ' per million output tokens. ' + dated.length + ' of ' + pricing.length +
       ' tracked models publish a release date; the rest are in the table below. ' + anchors.size +
       ' points are named — the dearest and cheapest plotted, the cheapest frontier model, the dearest ' +
-      'small tier and the newest release; hover any other dot for its model. Tier is the vendor\'s own ' +
-      'description where it gives one, and "distilled" is never inferred from price alone.',
+      'small tier and the newest release; tap or hover any other dot for its model.' +
+      (isPhone() ? ' At this width those names sit in the numbered key beneath the plot.' : '') +
+      ' Tier is the vendor\'s own description where it gives one, and "distilled" is never inferred ' +
+      'from price alone.',
     sources: [...new Set(pricing.map((p) => p.source).filter(Boolean))].slice(0, 4),
   };
 
@@ -3703,7 +4015,9 @@ export function renderSection(el, d, route) {
   if (tables.length) {
     nav.push({ id: 'sec-tables', label: 'Tables', count: tables.length });
     parts.push(blockHead('Evidence tables', plural(tables.length, 'table'),
-      'Sortable by any column. Numeric columns are right-aligned; every row links to its source.', 'sec-tables'));
+      'Select any column heading to sort — the caret beside it shows the direction, and a third click ' +
+      'restores the published order. Numeric columns are right-aligned, and every row links to its source.',
+      'sec-tables'));
     parts.push('<div class="panel-stack">' + tables.map((t) => {
       const spec = ex.tuneTable ? ex.tuneTable(t, d) : t;
       return renderTable({ ...spec, updated: spec.updated || d.updated },
@@ -3779,8 +4093,8 @@ export function sectionBlocks(d, ns) {
       : '',
     tables: tables.length
       ? blockHead('Evidence tables', plural(tables.length, 'table'),
-        'Sortable by any column; a third click on a heading restores the published order. Every row links ' +
-        'to its source.', 'sec-tables') +
+        'Select any column heading to sort — the caret beside it shows the direction, and a third click ' +
+        'restores the published order. Every row links to its source.', 'sec-tables') +
         '<div class="panel-stack">' + tables.map((t) =>
           renderTable({ ...t, updated: t.updated || (d && d.updated) }, { footnotes: fn })).join('') + '</div>'
       : '',
@@ -3802,6 +4116,10 @@ export function resetCharts() { disposeCharts(); CHART_SPECS.clear(); }
 export function mountRendered(el) {
   mountCharts(el);
   wireDelegates();
+  // The masthead is normalised on every route, not only on the six that go
+  // through renderSection: the library writes its own header with the same
+  // components and had the same wall of prose above its first figure.
+  enhanceHead(el);
   // Every route's tables get the same affordances: a pinned first column,
   // balanced widths, a row cap and a CSV download. Written for three routes,
   // wired here so a table does not behave differently depending on the page

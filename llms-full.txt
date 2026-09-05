@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-09-04, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-09-05, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,10 +74,10 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-04T23:28:39.998Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-09-05T01:47:07.222Z. Endpoint: https://global-distillation.com/data/live.json.
 
 - arXiv papers matching "knowledge distillation" (all time): 5,372 papers
-- arXiv papers matching "knowledge distillation" (last 30 days): 78 papers
+- arXiv papers matching "knowledge distillation" (last 30 days): 77 papers
 
 Year | arXiv papers (papers)
 ---- | ---------------------
@@ -94,7 +94,7 @@ Year | arXiv papers (papers)
 2025 | 1122
 2026 | 731
 
-- Hugging Face models matching "distill": 16,330 models
+- Hugging Face models matching "distill": 16,331 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
@@ -112,14 +112,14 @@ HuggingFaceTB/SmolLM3-3B | 581340 | 1022
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
 huggingface/trl | 19224 | n/a
-arcee-ai/DistillKit | 1052 | n/a
+arcee-ai/DistillKit | 1053 | n/a
 pytorch/torchtune | 5804 | n/a
 NVIDIA/NeMo | 18388 | n/a
 axolotl-ai-cloud/axolotl | 12440 | n/a
-unslothai/unsloth | 75625 | n/a
-hiyouga/LLaMA-Factory | 74577 | n/a
+unslothai/unsloth | 75630 | n/a
+hiyouga/LLaMA-Factory | 74579 | n/a
 vllm-project/vllm | 90981 | n/a
-sgl-project/sglang | 35476 | n/a
+sgl-project/sglang | 35483 | n/a
 huggingface/open-r1 | 26452 | n/a
 open-thoughts/open-thoughts | 2331 | n/a
 EleutherAI/lm-evaluation-harness | 13890 | n/a
@@ -6286,7 +6286,7 @@ ULD | Optimal-transport (Wasserstein) cost between sorted probability vectors | 
 CHART DATA
 ----------
 
-CHART: Six representative methods, six axes  [id: radar-six-methods, type: radar, unit: score]
+CHART: Six representative methods, six dimensions  [id: radar-six-methods, type: radar, unit: score]
   Dimension | Response-based KD (soft targets) (score)
   Quality retention | 3
   Data efficiency | 3
@@ -6364,20 +6364,23 @@ CHART: Distillation methods in this library, by year introduced  [id: methods-pe
 CHART: Reasoning-trace distillation: AIME 2024 pass@1 by student size  [id: r1-distill-aime, type: bar, unit: %]
   DeepSeek-R1-Distill student | AIME 2024 pass@1 (%)
   Qwen-1.5B | 28.9
-  Llama-8B | 50.4
   Qwen-7B | 55.5
+  Llama-8B | 50.4
   Qwen-14B | 69.7
-  Llama-70B | 70
   Qwen-32B | 72.6
+  Llama-70B | 70
   DeepSeek-R1-Distill student | MATH-500 pass@1 (%)
   Qwen-1.5B | 83.9
-  Llama-8B | 89.1
   Qwen-7B | 92.8
+  Llama-8B | 89.1
   Qwen-14B | 93.9
-  Llama-70B | 94.5
   Qwen-32B | 94.3
+  Llama-70B | 94.5
   Notes: All students are plain supervised fine-tunes on 800k reasoning samples curated with
-  DeepSeek-R1 — no reinforcement-learning stage. Figures from the official model card.
+  DeepSeek-R1 — no reinforcement-learning stage. Figures from the official model card. The
+  axis runs by parameter count, not by score, so the two places where a smaller student
+  beats a larger one stay visible: Qwen-7B over Llama-8B, and Qwen-32B over Llama-70B on
+  AIME.
   Sources: https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
 
 CHART: Off-policy distillation vs RL vs on-policy distillation (Qwen3-8B student)  [id: onpolicy-vs-rl, type: bar, unit: %]
