@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-05T01:47:07.222Z",
+  "updated": "2026-09-05T06:34:22.576Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5372,
@@ -178,12 +178,12 @@
     ]
   },
   "huggingface": {
-    "distillModels": 16331,
+    "distillModels": 16330,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
         "downloads": 1458914,
-        "likes": 966,
+        "likes": 967,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
       },
       {
@@ -207,7 +207,7 @@
       {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
         "downloads": 445387,
-        "likes": 96,
+        "likes": 97,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
@@ -299,19 +299,19 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 7067963,
-        "likes": 1128,
+        "likes": 1133,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
         "downloads": 13232997,
-        "likes": 1343,
+        "likes": 1344,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
         "downloads": 1626709,
-        "likes": 1470,
+        "likes": 1471,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
@@ -338,9 +338,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19224,
-        "forks": 2959,
-        "pushedAt": "2026-09-05T01:36:02Z",
+        "stars": 19225,
+        "forks": 2961,
+        "pushedAt": "2026-09-05T06:33:57Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -352,7 +352,7 @@
       },
       {
         "repo": "pytorch/torchtune",
-        "stars": 5804,
+        "stars": 5805,
         "forks": 752,
         "pushedAt": "2026-09-04T11:38:16Z",
         "url": "https://github.com/meta-pytorch/torchtune"
@@ -361,7 +361,7 @@
         "repo": "NVIDIA/NeMo",
         "stars": 18388,
         "forks": 3603,
-        "pushedAt": "2026-09-05T00:49:21Z",
+        "pushedAt": "2026-09-05T01:51:35Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
@@ -373,30 +373,30 @@
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 75630,
-        "forks": 6871,
-        "pushedAt": "2026-09-05T01:41:07Z",
+        "stars": 75638,
+        "forks": 6872,
+        "pushedAt": "2026-09-05T06:32:57Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 74579,
-        "forks": 9141,
+        "stars": 74581,
+        "forks": 9140,
         "pushedAt": "2026-09-04T08:15:24Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 90981,
-        "forks": 21714,
-        "pushedAt": "2026-09-05T00:56:35Z",
+        "stars": 90997,
+        "forks": 21720,
+        "pushedAt": "2026-09-05T06:09:06Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 35483,
-        "forks": 8558,
-        "pushedAt": "2026-09-05T01:39:08Z",
+        "stars": 35491,
+        "forks": 8563,
+        "pushedAt": "2026-09-05T06:03:21Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
@@ -423,7 +423,7 @@
       {
         "repo": "SafeAILab/EAGLE",
         "stars": 2524,
-        "forks": 295,
+        "forks": 296,
         "pushedAt": "2026-02-20T02:53:29Z",
         "url": "https://github.com/SafeAILab/EAGLE"
       },
