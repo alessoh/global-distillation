@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-09-06, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-09-07, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,10 +74,10 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-06T06:35:02.906Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-09-07T06:48:49.488Z. Endpoint: https://global-distillation.com/data/live.json.
 
-- arXiv papers matching "knowledge distillation" (all time): 5,372 papers
-- arXiv papers matching "knowledge distillation" (last 30 days): 72 papers
+- arXiv papers matching "knowledge distillation" (all time): 5,377 papers
+- arXiv papers matching "knowledge distillation" (last 30 days): 75 papers
 
 Year | arXiv papers (papers)
 ---- | ---------------------
@@ -92,40 +92,40 @@ Year | arXiv papers (papers)
 2023 | 807
 2024 | 1016
 2025 | 1122
-2026 | 731
+2026 | 736
 
-- Hugging Face models matching "distill": 16,328 models
+- Hugging Face models matching "distill": 16,335 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 559820 | 1608
-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 366669 | 881
-deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 378279 | 875
-deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 461913 | 1570
-distilbert/distilbert-base-uncased | 7101423 | 1156
-Qwen/Qwen3-8B | 13512721 | 1345
-google/gemma-3-4b-it | 1642023 | 1474
-meta-llama/Llama-3.2-3B-Instruct | 1436140 | 2515
-microsoft/Phi-4-mini-instruct | 458601 | 830
-HuggingFaceTB/SmolLM3-3B | 583995 | 1023
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 549248 | 1609
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 362759 | 881
+deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 373671 | 875
+deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 455957 | 1571
+distilbert/distilbert-base-uncased | 7054316 | 1156
+Qwen/Qwen3-8B | 13209969 | 1351
+google/gemma-3-4b-it | 1630221 | 1474
+meta-llama/Llama-3.2-3B-Instruct | 1450387 | 2524
+microsoft/Phi-4-mini-instruct | 455935 | 830
+HuggingFaceTB/SmolLM3-3B | 577441 | 1025
 
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
-huggingface/trl | 19231 | n/a
+huggingface/trl | 19237 | n/a
 arcee-ai/DistillKit | 1053 | n/a
-pytorch/torchtune | 5805 | n/a
-NVIDIA/NeMo | 18392 | n/a
-axolotl-ai-cloud/axolotl | 12443 | n/a
-unslothai/unsloth | 75689 | n/a
-hiyouga/LLaMA-Factory | 74596 | n/a
-vllm-project/vllm | 91052 | n/a
-sgl-project/sglang | 35516 | n/a
-huggingface/open-r1 | 26449 | n/a
+pytorch/torchtune | 5806 | n/a
+NVIDIA/NeMo | 18400 | n/a
+axolotl-ai-cloud/axolotl | 12445 | n/a
+unslothai/unsloth | 75744 | n/a
+hiyouga/LLaMA-Factory | 74612 | n/a
+vllm-project/vllm | 91129 | n/a
+sgl-project/sglang | 35556 | n/a
+huggingface/open-r1 | 26451 | n/a
 open-thoughts/open-thoughts | 2331 | n/a
-EleutherAI/lm-evaluation-harness | 13896 | n/a
+EleutherAI/lm-evaluation-harness | 13913 | n/a
 SafeAILab/EAGLE | 2524 | n/a
 NovaSky-AI/SkyThought | 3399 | n/a
-simplescaling/s1 | 6666 | n/a
+simplescaling/s1 | 6667 | n/a
 
 Recent news items tracked by the daily refresh:
 - 2026-07-30 — Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it — https://www.ctgt.ai/research/distillation-censorship-transfer
