@@ -5,7 +5,7 @@
   "licence": "MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
   "citation": "Global Distillation, \"How frontier intelligence is compressed, priced and contested\", https://global-distillation.com/, accessed <date>.",
   "datasetUpdated": "2026-09-04",
-  "generated": "2026-09-07",
+  "generated": "2026-09-08",
   "generator": "scripts/gen-llms.mjs",
   "count": 67,
   "answers": [
@@ -784,7 +784,7 @@
     {
       "id": "how-many-papers",
       "question": "How much research is published on knowledge distillation?",
-      "answer": "arXiv papers with 'knowledge distillation' in abstract (2025): 1,084 papers (+11.6% vs 2024 (971)). Same query, 2026 year-to-date (through 2026-09-04): 709 papers (on pace for ~1,050 full-year). The live daily count of all arXiv papers matching the phrase is 5,377, with 75 in the last 30 days.",
+      "answer": "arXiv papers with 'knowledge distillation' in abstract (2025): 1,084 papers (+11.6% vs 2024 (971)). Same query, 2026 year-to-date (through 2026-09-04): 709 papers (on pace for ~1,050 full-year). The live daily count of all arXiv papers matching the phrase is 5,377, with 72 in the last 30 days.",
       "perspective": "academic",
       "page": "https://global-distillation.com/academic",
       "sources": [
