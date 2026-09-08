@@ -3,18 +3,19 @@
 //  1. `?q=term` opens the command palette pre-filled. This is what the
 //     SearchAction in the JSON-LD points at, so the declared site search is a
 //     real one rather than a claim.
-//  2. While the app is driven by the hash, the canonical link, og:url and the
-//     document title follow the route, so a shared `#/academic` URL still
-//     names the page it is showing. On a prerendered page (a path, no hash)
-//     the server-rendered values are already correct and are left alone.
+//  2. The canonical link, og:url and the document title follow the route as
+//     the reader navigates, so a page reached by a client-side transition
+//     still names itself correctly. On first load the server already sent the
+//     right values; this keeps them right afterwards.
 //
 // Everything here is best-effort: metadata must never break the page.
 
 const ORIGIN = 'https://global-distillation.com';
 
-const routeFromHash = () => {
-  const id = (location.hash || '').replace(/^#\/?/, '').split('/')[0];
-  return id && /^[a-z-]+$/.test(id) ? id : '';
+const routeFromPath = () => {
+  const id = (location.pathname || '').replace(/^\/+|\/+$/g, '').split('/')[0];
+  if (!id || id === 'index.html') return 'overview';
+  return /^[a-z-]+$/.test(id) ? id : '';
 };
 
 const labelFor = (id) => {
@@ -25,8 +26,8 @@ const labelFor = (id) => {
 
 function syncRouteMeta() {
   try {
-    const id = routeFromHash();
-    if (!id) return; // no hash: whatever the server sent is canonical
+    const id = routeFromPath();
+    if (!id) return; // an unknown path: leave whatever the server sent
     const url = ORIGIN + (id === 'overview' ? '/' : '/' + id);
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', url);
@@ -56,6 +57,7 @@ function openSearch() {
   } catch { /* the palette is still reachable by hand */ }
 }
 
-window.addEventListener('hashchange', syncRouteMeta);
+window.addEventListener('popstate', syncRouteMeta);
+document.addEventListener('gd:route', syncRouteMeta);
 syncRouteMeta();
 window.addEventListener('load', openSearch);

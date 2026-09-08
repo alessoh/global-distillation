@@ -2,7 +2,7 @@
 // Owns: assets/js/library.js. Exports renderLibrary(el, d, param) and openMethod(id).
 // Contract: BUILD-CONTRACT.md. Tokens and class names: DESIGN.md + assets/css/app.css.
 
-import { openDrawer, closeDrawer } from './app.js';
+import { openDrawer, closeDrawer, navigate } from './app.js';
 import { sectionBlocks, navBlock, splitParagraphs, resetCharts, mountRendered } from './render.js';
 
 /* ------------------------------------------------------------------ labels */
@@ -464,7 +464,7 @@ function emptyStateHtml(d) {
     '<p class="empty__text">When it lands, this page lists every distillation method with the objective it optimises, ' +
     'the teacher access it needs, the tools that implement it and the paper it comes from. Until then the ' +
     'perspectives in the left rail carry the figures that are published.</p>' +
-    '<p class="lib-empty-actions"><a class="btn btn--link" href="#/developer">Developer tooling and recipes</a></p>' +
+    '<p class="lib-empty-actions"><a class="btn btn--link" href="/developer">Developer tooling and recipes</a></p>' +
   '</div>';
 }
 
@@ -582,15 +582,12 @@ function filterQuery() {
 
 /**
  * A filtered shortlist is the thing this page is for, so it has to be
- * shareable. The site is hash-routed, so the filters ride behind the route's
- * own path segment: `#/library/_?access=black-box`. The method id keeps the
- * first segment when a drawer is open.
+ * shareable. With real paths the method is a path segment and the filters are
+ * an ordinary query string: `/library/response-kd?access=black-box`.
  */
 function writeHash() {
-  const q = filterQuery();
-  const id = state.openId || (q ? '_' : '');
-  const path = '/library' + (id ? '/' + id : '') + q;
-  setHash(path);
+  const id = state.openId || '';
+  setHash('/library' + (id ? '/' + encodeURIComponent(id) : '') + filterQuery());
 }
 
 function clearFilterState() {
@@ -605,8 +602,12 @@ function clearFilterState() {
 function readParam(param) {
   const raw = String(param == null ? '' : param);
   const cut = raw.indexOf('?');
-  const id = (cut < 0 ? raw : raw.slice(0, cut)).trim();
-  const query = cut < 0 ? '' : raw.slice(cut + 1);
+  let id = (cut < 0 ? raw : raw.slice(0, cut)).trim();
+  try { id = decodeURIComponent(id); } catch (_) { /* keep raw */ }
+  // Filters live in the document's own query string; a legacy link may still
+  // carry them inside the route parameter.
+  const query = (cut < 0 ? '' : raw.slice(cut + 1)) ||
+    String(location.search || '').replace(/^\?/, '');
   if (query) clearFilterState();
   query.split('&').filter(Boolean).forEach((pair) => {
     const i = pair.indexOf('=');
@@ -624,10 +625,10 @@ function readParam(param) {
 }
 
 function setHash(value) {
-  const target = '#' + String(value).replace(/^#/, '');
-  if (target === location.hash) return;
-  try { history.replaceState(history.state, '', location.pathname + location.search + target); }
-  catch (_) { location.hash = target; }
+  const url = new URL(String(value), location.href);
+  if (url.pathname === location.pathname && url.search === location.search) return;
+  try { history.replaceState(history.state, '', url.pathname + url.search); }
+  catch (_) { /* an unwritable history is not worth a broken page */ }
 }
 
 function drawerIsOpen() {
@@ -667,7 +668,8 @@ function openById(key) {
     // Not rendered here yet — a palette hit from another route, or a cold link.
     // Hand it to the router, which renders the library and calls back.
     if (!state.methods.length) {
-      if (location.hash !== '#/library/' + key) location.hash = '#/library/' + key;
+      const want = '/library/' + encodeURIComponent(key);
+      if (location.pathname !== want) navigate(want);
     } else {
       state.openId = null;
       writeHash();
@@ -685,7 +687,7 @@ let wired = false;
 function forgetOpen() {
   if (!state.openId) return;
   state.openId = null;
-  if (/^#\/library\//.test(location.hash)) writeHash();
+  if (/^\/library\//.test(location.pathname)) writeHash();
 }
 
 function wireGlobal() {
@@ -711,8 +713,8 @@ function wireGlobal() {
 
   // Routing away from a linked method would otherwise leave the drawer
   // stranded over the next view; the router does not know about it.
-  window.addEventListener('hashchange', () => {
-    if (/^#\/library(\/|$)/.test(location.hash) || !state.openId) return;
+  window.addEventListener('popstate', () => {
+    if (/^\/library(\/|$)/.test(location.pathname) || !state.openId) return;
     state.openId = null;
     if (drawerIsOpen()) closeDrawer();
   });

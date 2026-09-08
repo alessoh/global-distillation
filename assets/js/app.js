@@ -17,6 +17,7 @@ export const ROUTES = [
   { id: 'library',     label: 'Library',    sub: 'Distillation methods explained', group: 'reference',  file: 'library' },
   { id: 'timeline',    label: 'Timeline',   sub: '2006 to today',                  group: 'reference',  file: 'timeline' },
   { id: 'compare',     label: 'Compare',    sub: 'Build your own comparison',      group: 'reference',  file: null },
+  { id: 'methodology', label: 'Methodology', sub: 'How this compendium is built',  group: 'hidden',     file: null },
 ];
 
 const NAV_IDS = ['overview','academic','financial','political','company','developer','customer','library','timeline'];
@@ -30,7 +31,7 @@ const cache = new Map();
 export async function loadPerspective(name) {
   if (!name) return null;
   if (cache.has(name)) return cache.get(name);
-  const p = fetch('data/' + name + '.json', { cache: 'no-cache' })
+  const p = fetch('/data/' + name + '.json', { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null)
     .then((json) => { if (json) data[name] = json; return json; });
@@ -38,24 +39,96 @@ export async function loadPerspective(name) {
   return p;
 }
 
+/**
+ * The site is path-routed: every view has a real URL that the server can serve
+ * as a prerendered page, so search engines index nine documents rather than
+ * one. `/` and `/overview` are the same view; `/` is the canonical form.
+ */
 export function currentRoute() {
-  const raw = (location.hash || '#/overview').replace(/^#\/?/, '');
+  let raw;
+  try { raw = decodeURIComponent(location.pathname); } catch (e) { raw = location.pathname; }
+  raw = raw.replace(/^\/+|\/+$/g, '').replace(/^index\.html$/, '');
+  if (!raw) return { route: ROUTES[0], param: null };
   const parts = raw.split('/');
   const route = ROUTES.find((r) => r.id === parts[0]);
-  return { route: route || ROUTES[0], param: parts.slice(1).join('/') || null };
+  if (!route) return { route: ROUTES[0], param: null };
+  return { route, param: parts.slice(1).join('/') || null };
+}
+
+/** The canonical in-site URL for a route, with an optional path parameter. */
+export function routeHref(id, param) {
+  const base = id === 'overview' ? '/' : '/' + id;
+  if (!param) return base;
+  return (base === '/' ? '' : base) + '/' + param;
+}
+
+/** Move to an in-site URL without a reload. */
+export function navigate(href, opts) {
+  const replace = !!(opts && opts.replace);
+  const url = new URL(href, location.href);
+  if (url.pathname === location.pathname && url.search === location.search) {
+    if (url.hash !== location.hash) history.replaceState(history.state, '', url.href);
+    return;
+  }
+  try { history[replace ? 'replaceState' : 'pushState'](null, '', url.href); }
+  catch (e) { location.assign(url.href); return; }
+  route();
+}
+
+/** True when this URL is one this app renders itself. */
+function isInternal(url) {
+  if (url.origin !== location.origin) return false;
+  const first = url.pathname.replace(/^\/+|\/+$/g, '').split('/')[0];
+  return !first || first === 'index.html' || ROUTES.some((r) => r.id === first);
+}
+
+/**
+ * Old `#/route` links — shared before the site moved to real paths, and the
+ * boot marker the prerenderer used to emit — still have to land in the right
+ * place. Rewrite them once, before the first render, so nothing downstream
+ * ever sees a route hash.
+ */
+function absorbLegacyHash() {
+  const m = /^#\/([a-z-]+)(?:\/(.*))?$/i.exec(location.hash || '');
+  if (!m) return;
+  const route = ROUTES.find((r) => r.id === m[1].toLowerCase());
+  if (!route) return;
+  let param = m[2] || '';
+  let search = location.search;
+  const cut = param.indexOf('?');           // `#/library/_?access=x` carried its own query
+  if (cut >= 0) { search = '?' + param.slice(cut + 1); param = param.slice(0, cut); }
+  if (param === '_') param = '';
+  const href = routeHref(route.id, param ? encodeURIComponent(param) : '') + search;
+  try { history.replaceState(history.state, '', href); } catch (e) { /* keep the hash */ }
+}
+
+function wireLinks() {
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target || a.hasAttribute('download') || a.dataset.noRoute) return;
+    const raw = a.getAttribute('href');
+    if (!raw || raw.charAt(0) === '#') return;      // in-page anchor: leave it alone
+    let url;
+    try { url = new URL(raw, location.href); } catch (err) { return; }
+    if (!isInternal(url)) return;
+    e.preventDefault();
+    navigate(url.href);
+  });
+  window.addEventListener('popstate', () => { route(); });
 }
 
 function buildNav() {
   const nav = document.getElementById('nav-links');
   nav.innerHTML = NAV_IDS.map((id) => {
     const r = ROUTES.find((x) => x.id === id);
-    return '<a class="nav__link" href="#/' + r.id + '" data-route="' + r.id + '">' + r.label + '</a>';
+    return '<a class="nav__link" href="' + routeHref(r.id) + '" data-route="' + r.id + '">' + r.label + '</a>';
   }).join('');
 
   const fill = (el, group, offset) => {
     el.innerHTML = ROUTES.filter((r) => r.group === group).map((r, i) => {
       const n = String(i + offset).padStart(2, '0');
-      return '<li><a class="rail__item" href="#/' + r.id + '" data-route="' + r.id + '">' +
+      return '<li><a class="rail__item" href="' + routeHref(r.id) + '" data-route="' + r.id + '">' +
         '<span class="rail__num">' + n + '</span>' +
         '<span class="rail__text"><span class="rail__name">' + r.label + '</span>' +
         '<span class="rail__sub">' + r.sub + '</span></span></a></li>';
@@ -101,6 +174,9 @@ async function route() {
     if (isOverview) {
       await Promise.all(ROUTES.filter((x) => x.file).map((x) => loadPerspective(x.file)));
       renderOverview(view, { data, live });
+    } else if (r.id === 'methodology') {
+      await Promise.all(ROUTES.filter((x) => x.file).map((x) => loadPerspective(x.file)));
+      renderMethodology(view, { data, live });
     } else if (r.id === 'compare') {
       await Promise.all(['customer', 'financial'].map(loadPerspective));
       renderCompare(view, { data, live });
@@ -122,6 +198,7 @@ async function route() {
   document.getElementById('rail').classList.remove('is-open');
   document.getElementById('rail-scrim').hidden = true;
   if (param && r.id === 'library') openMethod(param);
+  document.dispatchEvent(new CustomEvent('gd:route', { detail: { id: r.id, param } }));
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -183,12 +260,13 @@ function wireChrome() {
 }
 
 async function boot() {
+  absorbLegacyHash();
   buildNav();
   wireChrome();
+  wireLinks();
   initPalette();
-  live = await fetch('data/live.json', { cache: 'no-cache' })
+  live = await fetch('/data/live.json', { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : null)).catch(() => null);
-  window.addEventListener('hashchange', route);
   await route();
 }
 

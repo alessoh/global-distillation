@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-08T06:38:47.209Z",
+  "updated": "2026-09-08T19:03:10.465Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5377,
@@ -178,157 +178,157 @@
     ]
   },
   "huggingface": {
-    "distillModels": 16335,
+    "distillModels": 16346,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
-        "downloads": 1458187,
+        "downloads": 1465753,
         "likes": 969,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
       },
       {
-        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 540253,
-        "likes": 1610,
-        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
-      },
-      {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
-        "downloads": 537740,
+        "downloads": 571621,
         "likes": 104,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
-        "id": "distil-whisper/distil-large-v3",
-        "downloads": 537178,
-        "likes": 380,
-        "url": "https://huggingface.co/distil-whisper/distil-large-v3"
-      },
-      {
         "id": "empero-ai/Qwen3.8-2B-Distill-GGUF",
-        "downloads": 533469,
+        "downloads": 566093,
         "likes": 129,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-2B-Distill-GGUF"
       },
       {
+        "id": "distil-whisper/distil-large-v3",
+        "downloads": 540347,
+        "likes": 380,
+        "url": "https://huggingface.co/distil-whisper/distil-large-v3"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "downloads": 537215,
+        "likes": 1610,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+      },
+      {
         "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
-        "downloads": 475775,
-        "likes": 217,
+        "downloads": 511497,
+        "likes": 221,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 458663,
+        "downloads": 446699,
         "likes": 1573,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF",
-        "downloads": 394123,
+        "downloads": 396354,
         "likes": 159,
         "url": "https://huggingface.co/Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
-        "downloads": 366570,
+        "downloads": 361108,
         "likes": 875,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
       },
       {
-        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
-        "downloads": 362613,
-        "likes": 677,
-        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
-      },
-      {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 357918,
+        "downloads": 359661,
         "likes": 882,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
+        "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "downloads": 356704,
+        "likes": 677,
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+      },
+      {
         "id": "hesamation/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-GGUF",
-        "downloads": 323066,
+        "downloads": 323633,
         "likes": 292,
         "url": "https://huggingface.co/hesamation/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
       },
       {
         "id": "Jackrong/Qwen3.5-9B-GLM5.1-Distill-v1-GGUF",
-        "downloads": 319810,
+        "downloads": 320375,
         "likes": 112,
         "url": "https://huggingface.co/Jackrong/Qwen3.5-9B-GLM5.1-Distill-v1-GGUF"
       },
       {
-        "id": "facebook/nllb-200-distilled-1.3B",
-        "downloads": 314207,
-        "likes": 186,
-        "url": "https://huggingface.co/facebook/nllb-200-distilled-1.3B"
-      },
-      {
         "id": "mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-i1-GGUF",
-        "downloads": 312158,
+        "downloads": 313099,
         "likes": 122,
         "url": "https://huggingface.co/mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-i1-GGUF"
+      },
+      {
+        "id": "mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-heretic-i1-GGUF",
+        "downloads": 310781,
+        "likes": 13,
+        "url": "https://huggingface.co/mradermacher/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-heretic-i1-GGUF"
       }
     ],
     "tracked": [
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 540253,
+        "downloads": 537215,
         "likes": 1610,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 357918,
+        "downloads": 359661,
         "likes": 882,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
-        "downloads": 366570,
+        "downloads": 361108,
         "likes": 875,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 458663,
+        "downloads": 446699,
         "likes": 1573,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "distilbert/distilbert-base-uncased",
-        "downloads": 7041011,
-        "likes": 1157,
+        "downloads": 7138152,
+        "likes": 1181,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
-        "downloads": 12996307,
-        "likes": 1354,
+        "downloads": 13046829,
+        "likes": 1357,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
-        "downloads": 1622803,
-        "likes": 1474,
+        "downloads": 1645991,
+        "likes": 1476,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
-        "downloads": 1476568,
-        "likes": 2531,
+        "downloads": 1529751,
+        "likes": 2534,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
         "id": "microsoft/Phi-4-mini-instruct",
-        "downloads": 455193,
+        "downloads": 461049,
         "likes": 830,
         "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct"
       },
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
-        "downloads": 575911,
+        "downloads": 577998,
         "likes": 1026,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
@@ -587,5 +587,7 @@
       }
     ]
   },
-  "errors": []
+  "errors": [
+    "github: HTTP 403 for https://api.github.com/repos/huggingface/trl"
+  ]
 }

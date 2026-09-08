@@ -4,7 +4,7 @@
 // events from whatever perspectives have loaded. Fuzzy subsequence match, grouped
 // results, full keyboard control. Never throws on missing or partial data.
 
-import { closeDrawer, loadPerspective, ROUTES, data as appData } from './app.js';
+import { closeDrawer, loadPerspective, ROUTES, data as appData, routeHref, navigate } from './app.js';
 import { openCompany } from './sections-b.js';
 
 const MAX_RESULTS = 40;
@@ -190,7 +190,7 @@ function makeEntry(type, title, subtitle, hash, extraHay, methodId, companyId) {
     titleLower: displayTitle.toLowerCase(),
     subtitle: subtitle || '',
     badge: BADGE[type] || type,
-    hash: hash || '#/overview',
+    hash: hash || '/',
     methodId: methodId || null,
     companyId: companyId || null,
     weight: WEIGHT[type] || 0,
@@ -215,19 +215,19 @@ export function buildIndex(ctx) {
   safely(() => {
     routes.forEach((r) => {
       if (!r || !r.id) return;
-      push(makeEntry('section', r.label || r.id, r.sub || '', '#/' + r.id, r.id + ' ' + (r.group || '')));
+      push(makeEntry('section', r.label || r.id, r.sub || '', routeHref(r.id), r.id + ' ' + (r.group || '')));
     });
   });
 
-  const hashFor = (name) => (routes.some((r) => r && r.file === name) ?
-    '#/' + (routes.find((r) => r.file === name).id) : '#/' + name);
+  const hashFor = (name) => routeHref(routes.some((r) => r && r.file === name)
+    ? routes.find((r) => r.file === name).id : name);
 
   // Methods -------------------------------------------------------------
   safely(() => {
     arrayOf(data.library && data.library.extras && data.library.extras.methods).forEach((m) => {
       if (!m || !m.name) return;
       const sub = joinParts([m.family, m.year, clip(m.description, 96)]);
-      push(makeEntry('method', m.name, sub, '#/library/' + (m.id || ''),
+      push(makeEntry('method', m.name, sub, routeHref('library', encodeURIComponent(m.id || '')),
         joinParts([m.family, m.teacherAccess, m.dataNeeded, m.paper, m.whenToUse]) + ' ' +
         arrayOf(m.tools).join(' '), m.id || null));
     });
@@ -375,7 +375,7 @@ function suggestionRows(limit) {
   }
   const use = live.length ? live : ['overview', 'library'];
   return use.map((q) => {
-    const entry = makeEntry('suggestion', q, '', '#/overview', '');
+    const entry = makeEntry('suggestion', q, '', '/', '');
     entry.query = q;
     return entry;
   });
@@ -506,8 +506,9 @@ function activate(entry) {
   close({ restore: false });
 
   const target = entry.hash;
-  const same = location.hash === target || (!location.hash && target === '#/overview');
-  if (!same) location.hash = target;
+  const same = location.pathname === target ||
+    (location.pathname === '/overview' && target === '/');
+  if (!same) navigate(target);
   if (entry.methodId && same) openMethodById(entry.methodId);
   // The dossiers register when the company section renders, so a result opened
   // from another route waits for that render before it can show one.

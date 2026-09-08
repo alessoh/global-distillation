@@ -2,17 +2,17 @@
 //
 //   node scripts/prerender.mjs [--origin https://example.com]
 //
-// The site is a hash-routed single-page app, so every perspective shares one
-// URL and a crawler sees one page. This script reads the same JSON the browser
-// reads and writes <route>/index.html for each route: correct title, meta
-// description and canonical, then the perspective's h1, summary, key findings,
-// stat figures, tables, chart data, timeline, glossary and numbered sources as
-// real HTML in the source. No JavaScript is needed to read any of it.
+// Every perspective needs its own indexable document. This script reads the
+// same JSON the browser reads and writes <route>/index.html for each route:
+// correct title, meta description and canonical, then the perspective's h1,
+// summary, key findings, stat figures, tables, chart data, timeline, glossary
+// and numbered sources as real HTML in the source. No JavaScript is needed to
+// read any of it.
 //
 // The page also boots the app: it carries the same stylesheet and module
-// scripts as index.html and a tiny inline script that points the hash router at
-// this route before app.js runs, so a reader with JavaScript sees exactly the
-// interactive render they see today and the static copy is replaced by it.
+// scripts as index.html. The app routes on location.pathname, which is already
+// this page's own URL, so a reader with JavaScript gets the interactive render
+// over the static copy without anything being injected here.
 //
 // No third-party dependencies. The root index.html (the app shell) is never
 // rewritten; the per-page head tags come from scripts/gen-schema.mjs when it is
@@ -477,7 +477,7 @@ function overviewBody(all, live) {
     const d = all[r.file];
     if (!d) return '';
     return '<li class="card"><p class="card__eyebrow">' + esc(r.label) + '</p>' +
-      '<h3 class="card__title"><a href="/' + esc(r.id) + '">' + esc(d.title) + '</a></h3>' +
+      '<h3 class="card__title"><a href="' + hrefFor(r.id) + '">' + esc(d.title) + '</a></h3>' +
       '<p class="card__desc">' + esc(describe(d.summary, 260)) + '</p>' +
       '<p class="card__more">' + esc([plural((d.stats || []).length, 'figure'),
         plural((d.tables || []).length, 'table'),
@@ -837,12 +837,12 @@ function pageFor(route, all, shell, live) {
     '<nav class="nav__links" id="nav-links" aria-label="Perspectives">' +
     NAV_IDS.map((id) => {
       const r = ROUTES.find((x) => x.id === id);
-      return '<a class="nav__link" href="/' + r.id + '"' +
+      return '<a class="nav__link" href="' + hrefFor(r.id) + '"' +
         (r.id === route.id ? ' aria-current="page"' : '') + '>' + esc(r.label) + '</a>';
     }).join('') + '</nav>');
 
   const railList = (group, offset) => RAIL[group].map(([id, label, sub], i) =>
-    '<li><a class="rail__item" href="/' + id + '"' + (id === route.id ? ' aria-current="page"' : '') + '>' +
+    '<li><a class="rail__item" href="' + hrefFor(id) + '"' + (id === route.id ? ' aria-current="page"' : '') + '>' +
     '<span class="rail__num">' + String(i + offset).padStart(2, '0') + '</span>' +
     '<span class="rail__text"><span class="rail__name">' + esc(label) + '</span>' +
     '<span class="rail__sub">' + esc(sub) + '</span></span></a></li>').join('');
@@ -875,18 +875,13 @@ function pageFor(route, all, shell, live) {
     '<div id="view" class="view" aria-live="polite">' + body + '</div>',
     'the empty #view container the app renders into');
 
-  // ---- boot the app on this route ----------------------------------------
-  // Classic inline script: it runs before the deferred module, so app.js reads
-  // the hash this sets and renders the live view over the static copy.
-  const boot = '<script>(function(){if(!location.hash){try{history.replaceState(null,"",' +
-    'location.pathname+location.search+"#/' + route.id + '");}catch(e){location.hash="#/' +
-    route.id + '";}}})();</script>\n';
-  html = swap(html, '<script src="/vendor/echarts.min.js"></script>',
-    boot + '<script src="/vendor/echarts.min.js"></script>',
-    'the vendor script tags the boot script has to run before');
-
+  // The app routes on location.pathname, which the server has already set to
+  // this page's own URL, so nothing has to be injected to boot the right view.
   return html;
 }
+
+/** The canonical in-site URL for a route: the overview lives at the root. */
+function hrefFor(id) { return id === 'overview' ? '/' : '/' + id; }
 
 /* ------------------------------------------------------------------- main */
 

@@ -1963,7 +1963,7 @@ function kpiHtml(stat, fn) {
     ((stat.source || stat.from) ? '<div class="kpi__foot">' +
       (stat.source ? '<p class="kpi__source"><a href="' + attr(stat.source) + '" target="_blank" rel="noopener">' +
         esc(stat.publisher || host(stat.source)) + '</a>' + (fn ? fn.refs([stat.source]) : '') + '</p>' : '') +
-      (stat.from ? '<p class="kpi__source"><a href="#/' + esc(stat.from) + '">' +
+      (stat.from ? '<p class="kpi__source"><a href="/' + esc(stat.from) + '">' +
         esc(stat.from.charAt(0).toUpperCase() + stat.from.slice(1)) + ' section</a></p>' : '') +
       '</div>' : '') +
     '</div>';
@@ -2168,7 +2168,7 @@ const AUDIENCE_ROUTES = ['academic', 'financial', 'political', 'company',
 function audienceBadge(a) {
   const key = String(a || '').toLowerCase().trim();
   if (AUDIENCE_ROUTES.includes(key)) {
-    return '<a class="badge badge--route" href="#/' + esc(key) + '">' + esc(a) + '</a>';
+    return '<a class="badge badge--route" href="/' + esc(key) + '">' + esc(a) + '</a>';
   }
   return '<span class="badge badge--neutral">' + esc(a) + '</span>';
 }
@@ -3935,8 +3935,8 @@ export function renderSection(el, d, route) {
         'The research pipeline writes one JSON file per perspective, each with its own statistics, ' +
         'tables, charts, timeline and numbered sources. This one is still being assembled and will ' +
         'appear here as soon as it passes source checks. Nothing is shown until every figure has a primary source.',
-        '<a class="btn btn--ghost" href="#/overview">Back to the overview</a> ' +
-        '<a class="btn--link" href="#/methodology">How this compendium is built</a>'
+        '<a class="btn btn--ghost" href="/">Back to the overview</a> ' +
+        '<a class="btn--link" href="/methodology">How this compendium is built</a>'
       ) + '</section>';
     return;
   }
@@ -4653,15 +4653,6 @@ function liveSignals(live) {
 }
 
 export function renderOverview(el, ctx) {
-  // ROUTES has no entry for #/methodology, so the shell falls back to the overview.
-  // Honour the hash the hero links to rather than silently showing the wrong page.
-  if (typeof location !== 'undefined' &&
-      /^#\/?methodology\b/.test(location.hash || '')) {
-    const hero = document.getElementById('hero');
-    if (hero) hero.hidden = true;
-    renderMethodology(el, ctx);
-    return;
-  }
   disposeCharts();
   CHART_SPECS.clear();
   const data = (ctx && ctx.data) || {};
@@ -4721,7 +4712,7 @@ export function renderOverview(el, ctx) {
       (d.charts || []).length + ' charts',
       sourceCount(d) + ' sources',
     ].join(' · ') : 'In preparation';
-    return '<a class="card" href="#/' + p + '">' +
+    return '<a class="card" href="/' + p + '">' +
       '<span class="card__eyebrow">' + String(i + 1).padStart(2, '0') + ' · ' + esc(n) + '</span>' +
       '<span class="card__title">' + esc(p.charAt(0).toUpperCase() + p.slice(1)) + '</span>' +
       '<span class="card__desc">' + esc(PERSPECTIVE_BLURB[p] || '') + '</span>' +
@@ -4788,7 +4779,7 @@ export function renderOverview(el, ctx) {
       (days != null ? '<span class="badge badge--warn">in ' + esc(fmt(days)) + ' days</span>' : '') +
       (e.source ? '<a class="timeline__source" href="' + attr(e.source) + '" target="_blank" rel="noopener">' +
         esc(host(e.source)) + '</a>' : '') +
-      (e._from ? '<a class="timeline__from" href="#/' + esc(e._from) + '">' +
+      (e._from ? '<a class="timeline__from" href="/' + esc(e._from) + '">' +
         esc(e._from.charAt(0).toUpperCase() + e._from.slice(1)) + ' section</a>' : '') +
       '</div></div></li>';
   };
@@ -4814,7 +4805,7 @@ export function renderOverview(el, ctx) {
     parts.push(list(scheduled, true));
   }
   if (latest.length || scheduled.length) {
-    parts.push('<p class="cluster"><a class="btn btn--ghost" href="#/timeline">' +
+    parts.push('<p class="cluster"><a class="btn btn--ghost" href="/timeline">' +
       'See the full timeline, 2006 to today</a></p>');
   }
 
@@ -4995,12 +4986,12 @@ let COMPARE_STATE = { models: [], selected: [], origin: null, q: '', role: '', s
 /* ------------------------------------------------------------ selection URL */
 
 /**
- * The selection is the product, so it lives in the address bar: the site is
- * hash-routed, so it rides as the route's own path segment rather than as a
- * query string, which the router would read as an unknown route.
+ * The selection is the product, so it lives in the address bar, as a path
+ * segment under /compare. Old `#/compare/a,b` links are rewritten to that
+ * form by the router before anything reads the URL.
  */
 function selectionFromHash() {
-  const m = /^#\/compare\/(.+)$/.exec(location.hash || '');
+  const m = /^\/compare\/(.+)$/.exec(location.pathname || '');
   if (!m) return [];
   return m[1].split(',').map((s) => {
     try { return decodeURIComponent(s); } catch (e) { return s; }
@@ -5009,10 +5000,10 @@ function selectionFromHash() {
 
 function writeSelectionHash(sel) {
   const target = sel.length >= 2
-    ? '#/compare/' + sel.map(encodeURIComponent).join(',')
-    : '#/compare';
-  if (target === location.hash) return;
-  try { history.replaceState(history.state, '', location.pathname + location.search + target); }
+    ? '/compare/' + sel.map(encodeURIComponent).join(',')
+    : '/compare';
+  if (target === location.pathname) return;
+  try { history.replaceState(history.state, '', target + location.search); }
   catch (e) { /* an unwritable history is not worth a broken page */ }
 }
 
@@ -5072,8 +5063,8 @@ export function renderCompare(el, ctx) {
         'The comparison builder reads the customer perspective\'s model list, falling back to the financial ' +
         'perspective\'s price list. Neither has been published yet, so there is nothing honest to compare. ' +
         'The developer section already carries measured figures for the DeepSeek-R1 student family.',
-        '<a class="btn btn--ghost" href="#/developer">Developer section</a> ' +
-        '<a class="btn--link" href="#/methodology">How this compendium is built</a>') +
+        '<a class="btn btn--ghost" href="/developer">Developer section</a> ' +
+        '<a class="btn--link" href="/methodology">How this compendium is built</a>') +
       '</section>';
     return;
   }
@@ -5093,7 +5084,7 @@ export function renderCompare(el, ctx) {
     'quality measures and price are charted separately because they run in opposite directions, and each ' +
     'chart carries one unit.</p>' +
     '<p class="section__standfirst section__standfirst--rest">Figures come from ' + esc(origin) +
-    (originRoute ? ' (<a href="#/' + esc(originRoute) + '">open that section</a>)' : '') +
+    (originRoute ? ' (<a href="/' + esc(originRoute) + '">open that section</a>)' : '') +
     '. The address bar carries your selection, so a comparison can be sent to someone else.</p>' +
     '</div>' +
     '<p class="section__meta">' + plural(models.length, 'model') + ' on file<br>2 to 4 at a time</p>' +

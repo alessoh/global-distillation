@@ -94,5 +94,15 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/library/:id",
+      "destination": "/library"
+    },
+    {
+      "source": "/compare/:sel",
+      "destination": "/compare"
+    }
   ]
 }
