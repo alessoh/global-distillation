@@ -1,9 +1,9 @@
 {
-  "updated": "2026-09-08T19:03:10.465Z",
+  "updated": "2026-09-09T06:39:34.557Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
-    "totalKD": 5377,
-    "last30d": 72,
+    "totalKD": 5382,
+    "last30d": 74,
     "perYear": [
       {
         "year": 2015,
@@ -51,10 +51,50 @@
       },
       {
         "year": 2026,
-        "count": 736
+        "count": 741
       }
     ],
     "recent": [
+      {
+        "title": "Train Overcomplete, Deploy Compact: Scaling Recovery Capacity for Structured LLM Pruning",
+        "url": "http://arxiv.org/abs/2609.06974v1",
+        "published": "2026-09-07T03:10:32Z",
+        "authors": [
+          "Seungmin Oh",
+          "Donggeon Lee",
+          "Jongbin Ryu"
+        ]
+      },
+      {
+        "title": "Uni-Light: An Ultra-Lightweight Framework via Uncertainty-Aware Knowledge Distillation for Brain Tumour Segmentation",
+        "url": "http://arxiv.org/abs/2609.06729v1",
+        "published": "2026-09-06T17:00:57Z",
+        "authors": [
+          "Libing Kuang",
+          "Soren Salehi",
+          "Ziling Wu"
+        ]
+      },
+      {
+        "title": "Distilling Vision-Language Models for On-Device Fire Understanding",
+        "url": "http://arxiv.org/abs/2609.05782v1",
+        "published": "2026-09-05T00:33:01Z",
+        "authors": [
+          "Mohammad Kazzazi",
+          "Zixuan Liu",
+          "Siavash Khajavi"
+        ]
+      },
+      {
+        "title": "CrisisKD: Five-Stage Knowledge Distillation for Aspect-Level Sentiment and Emotion Analysis in Crisis Discourse",
+        "url": "http://arxiv.org/abs/2609.05757v1",
+        "published": "2026-09-04T22:37:19Z",
+        "authors": [
+          "Marko Haralović",
+          "Onat Akca",
+          "Salih Eren Yücetürk"
+        ]
+      },
       {
         "title": "Lightweight Vision Transformer Compression for On-Device Plant Disease Detection in Resource-Constrained Agricultural Field Conditions",
         "url": "http://arxiv.org/abs/2609.05334v1",
@@ -134,51 +174,11 @@
           "Janek Haberer",
           "Olaf Landsiedel"
         ]
-      },
-      {
-        "title": "Convergence Theory of Knowledge Distillation in Asynchronous P2P Gossip Learning Network",
-        "url": "http://arxiv.org/abs/2609.01952v1",
-        "published": "2026-09-01T23:52:01Z",
-        "authors": [
-          "Lucas Qingyang Fang",
-          "Tiyao Liu",
-          "Jinhao Jing"
-        ]
-      },
-      {
-        "title": "Knowledge Distillation During Mid-Training Favors Reasoning over Factual Recall",
-        "url": "http://arxiv.org/abs/2609.01532v1",
-        "published": "2026-09-01T17:00:30Z",
-        "authors": [
-          "Jacqueline He",
-          "Howard Yen",
-          "Shuyue Stella Li"
-        ]
-      },
-      {
-        "title": "Position Matters: Feature Inversion Attacks in ViT Split Inference with Token Reduction and Shuffling",
-        "url": "http://arxiv.org/abs/2609.01232v1",
-        "published": "2026-09-01T13:32:30Z",
-        "authors": [
-          "Stefano Leggio",
-          "Giulio Rossolini",
-          "Alessandro Biondi"
-        ]
-      },
-      {
-        "title": "Freshness-Aware Constrained Sensing-Aided Beam Prediction with Knowledge Distillation",
-        "url": "http://arxiv.org/abs/2609.01225v1",
-        "published": "2026-09-01T13:27:03Z",
-        "authors": [
-          "Abolfazl Zakeri",
-          "Nhan Thanh Nguyen",
-          "Ahmed Alkhateeb"
-        ]
       }
     ]
   },
   "huggingface": {
-    "distillModels": 16346,
+    "distillModels": 16353,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
@@ -189,7 +189,7 @@
       {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
         "downloads": 571621,
-        "likes": 104,
+        "likes": 105,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
@@ -207,7 +207,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
         "downloads": 537215,
-        "likes": 1610,
+        "likes": 1611,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
@@ -237,7 +237,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 359661,
-        "likes": 882,
+        "likes": 884,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -275,13 +275,13 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
         "downloads": 537215,
-        "likes": 1610,
+        "likes": 1611,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 359661,
-        "likes": 882,
+        "likes": 884,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -299,13 +299,13 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 7138152,
-        "likes": 1181,
+        "likes": 1213,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
         "downloads": 13046829,
-        "likes": 1357,
+        "likes": 1359,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
@@ -317,13 +317,13 @@
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
         "downloads": 1529751,
-        "likes": 2534,
+        "likes": 2535,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
         "id": "microsoft/Phi-4-mini-instruct",
         "downloads": 461049,
-        "likes": 830,
+        "likes": 829,
         "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct"
       },
       {
@@ -338,9 +338,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19243,
-        "forks": 2968,
-        "pushedAt": "2026-09-08T06:16:25Z",
+        "stars": 19249,
+        "forks": 2971,
+        "pushedAt": "2026-09-09T06:07:16Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -353,50 +353,50 @@
       {
         "repo": "pytorch/torchtune",
         "stars": 5807,
-        "forks": 753,
-        "pushedAt": "2026-09-07T11:38:53Z",
+        "forks": 754,
+        "pushedAt": "2026-09-08T11:38:12Z",
         "url": "https://github.com/meta-pytorch/torchtune"
       },
       {
         "repo": "NVIDIA/NeMo",
-        "stars": 18403,
-        "forks": 3607,
-        "pushedAt": "2026-09-07T04:49:36Z",
+        "stars": 18408,
+        "forks": 3606,
+        "pushedAt": "2026-09-09T00:46:39Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
         "repo": "axolotl-ai-cloud/axolotl",
-        "stars": 12452,
-        "forks": 1429,
-        "pushedAt": "2026-09-07T16:00:57Z",
+        "stars": 12455,
+        "forks": 1430,
+        "pushedAt": "2026-09-08T14:04:21Z",
         "url": "https://github.com/axolotl-ai-cloud/axolotl"
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 75799,
-        "forks": 6900,
-        "pushedAt": "2026-09-08T06:36:24Z",
+        "stars": 75903,
+        "forks": 6901,
+        "pushedAt": "2026-09-09T06:37:51Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 74636,
-        "forks": 9143,
-        "pushedAt": "2026-09-04T08:15:24Z",
+        "stars": 74662,
+        "forks": 9145,
+        "pushedAt": "2026-09-08T08:00:35Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 91218,
-        "forks": 21876,
-        "pushedAt": "2026-09-08T06:08:04Z",
+        "stars": 91302,
+        "forks": 21928,
+        "pushedAt": "2026-09-09T06:18:33Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 35615,
-        "forks": 8655,
-        "pushedAt": "2026-09-08T06:38:50Z",
+        "stars": 35670,
+        "forks": 8682,
+        "pushedAt": "2026-09-09T06:31:34Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
@@ -408,22 +408,22 @@
       },
       {
         "repo": "open-thoughts/open-thoughts",
-        "stars": 2332,
-        "forks": 194,
+        "stars": 2334,
+        "forks": 195,
         "pushedAt": "2025-12-02T21:57:07Z",
         "url": "https://github.com/open-thoughts/open-thoughts"
       },
       {
         "repo": "EleutherAI/lm-evaluation-harness",
-        "stars": 13927,
-        "forks": 3548,
+        "stars": 13935,
+        "forks": 3551,
         "pushedAt": "2026-09-01T13:51:29Z",
         "url": "https://github.com/EleutherAI/lm-evaluation-harness"
       },
       {
         "repo": "SafeAILab/EAGLE",
         "stars": 2527,
-        "forks": 296,
+        "forks": 297,
         "pushedAt": "2026-02-20T02:53:29Z",
         "url": "https://github.com/SafeAILab/EAGLE"
       },
@@ -445,6 +445,13 @@
   },
   "news": {
     "items": [
+      {
+        "title": "Feds accuse China of 'systematic' distillation of U.S. AI models",
+        "url": "https://cyberscoop.com/us-accuses-chinese-ai-companies-distillation/",
+        "source": "cyberscoop.com",
+        "points": 9,
+        "date": "2026-09-08T23:12:21Z"
+      },
       {
         "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
         "url": "https://www.ctgt.ai/research/distillation-censorship-transfer",
@@ -572,13 +579,6 @@
         "date": "2026-01-07T16:07:57Z"
       },
       {
-        "title": "Show HN: Reverse Jailbreaking a Psychopathic AI via Identity Injection",
-        "url": "https://github.com/DRawson5570/AI-Wisdom-Distillation",
-        "source": "github.com",
-        "points": 5,
-        "date": "2025-11-22T20:33:51Z"
-      },
-      {
         "title": "Distillation makes AI models smaller and cheaper",
         "url": "https://www.quantamagazine.org/how-distillation-makes-ai-models-smaller-and-cheaper-20250718/",
         "source": "quantamagazine.org",
@@ -587,7 +587,5 @@
       }
     ]
   },
-  "errors": [
-    "github: HTTP 403 for https://api.github.com/repos/huggingface/trl"
-  ]
+  "errors": []
 }

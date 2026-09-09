@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-09-08, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-09-09, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,10 +74,10 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-08T19:03:10.465Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-09-09T06:39:34.557Z. Endpoint: https://global-distillation.com/data/live.json.
 
-- arXiv papers matching "knowledge distillation" (all time): 5,377 papers
-- arXiv papers matching "knowledge distillation" (last 30 days): 72 papers
+- arXiv papers matching "knowledge distillation" (all time): 5,382 papers
+- arXiv papers matching "knowledge distillation" (last 30 days): 74 papers
 
 Year | arXiv papers (papers)
 ---- | ---------------------
@@ -92,42 +92,43 @@ Year | arXiv papers (papers)
 2023 | 807
 2024 | 1016
 2025 | 1122
-2026 | 736
+2026 | 741
 
-- Hugging Face models matching "distill": 16,346 models
+- Hugging Face models matching "distill": 16,353 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 537215 | 1610
-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 359661 | 882
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 537215 | 1611
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 359661 | 884
 deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 361108 | 875
 deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 446699 | 1573
-distilbert/distilbert-base-uncased | 7138152 | 1181
-Qwen/Qwen3-8B | 13046829 | 1357
+distilbert/distilbert-base-uncased | 7138152 | 1213
+Qwen/Qwen3-8B | 13046829 | 1359
 google/gemma-3-4b-it | 1645991 | 1476
-meta-llama/Llama-3.2-3B-Instruct | 1529751 | 2534
-microsoft/Phi-4-mini-instruct | 461049 | 830
+meta-llama/Llama-3.2-3B-Instruct | 1529751 | 2535
+microsoft/Phi-4-mini-instruct | 461049 | 829
 HuggingFaceTB/SmolLM3-3B | 577998 | 1026
 
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
-huggingface/trl | 19243 | n/a
+huggingface/trl | 19249 | n/a
 arcee-ai/DistillKit | 1053 | n/a
 pytorch/torchtune | 5807 | n/a
-NVIDIA/NeMo | 18403 | n/a
-axolotl-ai-cloud/axolotl | 12452 | n/a
-unslothai/unsloth | 75799 | n/a
-hiyouga/LLaMA-Factory | 74636 | n/a
-vllm-project/vllm | 91218 | n/a
-sgl-project/sglang | 35615 | n/a
+NVIDIA/NeMo | 18408 | n/a
+axolotl-ai-cloud/axolotl | 12455 | n/a
+unslothai/unsloth | 75903 | n/a
+hiyouga/LLaMA-Factory | 74662 | n/a
+vllm-project/vllm | 91302 | n/a
+sgl-project/sglang | 35670 | n/a
 huggingface/open-r1 | 26451 | n/a
-open-thoughts/open-thoughts | 2332 | n/a
-EleutherAI/lm-evaluation-harness | 13927 | n/a
+open-thoughts/open-thoughts | 2334 | n/a
+EleutherAI/lm-evaluation-harness | 13935 | n/a
 SafeAILab/EAGLE | 2527 | n/a
 NovaSky-AI/SkyThought | 3399 | n/a
 simplescaling/s1 | 6668 | n/a
 
 Recent news items tracked by the daily refresh:
+- 2026-09-08 — Feds accuse China of 'systematic' distillation of U.S. AI models — https://cyberscoop.com/us-accuses-chinese-ai-companies-distillation/
 - 2026-07-30 — Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it — https://www.ctgt.ai/research/distillation-censorship-transfer
 - 2026-07-25 — The tech world is suddenly obsessed with one concept in AI: Distillation — https://www.cnbc.com/2026/07/25/hat-is-distillation-and-why-is-everyone-so-obsessed-with-it-this-week.html
 - 2026-07-22 — Top White House official escalating the fight over Moonshot AI's Kimi K3 model — https://www.businessinsider.com/white-house-kimi-k3-moonshot-ai-distillation-2026-7
@@ -146,7 +147,6 @@ Recent news items tracked by the daily refresh:
 - 2026-02-14 — AI could eat itself: Competitors (..) steal their secrets and clone them — https://www.theregister.com/2026/02/14/ai_risk_distillation_attacks/
 - 2026-02-12 — Google identifies over 100k prompts used in distillation attacks — https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use
 - 2026-01-07 — Show HN: Feedstack – SerpAPI/OpenAI extract feature requests from Reddit/forums — https://feedstack.app
-- 2025-11-22 — Show HN: Reverse Jailbreaking a Psychopathic AI via Identity Injection — https://github.com/DRawson5570/AI-Wisdom-Distillation
 - 2025-07-20 — Distillation makes AI models smaller and cheaper — https://www.quantamagazine.org/how-distillation-makes-ai-models-smaller-and-cheaper-20250718/
 
 
