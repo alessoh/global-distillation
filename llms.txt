@@ -49,6 +49,6 @@ Raw JSON endpoints. Each is the exact source of the corresponding page, is CORS-
 - [data/customer.json](https://global-distillation.com/data/customer.json): 8 key figures, 5 tables, 6 charts, 21 dated events, 16 glossary terms, 78 sources; updated 2026-09-04.
 - [data/library.json](https://global-distillation.com/data/library.json): 8 key figures, 4 tables, 5 charts, 40 dated events, 31 glossary terms, 66 sources; updated 2026-09-04.
 - [data/timeline.json](https://global-distillation.com/data/timeline.json): 6 key figures, 1 table, 3 charts, 130 dated events, 15 glossary terms, 111 sources; updated 2026-09-03.
-- [data/live.json](https://global-distillation.com/data/live.json): daily signals — arXiv distillation paper counts, Hugging Face model downloads, GitHub repository stars and recent news; updated 2026-09-09.
+- [data/live.json](https://global-distillation.com/data/live.json): daily signals — arXiv distillation paper counts, Hugging Face model downloads, GitHub repository stars and recent news; updated 2026-09-10.
 - [sitemap.xml](https://global-distillation.com/sitemap.xml): every canonical page URL.
 - [robots.txt](https://global-distillation.com/robots.txt): crawling policy — every documented AI crawler is explicitly allowed.
