@@ -5,7 +5,7 @@
   "licence": "MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.",
   "citation": "Global Distillation, \"How frontier intelligence is compressed, priced and contested\", https://global-distillation.com/, accessed <date>.",
   "datasetUpdated": "2026-09-04",
-  "generated": "2026-09-12",
+  "generated": "2026-09-13",
   "generator": "scripts/gen-llms.mjs",
   "count": 67,
   "answers": [
