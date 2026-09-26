@@ -92,7 +92,7 @@ const SEO = {
   },
   timeline: {
     title: 'History of AI Distillation: 2006 to Today',
-    desc: '365 dated events, from the 2006 model-compression paper to the DeepSeek shock and the policy fights that followed. Every entry linked to a primary source.',
+    desc: '130 dated events, from the 2006 model-compression paper to the DeepSeek shock and the policy fights that followed, each linked to its source.',
   },
   compare: {
     title: 'Compare Distilled AI Models Side by Side',

@@ -39,7 +39,7 @@ perspectives on one site:
   decision guide for 10 concrete use cases.
 - **Library** — 27 distillation methods explained properly: what it is, how it works, the loss
   function in LaTeX, when to use it, what it costs, what it needs from the teacher.
-- **Timeline** — 365 dated events, 2006 to today.
+- **Timeline** — 130 dated events, 2006 to today.
 
 Every chart and table is sourced, with units and numbered citations — 468 distinct sources
 across 44 tables and 47 charts.
@@ -117,7 +117,7 @@ non-negotiable.
 
 ## Accomplishments that we're proud of
 
-- **Three blind panels ranked it first against Epoch AI, Our World in Data and Artificial
+- **Three blind AI-judge panels ranked it first against Epoch AI, Our World in Data and Artificial
   Analysis** — established, well-funded, professionally designed data publications. Unanimous
   every round.
 - **468 distinct sources behind every chart and table.** Where a number could not be verified,

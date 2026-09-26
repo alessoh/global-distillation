@@ -74,7 +74,7 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-26T18:31:09.519Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-09-26T18:38:15.347Z. Endpoint: https://global-distillation.com/data/live.json.
 
 - arXiv papers matching "knowledge distillation" (all time): 5,423 papers
 - arXiv papers matching "knowledge distillation" (last 30 days): 73 papers

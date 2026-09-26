@@ -46,7 +46,7 @@ redeploys. Nobody touches it.
 Every perspective is its own indexable page, with structured data and a plain-text digest,
 so answer engines can quote it correctly and cite it.
 
-I had three independent judges score this blind against Epoch AI, Our World in Data and
+I had three AI reviewers score it blind against Epoch AI, Our World in Data and
 Artificial Analysis. All three ranked it first.
 
 Global Distillation. The compendium distillation didn't have.
