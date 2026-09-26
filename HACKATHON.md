@@ -41,8 +41,8 @@ perspectives on one site:
   function in LaTeX, when to use it, what it costs, what it needs from the teacher.
 - **Timeline** — 365 dated events, 2006 to today.
 
-Every figure carries its unit, its provenance and a numbered citation — 599 primary sources
-across 44 tables and 47 charts. Nothing is asserted without a link.
+Every chart and table is sourced, with units and numbered citations — 468 distinct sources
+across 44 tables and 47 charts.
 
 Four things make it more than a static report:
 
@@ -120,8 +120,8 @@ non-negotiable.
 - **Three blind panels ranked it first against Epoch AI, Our World in Data and Artificial
   Analysis** — established, well-funded, professionally designed data publications. Unanimous
   every round.
-- **599 cited sources, zero uncited figures.** Where a number could not be verified, it says
-  "undisclosed" rather than guessing. Two judges gave trust a perfect score.
+- **468 distinct sources behind every chart and table.** Where a number could not be verified,
+  it says "undisclosed" rather than guessing. Two judges gave trust a perfect score.
 - **It stays current without us.** The daily job refreshes the data, regenerates the static
   layer, the sitemap, the structured data and the LLM digests, and redeploys — the static layer
   can never drift from the data.

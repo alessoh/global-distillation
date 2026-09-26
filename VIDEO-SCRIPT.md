@@ -23,8 +23,8 @@ perspectives on one site. The research. The token economics. The policy fights. 
 companies doing it, and accusing each other of it. And what a developer or a buyer should
 actually do about it.
 
-Every figure carries its unit, its provenance, and a citation. Five hundred and ninety-nine
-primary sources.
+Every chart and table carries its units and its citations. Four hundred and sixty-eight
+sources.
 
 Here's the arbitrage at the centre of all this. A frontier training run costs tens to
 hundreds of millions of dollars. Harvesting that capability through an API and retraining

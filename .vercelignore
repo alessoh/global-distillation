@@ -4,3 +4,4 @@ prototypes
 scripts/screenshot.mjs
 .github
 assets/og.html
+*.mp4

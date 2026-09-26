@@ -60,7 +60,7 @@ const NAV_IDS = ['overview', 'academic', 'financial', 'political', 'company',
 const SEO = {
   overview: {
     title: 'AI Model Distillation: Costs, Methods and Policy',
-    desc: 'How frontier AI models are copied into smaller, cheaper ones — the research, the token prices, the lawsuits and the policy. 599 cited sources, updated daily.',
+    desc: 'How frontier AI models are copied into smaller, cheaper ones — the research, the token prices, the lawsuits and the policy. 468 cited sources, updated daily.',
   },
   academic: {
     title: 'Knowledge Distillation Research: 46 Key Papers',
@@ -127,6 +127,20 @@ const readData = (name) => {
   try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', name + '.json'), 'utf8')); }
   catch { return null; }
 };
+
+/**
+ * Distinct sources across several data files. Many sources are cited by more
+ * than one perspective, so adding up each file's list overstates the total.
+ */
+function distinctSources(files) {
+  const seen = new Set();
+  for (const d of files) {
+    for (const src of (d && d.sources) || []) {
+      if (src && src.url) seen.add(String(src.url).replace(/^http:/, 'https:').replace(/\/+$/, ''));
+    }
+  }
+  return seen.size;
+}
 
 // scripts/gen-schema.mjs owns the tags that vary per page — canonical, Open
 // Graph, Twitter and JSON-LD — and index.html marks the block they occupy.
@@ -547,7 +561,7 @@ function overviewBody(all, live) {
     ? all.timeline.timeline.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 8)
     : [];
 
-  const totalSources = Object.values(all).reduce((n, d) => n + ((d && d.sources && d.sources.length) || 0), 0);
+  const totalSources = distinctSources(Object.values(all));
 
   return '<section class="section" data-perspective="overview">' +
     '<h2 class="subhead" id="sec-figures">Key figures<span class="dim"> · one per perspective</span></h2>' +
@@ -666,7 +680,7 @@ function methodologyBody(all) {
     ['timeline', 'Every dated event, 2006 to today'],
   ];
   const published = files.filter(([k]) => all[k]).length;
-  const totalSources = files.reduce((n, [k]) => n + ((all[k] && all[k].sources && all[k].sources.length) || 0), 0);
+  const totalSources = distinctSources(files.map(([k]) => all[k]));
 
   const fileTable = {
     id: 'methodology-files',
