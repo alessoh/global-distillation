@@ -30,3 +30,6 @@ shots/
 # agent scratch scripts
 scripts/_*
 shots/
+
+# demo videos — too large for GitHub, keep them local
+*.mp4

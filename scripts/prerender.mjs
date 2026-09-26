@@ -50,6 +50,60 @@ const ROUTES = [
 const NAV_IDS = ['overview', 'academic', 'financial', 'political', 'company',
   'developer', 'customer', 'library', 'timeline'];
 
+/**
+ * Search titles and snippets, written for what people type rather than for how
+ * this compendium is filed. Titles stay under ~60 characters and snippets under
+ * ~155, because that is what a result shows before it truncates; the site name
+ * is left off every page but the root, since Google appends it anyway and the
+ * keyword is worth more than the brand on a domain nobody knows yet.
+ */
+const SEO = {
+  overview: {
+    title: 'AI Model Distillation: Costs, Methods and Policy',
+    desc: 'How frontier AI models are copied into smaller, cheaper ones — the research, the token prices, the lawsuits and the policy. 599 cited sources, updated daily.',
+  },
+  academic: {
+    title: 'Knowledge Distillation Research: 46 Key Papers',
+    desc: 'The research behind knowledge distillation, from Hinton 2015 to reasoning-trace distillation in 2026, with 24 teacher-student benchmark pairs.',
+  },
+  financial: {
+    title: 'What Does It Cost to Distill an AI Model?',
+    desc: 'A frontier training run costs $40M-$500M; distilling one costs hundreds. Token prices for 63 models and where self-hosting starts to pay off.',
+  },
+  political: {
+    title: 'Is AI Distillation Legal? Policy and Disputes',
+    desc: 'Does copying a model through its API break the law? 25 policies, 14 disputes including OpenAI vs DeepSeek, and the legal theories in play.',
+  },
+  company: {
+    title: 'Which AI Labs Use Distillation — and Ban It',
+    desc: 'Every major lab distills its own small models while forbidding you to distill theirs. 18 companies, what their terms say, and who they have accused.',
+  },
+  developer: {
+    title: 'How to Distill an LLM: Tools, Recipes and Costs',
+    desc: '27 tools and 8 costed, step-by-step recipes for distilling a model — with the GPU hours, dataset sizes and dollar figures each one actually takes.',
+  },
+  customer: {
+    title: 'Distilled vs Frontier AI Models: Price and Quality',
+    desc: '74 models compared on price, benchmark scores, latency, context and licence — so you can see what a distilled model gives up, and what it saves you.',
+  },
+  library: {
+    title: '27 Knowledge Distillation Methods Explained',
+    desc: 'Every distillation method, explained with its loss function: what signal crosses from teacher to student, what it needs, what it costs, and where it fails.',
+  },
+  timeline: {
+    title: 'History of AI Distillation: 2006 to Today',
+    desc: '365 dated events, from the 2006 model-compression paper to the DeepSeek shock and the policy fights that followed. Every entry linked to a primary source.',
+  },
+  compare: {
+    title: 'Compare Distilled AI Models Side by Side',
+    desc: 'Build your own comparison of teacher and student models on price, quality, latency, context and licence, using the sourced data behind the whole compendium.',
+  },
+  methodology: {
+    title: 'Methodology: How This Compendium Is Built',
+    desc: 'Where every number comes from, what counts as a distilled model, how often each data stream refreshes, and what this compendium cannot tell you.',
+  },
+};
+
 const RAIL = {
   perspective: [
     ['overview', 'Overview', 'Key figures, one page'],
@@ -806,14 +860,19 @@ function replaceHeadMeta(html, route, all, title, desc, url) {
  */
 function pageFor(route, all, shell, live) {
   const d = route.file ? all[route.file] : null;
-  const title = d
+  // SEO[route] wins: a file's own title names the perspective the way the
+  // compendium is organised ("Academic view of AI distillation"), which is not
+  // how anyone searches. These are written for the query, and kept inside the
+  // limits a result actually shows — ~60 characters of title, ~155 of snippet.
+  const seo = SEO[route.id];
+  const title = (seo && seo.title) || (d
     ? titleFor(d.title)
     : (route.id === 'overview'
       ? 'Global Distillation — a compendium of AI model distillation'
-      : route.label + ' — Global Distillation');
+      : route.label + ' — Global Distillation'));
   // Every description goes through describe(): a search snippet truncates near 160
   // characters, and a route's own copy must not be exempt from that.
-  const desc = describe(d ? d.summary : route.desc);
+  const desc = describe((seo && seo.desc) || (d ? d.summary : route.desc));
   const url = urlFor(route.id);
 
   let html = shell;
