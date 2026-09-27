@@ -1,9 +1,9 @@
 {
-  "updated": "2026-09-26T18:38:15.347Z",
+  "updated": "2026-09-27T06:38:53.851Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5423,
-    "last30d": 73,
+    "last30d": 68,
     "perYear": [
       {
         "year": 2015,
@@ -176,7 +176,7 @@
     ]
   },
   "huggingface": {
-    "distillModels": 16681,
+    "distillModels": 16694,
     "top": [
       {
         "id": "facebook/nllb-200-distilled-600M",
@@ -187,7 +187,7 @@
       {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
         "downloads": 745965,
-        "likes": 153,
+        "likes": 154,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
@@ -229,7 +229,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
         "downloads": 342407,
-        "likes": 691,
+        "likes": 692,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
       },
       {
@@ -241,7 +241,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 294027,
-        "likes": 898,
+        "likes": 899,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -259,7 +259,7 @@
       {
         "id": "empero-ai/Qwen3.8-35B-A3B-Distill-GGUF",
         "downloads": 221812,
-        "likes": 150,
+        "likes": 153,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-35B-A3B-Distill-GGUF"
       },
       {
@@ -279,7 +279,7 @@
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
         "downloads": 294027,
-        "likes": 898,
+        "likes": 899,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
@@ -297,25 +297,25 @@
       {
         "id": "distilbert/distilbert-base-uncased",
         "downloads": 8071364,
-        "likes": 1473,
+        "likes": 1474,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
         "downloads": 12384555,
-        "likes": 2049,
+        "likes": 2051,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
         "downloads": 1611957,
-        "likes": 1526,
+        "likes": 1528,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
         "downloads": 1942406,
-        "likes": 2664,
+        "likes": 2667,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
@@ -327,7 +327,7 @@
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
         "downloads": 616081,
-        "likes": 1038,
+        "likes": 1039,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
     ]
@@ -336,9 +336,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19389,
-        "forks": 3018,
-        "pushedAt": "2026-09-26T02:40:30Z",
+        "stars": 19396,
+        "forks": 3019,
+        "pushedAt": "2026-09-27T00:23:26Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -351,55 +351,55 @@
       {
         "repo": "pytorch/torchtune",
         "stars": 5812,
-        "forks": 758,
+        "forks": 757,
         "pushedAt": "2026-09-09T11:38:33Z",
         "url": "https://github.com/meta-pytorch/torchtune"
       },
       {
         "repo": "NVIDIA/NeMo",
-        "stars": 18508,
-        "forks": 3616,
+        "stars": 18510,
+        "forks": 3618,
         "pushedAt": "2026-09-24T17:49:17Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
         "repo": "axolotl-ai-cloud/axolotl",
-        "stars": 12503,
-        "forks": 1445,
-        "pushedAt": "2026-09-26T02:03:44Z",
+        "stars": 12506,
+        "forks": 1447,
+        "pushedAt": "2026-09-27T05:08:56Z",
         "url": "https://github.com/axolotl-ai-cloud/axolotl"
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 76800,
-        "forks": 7044,
-        "pushedAt": "2026-09-26T06:27:24Z",
+        "stars": 76843,
+        "forks": 7054,
+        "pushedAt": "2026-09-27T06:33:35Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 75014,
-        "forks": 9189,
+        "stars": 75051,
+        "forks": 9191,
         "pushedAt": "2026-09-14T08:09:48Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 92694,
-        "forks": 22677,
-        "pushedAt": "2026-09-26T06:03:45Z",
+        "stars": 92741,
+        "forks": 22698,
+        "pushedAt": "2026-09-27T04:16:12Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 36440,
-        "forks": 9152,
-        "pushedAt": "2026-09-26T06:24:56Z",
+        "stars": 36464,
+        "forks": 9164,
+        "pushedAt": "2026-09-27T06:25:07Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
         "repo": "huggingface/open-r1",
-        "stars": 26480,
+        "stars": 26477,
         "forks": 2453,
         "pushedAt": "2026-09-24T12:03:59Z",
         "url": "https://github.com/huggingface/open-r1"
@@ -413,8 +413,8 @@
       },
       {
         "repo": "EleutherAI/lm-evaluation-harness",
-        "stars": 14078,
-        "forks": 3609,
+        "stars": 14084,
+        "forks": 3610,
         "pushedAt": "2026-09-14T10:51:06Z",
         "url": "https://github.com/EleutherAI/lm-evaluation-harness"
       },
@@ -434,7 +434,7 @@
       },
       {
         "repo": "simplescaling/s1",
-        "stars": 6675,
+        "stars": 6674,
         "forks": 757,
         "pushedAt": "2025-06-25T18:59:18Z",
         "url": "https://github.com/simplescaling/s1"
@@ -585,7 +585,5 @@
       }
     ]
   },
-  "errors": [
-    "github: HTTP 403 for https://api.github.com/repos/huggingface/trl"
-  ]
+  "errors": []
 }
