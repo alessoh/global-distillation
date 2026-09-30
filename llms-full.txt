@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-09-29, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-09-30, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,10 +74,10 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-09-29T06:42:46.601Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-09-30T06:42:58.601Z. Endpoint: https://global-distillation.com/data/live.json.
 
-- arXiv papers matching "knowledge distillation" (all time): 5,443 papers
-- arXiv papers matching "knowledge distillation" (last 30 days): 81 papers
+- arXiv papers matching "knowledge distillation" (all time): 5,452 papers
+- arXiv papers matching "knowledge distillation" (last 30 days): 86 papers
 
 Year | arXiv papers (papers)
 ---- | ---------------------
@@ -92,40 +92,40 @@ Year | arXiv papers (papers)
 2023 | 807
 2024 | 1016
 2025 | 1123
-2026 | 801
+2026 | 810
 
-- Hugging Face models matching "distill": 16,734 models
+- Hugging Face models matching "distill": 16,504 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 464161 | 1627
-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 286741 | 899
-deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 186189 | 880
-deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 615275 | 1591
-distilbert/distilbert-base-uncased | 8070424 | 1474
-Qwen/Qwen3-8B | 11999934 | 2058
-google/gemma-3-4b-it | 1505521 | 1536
-meta-llama/Llama-3.2-3B-Instruct | 1958864 | 2682
-microsoft/Phi-4-mini-instruct | 375186 | 843
-HuggingFaceTB/SmolLM3-3B | 612157 | 1038
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 462228 | 1627
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 271607 | 899
+deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 191459 | 880
+deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 720693 | 1591
+distilbert/distilbert-base-uncased | 8045220 | 1474
+Qwen/Qwen3-8B | 11688880 | 2061
+google/gemma-3-4b-it | 1448598 | 1539
+meta-llama/Llama-3.2-3B-Instruct | 1833942 | 2690
+microsoft/Phi-4-mini-instruct | 377937 | 845
+HuggingFaceTB/SmolLM3-3B | 613272 | 1039
 
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
-huggingface/trl | 19414 | n/a
-arcee-ai/DistillKit | 1070 | n/a
-pytorch/torchtune | 5810 | n/a
-NVIDIA/NeMo | 18522 | n/a
-axolotl-ai-cloud/axolotl | 12511 | n/a
-unslothai/unsloth | 76987 | n/a
-hiyouga/LLaMA-Factory | 75169 | n/a
-vllm-project/vllm | 92909 | n/a
-sgl-project/sglang | 36558 | n/a
-huggingface/open-r1 | 26475 | n/a
-open-thoughts/open-thoughts | 2339 | n/a
-EleutherAI/lm-evaluation-harness | 14099 | n/a
+huggingface/trl | 19421 | n/a
+arcee-ai/DistillKit | 1071 | n/a
+pytorch/torchtune | 5809 | n/a
+NVIDIA/NeMo | 18527 | n/a
+axolotl-ai-cloud/axolotl | 12512 | n/a
+unslothai/unsloth | 77060 | n/a
+hiyouga/LLaMA-Factory | 75214 | n/a
+vllm-project/vllm | 92975 | n/a
+sgl-project/sglang | 36626 | n/a
+huggingface/open-r1 | 26477 | n/a
+open-thoughts/open-thoughts | 2340 | n/a
+EleutherAI/lm-evaluation-harness | 14104 | n/a
 SafeAILab/EAGLE | 2545 | n/a
-NovaSky-AI/SkyThought | 3400 | n/a
-simplescaling/s1 | 6673 | n/a
+NovaSky-AI/SkyThought | 3401 | n/a
+simplescaling/s1 | 6674 | n/a
 
 Recent news items tracked by the daily refresh:
 - 2026-09-28 — Jensen Huang says AI distillation is 'competition.' — https://www.cnbc.com/2026/09/28/nvidias-jensen-huang-ai-distillation-china.html
