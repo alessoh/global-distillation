@@ -24,6 +24,20 @@ User-agent: Applebot-Extended
 Allow: /
 User-agent: CCBot
 Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: Applebot
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+User-agent: MistralAI-User
+Allow: /
 
 # Plain-text digests for language models and answer engines, per the llms.txt
 # convention: an index at /llms.txt and the whole compendium at /llms-full.txt.
