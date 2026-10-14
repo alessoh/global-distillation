@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-10-13, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-10-14, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,10 +74,10 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-10-13T06:47:19.009Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-10-14T06:39:43.104Z. Endpoint: https://global-distillation.com/data/live.json.
 
-- arXiv papers matching "knowledge distillation" (all time): 5,488 papers
-- arXiv papers matching "knowledge distillation" (last 30 days): 94 papers
+- arXiv papers matching "knowledge distillation" (all time): 5,495 papers
+- arXiv papers matching "knowledge distillation" (last 30 days): 102 papers
 
 Year | arXiv papers (papers)
 ---- | ---------------------
@@ -92,40 +92,40 @@ Year | arXiv papers (papers)
 2023 | 807
 2024 | 1016
 2025 | 1122
-2026 | 847
+2026 | 854
 
-- Hugging Face models matching "distill": 16,698 models
+- Hugging Face models matching "distill": 16,714 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 399806 | 1647
-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 335432 | 914
-deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 157714 | 900
-deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 1270002 | 1619
-distilbert/distilbert-base-uncased | 7705046 | 1482
-Qwen/Qwen3-8B | 9647139 | 2107
-google/gemma-3-4b-it | 1171300 | 1578
-meta-llama/Llama-3.2-3B-Instruct | 1468032 | 2778
-microsoft/Phi-4-mini-instruct | 356491 | 855
-HuggingFaceTB/SmolLM3-3B | 740561 | 1058
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 387709 | 1655
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 346084 | 925
+deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 153758 | 908
+deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 1310983 | 1631
+distilbert/distilbert-base-uncased | 7716258 | 1488
+Qwen/Qwen3-8B | 9880368 | 2116
+google/gemma-3-4b-it | 1168580 | 1579
+meta-llama/Llama-3.2-3B-Instruct | 1424965 | 2784
+microsoft/Phi-4-mini-instruct | 359850 | 859
+HuggingFaceTB/SmolLM3-3B | 766135 | 1060
 
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
-huggingface/trl | 19501 | n/a
+huggingface/trl | 19511 | n/a
 arcee-ai/DistillKit | 1080 | n/a
-pytorch/torchtune | 5812 | n/a
-NVIDIA/NeMo | 18574 | n/a
-axolotl-ai-cloud/axolotl | 12558 | n/a
-unslothai/unsloth | 77910 | n/a
-hiyouga/LLaMA-Factory | 75432 | n/a
-vllm-project/vllm | 93690 | n/a
-sgl-project/sglang | 37062 | n/a
+pytorch/torchtune | 5814 | n/a
+NVIDIA/NeMo | 18577 | n/a
+axolotl-ai-cloud/axolotl | 12563 | n/a
+unslothai/unsloth | 77970 | n/a
+hiyouga/LLaMA-Factory | 75460 | n/a
+vllm-project/vllm | 93741 | n/a
+sgl-project/sglang | 37110 | n/a
 huggingface/open-r1 | 26480 | n/a
 open-thoughts/open-thoughts | 2345 | n/a
-EleutherAI/lm-evaluation-harness | 14200 | n/a
-SafeAILab/EAGLE | 2550 | n/a
-NovaSky-AI/SkyThought | 3401 | n/a
-simplescaling/s1 | 6672 | n/a
+EleutherAI/lm-evaluation-harness | 14213 | n/a
+SafeAILab/EAGLE | 2552 | n/a
+NovaSky-AI/SkyThought | 3402 | n/a
+simplescaling/s1 | 6673 | n/a
 
 Recent news items tracked by the daily refresh:
 - 2026-10-08 — The AI Model Distillation Paradox — https://www.lawfaremedia.org/article/the-ai-model-distillation-paradox
