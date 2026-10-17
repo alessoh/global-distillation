@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/academic#webpage",
       "url": "https://global-distillation.com/academic",
-      "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
+      "name": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations).",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/academic#article",
-      "headline": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
-      "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
+      "headline": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer",
+      "name": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations).",
       "articleBody": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). For a decade the literature organised itself along three axes — what is transferred (response/logit, feature, relation), how the teacher is available (white-box logits vs black-box text), and when the student samples (offline, online, self) — with BERT-era students such as DistilBERT, TinyBERT and MobileBERT retaining 96.8-99.2% of teacher quality at 1.7-7.5x smaller size (DistilBERT is 40% smaller; TinyBERT 7.5x, MobileBERT 4.3x). The January 2025 release of the DeepSeek-R1-Distill series turned distillation from a compression tool into the default way to transfer reasoning: an 800k-trace SFT run on Qwen2.5-32B reached AIME 2024 pass@1 of 72.6 versus 47.0 for large-scale RL applied to the same base model, and triggered a wave of ultra-cheap replications (Sky-T1 at under $450, s1 at 1,000 samples and ~7 H100-hours, LIMO at 817 samples, Bespoke-Stratos at 17k).",
       "articleSection": "Academic",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/academic.json#dataset",
-      "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer",
+      "name": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer",
       "description": "Knowledge distillation began as a model-compression trick — Buciluă, Caruana and Niculescu-Mizil compressed an ensemble into a single net in 2006, and Hinton, Vinyals and Dean gave it its modern soft-target formulation in 2015 (now ~25.9k citations). For a decade the literature organised itself along three axes — what is transferred (response/logit, feature, relation), how the teacher is available (white-box logits vs black-box text), and when the student samples (offline, online, self) — with BERT-era students such as DistilBERT, TinyBERT and MobileBERT retaining 96.8-99.2% of teacher quality at 1.7-7.5x smaller size (DistilBERT is 40% smaller; TinyBERT 7.5x, MobileBERT 4.3x). The January 2025 release of the DeepSeek-R1-Distill series turned distillation from a compression tool into the default way to transfer reasoning: an 800k-trace SFT run on Qwen2.5-32B reached AIME 2024 pass@1 of 72.6 versus 47.0 for large-scale RL applied to the same base model, and triggered a wave of ultra-cheap replications (Sky-T1 at under $450, s1 at 1,000 samples and ~7 H100-hours, LIMO at 817 samples, Bespoke-Stratos at 17k).",
       "url": "https://global-distillation.com/academic",
       "inLanguage": "en",
@@ -535,7 +535,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/academic#glossary",
-      "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer — glossary",
+      "name": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer — glossary",
       "url": "https://global-distillation.com/academic#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -721,7 +721,7 @@
     {
       "@type": "FAQPage",
       "@id": "https://global-distillation.com/academic#faq",
-      "name": "Academic view of AI distillation: from dark knowledge to on-policy reasoning transfer — questions answered on this page",
+      "name": "Knowledge distillation research: from dark knowledge to on-policy reasoning transfer — questions answered on this page",
       "mainEntity": [
         {
           "@type": "Question",

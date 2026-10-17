@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/timeline#webpage",
       "url": "https://global-distillation.com/timeline",
-      "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
+      "name": "History of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3).",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/timeline#article",
-      "headline": "Cross-cutting timeline of AI distillation, 2006 to 2026",
-      "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
+      "headline": "History of AI distillation, 2006 to 2026",
+      "name": "History of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3).",
       "articleBody": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). In 2024 it turned into a cloud product line (OpenAI Model Distillation, Amazon Bedrock Model Distillation) and a pricing strategy (Gemini Flash, GPT-4o mini, Haiku). DeepSeek-R1's January 2025 release, with six openly distilled students, triggered a market shock and the first public accusation that a rival had distilled a frontier lab's API outputs. By 2026 distillation was a national-security issue: Anthropic, OpenAI and Google all disclosed industrial-scale extraction campaigns within eleven days of each other in February, the White House issued National Security and Technology Memorandum 4 on adversarial distillation, and Congress advanced the Deterring American AI Model Theft Act and the BLADE Act while Beijing publicly rejected the whole framing. This timeline records 130 dated events across research, product, market, policy and legal categories, each with a source URL.",
       "articleSection": "Timeline",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/timeline.json#dataset",
-      "name": "Cross-cutting timeline of AI distillation, 2006 to 2026",
+      "name": "History of AI distillation, 2006 to 2026",
       "description": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). In 2024 it turned into a cloud product line (OpenAI Model Distillation, Amazon Bedrock Model Distillation) and a pricing strategy (Gemini Flash, GPT-4o mini, Haiku). DeepSeek-R1's January 2025 release, with six openly distilled students, triggered a market shock and the first public accusation that a rival had distilled a frontier lab's API outputs. By 2026 distillation was a national-security issue: Anthropic, OpenAI and Google all disclosed industrial-scale extraction campaigns within eleven days of each other in February, the White House issued National Security and Technology Memorandum 4 on adversarial distillation, and Congress advanced the Deterring American AI Model Theft Act and the BLADE Act while Beijing publicly rejected the whole framing. This timeline records 130 dated events across research, product, market, policy and legal categories, each with a source URL.",
       "url": "https://global-distillation.com/timeline",
       "inLanguage": "en",
@@ -440,7 +440,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/timeline#glossary",
-      "name": "Cross-cutting timeline of AI distillation, 2006 to 2026 — glossary",
+      "name": "History of AI distillation, 2006 to 2026 — glossary",
       "url": "https://global-distillation.com/timeline#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",

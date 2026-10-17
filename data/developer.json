@@ -1,6 +1,6 @@
 {
   "perspective": "developer",
-  "title": "Developer view of AI distillation: tooling, platforms and recipes (2026)",
+  "title": "How to distill an LLM: tooling, platforms and recipes (2026)",
   "updated": "2026-09-03",
   "summary": "By September 2026 a developer can distill a model three ways: with open libraries (Hugging Face TRL now ships four distillation trainers, plus Arcee DistillKit, torchtune, NVIDIA Model Optimizer/NeMo and an Axolotl KD plugin), with managed cloud pipelines (Amazon Bedrock Model Distillation, Azure Foundry stored completions, and OpenAI's now-sunsetting fine-tuning platform), or with per-token fine-tuning APIs (Together, Fireworks, Databricks) fed by teacher-generated data. The field has converged on on-policy distillation where the student generates and the teacher grades every token; Qwen3 reports this needs roughly 1/10 of the GPU hours of RL for a better 8B model. Open reasoning datasets (OpenThoughts3-1.2M, OpenR1-Math-220k, Bespoke-Stratos-17k) plus cheap QLoRA mean a 7B reasoning student can be trained for well under $200 of GPU time, and DeepSeek's R1-Distill family alone has passed 97 million Hugging Face downloads. Managed options are in flux: OpenAI stops accepting new fine-tuning jobs on 2027-01-06, Azure retires stored completions on 2026-10-15, Bedrock currently lists no Anthropic teacher, and Vertex AI documents distillation only for open-model tuning. Every number below carries a source URL; where a vendor no longer publishes a figure it is marked undisclosed.",
   "stats": [

@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/company#webpage",
       "url": "https://global-distillation.com/company",
-      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "name": "Which AI labs use distillation, which sell it, and which ban it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/company#article",
-      "headline": "Company view of AI distillation: who uses it, who sells it, who polices it",
-      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "headline": "Which AI labs use distillation, which sell it, and which ban it",
+      "name": "Which AI labs use distillation, which sell it, and which ban it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from",
       "articleBody": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation. The same companies police distillation of their own outputs through terms-of-service clauses - OpenAI, Anthropic, Google, xAI and Cohere all bar training competing models - and the dispute escalated from OpenAI's January 2025 claims against DeepSeek to Anthropic's February 2026 report of 24,000 fraudulent accounts, its June 2026 letter to the Senate Banking Committee alleging a 28.8-million-interaction campaign by Alibaba, and White House memorandum NSTM-4 in April 2026.",
       "articleSection": "Company",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/company.json#dataset",
-      "name": "Company view of AI distillation: who uses it, who sells it, who polices it",
+      "name": "Which AI labs use distillation, which sell it, and which ban it",
       "description": "Every major AI lab now uses knowledge distillation to build its small and mid-tier models: Google states in the Gemini 2.5 report that all models 'Flash size and below' are distilled, Meta co-distilled Llama 4 Maverick from the 2-trillion-parameter Behemoth, Qwen3's small models are 'strong-to-weak' distilled from Qwen3-235B, and Apple retrains its 3B on-device model with a distillation loss from a 64-expert MoE teacher. Three hyperscalers have shipped distillation as a product - OpenAI Model Distillation (Oct 2024), Azure OpenAI stored completions (2024) and Amazon Bedrock Model Distillation (GA May 2025) - while Google's Vertex Gemini distillation is so far documented only as a pre-GA, allowlist-only service that prohibits production use. Open-source toolkits from Hugging Face (TRL GKD, Open R1) and Arcee (DistillKit) commoditised the technique, and open-weight licenses from DeepSeek, Qwen, Mistral, Moonshot, MiniMax, Zhipu, NVIDIA and Hugging Face expressly permit derivative distillation.",
       "url": "https://global-distillation.com/company",
       "inLanguage": "en",
@@ -566,7 +566,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/company#glossary",
-      "name": "Company view of AI distillation: who uses it, who sells it, who polices it — glossary",
+      "name": "Which AI labs use distillation, which sell it, and which ban it — glossary",
       "url": "https://global-distillation.com/company#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",

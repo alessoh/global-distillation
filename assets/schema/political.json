@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/political#webpage",
       "url": "https://global-distillation.com/political",
-      "name": "Political and geopolitical view of AI distillation",
+      "name": "Is AI distillation legal? Policy, export controls and the geopolitical fight",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/political#article",
-      "headline": "Political and geopolitical view of AI distillation",
-      "name": "Political and geopolitical view of AI distillation",
+      "headline": "Is AI distillation legal? Policy, export controls and the geopolitical fight",
+      "name": "Is AI distillation legal? Policy, export controls and the geopolitical fight",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models.",
       "articleBody": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models. It escalated through OpenAI's March 2025 OSTP filing calling DeepSeek 'state-subsidized' and 'state-controlled,' Anthropic's September 2025 ban on entities majority-controlled from China, and a February 2026 wave of disclosures in which OpenAI, Google and Anthropic each published evidence of large-scale extraction campaigns. It became formal policy in April 2026 with OSTP memorandum NSTM-4 on 'adversarial distillation,' a State Department demarche cable, and H.R. 8283, which would create a public 'AI Model Extraction Attackers List' — followed by NSPM-11 in June, Anthropic's letter alleging a 28.8-million-exchange Alibaba campaign, and Treasury Secretary Bessent's July 2026 sanctions threat. Underneath the geopolitics sits an unresolved legal question: the strongest theory against distillation is breach of contract, not copyright or trade secret, and critics from ITIF to the Institute for Law & AI warn that building export controls and sanctions on top of private terms of service is a shaky foundation.",
       "articleSection": "Political",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/political.json#dataset",
-      "name": "Political and geopolitical view of AI distillation",
+      "name": "Is AI distillation legal? Policy, export controls and the geopolitical fight",
       "description": "Between January 2025 and September 2026, model distillation went from an obscure machine-learning technique to a named object of US national security policy. It began when OpenAI and Microsoft said they had evidence a DeepSeek-linked group had pulled data through OpenAI's API, and White House AI czar David Sacks said there was 'substantial evidence' DeepSeek had distilled OpenAI models. It escalated through OpenAI's March 2025 OSTP filing calling DeepSeek 'state-subsidized' and 'state-controlled,' Anthropic's September 2025 ban on entities majority-controlled from China, and a February 2026 wave of disclosures in which OpenAI, Google and Anthropic each published evidence of large-scale extraction campaigns. It became formal policy in April 2026 with OSTP memorandum NSTM-4 on 'adversarial distillation,' a State Department demarche cable, and H.R. 8283, which would create a public 'AI Model Extraction Attackers List' — followed by NSPM-11 in June, Anthropic's letter alleging a 28.8-million-exchange Alibaba campaign, and Treasury Secretary Bessent's July 2026 sanctions threat.",
       "url": "https://global-distillation.com/political",
       "inLanguage": "en",
@@ -508,7 +508,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/political#glossary",
-      "name": "Political and geopolitical view of AI distillation — glossary",
+      "name": "Is AI distillation legal? Policy, export controls and the geopolitical fight — glossary",
       "url": "https://global-distillation.com/political#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",

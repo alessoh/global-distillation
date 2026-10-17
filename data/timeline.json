@@ -1,6 +1,6 @@
 {
   "perspective": "timeline",
-  "title": "Cross-cutting timeline of AI distillation, 2006 to 2026",
+  "title": "History of AI distillation, 2006 to 2026",
   "updated": "2026-09-03",
   "summary": "Knowledge distillation began as an academic model-compression trick (Bucila 2006, Hinton 2015) and spent a decade as a research topic before becoming the default way to build small language models (DistilBERT 2019, Gemma, Llama 3.2, Qwen3). In 2024 it turned into a cloud product line (OpenAI Model Distillation, Amazon Bedrock Model Distillation) and a pricing strategy (Gemini Flash, GPT-4o mini, Haiku). DeepSeek-R1's January 2025 release, with six openly distilled students, triggered a market shock and the first public accusation that a rival had distilled a frontier lab's API outputs. By 2026 distillation was a national-security issue: Anthropic, OpenAI and Google all disclosed industrial-scale extraction campaigns within eleven days of each other in February, the White House issued National Security and Technology Memorandum 4 on adversarial distillation, and Congress advanced the Deterring American AI Model Theft Act and the BLADE Act while Beijing publicly rejected the whole framing. This timeline records 130 dated events across research, product, market, policy and legal categories, each with a source URL.",
   "stats": [

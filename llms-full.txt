@@ -151,7 +151,7 @@ Recent news items tracked by the daily refresh:
 
 
 ================================================================================================
-3. ACADEMIC PERSPECTIVE — ACADEMIC VIEW OF AI DISTILLATION: FROM DARK KNOWLEDGE TO ON-POLICY REASONING TRANSFER
+3. ACADEMIC PERSPECTIVE — KNOWLEDGE DISTILLATION RESEARCH: FROM DARK KNOWLEDGE TO ON-POLICY REASONING TRANSFER
 ================================================================================================
 
 Page:    https://global-distillation.com/academic
@@ -884,7 +884,7 @@ SOURCES CITED BY THIS SECTION (48)
     https://arxiv.org/abs/1910.10699
 
 ================================================================================================
-4. FINANCIAL PERSPECTIVE — THE ECONOMICS OF AI DISTILLATION: PRICES, TRAINING COSTS, AND THE MARKET SHOCKS
+4. FINANCIAL PERSPECTIVE — WHAT IT COSTS TO DISTILL AN AI MODEL: PRICES, TRAINING COSTS AND THE MARKET SHOCKS
 ================================================================================================
 
 Page:    https://global-distillation.com/financial
@@ -1806,7 +1806,7 @@ SOURCES CITED BY THIS SECTION (63)
     https://www.researchandmarkets.com/reports/6076406/small-language-model-market-report
 
 ================================================================================================
-5. POLITICAL PERSPECTIVE — POLITICAL AND GEOPOLITICAL VIEW OF AI DISTILLATION
+5. POLITICAL PERSPECTIVE — IS AI DISTILLATION LEGAL? POLICY, EXPORT CONTROLS AND THE GEOPOLITICAL FIGHT
 ================================================================================================
 
 Page:    https://global-distillation.com/political
@@ -2873,7 +2873,7 @@ SOURCES CITED BY THIS SECTION (100)
     https://www.anthropic.com/legal/usage-policy
 
 ================================================================================================
-6. COMPANY PERSPECTIVE — COMPANY VIEW OF AI DISTILLATION: WHO USES IT, WHO SELLS IT, WHO POLICES IT
+6. COMPANY PERSPECTIVE — WHICH AI LABS USE DISTILLATION, WHICH SELL IT, AND WHICH BAN IT
 ================================================================================================
 
 Page:    https://global-distillation.com/company
@@ -3864,7 +3864,7 @@ SOURCES CITED BY THIS SECTION (75)
     https://huggingface.co/CohereLabs/c4ai-command-r7b-12-2024
 
 ================================================================================================
-7. DEVELOPER PERSPECTIVE — DEVELOPER VIEW OF AI DISTILLATION: TOOLING, PLATFORMS AND RECIPES (2026)
+7. DEVELOPER PERSPECTIVE — HOW TO DISTILL AN LLM: TOOLING, PLATFORMS AND RECIPES (2026)
 ================================================================================================
 
 Page:    https://global-distillation.com/developer
@@ -4956,7 +4956,7 @@ SOURCES CITED BY THIS SECTION (58)
     https://github.com/argilla-io/distilabel
 
 ================================================================================================
-8. CUSTOMER PERSPECTIVE — THE BUYER’S VIEW OF AI DISTILLATION: WHICH SMALL MODEL TO ACTUALLY DEPLOY
+8. CUSTOMER PERSPECTIVE — DISTILLED VS FRONTIER AI MODELS: WHICH SMALL MODEL TO ACTUALLY DEPLOY
 ================================================================================================
 
 Page:    https://global-distillation.com/customer
@@ -5995,7 +5995,7 @@ SOURCES CITED BY THIS SECTION (78)
     https://ai.meta.com/blog/llama-4-multimodal-intelligence/
 
 ================================================================================================
-9. METHOD LIBRARY — THE DISTILLATION METHOD LIBRARY
+9. METHOD LIBRARY — THE DISTILLATION METHOD LIBRARY: EVERY METHOD, HOW IT WORKS AND WHERE IT FAILS
 ================================================================================================
 
 Page:    https://global-distillation.com/library
@@ -7262,7 +7262,7 @@ SOURCES CITED BY THE LIBRARY (66)
     https://community.openai.com/t/model-distillation-including-evals-and-stored-completions/964021
 
 ================================================================================================
-10. TIMELINE 2006-2026 — CROSS-CUTTING TIMELINE OF AI DISTILLATION, 2006 TO 2026
+10. TIMELINE 2006-2026 — HISTORY OF AI DISTILLATION, 2006 TO 2026
 ================================================================================================
 
 Page:    https://global-distillation.com/timeline

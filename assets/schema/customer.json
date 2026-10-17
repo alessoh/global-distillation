@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/customer#webpage",
       "url": "https://global-distillation.com/customer",
-      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "name": "Distilled vs frontier AI models: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/customer#article",
-      "headline": "The buyer’s view of AI distillation: which small model to actually deploy",
-      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "headline": "Distilled vs frontier AI models: which small model to actually deploy",
+      "name": "Distilled vs frontier AI models: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\".",
       "articleBody": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself. Open weights have become the buyer's real leverage — DeepSeek V4 (MIT), Gemma 4 (Apache 2.0), Qwen3.8-27B (Apache 2.0) and Mistral Small 4 (Apache 2.0) all clear 71.2–90.1 GPQA Diamond with no per-token fee and no anti-distillation clause — which is why the Silicon Data enterprise inference index fell from $2.04/MTok on 31 May 2026 to $1.16–1.18 in early August. The three things that should drive the decision, in order, are: whether your traffic needs frontier-grade agentic reliability on more than 15% of calls;",
       "articleSection": "Customer",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/customer.json#dataset",
-      "name": "The buyer’s view of AI distillation: which small model to actually deploy",
+      "name": "Distilled vs frontier AI models: which small model to actually deploy",
       "description": "For an enterprise buyer in September 2026, the distillation question is no longer \"is the small model good enough\" but \"which small model, and what does the licence let me do with it\". Within a single generation, distilled and small-sibling tiers retain 88–98% of their larger sibling's benchmark score for 3–25% of the price: GPT-5.6 Luna holds about 94% of Sol's GPQA Diamond at 5% of the input rate, DeepSeek-V4-Flash scores 98% of V4-Pro's at a third of the price, and Gemini 2.5 Flash — which Google explicitly documents as a k-sparse logit distillation of 2.5 Pro — holds 96% at 24%; across a large parameter gap, retention falls to 47–76%, as DeepSeek's own R1 students and Google's Gemma E-series show. The gap that remains is not knowledge but agentic reliability: on SWE-bench Verified, Claude Sonnet 5 retains 89% of Opus 5 and Haiku 4.5 only 76%, so long-horizon coding and tool-use workloads are the last place a frontier tier still pays for itself.",
       "url": "https://global-distillation.com/customer",
       "inLanguage": "en",
@@ -567,7 +567,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/customer#glossary",
-      "name": "The buyer’s view of AI distillation: which small model to actually deploy — glossary",
+      "name": "Distilled vs frontier AI models: which small model to actually deploy — glossary",
       "url": "https://global-distillation.com/customer#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",

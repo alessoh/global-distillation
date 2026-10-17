@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id": "https://global-distillation.com/library#webpage",
       "url": "https://global-distillation.com/library",
-      "name": "The Distillation Method Library",
+      "name": "The distillation method library: every method, how it works and where it fails",
       "description": "Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and by whether you can open the teacher at all.",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
@@ -86,8 +86,8 @@
     {
       "@type": "Report",
       "@id": "https://global-distillation.com/library#article",
-      "headline": "The Distillation Method Library",
-      "name": "The Distillation Method Library",
+      "headline": "The distillation method library: every method, how it works and where it fails",
+      "name": "The distillation method library: every method, how it works and where it fails",
       "description": "Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and by whether you can open the teacher at all.",
       "articleBody": "Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and by whether you can open the teacher at all. This library catalogues 27 methods with their loss functions, data and access requirements, tooling, and honest trade-offs. The central split is white-box versus black-box: white-box methods (soft targets, feature hints, reverse-KL, on-policy GKD) need teacher logits or activations and give the densest supervision per token, while black-box methods (SFT on API outputs, chain-of-thought and reasoning-trace distillation) need only sampled text and are what most practitioners actually run — and what triggered the 2025-2026 legal fights. The frontier has moved from static logit matching to on-policy methods where the student generates and the teacher grades: the Qwen3 technical report (Table 21) gives 74.4% on AIME'24 for a Qwen3-8B student at 1,800 GPU-hours of on-policy distillation versus 67.6% for RL at 17,920 GPU-hours, and Thinking Machines reproduced the method on the Tinker API. Method choice is mostly determined by three constraints — teacher access, label availability, and whether the student's architecture or tokenizer matches the teacher's — and this library is organised so you can walk those three constraints to a shortlist.",
       "articleSection": "Library",
@@ -369,7 +369,7 @@
     {
       "@type": "Dataset",
       "@id": "https://global-distillation.com/data/library.json#dataset",
-      "name": "The Distillation Method Library",
+      "name": "The distillation method library: every method, how it works and where it fails",
       "description": "Knowledge distillation is not one technique but a family of at least two dozen distinct methods, separated by what signal crosses from teacher to student (logits, hidden features, pairwise relations, sampled text, preferences, or denoising trajectories) and by whether you can open the teacher at all. This library catalogues 27 methods with their loss functions, data and access requirements, tooling, and honest trade-offs. The central split is white-box versus black-box: white-box methods (soft targets, feature hints, reverse-KL, on-policy GKD) need teacher logits or activations and give the densest supervision per token, while black-box methods (SFT on API outputs, chain-of-thought and reasoning-trace distillation) need only sampled text and are what most practitioners actually run — and what triggered the 2025-2026 legal fights. The frontier has moved from static logit matching to on-policy methods where the student generates and the teacher grades: the Qwen3 technical report (Table 21) gives 74.4% on AIME'24 for a Qwen3-8B student at 1,800 GPU-hours of on-policy distillation versus 67.6% for RL at 17,920 GPU-hours, and Thinking Machines reproduced the method on the Tinker API.",
       "url": "https://global-distillation.com/library",
       "inLanguage": "en",
@@ -479,7 +479,7 @@
     {
       "@type": "DefinedTermSet",
       "@id": "https://global-distillation.com/library#glossary",
-      "name": "The Distillation Method Library — glossary",
+      "name": "The distillation method library: every method, how it works and where it fails — glossary",
       "url": "https://global-distillation.com/library#glossary",
       "inLanguage": "en",
       "license": "https://opensource.org/licenses/MIT",
