@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-02T06:33:43.891Z",
+  "updated": "2026-11-03T06:26:09.478Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
-    "totalKD": 5552,
-    "last30d": 91,
+    "totalKD": 5558,
+    "last30d": 96,
     "perYear": [
       {
         "year": 2015,
@@ -51,10 +51,60 @@
       },
       {
         "year": 2026,
-        "count": 914
+        "count": 920
       }
     ],
     "recent": [
+      {
+        "title": "SurgPace: Complexity-Aware Progressive Distillation for Surgical Multimodal Large Language Models",
+        "url": "http://arxiv.org/abs/2611.03125v1",
+        "published": "2026-11-02T13:39:14Z",
+        "authors": [
+          "Zhicheng He",
+          "Xiaohan Xing",
+          "Hongqiu Wang"
+        ]
+      },
+      {
+        "title": "Multi-Teacher Reasoning Distillation for LLM Recommendation with Self-Exploration",
+        "url": "http://arxiv.org/abs/2611.02457v1",
+        "published": "2026-11-02T03:20:28Z",
+        "authors": [
+          "Liangbo Ning",
+          "Siyuan Liang",
+          "Yi Zhou"
+        ]
+      },
+      {
+        "title": "Label Smoothing in Disguise? Gated Knowledge Distillation for Low-Resource Bangla Generation",
+        "url": "http://arxiv.org/abs/2611.01065v1",
+        "published": "2026-10-31T16:01:58Z",
+        "authors": [
+          "Dipto Sumit",
+          "Zobeida Zaman Chowdhury",
+          "Syeda Fabiayee Jahan"
+        ]
+      },
+      {
+        "title": "ZOPGA-KD: Zeroth Order PGA Guided Data Free Knowledge Distillation",
+        "url": "http://arxiv.org/abs/2611.00908v1",
+        "published": "2026-10-31T13:07:43Z",
+        "authors": [
+          "Tuhin Subhra Mukherjee",
+          "Tiya Rose Pulikunnel",
+          "Vaidhav Adit"
+        ]
+      },
+      {
+        "title": "Can Jev Improve Demonstration Retrieval for In-Context Learning?",
+        "url": "http://arxiv.org/abs/2611.00737v1",
+        "published": "2026-10-31T08:31:09Z",
+        "authors": [
+          "Rui Song",
+          "Yingji Li",
+          "Hao Xu"
+        ]
+      },
       {
         "title": "Trainable Vector Quantization for Large Language Models",
         "url": "http://arxiv.org/abs/2610.41822v1",
@@ -97,7 +147,7 @@
       },
       {
         "title": "BEACON: Distilled Begin/End-Aware Structured Decoding for Continuous Sign Language Segmentation",
-        "url": "http://arxiv.org/abs/2610.39553v1",
+        "url": "http://arxiv.org/abs/2610.39553v2",
         "published": "2026-10-29T07:55:11Z",
         "authors": [
           "Guohou Zhang",
@@ -123,147 +173,99 @@
           "Muhammad Atif Saeed",
           "Akhtar Jamil"
         ]
-      },
-      {
-        "title": "Information-Theoretic Reliability--Safety Bounds and Finite-Alignment Dynamics in AI Knowledge Distillation",
-        "url": "http://arxiv.org/abs/2610.38651v1",
-        "published": "2026-10-28T11:04:21Z",
-        "authors": [
-          "Miao-Miao Yi",
-          "Zhen-Yu Cai",
-          "Y -M. Du"
-        ]
-      },
-      {
-        "title": "You Don't Need Aligned Representations: Knowledge Distillation via Random Prototype Spaces",
-        "url": "http://arxiv.org/abs/2610.37937v1",
-        "published": "2026-10-27T20:27:47Z",
-        "authors": [
-          "Hamza Etcibasi",
-          "Ramazan Gokberk Cinbis"
-        ]
-      },
-      {
-        "title": "Depth through Recurrence: Towards Ultra-Efficient On-Device ASR",
-        "url": "http://arxiv.org/abs/2610.37833v1",
-        "published": "2026-10-27T18:45:35Z",
-        "authors": [
-          "Chen Feng",
-          "Tianyi Xu",
-          "Ramchalam Kinattinkara Ramakrishnan"
-        ]
-      },
-      {
-        "title": "Understanding Everyday Communication Patterns, Stress, and Productivity in Hybrid Work through Egocentric Wearable Audio Sensing",
-        "url": "http://arxiv.org/abs/2610.37270v1",
-        "published": "2026-10-27T14:02:16Z",
-        "authors": [
-          "Tiantian Feng",
-          "Aditya Kommineni",
-          "Emily Zhou"
-        ]
-      },
-      {
-        "title": "What Survives Distillation? A Mechanistic Interpretability Study of GPT-2 and DistilGPT-2",
-        "url": "http://arxiv.org/abs/2610.37157v1",
-        "published": "2026-10-27T12:52:58Z",
-        "authors": [
-          "Nabeelah Faumi",
-          "Deshan Sumanathilaka"
-        ]
       }
     ]
   },
   "huggingface": {
-    "distillModels": 17064,
+    "distillModels": 17075,
     "top": [
       {
         "id": "empero-ai/Qwen3.8-35B-A3B-Distill-GGUF",
-        "downloads": 1268674,
-        "likes": 256,
+        "downloads": 1274217,
+        "likes": 257,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-35B-A3B-Distill-GGUF"
       },
       {
         "id": "bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF",
-        "downloads": 974177,
-        "likes": 176,
+        "downloads": 973916,
+        "likes": 177,
         "url": "https://huggingface.co/bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF"
       },
       {
         "id": "facebook/nllb-200-distilled-600M",
-        "downloads": 963076,
+        "downloads": 960855,
         "likes": 1002,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 784646,
+        "downloads": 787035,
         "likes": 1654,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "distil-whisper/distil-large-v3",
-        "downloads": 732046,
+        "downloads": 722381,
         "likes": 384,
         "url": "https://huggingface.co/distil-whisper/distil-large-v3"
       },
       {
         "id": "mradermacher/Qwen3.8-27B-Fable-5-Coding-Distilled-GGUF",
-        "downloads": 586259,
-        "likes": 24,
+        "downloads": 615400,
+        "likes": 26,
         "url": "https://huggingface.co/mradermacher/Qwen3.8-27B-Fable-5-Coding-Distilled-GGUF"
       },
       {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
-        "downloads": 579324,
+        "downloads": 580710,
         "likes": 194,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
-        "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
-        "downloads": 532267,
-        "likes": 335,
-        "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
-      },
-      {
         "id": "mradermacher/Qwen3.5-9B-Kimi-k3-Distilled-GGUF",
-        "downloads": 530801,
-        "likes": 16,
+        "downloads": 558334,
+        "likes": 17,
         "url": "https://huggingface.co/mradermacher/Qwen3.5-9B-Kimi-k3-Distilled-GGUF"
       },
       {
+        "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
+        "downloads": 534324,
+        "likes": 337,
+        "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
+      },
+      {
         "id": "empero-ai/Qwen3.8-2B-Distill-GGUF",
-        "downloads": 491921,
+        "downloads": 494971,
         "likes": 174,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-2B-Distill-GGUF"
       },
       {
         "id": "facebook/nllb-200-distilled-1.3B",
-        "downloads": 467800,
+        "downloads": 462933,
         "likes": 195,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-1.3B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 348009,
+        "downloads": 347183,
         "likes": 1667,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 317183,
+        "downloads": 315654,
         "likes": 950,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
         "id": "EssentialAI/eai-distill-0.5b",
-        "downloads": 282265,
+        "downloads": 282115,
         "likes": 27,
         "url": "https://huggingface.co/EssentialAI/eai-distill-0.5b"
       },
       {
         "id": "empero-ai/Qwen3.8-4B-Distill",
-        "downloads": 257873,
+        "downloads": 257909,
         "likes": 73,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill"
       }
@@ -271,61 +273,61 @@
     "tracked": [
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 348009,
+        "downloads": 347183,
         "likes": 1667,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 317183,
+        "downloads": 315654,
         "likes": 950,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
-        "downloads": 75432,
+        "downloads": 78286,
         "likes": 915,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 784646,
+        "downloads": 787035,
         "likes": 1654,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "distilbert/distilbert-base-uncased",
-        "downloads": 5913105,
-        "likes": 1141,
+        "downloads": 6095028,
+        "likes": 1142,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
-        "downloads": 7660335,
-        "likes": 2161,
+        "downloads": 7540663,
+        "likes": 2165,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
-        "downloads": 955800,
-        "likes": 1613,
+        "downloads": 962830,
+        "likes": 1616,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
-        "downloads": 1031607,
-        "likes": 2923,
+        "downloads": 995167,
+        "likes": 2934,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
         "id": "microsoft/Phi-4-mini-instruct",
-        "downloads": 351827,
-        "likes": 877,
+        "downloads": 347033,
+        "likes": 878,
         "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct"
       },
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
-        "downloads": 611561,
+        "downloads": 587268,
         "likes": 1072,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
@@ -335,9 +337,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19654,
+        "stars": 19660,
         "forks": 3115,
-        "pushedAt": "2026-11-02T06:25:31Z",
+        "pushedAt": "2026-11-03T05:57:07Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -349,57 +351,57 @@
       },
       {
         "repo": "pytorch/torchtune",
-        "stars": 5820,
-        "forks": 762,
+        "stars": 5821,
+        "forks": 763,
         "pushedAt": "2026-09-09T11:38:33Z",
         "url": "https://github.com/meta-pytorch/torchtune"
       },
       {
         "repo": "NVIDIA/NeMo",
-        "stars": 18678,
-        "forks": 3672,
-        "pushedAt": "2026-11-01T22:58:50Z",
+        "stars": 18685,
+        "forks": 3675,
+        "pushedAt": "2026-11-02T22:50:26Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
         "repo": "axolotl-ai-cloud/axolotl",
-        "stars": 12655,
-        "forks": 1468,
-        "pushedAt": "2026-11-02T01:32:55Z",
+        "stars": 12657,
+        "forks": 1470,
+        "pushedAt": "2026-11-03T04:14:29Z",
         "url": "https://github.com/axolotl-ai-cloud/axolotl"
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 78938,
-        "forks": 7353,
-        "pushedAt": "2026-11-02T06:30:00Z",
+        "stars": 78987,
+        "forks": 7359,
+        "pushedAt": "2026-11-03T06:24:58Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 75833,
-        "forks": 9334,
+        "stars": 75860,
+        "forks": 9337,
         "pushedAt": "2026-10-31T10:28:10Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 96103,
-        "forks": 24286,
-        "pushedAt": "2026-11-02T06:23:28Z",
+        "stars": 96179,
+        "forks": 24331,
+        "pushedAt": "2026-11-03T06:20:50Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 38360,
-        "forks": 10073,
-        "pushedAt": "2026-11-02T06:31:12Z",
+        "stars": 38385,
+        "forks": 10105,
+        "pushedAt": "2026-11-03T06:16:39Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
         "repo": "huggingface/open-r1",
-        "stars": 26476,
-        "forks": 2451,
+        "stars": 26474,
+        "forks": 2452,
         "pushedAt": "2026-10-26T12:18:39Z",
         "url": "https://github.com/huggingface/open-r1"
       },
@@ -412,8 +414,8 @@
       },
       {
         "repo": "EleutherAI/lm-evaluation-harness",
-        "stars": 14364,
-        "forks": 3747,
+        "stars": 14382,
+        "forks": 3754,
         "pushedAt": "2026-09-14T10:51:06Z",
         "url": "https://github.com/EleutherAI/lm-evaluation-harness"
       },
@@ -433,8 +435,8 @@
       },
       {
         "repo": "simplescaling/s1",
-        "stars": 6671,
-        "forks": 755,
+        "stars": 6672,
+        "forks": 754,
         "pushedAt": "2025-06-25T18:59:18Z",
         "url": "https://github.com/simplescaling/s1"
       }
