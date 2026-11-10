@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09T06:33:42.702Z",
+  "updated": "2026-11-10T06:25:53.301Z",
   "generatedBy": "scripts/update-data.mjs",
   "arxiv": {
     "totalKD": 5572,
@@ -175,95 +175,95 @@
     ]
   },
   "huggingface": {
-    "distillModels": 17137,
+    "distillModels": 17149,
     "top": [
       {
         "id": "empero-ai/Qwen3.8-35B-A3B-Distill-GGUF",
-        "downloads": 1335748,
-        "likes": 270,
+        "downloads": 1332937,
+        "likes": 275,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-35B-A3B-Distill-GGUF"
       },
       {
         "id": "bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF",
-        "downloads": 987966,
-        "likes": 186,
+        "downloads": 984194,
+        "likes": 190,
         "url": "https://huggingface.co/bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF"
       },
       {
         "id": "facebook/nllb-200-distilled-600M",
-        "downloads": 930601,
-        "likes": 1007,
+        "downloads": 931944,
+        "likes": 1008,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
       },
       {
         "id": "mradermacher/Qwen3.8-27B-Fable-5-Coding-Distilled-GGUF",
-        "downloads": 815956,
-        "likes": 32,
+        "downloads": 845229,
+        "likes": 34,
         "url": "https://huggingface.co/mradermacher/Qwen3.8-27B-Fable-5-Coding-Distilled-GGUF"
       },
       {
-        "id": "distil-whisper/distil-large-v3",
-        "downloads": 766513,
-        "likes": 384,
-        "url": "https://huggingface.co/distil-whisper/distil-large-v3"
-      },
-      {
         "id": "mradermacher/Qwen3.5-9B-Kimi-k3-Distilled-GGUF",
-        "downloads": 746637,
-        "likes": 20,
+        "downloads": 775919,
+        "likes": 21,
         "url": "https://huggingface.co/mradermacher/Qwen3.5-9B-Kimi-k3-Distilled-GGUF"
       },
       {
+        "id": "distil-whisper/distil-large-v3",
+        "downloads": 747061,
+        "likes": 385,
+        "url": "https://huggingface.co/distil-whisper/distil-large-v3"
+      },
+      {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 665551,
+        "downloads": 599995,
         "likes": 1663,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "empero-ai/Qwen3.8-4B-Distill-GGUF",
-        "downloads": 580894,
-        "likes": 204,
+        "downloads": 578622,
+        "likes": 205,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-4B-Distill-GGUF"
       },
       {
         "id": "empero-ai/Qwen3.8-9B-Distill-GGUF",
-        "downloads": 540312,
-        "likes": 349,
+        "downloads": 540062,
+        "likes": 351,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-9B-Distill-GGUF"
       },
       {
         "id": "empero-ai/Qwen3.8-2B-Distill-GGUF",
-        "downloads": 510554,
+        "downloads": 510409,
         "likes": 181,
         "url": "https://huggingface.co/empero-ai/Qwen3.8-2B-Distill-GGUF"
       },
       {
         "id": "facebook/nllb-200-distilled-1.3B",
-        "downloads": 442326,
+        "downloads": 440236,
         "likes": 195,
         "url": "https://huggingface.co/facebook/nllb-200-distilled-1.3B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 356019,
-        "likes": 1672,
+        "downloads": 357538,
+        "likes": 1673,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 331208,
-        "likes": 954,
+        "downloads": 321610,
+        "likes": 956,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
         "id": "casperhansen/deepseek-r1-distill-qwen-32b-awq",
-        "downloads": 296737,
+        "downloads": 307970,
         "likes": 12,
         "url": "https://huggingface.co/casperhansen/deepseek-r1-distill-qwen-32b-awq"
       },
       {
         "id": "EssentialAI/eai-distill-0.5b",
-        "downloads": 281768,
+        "downloads": 281677,
         "likes": 27,
         "url": "https://huggingface.co/EssentialAI/eai-distill-0.5b"
       }
@@ -271,62 +271,62 @@
     "tracked": [
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-        "downloads": 356019,
-        "likes": 1672,
+        "downloads": 357538,
+        "likes": 1673,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "downloads": 331208,
-        "likes": 954,
+        "downloads": 321610,
+        "likes": 956,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
-        "downloads": 75110,
+        "downloads": 74478,
         "likes": 919,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
       },
       {
         "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-        "downloads": 665551,
+        "downloads": 599995,
         "likes": 1663,
         "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
       },
       {
         "id": "distilbert/distilbert-base-uncased",
-        "downloads": 5612993,
+        "downloads": 5545623,
         "likes": 1145,
         "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
       },
       {
         "id": "Qwen/Qwen3-8B",
-        "downloads": 6956696,
-        "likes": 2178,
+        "downloads": 6837564,
+        "likes": 2180,
         "url": "https://huggingface.co/Qwen/Qwen3-8B"
       },
       {
         "id": "google/gemma-3-4b-it",
-        "downloads": 1004093,
-        "likes": 1638,
+        "downloads": 1008800,
+        "likes": 1639,
         "url": "https://huggingface.co/google/gemma-3-4b-it"
       },
       {
         "id": "meta-llama/Llama-3.2-3B-Instruct",
-        "downloads": 886379,
-        "likes": 2969,
+        "downloads": 872223,
+        "likes": 2975,
         "url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
       },
       {
         "id": "microsoft/Phi-4-mini-instruct",
-        "downloads": 337245,
+        "downloads": 331860,
         "likes": 886,
         "url": "https://huggingface.co/microsoft/Phi-4-mini-instruct"
       },
       {
         "id": "HuggingFaceTB/SmolLM3-3B",
-        "downloads": 433395,
-        "likes": 1075,
+        "downloads": 386350,
+        "likes": 1077,
         "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B"
       }
     ]
@@ -335,9 +335,9 @@
     "repos": [
       {
         "repo": "huggingface/trl",
-        "stars": 19694,
+        "stars": 19699,
         "forks": 3127,
-        "pushedAt": "2026-11-09T06:14:37Z",
+        "pushedAt": "2026-11-10T06:20:15Z",
         "url": "https://github.com/huggingface/trl"
       },
       {
@@ -349,57 +349,57 @@
       },
       {
         "repo": "pytorch/torchtune",
-        "stars": 5818,
+        "stars": 5819,
         "forks": 763,
-        "pushedAt": "2026-09-09T11:38:33Z",
+        "pushedAt": "2026-11-09T17:15:18Z",
         "url": "https://github.com/meta-pytorch/torchtune"
       },
       {
         "repo": "NVIDIA/NeMo",
-        "stars": 18719,
-        "forks": 3684,
-        "pushedAt": "2026-11-09T01:23:19Z",
+        "stars": 18721,
+        "forks": 3686,
+        "pushedAt": "2026-11-10T05:08:01Z",
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       {
         "repo": "axolotl-ai-cloud/axolotl",
-        "stars": 12674,
+        "stars": 12676,
         "forks": 1472,
-        "pushedAt": "2026-11-09T03:59:53Z",
+        "pushedAt": "2026-11-10T05:57:36Z",
         "url": "https://github.com/axolotl-ai-cloud/axolotl"
       },
       {
         "repo": "unslothai/unsloth",
-        "stars": 79224,
-        "forks": 7376,
-        "pushedAt": "2026-11-09T06:20:04Z",
+        "stars": 79265,
+        "forks": 7381,
+        "pushedAt": "2026-11-10T06:22:09Z",
         "url": "https://github.com/unslothai/unsloth"
       },
       {
         "repo": "hiyouga/LLaMA-Factory",
-        "stars": 75950,
-        "forks": 9354,
-        "pushedAt": "2026-11-09T02:35:16Z",
+        "stars": 75970,
+        "forks": 9358,
+        "pushedAt": "2026-11-09T14:55:42Z",
         "url": "https://github.com/hiyouga/LlamaFactory"
       },
       {
         "repo": "vllm-project/vllm",
-        "stars": 96578,
-        "forks": 24571,
-        "pushedAt": "2026-11-09T06:29:12Z",
+        "stars": 96648,
+        "forks": 24619,
+        "pushedAt": "2026-11-10T06:02:14Z",
         "url": "https://github.com/vllm-project/vllm"
       },
       {
         "repo": "sgl-project/sglang",
-        "stars": 38594,
-        "forks": 10281,
-        "pushedAt": "2026-11-09T06:23:59Z",
+        "stars": 38637,
+        "forks": 10311,
+        "pushedAt": "2026-11-10T06:20:44Z",
         "url": "https://github.com/sgl-project/sglang"
       },
       {
         "repo": "huggingface/open-r1",
-        "stars": 26472,
-        "forks": 2452,
+        "stars": 26473,
+        "forks": 2453,
         "pushedAt": "2026-10-26T12:18:39Z",
         "url": "https://github.com/huggingface/open-r1"
       },
@@ -412,8 +412,8 @@
       },
       {
         "repo": "EleutherAI/lm-evaluation-harness",
-        "stars": 14427,
-        "forks": 3779,
+        "stars": 14433,
+        "forks": 3781,
         "pushedAt": "2026-11-04T14:34:40Z",
         "url": "https://github.com/EleutherAI/lm-evaluation-harness"
       },
@@ -584,5 +584,7 @@
       }
     ]
   },
-  "errors": []
+  "errors": [
+    "arxiv: HTTP 429 for https://export.arxiv.org/api/query?search_query=all%3A%22knowledge%20distillation%22&sortBy=submittedDate&sortOrder=descending&max_results=12"
+  ]
 }
