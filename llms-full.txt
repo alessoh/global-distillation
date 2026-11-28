@@ -6,7 +6,7 @@ Site:            https://global-distillation.com/
 Licence:         MIT (see https://global-distillation.com/LICENSE). Free to quote, excerpt, cite and redistribute with attribution.
 Cite as:         Global Distillation, "How frontier intelligence is compressed, priced and contested", https://global-distillation.com/, accessed <date>.
 Dataset updated: 2026-09-04 (live signals refresh daily at 06:17 UTC)
-Digest built:    from data/*.json as of 2026-11-27, by scripts/gen-llms.mjs
+Digest built:    from data/*.json as of 2026-11-28, by scripts/gen-llms.mjs
 Machine data:    https://global-distillation.com/data/ — one JSON file per section, schema at https://global-distillation.com/data/SCHEMA.md
 Q&A pairs:       https://global-distillation.com/data/answers.json
 
@@ -74,7 +74,7 @@ Page URLs:
 ================================================================================================
 
 Automatically refreshed daily at 06:17 UTC by scripts/update-data.mjs. Last refresh:
-2026-11-27T06:28:14.421Z. Endpoint: https://global-distillation.com/data/live.json.
+2026-11-28T06:25:24.363Z. Endpoint: https://global-distillation.com/data/live.json.
 
 - arXiv papers matching "knowledge distillation" (all time): 5,617 papers
 - arXiv papers matching "knowledge distillation" (last 30 days): 72 papers
@@ -94,38 +94,38 @@ Year | arXiv papers (papers)
 2025 | 1119
 2026 | 979
 
-- Hugging Face models matching "distill": 17,375 models
+- Hugging Face models matching "distill": 17,444 models
 
 Model | Downloads, 30 days (downloads) | Likes (likes)
 ----- | ------------------------ | -------------
-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 414681 | 1684
-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 298056 | 975
-deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 73247 | 925
-deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 441531 | 1677
-distilbert/distilbert-base-uncased | 5065318 | 1152
-Qwen/Qwen3-8B | 5764137 | 2217
-google/gemma-3-4b-it | 1155723 | 1715
-meta-llama/Llama-3.2-3B-Instruct | 627243 | 3091
-microsoft/Phi-4-mini-instruct | 311800 | 897
-HuggingFaceTB/SmolLM3-3B | 132085 | 1093
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | 440260 | 1685
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B | 298792 | 975
+deepseek-ai/DeepSeek-R1-Distill-Llama-8B | 72063 | 925
+deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B | 450493 | 1678
+distilbert/distilbert-base-uncased | 5047836 | 1152
+Qwen/Qwen3-8B | 5638481 | 2220
+google/gemma-3-4b-it | 1145223 | 1720
+meta-llama/Llama-3.2-3B-Instruct | 617457 | 3098
+microsoft/Phi-4-mini-instruct | 308175 | 898
+HuggingFaceTB/SmolLM3-3B | 132602 | 1094
 
 Repository | Stars (stars) | Description
 ---------- | ------------- | -----------
-huggingface/trl | 19841 | n/a
-arcee-ai/DistillKit | 1100 | n/a
+huggingface/trl | 19848 | n/a
+arcee-ai/DistillKit | 1101 | n/a
 pytorch/torchtune | 5824 | n/a
 NVIDIA/NeMo | 18795 | n/a
-axolotl-ai-cloud/axolotl | 12750 | n/a
-unslothai/unsloth | 80327 | n/a
-hiyouga/LLaMA-Factory | 76300 | n/a
-vllm-project/vllm | 97666 | n/a
-sgl-project/sglang | 39116 | n/a
+axolotl-ai-cloud/axolotl | 12753 | n/a
+unslothai/unsloth | 80399 | n/a
+hiyouga/LLaMA-Factory | 76315 | n/a
+vllm-project/vllm | 97729 | n/a
+sgl-project/sglang | 39145 | n/a
 huggingface/open-r1 | 26492 | n/a
 open-thoughts/open-thoughts | 2368 | n/a
-EleutherAI/lm-evaluation-harness | 14545 | n/a
+EleutherAI/lm-evaluation-harness | 14548 | n/a
 SafeAILab/EAGLE | 2586 | n/a
-NovaSky-AI/SkyThought | 3402 | n/a
-simplescaling/s1 | 6673 | n/a
+NovaSky-AI/SkyThought | 3401 | n/a
+simplescaling/s1 | 6671 | n/a
 
 Recent news items tracked by the daily refresh:
 - 2026-11-19 — Madras School System and AI Learning Share Similarity — https://news.ycombinator.com/item?id=50556148
